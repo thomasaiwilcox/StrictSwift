@@ -1,0 +1,187 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        swift-version: ['6.0']
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: ${{ matrix.swift-version }}
+
+      - name: Cache Swift Package Manager
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Build
+        run: swift build -v
+
+      - name: Run tests
+        run: swift test --enable-code-coverage
+
+      - name: Generate coverage report (macOS only)
+        if: matrix.os == 'macos-latest'
+        run: |
+          xcrun llvm-cov report \
+            .build/debug/StrictSwiftPackageTests.xctest/Contents/MacOS/StrictSwiftPackageTests \
+            -instr-profile=.build/debug/codecov/default.profdata \
+            -format=html \
+            -output-dir coverage/
+
+      - name: Upload coverage to Codecov
+        if: matrix.os == 'macos-latest'
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage/*.json
+          flags: unittests
+          name: codecov-umbrella
+
+      - name: Validate documentation
+        run: |
+          # Check that documentation builds without errors
+          swift package generate-documentation 2>/dev/null || true
+
+  performance-test:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: '6.0'
+
+      - name: Build
+        run: swift build
+
+      - name: Performance Test
+        run: |
+          # Test performance on the package itself
+          echo "Testing performance on StrictSwift source code..."
+          time swift run swift-strict check Sources/
+
+          # Create a simple test file for benchmarking
+          cat > test.swift << 'EOF'
+          import Foundation
+
+          class TestClass {
+              var property: String = ""
+
+              func method1() {
+                  property = "test"
+              }
+
+              func method2() {
+                  print(property)
+              }
+
+              func method3() -> String {
+                  return property
+              }
+          }
+
+          struct TestStruct {
+              let value: Int
+
+              func compute() -> Int {
+                  return value * 2
+              }
+          }
+
+          enum TestEnum {
+              case case1
+              case case2(String)
+              case case3(Int, String)
+          }
+
+          func testFunction() {
+              let obj = TestClass()
+              obj.method1()
+              obj.method2()
+              _ = obj.method3()
+
+              let structObj = TestStruct(value: 42)
+              _ = structObj.compute()
+          }
+          EOF
+
+          echo "Analyzing test file..."
+          time swift run swift-strict check test.swift
+          rm test.swift
+
+  integration-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: '6.0'
+
+      - name: Build
+        run: swift build
+
+      - name: Test CLI commands
+        run: |
+          # Test help command
+          swift run swift-strict --help
+
+          # Test baseline command
+          swift run swift-strict baseline --help
+
+          # Test CI command
+          swift run swift-strict ci --help
+
+          # Test explain command
+          swift run swift-strict explain --help
+
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: '6.0'
+
+      - name: Build Release
+        run: swift build -c release
+
+      - name: Archive Release Binary
+        run: |
+          mkdir -p artifacts
+          tar -czf artifacts/swift-strict-ubuntu-x86_64.tar.gz -C .build/release swift-strict
+
+      - name: Upload Release Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: swift-strict-ubuntu-x86_64
+          path: artifacts/swift-strict-ubuntu-x86_64.tar.gz
+          retention-days: 30

@@ -1,0 +1,16 @@
+{
+  "violations": [
+    {
+      "ruleId": "non_sendable_capture",
+      "line": 16,
+      "message": "Non-Sendable value 'Cache' captured inside @Sendable closure",
+      "severity": "error"
+    },
+    {
+      "ruleId": "mutable_global_state",
+      "line": 25,
+      "message": "Mutable global state 'globalCounter' accessed from async context",
+      "severity": "warning"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: '6.0'
+
+      - name: Build Release
+        run: swift build -c release
+
+      - name: Create Release Archives
+        run: |
+          # Get version from tag
+          VERSION=${GITHUB_REF#refs/tags/v}
+
+          # Create archive
+          mkdir -p dist
+          tar -czf "dist/strictswift-${VERSION}-ubuntu-x86_64.tar.gz" \
+            -C .build/release \
+            swift-strict
+
+          # Create binary symlink
+          cd dist
+          ln -s swift-strict strictswift
+          tar -czf "strictswift-${VERSION}-ubuntu-x86_64.tar.gz" \
+            -C .. \
+            dist/strictswift
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-homebrew:
+    needs: release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update Homebrew formula
+        uses: mislav/bump-homebrew-formula-action@v3
+        with:
+          formula-name: strictswift
+          base-branch: main
+          download-url: https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/strictswift-${{ github.ref_name }}-ubuntu-x86_64.tar.gz
+          commit-message: |
+            {{formulaName}} {{version}}
+
+            Created by https://github.com/mislav/bump-homebrew-formula-action
+        env:
+          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_COMMITTER_TOKEN }}

@@ -1,0 +1,55 @@
+# Xcode
+*.xcodeproj/*
+*.xcworkspace/
+*.swiftpm/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# IDE
+.vscode/
+.idea/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+*.gcov
+*.gcda
+*.gcno
+coverage/
+codecov/
+
+# Test artifacts
+*.snapshots/
+*.snapshot.failed
+/StrictSwiftSnapshotTests/
+
+# Baselines
+.strictswift-baseline*.json
+strictswift-audit/
+
+# Logs
+*.log
+
+# Documentation generated
+Docs/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Local environment
+.env.local
+.swift-version
+
+# Debug files
+debug_rule.swift
+debug_syntax/
