@@ -12,20 +12,35 @@ StrictSwift bridges Swift's expressiveness with Rust's safety culture, bringing 
 
 ## Quick Start
 
+### Installation
+
 ```bash
-# Install locally
-git clone https://github.com/your-org/StrictSwift.git
+# Clone the repository
+git clone https://github.com/thomasaiwilcox/StrictSwift.git
 cd StrictSwift
+
+# Build the tool
 swift build
 
-# Run analysis
+# Install globally (optional)
+swift build -c release
+cp .build/release/swift-strict /usr/local/bin/
+```
+
+### Usage
+
+```bash
+# Analyze Swift files
 swift run swift-strict check Sources/
 
 # Create baseline for existing code
-swift run swift-strict baseline --profile critical-core
+swift run swift-strict baseline Sources/ --profile critical-core
 
-# Run in CI
-swift run swift-strict ci --format json
+# Run in CI with JSON output
+swift run swift-strict ci Sources/ --format json
+
+# Use different profiles
+swift run swift-strict check Sources/ --profile rust-equivalent
 ```
 
 ## Profiles
