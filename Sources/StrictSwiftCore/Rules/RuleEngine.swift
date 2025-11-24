@@ -35,17 +35,44 @@ public actor RuleEngine: Sendable {
         return rules.first { $0.id == id }
     }
 
+    /// Get category for a rule ID
+    public static func ruleCategory(for ruleId: String) -> RuleCategory {
+        switch ruleId {
+        case "force_unwrap", "force_try", "fatal_error", "mutable_static":
+            return .safety
+        case "non_sendable_capture", "unstructured_task", "actor_isolation", "data_race":
+            return .concurrency
+        case "layered_dependencies", "circular_dependency", "god_class", "global_state":
+            return .architecture
+        case "print_in_production":
+            return .safety
+        case "complexity_analysis":
+            return .complexity
+        case "enhanced_layered_dependencies":
+            return .architecture
+        case "enhanced_god_class":
+            return .architecture
+        case "architectural_health":
+            return .architecture
+        default:
+            return .architecture
+        }
+    }
+
     /// Analyze a source file with all applicable rules
     public func analyze(_ sourceFile: SourceFile, in context: AnalysisContext, configuration: Configuration) async -> [Violation] {
         var allViolations: [Violation] = []
 
         // Process each rule
         for rule in rules {
-            // Check if rule is enabled in configuration
-            let ruleConfig = context.configuration.rules.configuration(for: rule.category)
+            // Check if rule should analyze this file using advanced configuration
+            guard configuration.shouldAnalyze(ruleId: rule.id, file: sourceFile.url.path) else { continue }
+
+            // Get rule-specific configuration
+            let ruleConfig = configuration.configuration(for: rule.id, file: sourceFile.url.path)
             guard ruleConfig.enabled else { continue }
 
-            // Check if the file should be analyzed
+            // Check if the file should be analyzed by the rule itself
             guard rule.shouldAnalyze(sourceFile) else { continue }
 
             // Run the rule
@@ -103,18 +130,34 @@ public actor RuleEngine: Sendable {
 
 /// Default rule registration
 extension RuleEngine {
-    private func registerDefaultRules() {
+    private func registerDefaultRules() async {
         // Register the test rule to verify infrastructure
         register(ForceUnwrapRule())
 
-        // TODO: Register more rules in Phase 1
-        // register(CircularDependencyRule())
-        // register(NonSendableCaptureRule())
-        // register(ForceTryRule())
-        // register(MutableGlobalStateRule())
-        // register(LongFunctionRule())
-        // register(GodTypeRule())
-        // etc.
+        // Phase 1 Safety Rules
+        register(ForceTryRule())
+        register(FatalErrorRule())
+        register(PrintInProductionRule())
+        register(MutableStaticRule())
+
+        // Phase 1 Concurrency Rules
+        register(NonSendableCaptureRule())
+        register(UnstructuredTaskRule())
+        register(ActorIsolationRule())
+        register(DataRaceRule())
+
+        // Phase 1 Architecture Rules
+        register(LayeredDependenciesRule())
+        register(CircularDependencyRule())
+        register(GodClassRule())
+        register(GlobalStateRule())
+
+        // Phase 1 Architecture Rules Complete ✅
+
+        // Phase 2 Enhanced Rules using Infrastructure
+        register(EnhancedLayeredDependenciesRule())
+        register(EnhancedGodClassRule())
+        register(ArchitecturalHealthRule())
     }
 }
 

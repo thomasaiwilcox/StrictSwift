@@ -16,7 +16,7 @@ public final class ImportTracker: SyntaxAnyVisitor {
     public override func visit(_ node: ImportDeclSyntax) -> SyntaxVisitorContinueKind {
         // Extract the module name
         let moduleName: String
-        if let simpleImport = node.path.first?.as(ImportPathComponentSyntax.self) {
+        if let simpleImport = node.path.first {
             moduleName = simpleImport.name.text
         } else {
             moduleName = node.path.trimmedDescription
