@@ -1,0 +1,52 @@
+# StrictSwift Configuration
+# This configuration provides sensible defaults for dogfooding the tool
+
+# Use development profile with relaxed thresholds for complexity rules
+profile: development
+
+# Exclude test files from analysis
+exclude:
+  - "Tests/**"
+
+# Configure individual rule categories
+rules:
+  safety:
+    enabled: true
+    severity: warning
+    options:
+      # Allow print() in CLI module since it's a command-line tool
+      print_in_production_exclude_paths: "StrictSwiftCLI/**"
+  
+  complexity:
+    enabled: true
+    severity: warning
+    options:
+      # Increase thresholds for this codebase during development
+      function_length_threshold: "75"
+      cyclomatic_complexity_threshold: "10"
+      nesting_depth_threshold: "6"
+      file_length_threshold: "600"
+  
+  architecture:
+    enabled: true
+    severity: warning
+    options:
+      # Increase thresholds for god class detection
+      god_class_method_threshold: "25"
+      god_class_property_threshold: "20"
+      file_line_threshold: "400"
+  
+  memory:
+    enabled: true
+    severity: warning
+  
+  concurrency:
+    enabled: true
+    severity: warning
+  
+  performance:
+    enabled: true
+    severity: warning
+
+# Maximum parallel analysis jobs
+maxJobs: 8

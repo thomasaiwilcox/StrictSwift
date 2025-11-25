@@ -64,6 +64,8 @@ public enum NodeType: String, CaseIterable, Sendable {
 }
 
 /// Dependency graph for analyzing relationships between code components
+/// SAFETY: @unchecked Sendable is safe because all mutable state (nodes, dependencies)
+/// is protected by NSLock for thread-safe access.
 public final class DependencyGraph: @unchecked Sendable {
     private let lock = NSLock()
     private var nodes: [String: DependencyNode] = [:]

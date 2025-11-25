@@ -138,9 +138,51 @@ private final class ActorIsolationVisitor: SyntaxVisitor {
         let typeDescription = node.type.trimmedDescription
 
         if typeDescription.contains("@unchecked") && typeDescription.contains("Sendable") {
-            // Look for a comment justification
+            // Look for a comment justification in multiple places:
+            // 1. Leading trivia of the inherited type itself
+            // 2. Leading trivia of the parent declaration (class/struct/enum)
+            
+            var hasJustification = false
+            
+            // Check leading trivia of the @unchecked Sendable itself
             let leadingTrivia = node.leadingTrivia.description
-            let hasJustification = leadingTrivia.contains("//") || leadingTrivia.contains("/*")
+            if leadingTrivia.contains("SAFETY") || leadingTrivia.contains("//") || leadingTrivia.contains("/*") {
+                hasJustification = true
+            }
+            
+            // Check the parent declaration's doc comments
+            if !hasJustification {
+                // Walk up to find the parent class/struct/actor declaration
+                var parent: Syntax? = node._syntaxNode.parent
+                while let p = parent {
+                    if let classDecl = p.as(ClassDeclSyntax.self) {
+                        let classTrivia = classDecl.leadingTrivia.description
+                        if classTrivia.contains("SAFETY") {
+                            hasJustification = true
+                        }
+                        break
+                    } else if let structDecl = p.as(StructDeclSyntax.self) {
+                        let structTrivia = structDecl.leadingTrivia.description
+                        if structTrivia.contains("SAFETY") {
+                            hasJustification = true
+                        }
+                        break
+                    } else if let actorDecl = p.as(ActorDeclSyntax.self) {
+                        let actorTrivia = actorDecl.leadingTrivia.description
+                        if actorTrivia.contains("SAFETY") {
+                            hasJustification = true
+                        }
+                        break
+                    } else if let enumDecl = p.as(EnumDeclSyntax.self) {
+                        let enumTrivia = enumDecl.leadingTrivia.description
+                        if enumTrivia.contains("SAFETY") {
+                            hasJustification = true
+                        }
+                        break
+                    }
+                    parent = p.parent
+                }
+            }
 
             if !hasJustification {
                 let location = sourceFile.location(for: node.position)

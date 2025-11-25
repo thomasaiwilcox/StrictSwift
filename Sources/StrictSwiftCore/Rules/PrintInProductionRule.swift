@@ -29,42 +29,49 @@ public final class PrintInProductionRule: Rule {
 }
 
 /// Syntax visitor that finds print(), dump(), debugPrint() statements
-private final class PrintInProductionVisitor: SyntaxAnyVisitor {
+private final class PrintInProductionVisitor: SyntaxVisitor {
     let sourceFile: SourceFile
     var violations: [Violation] = []
     
     /// Debug output functions to detect
-    private let debugFunctions = ["print", "dump", "debugPrint"]
+    private static let debugFunctions: Set<String> = ["print", "dump", "debugPrint"]
 
     init(sourceFile: SourceFile) {
         self.sourceFile = sourceFile
         super.init(viewMode: .sourceAccurate)
     }
 
-    public override func visitAny(_ node: Syntax) -> SyntaxVisitorContinueKind {
-        let description = node.description
+    override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {
+        // Get the function name from the called expression
+        let funcName: String
         
-        // Check for debug output function calls
-        for funcName in debugFunctions {
-            let pattern = "\(funcName)("
-            if description.contains(pattern) {
-                let location = sourceFile.location(for: node.position)
-
-                let violation = ViolationBuilder(
-                    ruleId: "print_in_production",
-                    category: .safety,
-                    location: location
-                )
-                .message("\(funcName)() statement found in production code")
-                .suggestFix("Replace with proper logging framework or remove debug output")
-                .severity(.warning)
-                .build()
-
-                violations.append(violation)
-
-                return .skipChildren
-            }
+        if let identifier = node.calledExpression.as(DeclReferenceExprSyntax.self) {
+            funcName = identifier.baseName.text
+        } else if let memberAccess = node.calledExpression.as(MemberAccessExprSyntax.self) {
+            // Handle cases like Swift.print()
+            funcName = memberAccess.declName.baseName.text
+        } else {
+            return .visitChildren
         }
+        
+        // Check if this is a debug output function call
+        guard Self.debugFunctions.contains(funcName) else {
+            return .visitChildren
+        }
+        
+        let location = sourceFile.location(for: node.position)
+
+        let violation = ViolationBuilder(
+            ruleId: "print_in_production",
+            category: .safety,
+            location: location
+        )
+        .message("\(funcName)() statement found in production code")
+        .suggestFix("Replace with proper logging framework or remove debug output")
+        .severity(.warning)
+        .build()
+
+        violations.append(violation)
 
         return .visitChildren
     }

@@ -2,6 +2,8 @@ import Foundation
 import SwiftSyntax
 
 /// Resolves types from source files and maintains a type registry
+/// SAFETY: @unchecked Sendable is safe because all mutable state (typeRegistry)
+/// is protected by NSLock for thread-safe access.
 public final class TypeResolver: @unchecked Sendable {
     private var typeRegistry: [String: ResolvedType] = [:]
     private let lock = NSLock()

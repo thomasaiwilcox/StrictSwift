@@ -79,6 +79,8 @@ public struct MemoryUsage: Sendable, Codable {
 }
 
 /// Performance profiler for analysis operations
+/// SAFETY: @unchecked Sendable is safe because all mutable state (metrics, currentOperations)
+/// is protected by NSLock for thread-safe access.
 public final class PerformanceProfiler: @unchecked Sendable {
     private var metrics: [PerformanceMetrics] = []
     private var currentOperations: [String: OperationContext] = [:]

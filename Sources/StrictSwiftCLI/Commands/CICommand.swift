@@ -29,8 +29,8 @@ struct CICommand: AsyncParsableCommand {
     func run() async throws {
         // Load configuration
         let profileEnum = Profile(rawValue: profile) ?? .criticalCore
-        let configURL = config != nil ? URL(fileURLWithPath: config!) : nil
-        let baselineURL = baseline != nil ? URL(fileURLWithPath: baseline!) : nil
+        let configURL = config.map { URL(fileURLWithPath: $0) }
+        let baselineURL = baseline.map { URL(fileURLWithPath: $0) }
 
         // Apply any config file overrides and include baseline
         let finalConfiguration = Configuration.load(from: configURL, profile: profileEnum)

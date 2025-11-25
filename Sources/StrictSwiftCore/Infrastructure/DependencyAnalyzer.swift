@@ -2,6 +2,8 @@ import Foundation
 import SwiftSyntax
 
 /// Analyzes source files to build dependency graphs
+/// SAFETY: @unchecked Sendable is safe because dependencyGraph is itself Sendable
+/// (protected by NSLock internally) and all other state is immutable.
 public final class DependencyAnalyzer: @unchecked Sendable {
     private let dependencyGraph: DependencyGraph
 

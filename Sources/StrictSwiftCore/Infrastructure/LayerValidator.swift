@@ -53,6 +53,8 @@ public struct LayerViolation: Sendable {
 }
 
 /// Validates architectural layering based on dependency graph
+/// SAFETY: @unchecked Sendable is safe because policy is an immutable struct
+/// assigned at initialization and never modified.
 public final class LayerValidator: @unchecked Sendable {
     private let policy: ArchitecturePolicy
 

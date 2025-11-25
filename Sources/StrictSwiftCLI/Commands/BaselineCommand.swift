@@ -29,7 +29,7 @@ struct BaselineCommand: AsyncParsableCommand {
     func run() async throws {
         // Load configuration
         let profileEnum = Profile(rawValue: profile) ?? .criticalCore
-        let configURL = config != nil ? URL(fileURLWithPath: config!) : nil
+        let configURL = config.map { URL(fileURLWithPath: $0) }
         let configuration = Configuration.load(from: configURL, profile: profileEnum)
 
         // Parse expiry date
@@ -104,8 +104,8 @@ struct BaselineCommand: AsyncParsableCommand {
 
         print("✅ Baseline created with \(baseline.violations.count) violations")
         print("   Saved to: \(output)")
-        if expiryDate != nil {
-            print("   Expires: \(expires!)")
+        if let expiry = expires {
+            print("   Expires: \(expiry)")
         }
 
         // Show summary

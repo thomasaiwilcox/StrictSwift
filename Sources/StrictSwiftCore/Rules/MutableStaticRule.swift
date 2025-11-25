@@ -29,7 +29,7 @@ public final class MutableStaticRule: Rule {
 }
 
 /// Syntax visitor that finds mutable static variables
-private final class MutableStaticVisitor: SyntaxAnyVisitor {
+private final class MutableStaticVisitor: SyntaxVisitor {
     let sourceFile: SourceFile
     var violations: [Violation] = []
 
@@ -38,56 +38,33 @@ private final class MutableStaticVisitor: SyntaxAnyVisitor {
         super.init(viewMode: .sourceAccurate)
     }
 
-    public override func visitAny(_ node: Syntax) -> SyntaxVisitorContinueKind {
-        // Look for patterns that indicate mutable static variables
-        let nodeDescription = node.description
-
-        // Pattern 1: "static var" (mutable static properties)
-        if nodeDescription.contains("static var") {
-            let location = sourceFile.location(for: node.position)
-
-            let violation = ViolationBuilder(
-                ruleId: "mutable_static",
-                category: .safety,
-                location: location
-            )
-            .message("Mutable static variable can cause data races and global state issues")
-            .suggestFix("Consider using a constant static property, dependency injection, or proper synchronization")
-            .severity(.warning)
-            .build()
-
-            violations.append(violation)
-            return .skipChildren
+    override func visit(_ node: VariableDeclSyntax) -> SyntaxVisitorContinueKind {
+        // Check if this is a static var (not static let)
+        let hasStatic = node.modifiers.contains { modifier in
+            modifier.name.tokenKind == .keyword(.static)
         }
-
-        // Pattern 2: Look for static variable declarations that might be formatted differently
-        if (nodeDescription.contains("static") && nodeDescription.contains("var")) &&
-           !nodeDescription.contains("static let") &&
-           !nodeDescription.contains("static func") &&
-           !nodeDescription.contains("static class") &&
-           !nodeDescription.contains("// static") && // Skip comments
-           !nodeDescription.contains("/* static") { // Skip block comments
-
-            // Additional check to make sure this is actually a variable declaration
-            let words = nodeDescription.components(separatedBy: .whitespacesAndNewlines)
-            if words.contains("static") && words.contains("var") {
-                let location = sourceFile.location(for: node.position)
-
-                let violation = ViolationBuilder(
-                    ruleId: "mutable_static",
-                    category: .safety,
-                    location: location
-                )
-                .message("Mutable static variable can cause data races and global state issues")
-                .suggestFix("Consider using a constant static property, dependency injection, or proper synchronization")
-                .severity(.warning)
-                .build()
-
-                violations.append(violation)
-                return .skipChildren
-            }
+        
+        // Check if this is a var (mutable) and not a let (immutable)
+        let isVar = node.bindingSpecifier.tokenKind == .keyword(.var)
+        
+        // Only flag static var declarations
+        guard hasStatic && isVar else {
+            return .visitChildren
         }
+        
+        let location = sourceFile.location(for: node.position)
 
+        let violation = ViolationBuilder(
+            ruleId: "mutable_static",
+            category: .safety,
+            location: location
+        )
+        .message("Mutable static variable can cause data races and global state issues")
+        .suggestFix("Consider using a constant static property, dependency injection, or proper synchronization")
+        .severity(.warning)
+        .build()
+
+        violations.append(violation)
         return .visitChildren
     }
 }

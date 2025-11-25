@@ -29,42 +29,49 @@ public final class FatalErrorRule: Rule {
 }
 
 /// Syntax visitor that finds fatalError(), preconditionFailure(), and assertionFailure() calls
-private final class FatalErrorVisitor: SyntaxAnyVisitor {
+private final class FatalErrorVisitor: SyntaxVisitor {
     let sourceFile: SourceFile
     var violations: [Violation] = []
     
     /// Fatal/crash functions to detect
-    private let fatalFunctions = ["fatalError", "preconditionFailure", "assertionFailure"]
+    private static let fatalFunctions: Set<String> = ["fatalError", "preconditionFailure", "assertionFailure"]
 
     init(sourceFile: SourceFile) {
         self.sourceFile = sourceFile
         super.init(viewMode: .sourceAccurate)
     }
 
-    public override func visitAny(_ node: Syntax) -> SyntaxVisitorContinueKind {
-        let description = node.description
+    override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {
+        // Get the function name from the called expression
+        let funcName: String
         
-        // Check for fatal function calls
-        for funcName in fatalFunctions {
-            let pattern = "\(funcName)("
-            if description.contains(pattern) {
-                let location = sourceFile.location(for: node.position)
-
-                let violation = ViolationBuilder(
-                    ruleId: "fatal_error",
-                    category: .safety,
-                    location: location
-                )
-                .message("\(funcName)() call crashes the application unconditionally")
-                .suggestFix("Replace with proper error handling: return error, use optional, or throw an exception")
-                .severity(.error)
-                .build()
-
-                violations.append(violation)
-
-                return .skipChildren
-            }
+        if let identifier = node.calledExpression.as(DeclReferenceExprSyntax.self) {
+            funcName = identifier.baseName.text
+        } else if let memberAccess = node.calledExpression.as(MemberAccessExprSyntax.self) {
+            // Handle cases like Swift.fatalError()
+            funcName = memberAccess.declName.baseName.text
+        } else {
+            return .visitChildren
         }
+        
+        // Check if this is a fatal function call
+        guard Self.fatalFunctions.contains(funcName) else {
+            return .visitChildren
+        }
+        
+        let location = sourceFile.location(for: node.position)
+
+        let violation = ViolationBuilder(
+            ruleId: "fatal_error",
+            category: .safety,
+            location: location
+        )
+        .message("\(funcName)() call crashes the application unconditionally")
+        .suggestFix("Replace with proper error handling: return error, use optional, or throw an exception")
+        .severity(.error)
+        .build()
+
+        violations.append(violation)
 
         return .visitChildren
     }

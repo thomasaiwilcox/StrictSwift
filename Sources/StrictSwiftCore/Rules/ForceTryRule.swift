@@ -29,7 +29,7 @@ public final class ForceTryRule: Rule {
 }
 
 /// Syntax visitor that finds force try expressions
-private final class ForceTryVisitor: SyntaxAnyVisitor {
+private final class ForceTryVisitor: SyntaxVisitor {
     let sourceFile: SourceFile
     var violations: [Violation] = []
 
@@ -38,26 +38,27 @@ private final class ForceTryVisitor: SyntaxAnyVisitor {
         super.init(viewMode: .sourceAccurate)
     }
 
-    public override func visitAny(_ node: Syntax) -> SyntaxVisitorContinueKind {
-        // Check for force try expressions by looking for "try!" in the syntax description
-        // This is a more robust approach that works across SwiftSyntax versions
-        if node.description.contains("try!") {
-            let location = sourceFile.location(for: node.position)
-
-            let violation = ViolationBuilder(
-                ruleId: "force_try",
-                category: .safety,
-                location: location
-            )
-            .message("Force try (!) expression can crash the application if an error is thrown")
-            .suggestFix("Use proper error handling: do-catch block, try?, or rethrow the error appropriately")
-            .severity(.error)
-            .build()
-
-            violations.append(violation)
-
-            return .skipChildren
+    override func visit(_ node: TryExprSyntax) -> SyntaxVisitorContinueKind {
+        // Check if this is a force try (try!)
+        // The questionOrExclamationMark property will be "!" for try!
+        guard let mark = node.questionOrExclamationMark,
+              mark.tokenKind == .exclamationMark else {
+            return .visitChildren
         }
+        
+        let location = sourceFile.location(for: node.position)
+
+        let violation = ViolationBuilder(
+            ruleId: "force_try",
+            category: .safety,
+            location: location
+        )
+        .message("Force try (!) expression can crash the application if an error is thrown")
+        .suggestFix("Use proper error handling: do-catch block, try?, or rethrow the error appropriately")
+        .severity(.error)
+        .build()
+
+        violations.append(violation)
 
         return .visitChildren
     }
