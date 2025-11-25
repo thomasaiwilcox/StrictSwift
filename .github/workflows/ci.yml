@@ -48,17 +48,16 @@ jobs:
       - name: Generate coverage report (macOS only)
         if: matrix.os == 'macos-latest'
         run: |
-          xcrun llvm-cov report \
+          xcrun llvm-cov export \
             .build/debug/StrictSwiftPackageTests.xctest/Contents/MacOS/StrictSwiftPackageTests \
             -instr-profile=.build/debug/codecov/default.profdata \
-            -format=html \
-            -output-dir coverage/
+            -format=lcov > coverage.lcov || true
 
       - name: Upload coverage to Codecov
         if: matrix.os == 'macos-latest'
         uses: codecov/codecov-action@v5
         with:
-          files: ./coverage/*.json
+          files: ./coverage.lcov
           flags: unittests
           name: codecov-umbrella
 
