@@ -9,22 +9,33 @@ public struct RuleConfiguration: Codable, Equatable, Sendable {
     /// Tracks whether severity was explicitly set (vs using default)
     /// This is used for profile merging - false means use profile default
     private let severityExplicitlySet: Bool
+    
+    /// Tracks whether options was explicitly set (even if empty)
+    /// This distinguishes "options: {}" (clear profile options) from omitted (use profile options)
+    private let optionsExplicitlySet: Bool
 
     public init(
         severity: DiagnosticSeverity = .warning,
         enabled: Bool = true,
         options: [String: String] = [:],
-        severityExplicitlySet: Bool = false
+        severityExplicitlySet: Bool = false,
+        optionsExplicitlySet: Bool = false
     ) {
         self.severity = severity
         self.enabled = enabled
         self.options = options
         self.severityExplicitlySet = severityExplicitlySet
+        self.optionsExplicitlySet = optionsExplicitlySet
     }
     
     /// Whether the severity was explicitly configured (not just using default)
     public var hasSeverityOverride: Bool {
         return severityExplicitlySet
+    }
+    
+    /// Whether options was explicitly configured (even if empty, meaning user wants no options)
+    public var hasOptionsOverride: Bool {
+        return optionsExplicitlySet
     }
     
     // Custom Codable implementation to detect explicit severity
@@ -41,14 +52,25 @@ public struct RuleConfiguration: Codable, Equatable, Sendable {
         self.severityExplicitlySet = explicitSeverity != nil
         
         self.enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled) ?? true
+        
+        // Check if options was explicitly provided (even if empty)
+        // We use contains() to detect if the key exists at all
+        self.optionsExplicitlySet = container.contains(.options)
         self.options = try container.decodeIfPresent([String: String].self, forKey: .options) ?? [:]
     }
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(severity, forKey: .severity)
+        
+        // Only encode severity if it was explicitly set (preserves round-trip intent)
+        if severityExplicitlySet {
+            try container.encode(severity, forKey: .severity)
+        }
+        
         try container.encode(enabled, forKey: .enabled)
-        if !options.isEmpty {
+        
+        // Only encode options if explicitly set (even if empty - user wants no options)
+        if optionsExplicitlySet {
             try container.encode(options, forKey: .options)
         }
     }

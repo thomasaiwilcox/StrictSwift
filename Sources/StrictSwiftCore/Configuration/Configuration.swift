@@ -365,11 +365,15 @@ private func mergeCategory(yaml: RuleConfiguration, profile: RuleConfiguration) 
     // Use YAML severity if explicitly set, otherwise use profile severity
     let effectiveSeverity = yaml.hasSeverityOverride ? yaml.severity : profile.severity
     
+    // Use YAML options if explicitly set (even if empty), otherwise use profile options
+    let effectiveOptions = yaml.hasOptionsOverride ? yaml.options : profile.options
+    
     return RuleConfiguration(
         severity: effectiveSeverity,
         enabled: true,
-        options: yaml.options.isEmpty ? profile.options : yaml.options,
-        severityExplicitlySet: yaml.hasSeverityOverride
+        options: effectiveOptions,
+        severityExplicitlySet: yaml.hasSeverityOverride,
+        optionsExplicitlySet: yaml.hasOptionsOverride
     )
 }
 

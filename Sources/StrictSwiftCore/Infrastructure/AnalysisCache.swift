@@ -329,10 +329,11 @@ public actor AnalysisCache {
         hashString += "scope:\(s.analyzeTests):\(s.analyzeExtensions):\(s.analyzeGeneratedCode)"
         hashString += ":\(s.minFileSizeLines):\(s.maxFileSizeLines):\(s.excludeEmptyFiles):\(s.excludeVendorCode)"
         
-        // 7. Performance settings that affect analysis behavior
+        // 7. Performance settings that affect analysis behavior - ALL fields
         let p = config.advanced.performanceSettings
         hashString += "perf:\(p.enableParallelAnalysis):\(p.enableIncrementalAnalysis)"
-        hashString += ":\(p.analysisTimeoutSeconds)"
+        hashString += ":\(p.analysisTimeoutSeconds):\(p.maxParallelFiles)"
+        hashString += ":\(p.memoryThresholdMB):\(p.cacheAnalysisResults)"
         
         return FileFingerprint.fnv1aHash(hashString)
     }
