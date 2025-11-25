@@ -108,17 +108,29 @@ private final class StringConcatenationVisitor: SyntaxVisitor {
         guard op == "+=" || op == "+" else { return .visitChildren }
 
         if isLikelyStringOperation(left: node.leftOperand, right: node.rightOperand) {
-            violations.append(
-                ViolationBuilder(
-                    ruleId: "string_concatenation_loop",
-                    category: .performance,
-                    location: sourceFile.location(of: node)
-                )
-                .message("String concatenation inside loop has O(n²) complexity")
-                .suggestFix("Use an array of strings and join them, or use a string builder pattern")
-                .severity(.warning)
-                .build()
+            var builder = ViolationBuilder(
+                ruleId: "string_concatenation_loop",
+                category: .performance,
+                location: sourceFile.location(of: node)
             )
+            .message("String concatenation inside loop has O(n²) complexity")
+            .suggestFix("Use an array of strings and join them, or use a string builder pattern")
+            .severity(.warning)
+            
+            // Auto-fix: Convert += to .append()
+            if op == "+=" {
+                builder = builder.addStructuredFix(
+                    title: "Convert to .append()",
+                    kind: .refactor
+                ) { fix in
+                    // Replace " += " with ".append("
+                    fix.addEdit(TextEdit(range: SourceRange(start: sourceFile.location(of: node.operator), end: sourceFile.location(endOf: node.operator)), newText: ".append("))
+                    // Append ")" at the end of the right operand
+                    fix.addEdit(TextEdit.insert(at: sourceFile.location(endOf: node.rightOperand), text: ")"))
+                }
+            }
+            
+            violations.append(builder.build())
         }
 
         return .visitChildren
