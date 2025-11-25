@@ -24,6 +24,7 @@ actor LSPServer {
     private var isRunning = true
     private var isInitialized = false
     private var shutdownRequested = false
+    private var isShuttingDown = false
     
     // Document management
     private var openDocuments: [String: OpenDocument] = [:]
@@ -193,8 +194,17 @@ actor LSPServer {
             do {
                 if let message = try await transport.readMessage() {
                     await handleMessage(message)
+                } else if isShuttingDown {
+                    // EOF received during shutdown - this is expected
+                    isRunning = false
+                    break
                 }
             } catch {
+                if isShuttingDown {
+                    // Errors during shutdown are expected (stream closed)
+                    isRunning = false
+                    break
+                }
                 fputs("Error reading message: \(error)\n", stderr)
                 // Don't crash on read errors, just continue
             }
@@ -251,7 +261,7 @@ actor LSPServer {
         case "initialized":
             handleInitialized()
         case "exit":
-            handleExit()
+            await handleExit()
         case "textDocument/didOpen":
             await handleDidOpen(params: params)
         case "textDocument/didChange":
@@ -316,14 +326,20 @@ actor LSPServer {
     }
     
     private func handleShutdown() -> JSON {
+        fputs("Shutdown requested\n", stderr)
         shutdownRequested = true
+        isShuttingDown = true
         return .null
     }
     
-    private func handleExit() {
+    private func handleExit() async {
+        fputs("Exit notification received\n", stderr)
         isRunning = false
-        let exitCode: Int32 = shutdownRequested ? 0 : 1
-        exit(exitCode)
+        isShuttingDown = true
+        // Mark the transport as shutdown to prevent further writes
+        await transport.shutdown()
+        // Let the run loop exit gracefully instead of calling exit() abruptly
+        // The process will terminate when run() returns
     }
     
     // MARK: - Document Sync

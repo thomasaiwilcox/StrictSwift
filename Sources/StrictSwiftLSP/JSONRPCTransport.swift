@@ -169,10 +169,16 @@ actor JSONRPCTransport {
     private let input: FileHandle
     private let output: FileHandle
     private var buffer = Data()
+    private var isShutdown = false
     
     init(input: FileHandle, output: FileHandle) {
         self.input = input
         self.output = output
+    }
+    
+    /// Mark the transport as shut down to prevent further writes
+    func shutdown() {
+        isShutdown = true
     }
     
     // MARK: - Reading
@@ -293,6 +299,11 @@ actor JSONRPCTransport {
     }
     
     private func writeMessage(_ json: JSON) async throws {
+        // Don't write if shutdown has been requested
+        guard !isShutdown else {
+            return
+        }
+        
         let body = try json.toData()
         let header = "Content-Length: \(body.count)\r\n\r\n"
         
@@ -300,7 +311,13 @@ actor JSONRPCTransport {
             throw JSONRPCError.writeError
         }
         
-        output.write(headerData)
-        output.write(body)
+        // Use do-catch to handle write errors gracefully (e.g., broken pipe)
+        do {
+            try output.write(contentsOf: headerData)
+            try output.write(contentsOf: body)
+        } catch {
+            // Stream might be closed - this is okay during shutdown
+            fputs("Write error (stream may be closed): \(error)\n", stderr)
+        }
     }
 }
