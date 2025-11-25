@@ -353,12 +353,16 @@ private func mergeWithProfile(_ rules: RulesConfiguration, profile: Profile) -> 
 /// Merge a single category with profile defaults
 private func mergeCategory(yaml: RuleConfiguration, profile: RuleConfiguration) -> RuleConfiguration {
     // If user explicitly disabled the category, honor that
+    // Preserve their severity/options settings so re-enabling doesn't lose them
     if !yaml.enabled {
+        // Use YAML severity if explicitly set, otherwise use profile severity
+        let effectiveSeverity = yaml.hasSeverityOverride ? yaml.severity : profile.severity
+        
         return RuleConfiguration(
-            severity: profile.severity,
+            severity: effectiveSeverity,
             enabled: false,
             options: yaml.options,
-            severityExplicitlySet: false,
+            severityExplicitlySet: yaml.hasSeverityOverride,
             optionsExplicitlySet: yaml.hasOptionsOverride
         )
     }

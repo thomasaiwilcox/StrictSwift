@@ -313,7 +313,7 @@ public actor AnalysisCache {
             hashString += "cond:\(conditional.name):\(conditional.priority)"
             hashString += ":condition=\(hashCondition(conditional.condition))"
             
-            // Include rule overrides
+            // Include rule overrides with ALL fields (same as top-level ruleSettings)
             let sortedOverrides = conditional.ruleOverrides.sorted(by: { $0.key < $1.key })
             for (ruleId, override) in sortedOverrides {
                 hashString += ":override:\(ruleId):\(override.enabled):\(override.severity.rawValue)"
@@ -321,6 +321,11 @@ public actor AnalysisCache {
                 for (key, value) in sortedParams {
                     hashString += ":\(key)=\(value.stringValue)"
                 }
+                // Include file patterns (same as top-level ruleSettings)
+                let fp = override.filePatterns
+                hashString += ":inc=\(fp.include.joined(separator: ","))"
+                hashString += ":exc=\(fp.exclude.joined(separator: ","))"
+                hashString += ":noTest=\(fp.excludeTestFiles):noGen=\(fp.excludeGeneratedFiles)"
             }
         }
         
