@@ -71,7 +71,6 @@ struct BaselineCommand: AsyncParsableCommand {
             // - Add new violations that weren't in the baseline before
             // - Remove violations that are fixed (not present in current analysis)
             // - Update expiry if provided
-            let existingFingerprints = Set(existingBaseline.violations)
             let newFingerprintSet = Set(newFingerprints)
 
             // Create deterministic merged baseline using Set operations to avoid ordering issues

@@ -63,7 +63,6 @@ struct CheckCommand: AsyncParsableCommand {
         let violations = try await analyzer.analyze(paths: paths)
 
         // Output results
-        let projectRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let reporter: Reporter = format == "json" ? JSONReporter() : HumanReporter()
 
         // Filter baseline violations for display (unless show-baseline flag is set)

@@ -40,6 +40,8 @@ public extension Rule {
 }
 
 /// Context information for analysis
+/// SAFETY: @unchecked Sendable is safe because all mutable state (_sourceFiles) is protected
+/// by NSLock for thread-safe access. Consider migrating to actor in future versions.
 public final class AnalysisContext: @unchecked Sendable {
     /// Configuration for the analysis
     public let configuration: Configuration
@@ -52,6 +54,12 @@ public final class AnalysisContext: @unchecked Sendable {
     public init(configuration: Configuration, projectRoot: URL) {
         self.configuration = configuration
         self.projectRoot = projectRoot
+    }
+
+    /// Backwards-compatible initializer used by legacy tests/utilities that still pass source files & workspace.
+    public convenience init(sourceFiles: [SourceFile], workspace: URL, configuration: Configuration) {
+        self.init(configuration: configuration, projectRoot: workspace)
+        sourceFiles.forEach { addSourceFile($0) }
     }
 
     /// Get or add a source file

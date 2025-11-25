@@ -27,7 +27,7 @@ public struct JSONReporter: Reporter {
             encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         }
         let data = try encoder.encode(report)
-        return String(data: data, encoding: .utf8)!
+        return String(data: data, encoding: .utf8) ?? "{}"
     }
 
     private func jsonViolation(from violation: Violation) -> JSONViolation {

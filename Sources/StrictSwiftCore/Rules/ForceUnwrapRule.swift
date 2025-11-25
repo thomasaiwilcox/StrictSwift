@@ -79,17 +79,3 @@ private final class ForceUnwrapVisitor: SyntaxAnyVisitor {
         return .visitChildren
     }
 }
-
-// Extension to get location from position
-extension SourceFile {
-    func location(for position: AbsolutePosition) -> Location {
-        // Create a converter to get line/column
-        let converter = SourceLocationConverter(fileName: url.path, tree: tree)
-        let loc = converter.location(for: position)
-        return Location(
-            file: url,
-            line: loc.line,
-            column: loc.column
-        )
-    }
-}

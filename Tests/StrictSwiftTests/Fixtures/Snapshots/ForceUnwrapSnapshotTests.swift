@@ -184,7 +184,22 @@ final class ForceUnwrapSnapshotTests: XCTestCase {
         for violation in violations {
             result += "\(String(describing: violation.severity).uppercased()) [\(String(describing: violation.category).uppercased()).\(violation.ruleId)]\n"
             result += "  \(violation.message)\n"
-            result += "  File: \(violation.location.file.path):\(violation.location.line):\(violation.location.column)\n"
+            // Normalize file path for snapshot stability
+            // Strip UUID prefix from filename if present (format: UUID-filename.swift)
+            // UUID format: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX (36 chars total including hyphens)
+            var filename = URL(fileURLWithPath: violation.location.file.path).lastPathComponent
+            if filename.count > 37 {
+                let uuidEndIndex = filename.index(filename.startIndex, offsetBy: 36)
+                let potentialUUID = String(filename.prefix(upTo: uuidEndIndex))
+                // Check if this looks like a UUID (has hyphens in right positions)
+                if potentialUUID.count == 36 && 
+                   potentialUUID[potentialUUID.index(potentialUUID.startIndex, offsetBy: 8)] == "-" &&
+                   potentialUUID[potentialUUID.index(potentialUUID.startIndex, offsetBy: 13)] == "-" &&
+                   filename[uuidEndIndex] == "-" {
+                    filename = String(filename.suffix(from: filename.index(after: uuidEndIndex)))
+                }
+            }
+            result += "  File: \(filename):\(violation.location.line):\(violation.location.column)\n"
 
             if !violation.suggestedFixes.isEmpty {
                 result += "  Suggested fixes:\n"
