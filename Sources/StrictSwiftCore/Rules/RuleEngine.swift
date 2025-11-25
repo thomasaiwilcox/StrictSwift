@@ -205,12 +205,16 @@ extension RuleEngine {
         register(LargeStructCopyRule())
         register(ARCChurnRule())
         register(HotPathValidationRule())
+        register(StringConcatenationLoopRule())
+        register(RegexCompilationInLoopRule())
 
         // Security Rules
         register(HardcodedSecretsRule())
         register(InsecureCryptoRule())
         register(SensitiveLoggingRule())
         register(SQLInjectionPatternRule())
+        register(SwallowedErrorRule())
+        register(ResourceLeakRule())
 
         // Testing Rules
         register(AssertionCoverageRule())
