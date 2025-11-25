@@ -358,7 +358,8 @@ private func mergeCategory(yaml: RuleConfiguration, profile: RuleConfiguration) 
             severity: profile.severity,
             enabled: false,
             options: yaml.options,
-            severityExplicitlySet: false
+            severityExplicitlySet: false,
+            optionsExplicitlySet: yaml.hasOptionsOverride
         )
     }
     

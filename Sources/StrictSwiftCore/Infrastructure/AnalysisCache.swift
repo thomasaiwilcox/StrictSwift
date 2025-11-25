@@ -335,6 +335,22 @@ public actor AnalysisCache {
         hashString += ":\(p.analysisTimeoutSeconds):\(p.maxParallelFiles)"
         hashString += ":\(p.memoryThresholdMB):\(p.cacheAnalysisResults)"
         
+        // 8. Baseline configuration - violations affect which diagnostics are reported
+        if let baseline = config.baseline {
+            hashString += "baseline:v\(baseline.version)"
+            hashString += ":created=\(baseline.created.timeIntervalSince1970)"
+            if let expires = baseline.expires {
+                hashString += ":expires=\(expires.timeIntervalSince1970)"
+            }
+            // Hash violation count and fingerprints for content-based invalidation
+            hashString += ":violations=\(baseline.violations.count)"
+            for violation in baseline.violations {
+                hashString += ":\(violation.ruleId):\(violation.fingerprint)"
+            }
+        } else {
+            hashString += "baseline:none"
+        }
+        
         return FileFingerprint.fnv1aHash(hashString)
     }
     
