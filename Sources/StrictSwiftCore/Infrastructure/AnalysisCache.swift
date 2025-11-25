@@ -313,19 +313,20 @@ public actor AnalysisCache {
             hashString += "cond:\(conditional.name):\(conditional.priority)"
             hashString += ":condition=\(hashCondition(conditional.condition))"
             
-            // Include rule overrides with ALL fields (same as top-level ruleSettings)
+            // Include rule overrides with ALL fields
+            // Use "cond_" prefix for file patterns to distinguish from top-level ruleSettings
             let sortedOverrides = conditional.ruleOverrides.sorted(by: { $0.key < $1.key })
             for (ruleId, override) in sortedOverrides {
                 hashString += ":override:\(ruleId):\(override.enabled):\(override.severity.rawValue)"
                 let sortedParams = override.parameters.sorted(by: { $0.key < $1.key })
                 for (key, value) in sortedParams {
-                    hashString += ":\(key)=\(value.stringValue)"
+                    hashString += ":cond_\(key)=\(value.stringValue)"
                 }
-                // Include file patterns (same as top-level ruleSettings)
+                // Include file patterns with "cond_" prefix to avoid hash collision with top-level
                 let fp = override.filePatterns
-                hashString += ":inc=\(fp.include.joined(separator: ","))"
-                hashString += ":exc=\(fp.exclude.joined(separator: ","))"
-                hashString += ":noTest=\(fp.excludeTestFiles):noGen=\(fp.excludeGeneratedFiles)"
+                hashString += ":cond_inc=\(fp.include.joined(separator: ","))"
+                hashString += ":cond_exc=\(fp.exclude.joined(separator: ","))"
+                hashString += ":cond_noTest=\(fp.excludeTestFiles):cond_noGen=\(fp.excludeGeneratedFiles)"
             }
         }
         
