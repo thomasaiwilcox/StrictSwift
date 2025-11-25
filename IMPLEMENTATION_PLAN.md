@@ -5,7 +5,7 @@
 
 ## Overview
 
-This implementation plan breaks down the development of StrictSwift into manageable phases, starting with an MVP that delivers immediate value and progressively adding capabilities toward the full vision of "Critical Swift Mode" with Rust-equivalent safety guarantees.
+This implementation plan breaks down the development of StrictSwift into manageable phases, starting with an MVP that delivers immediate value and progressively adding capabilities toward the full vision of "Critical Swift Mode" with Rust-inspired safety patterns.
 
 ## Phase 0: Foundation & Infrastructure (Weeks 1-2)
 
@@ -265,7 +265,7 @@ This implementation plan breaks down the development of StrictSwift into managea
 ### Objectives
 - Address user feedback
 - Implement v1.1 and v1.3 features
-- Begin work on rust-equivalent profile
+- Begin work on rust-inspired profile
 
 ### Tasks
 
@@ -275,7 +275,7 @@ This implementation plan breaks down the development of StrictSwift into managea
 - [ ] Expanded performance heuristics
 - [ ] Dependency graph visualization
 
-**6.2 Rust-Equivalent Profile (Months 8-12)**
+**6.2 Rust-Inspired Profile (Months 8-12)**
 - [ ] Lifetime annotation requirements
 - [ ] Move-only type enforcement
 - [ ] Zero-cost abstraction verification
@@ -289,7 +289,7 @@ This implementation plan breaks down the development of StrictSwift into managea
 
 ### Deliverables
 - ✅ v1.1 with enhanced features
-- ✅ Beta rust-equivalent profile
+- ✅ Beta rust-inspired profile
 - ✅ Foundation for v2.0 features
 
 ---

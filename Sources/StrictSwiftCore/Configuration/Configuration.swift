@@ -456,10 +456,10 @@ extension Configuration {
         )
     }
 
-    /// Load rust-equivalent profile defaults
-    public static func loadRustEquivalent() -> Configuration {
+    /// Load rust-inspired profile defaults
+    public static func loadRustInspired() -> Configuration {
         Configuration(
-            profile: .rustEquivalent,
+            profile: .rustInspired,
             rules: RulesConfiguration(
                 memory: RuleConfiguration(severity: .error),
                 concurrency: RuleConfiguration(severity: .error),

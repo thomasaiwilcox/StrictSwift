@@ -12,6 +12,9 @@ let client: LanguageClient | undefined;
 export async function activate(context: vscode.ExtensionContext) {
     console.log('StrictSwift extension is activating...');
     
+    // Store context for restart functionality
+    extensionContext = context;
+    
     // Show activation message
     vscode.window.showInformationMessage('StrictSwift extension activated!');
     
@@ -25,7 +28,25 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('strictswift.restart', restartServer),
         vscode.commands.registerCommand('strictswift.analyze', analyzeCurrentFile),
         vscode.commands.registerCommand('strictswift.analyzeWorkspace', analyzeWorkspace),
-        vscode.commands.registerCommand('strictswift.fixAll', fixAllInCurrentFile)
+        vscode.commands.registerCommand('strictswift.fixAll', fixAllInCurrentFile),
+        vscode.commands.registerCommand('strictswift.showProfile', showCurrentProfile),
+        vscode.commands.registerCommand('strictswift.generateConfig', generateConfigFile)
+    );
+    
+    // Watch for configuration changes
+    context.subscriptions.push(
+        vscode.workspace.onDidChangeConfiguration(e => {
+            if (e.affectsConfiguration('strictswift')) {
+                vscode.window.showInformationMessage(
+                    'StrictSwift configuration changed. Restart the language server for changes to take effect.',
+                    'Restart'
+                ).then(selection => {
+                    if (selection === 'Restart') {
+                        restartServer();
+                    }
+                });
+            }
+        })
     );
 
     // Start the language server
@@ -55,9 +76,43 @@ async function startServer(context: vscode.ExtensionContext): Promise<void> {
     }
 
     if (!serverPath) {
-        vscode.window.showWarningMessage(
-            'StrictSwift language server not found. Please install it or set the path in settings.'
+        const installAction = 'Show Installation Instructions';
+        const settingsAction = 'Open Settings';
+        const result = await vscode.window.showWarningMessage(
+            'StrictSwift language server not found.',
+            installAction,
+            settingsAction
         );
+        
+        if (result === installAction) {
+            const instructions = `# StrictSwift LSP Installation
+
+## Option 1: Install via Homebrew (coming soon)
+\`\`\`bash
+brew install strictswift
+\`\`\`
+
+## Option 2: Build from source
+\`\`\`bash
+git clone https://github.com/thomasaiwilcox/StrictSwift.git
+cd StrictSwift
+swift build --product strictswift-lsp -c release
+sudo cp .build/release/strictswift-lsp /usr/local/bin/
+\`\`\`
+
+## Option 3: Set path manually
+1. Open VS Code Settings (Cmd+,)
+2. Search for "strictswift.serverPath"
+3. Set the full path to your strictswift-lsp binary
+`;
+            const doc = await vscode.workspace.openTextDocument({
+                content: instructions,
+                language: 'markdown'
+            });
+            await vscode.window.showTextDocument(doc);
+        } else if (result === settingsAction) {
+            await vscode.commands.executeCommand('workbench.action.openSettings', 'strictswift.serverPath');
+        }
         return;
     }
 
@@ -73,12 +128,47 @@ async function startServer(context: vscode.ExtensionContext): Promise<void> {
         }
     };
 
+    // Build initialization options from VS Code settings
+    const initializationOptions = {
+        profile: config.get<string>('profile', 'criticalCore'),
+        rules: {
+            safety: {
+                enabled: config.get<boolean>('rules.safety.enabled', true),
+                severity: config.get<string>('rules.safety.severity', 'error')
+            },
+            concurrency: {
+                enabled: config.get<boolean>('rules.concurrency.enabled', true),
+                severity: config.get<string>('rules.concurrency.severity', 'error')
+            },
+            memory: {
+                enabled: config.get<boolean>('rules.memory.enabled', true),
+                severity: config.get<string>('rules.memory.severity', 'error')
+            },
+            architecture: {
+                enabled: config.get<boolean>('rules.architecture.enabled', true),
+                severity: config.get<string>('rules.architecture.severity', 'warning')
+            },
+            complexity: {
+                enabled: config.get<boolean>('rules.complexity.enabled', true),
+                severity: config.get<string>('rules.complexity.severity', 'warning')
+            },
+            performance: {
+                enabled: config.get<boolean>('rules.performance.enabled', true),
+                severity: config.get<string>('rules.performance.severity', 'hint')
+            }
+        },
+        excludePaths: config.get<string[]>('excludePaths', []),
+        includePaths: config.get<string[]>('includePaths', [])
+    };
+
     // Client options
     const clientOptions: LanguageClientOptions = {
         documentSelector: [{ scheme: 'file', language: 'swift' }],
         synchronize: {
-            fileEvents: vscode.workspace.createFileSystemWatcher('**/*.swift')
+            fileEvents: vscode.workspace.createFileSystemWatcher('**/*.swift'),
+            configurationSection: 'strictswift'
         },
+        initializationOptions,
         outputChannelName: 'StrictSwift',
         traceOutputChannel: vscode.window.createOutputChannel('StrictSwift Trace')
     };
@@ -159,19 +249,21 @@ async function fileExists(filePath: string): Promise<boolean> {
     }
 }
 
+// Store extension context for restart
+let extensionContext: vscode.ExtensionContext | undefined;
+
 async function restartServer(): Promise<void> {
     if (client) {
         await client.stop();
         client = undefined;
     }
     
-    const context = await vscode.commands.executeCommand<vscode.ExtensionContext>(
-        'strictswift.getContext'
-    );
-    
-    // Just restart using workspace configuration
-    await startServer({ subscriptions: [] } as unknown as vscode.ExtensionContext);
-    vscode.window.showInformationMessage('StrictSwift language server restarted');
+    if (extensionContext) {
+        await startServer(extensionContext);
+        vscode.window.showInformationMessage('StrictSwift language server restarted');
+    } else {
+        vscode.window.showErrorMessage('Cannot restart: extension context not available');
+    }
 }
 
 async function analyzeCurrentFile(): Promise<void> {
@@ -230,4 +322,112 @@ async function fixAllInCurrentFile(): Promise<void> {
     }
 
     vscode.window.showInformationMessage(`Applied ${fixCount} fixes`);
+}
+
+async function showCurrentProfile(): Promise<void> {
+    const config = vscode.workspace.getConfiguration('strictswift');
+    const profile = config.get<string>('profile', 'criticalCore');
+    
+    const profileDescriptions: { [key: string]: string } = {
+        'criticalCore': 'Critical Core - Essential safety rules only',
+        'teamDefault': 'Team Default - Balanced rules for team projects',
+        'legacy': 'Legacy - Lenient rules for existing codebases',
+        'newProject': 'New Project - Strict rules for new development',
+        'enterprise': 'Enterprise - Comprehensive coverage',
+        'custom': 'Custom - Using individual rule settings'
+    };
+    
+    const categories = ['safety', 'concurrency', 'memory', 'architecture', 'complexity', 'performance'];
+    let details = `**Current Profile:** ${profileDescriptions[profile] || profile}\n\n`;
+    details += '### Rule Categories\n\n';
+    
+    for (const cat of categories) {
+        const enabled = config.get<boolean>(`rules.${cat}.enabled`, true);
+        const severity = config.get<string>(`rules.${cat}.severity`, 'warning');
+        const emoji = enabled ? '✅' : '❌';
+        details += `${emoji} **${cat.charAt(0).toUpperCase() + cat.slice(1)}**: ${enabled ? severity : 'disabled'}\n`;
+    }
+    
+    const doc = await vscode.workspace.openTextDocument({
+        content: details,
+        language: 'markdown'
+    });
+    await vscode.window.showTextDocument(doc, { preview: true });
+}
+
+async function generateConfigFile(): Promise<void> {
+    const config = vscode.workspace.getConfiguration('strictswift');
+    const profile = config.get<string>('profile', 'criticalCore');
+    
+    const configContent = `# StrictSwift Configuration
+# Generated from VS Code settings
+
+profile: ${profile}
+
+rules:
+  safety:
+    enabled: ${config.get<boolean>('rules.safety.enabled', true)}
+    severity: ${config.get<string>('rules.safety.severity', 'error')}
+  
+  concurrency:
+    enabled: ${config.get<boolean>('rules.concurrency.enabled', true)}
+    severity: ${config.get<string>('rules.concurrency.severity', 'error')}
+  
+  memory:
+    enabled: ${config.get<boolean>('rules.memory.enabled', true)}
+    severity: ${config.get<string>('rules.memory.severity', 'error')}
+  
+  architecture:
+    enabled: ${config.get<boolean>('rules.architecture.enabled', true)}
+    severity: ${config.get<string>('rules.architecture.severity', 'warning')}
+  
+  complexity:
+    enabled: ${config.get<boolean>('rules.complexity.enabled', true)}
+    severity: ${config.get<string>('rules.complexity.severity', 'warning')}
+  
+  performance:
+    enabled: ${config.get<boolean>('rules.performance.enabled', true)}
+    severity: ${config.get<string>('rules.performance.severity', 'hint')}
+
+exclude:
+${(config.get<string[]>('excludePaths', []) || []).map(p => `  - "${p}"`).join('\n')}
+
+# Uncomment to include only specific paths
+# include:
+#   - "Sources/**"
+#   - "Tests/**"
+`;
+
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+    if (!workspaceFolders || workspaceFolders.length === 0) {
+        // No workspace, just show the content
+        const doc = await vscode.workspace.openTextDocument({
+            content: configContent,
+            language: 'yaml'
+        });
+        await vscode.window.showTextDocument(doc);
+        return;
+    }
+
+    const configPath = vscode.Uri.joinPath(workspaceFolders[0].uri, '.strictswift.yml');
+    
+    try {
+        await vscode.workspace.fs.stat(configPath);
+        // File exists, ask to overwrite
+        const overwrite = await vscode.window.showWarningMessage(
+            '.strictswift.yml already exists. Overwrite?',
+            'Overwrite',
+            'Cancel'
+        );
+        if (overwrite !== 'Overwrite') {
+            return;
+        }
+    } catch {
+        // File doesn't exist, proceed
+    }
+
+    await vscode.workspace.fs.writeFile(configPath, Buffer.from(configContent, 'utf8'));
+    const doc = await vscode.workspace.openTextDocument(configPath);
+    await vscode.window.showTextDocument(doc);
+    vscode.window.showInformationMessage('Created .strictswift.yml configuration file');
 }

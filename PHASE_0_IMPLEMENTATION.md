@@ -310,7 +310,7 @@ public enum Profile: String, Codable, CaseIterable {
     case serverDefault = "server-default"
     case libraryStrict = "library-strict"
     case appRelaxed = "app-relaxed"
-    case rustEquivalent = "rust-equivalent" // Beta
+    case rustInspired = "rust-inspired" // Beta
 
     public var configuration: Configuration {
         switch self {

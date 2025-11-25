@@ -6,7 +6,7 @@ public enum Profile: String, Codable, CaseIterable, Sendable {
     case serverDefault = "server-default"
     case libraryStrict = "library-strict"
     case appRelaxed = "app-relaxed"
-    case rustEquivalent = "rust-equivalent" // Beta
+    case rustInspired = "rust-inspired" // Beta
 
     /// Get the default configuration for this profile
     public var configuration: Configuration {
@@ -19,8 +19,8 @@ public enum Profile: String, Codable, CaseIterable, Sendable {
             return Configuration.loadLibraryStrict()
         case .appRelaxed:
             return Configuration.loadAppRelaxed()
-        case .rustEquivalent:
-            return Configuration.loadRustEquivalent()
+        case .rustInspired:
+            return Configuration.loadRustInspired()
         }
     }
 }

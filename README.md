@@ -43,7 +43,7 @@ swift run swift-strict baseline Sources/ --profile critical-core
 swift run swift-strict ci Sources/ --format json
 
 # Use different profiles
-swift run swift-strict check Sources/ --profile rust-equivalent
+swift run swift-strict check Sources/ --profile rust-inspired
 ```
 
 ### SwiftPM Plugin
@@ -69,7 +69,7 @@ targets: [
 - **server-default**: Balanced productivity and safety
 - **library-strict**: API stability focus
 - **app-relaxed**: Light checks for UI code
-- **rust-equivalent** (beta): Rust-grade guarantees
+- **rust-inspired** (beta): Maximum strictness with Rust-inspired safety patterns
 
 ## Development
 

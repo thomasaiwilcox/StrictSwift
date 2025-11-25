@@ -1,6 +1,11 @@
 import Foundation
 import StrictSwiftCore
 
+// MARK: - Error Types
+
+/// Error thrown when analysis exceeds the timeout
+private struct AnalysisTimeoutError: Error {}
+
 // MARK: - LSP Server Entry Point
 
 @main
@@ -26,6 +31,47 @@ actor LSPServer {
     // Store violations per document for hover lookup
     private var documentViolations: [String: [Violation]] = [:]
     
+    // Human-readable rule display names
+    private static let ruleDisplayNames: [String: String] = [
+        "force_unwrap": "Force Unwrap",
+        "force_try": "Force Try",
+        "fatal_error": "Fatal Error Usage",
+        "print_in_production": "Print in Production",
+        "mutable_static": "Mutable Static Property",
+        "non_sendable_capture": "Non-Sendable Capture",
+        "unstructured_task": "Unstructured Task",
+        "actor_isolation": "Actor Isolation",
+        "data_race": "Potential Data Race",
+        "layered_dependencies": "Layer Dependency Violation",
+        "circular_dependency": "Circular Dependency",
+        "god_class": "God Class",
+        "global_state": "Global State Access",
+        "escaping_reference": "Escaping Reference",
+        "exclusive_access": "Exclusive Access Violation",
+        "cyclomatic_complexity": "High Cyclomatic Complexity",
+        "nesting_depth": "Excessive Nesting",
+        "function_length": "Function Too Long",
+        "module_boundary": "Module Boundary Violation",
+        "import_direction": "Import Direction Violation",
+        "repeated_allocation": "Repeated Allocation",
+        "large_struct_copy": "Large Struct Copy",
+        "arc_churn": "ARC Churn",
+        "hot_path_validation": "Hot Path Issue",
+        "enhanced_god_class": "God Class",
+        "enhanced_layered_dependencies": "Layer Violation",
+        "architectural_health": "Architectural Health"
+    ]
+    
+    // Human-readable category display names
+    private static let categoryDisplayNames: [String: String] = [
+        "safety": "🛡️ Safety",
+        "concurrency": "⚡ Concurrency", 
+        "architecture": "🏛️ Architecture",
+        "memory": "💾 Memory",
+        "complexity": "🔀 Complexity",
+        "performance": "🚀 Performance"
+    ]
+    
     // Analysis engine
     private var analyzer: Analyzer?
     /// LSP configuration - no include filters since editor explicitly opens files
@@ -44,6 +90,94 @@ actor LSPServer {
         include: [],  // Empty = include all files
         exclude: ["**/.build/**", "**/*.generated.swift"]
     )
+    
+    /// Apply configuration from VS Code settings
+    private func applyConfiguration(_ settings: [String: JSON]) {
+        fputs("Applying configuration from VS Code settings\n", stderr)
+        
+        // Parse profile - map VS Code names to actual enum cases
+        var profile: Profile = .criticalCore
+        if case .string(let profileStr) = settings["profile"] {
+            switch profileStr {
+            case "criticalCore": profile = .criticalCore
+            case "teamDefault", "serverDefault": profile = .serverDefault
+            case "legacy", "appRelaxed": profile = .appRelaxed
+            case "newProject", "libraryStrict": profile = .libraryStrict
+            case "enterprise", "rustEquivalent", "rustInspired": profile = .rustInspired
+            default: break
+            }
+        }
+        
+        // Parse rule settings
+        func parseRuleConfig(_ category: String, defaultSeverity: DiagnosticSeverity) -> RuleConfiguration {
+            if case .object(let rules) = settings["rules"],
+               case .object(let catConfig) = rules[category] {
+                var enabled = true
+                if case .bool(let e) = catConfig["enabled"] {
+                    enabled = e
+                }
+                var severity = defaultSeverity
+                if case .string(let sevStr) = catConfig["severity"] {
+                    severity = DiagnosticSeverity(rawValue: sevStr) ?? defaultSeverity
+                }
+                return RuleConfiguration(severity: severity, enabled: enabled)
+            }
+            return RuleConfiguration(severity: defaultSeverity)
+        }
+        
+        let safetyConfig = parseRuleConfig("safety", defaultSeverity: .error)
+        let concurrencyConfig = parseRuleConfig("concurrency", defaultSeverity: .error)
+        let memoryConfig = parseRuleConfig("memory", defaultSeverity: .error)
+        let architectureConfig = parseRuleConfig("architecture", defaultSeverity: .warning)
+        let complexityConfig = parseRuleConfig("complexity", defaultSeverity: .warning)
+        let performanceConfig = parseRuleConfig("performance", defaultSeverity: .hint)
+        
+        // Parse exclude paths
+        var excludePaths = ["**/.build/**", "**/*.generated.swift"]
+        if case .array(let paths) = settings["excludePaths"] {
+            excludePaths = paths.compactMap { path in
+                if case .string(let str) = path { return str }
+                return nil
+            }
+        }
+        
+        configuration = Configuration(
+            profile: profile,
+            rules: RulesConfiguration(
+                memory: memoryConfig,
+                concurrency: concurrencyConfig,
+                architecture: architectureConfig,
+                safety: safetyConfig,
+                performance: performanceConfig,
+                complexity: complexityConfig,
+                monolith: architectureConfig,
+                dependency: architectureConfig
+            ),
+            include: [],
+            exclude: excludePaths
+        )
+        
+        // Recreate analyzer with new configuration
+        analyzer = Analyzer(configuration: configuration)
+        fputs("Configuration applied: profile=\(profile), safety=\(safetyConfig.severity)\n", stderr)
+    }
+    
+    /// Handle workspace/didChangeConfiguration notification
+    private func handleDidChangeConfiguration(params: JSON?) async {
+        guard let params = params,
+              case .object(let obj) = params,
+              case .object(let settings) = obj["settings"],
+              case .object(let strictswift) = settings["strictswift"] else {
+            return
+        }
+        
+        applyConfiguration(strictswift)
+        
+        // Re-analyze all open documents
+        for (_, document) in openDocuments {
+            await analyzeAndPublishDiagnostics(for: document)
+        }
+    }
     
     init() {
         self.transport = JSONRPCTransport(
@@ -126,6 +260,8 @@ actor LSPServer {
             handleDidClose(params: params)
         case "textDocument/didSave":
             await handleDidSave(params: params)
+        case "workspace/didChangeConfiguration":
+            await handleDidChangeConfiguration(params: params)
         default:
             fputs("Unhandled notification: \(method)\n", stderr)
         }
@@ -139,6 +275,13 @@ actor LSPServer {
         }
         
         isInitialized = true
+        
+        // Parse initialization options for configuration
+        if let params = params,
+           case .object(let paramsObj) = params,
+           case .object(let initOptions) = paramsObj["initializationOptions"] {
+            applyConfiguration(initOptions)
+        }
         
         // Return server capabilities
         return .object([
@@ -396,18 +539,31 @@ actor LSPServer {
             return .null
         }
         
+        // Get human-readable rule name
+        let ruleDisplayName = Self.ruleDisplayNames[violation.ruleId] ?? violation.ruleId.replacingOccurrences(of: "_", with: " ").capitalized
+        let categoryDisplayName = Self.categoryDisplayNames[violation.category.rawValue] ?? violation.category.rawValue
+        
         // Build rich hover content
         let severityEmoji: String
+        let severityName: String
         switch violation.severity {
-        case .error: severityEmoji = "🔴"
-        case .warning: severityEmoji = "🟡"
-        case .hint: severityEmoji = "💡"
-        case .info: severityEmoji = "ℹ️"
+        case .error: 
+            severityEmoji = "🔴"
+            severityName = "Error"
+        case .warning: 
+            severityEmoji = "🟡"
+            severityName = "Warning"
+        case .hint: 
+            severityEmoji = "💡"
+            severityName = "Hint"
+        case .info: 
+            severityEmoji = "ℹ️"
+            severityName = "Info"
         }
         
-        var markdown = "## \(severityEmoji) \(violation.ruleId)\n\n"
-        markdown += "**Category:** \(violation.category.rawValue)\n\n"
-        markdown += "**Severity:** \(violation.severity.rawValue)\n\n"
+        var markdown = "## \(severityEmoji) \(ruleDisplayName)\n\n"
+        markdown += "**Category:** \(categoryDisplayName)  •  **Severity:** \(severityName)\n\n"
+        markdown += "---\n\n"
         markdown += "---\n\n"
         markdown += "\(violation.message)\n\n"
         
