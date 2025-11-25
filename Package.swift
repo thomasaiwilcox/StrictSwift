@@ -20,8 +20,8 @@ let package = Package(
             dependencies: [
                 "StrictSwiftCore",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-            ],
-          ),
+            ]
+        ),
         .target(
             name: "StrictSwiftCore",
             dependencies: [
@@ -30,12 +30,12 @@ let package = Package(
                 .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
                 .product(name: "Yams", package: "Yams"),
                 .product(name: "SystemPackage", package: "swift-system"),
-            ],
-          ),
+            ]
+        ),
         .testTarget(
             name: "StrictSwiftTests",
             dependencies: ["StrictSwiftCore"],
             path: "Tests/StrictSwiftTests"
-          ),
+        ),
     ]
 )
