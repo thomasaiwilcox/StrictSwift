@@ -324,7 +324,6 @@ actor JSONRPCTransport {
             try output.write(contentsOf: body)
         } catch {
             // Stream might be closed - this is okay during shutdown
-            fputs("Write error (stream may be closed): \(error)\n", stderr)
         }
     }
 }

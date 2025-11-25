@@ -625,14 +625,14 @@ actor LSPServer {
     
     private func analyzeAndPublishDiagnostics(for document: OpenDocument) async {
         guard let analyzer = analyzer else { 
-            fputs("No analyzer available\n", stderr)
+            // No analyzer available
             return 
         }
         
         // Convert URI to file path
         guard let url = URL(string: document.uri),
               url.scheme == "file" else {
-            fputs("Invalid URI: \(document.uri)\n", stderr)
+            // Invalid URI
             return
         }
         
@@ -643,16 +643,8 @@ actor LSPServer {
             try document.content.write(to: tempFile, atomically: true, encoding: .utf8)
             defer { try? FileManager.default.removeItem(at: tempFile) }
             
-            fputs("Analyzing temp file: \(tempFile.path)\n", stderr)
-            fputs("Content length: \(document.content.count)\n", stderr)
-            
             // Analyze the file
             let violations = try await analyzer.analyze(paths: [tempFile.path])
-            
-            fputs("Found \(violations.count) violations\n", stderr)
-            for v in violations {
-                fputs("  - \(v.ruleId): \(v.message) at line \(v.location.line)\n", stderr)
-            }
             
             // Convert violations to LSP diagnostics
             var diagnostics: [JSON] = []
@@ -666,7 +658,7 @@ actor LSPServer {
             
             try await publishDiagnostics(uri: document.uri, diagnostics: diagnostics)
         } catch {
-            fputs("Analysis error: \(error)\n", stderr)
+            // Analysis error
         }
     }
     
