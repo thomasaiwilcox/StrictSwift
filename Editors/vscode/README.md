@@ -45,8 +45,8 @@ The extension requires the StrictSwift LSP server to be installed:
 
 ```bash
 # Clone the repository
-git clone https://github.com/strictswift/strictswift.git
-cd strictswift
+git clone https://github.com/thomasaiwilcox/StrictSwift.git
+cd StrictSwift
 
 # Build the LSP server
 swift build -c release --product strictswift-lsp
@@ -70,7 +70,7 @@ If the LSP server is not in your PATH, configure its location:
 | `strictswift.enable` | Enable/disable StrictSwift | `true` |
 | `strictswift.serverPath` | Path to LSP server executable | `""` (searches PATH) |
 | `strictswift.configPath` | Path to `.strictswift.yml` | `""` (auto-detect) |
-| `strictswift.profile` | Analysis profile | `"default"` |
+| `strictswift.profile` | Analysis profile (criticalCore, serverDefault, appRelaxed, libraryStrict, rustInspired) | `"criticalCore"` |
 | `strictswift.trace.server` | LSP trace level | `"off"` |
 
 ## Commands
@@ -106,14 +106,14 @@ StrictSwift includes 25+ rules across multiple categories:
 
 ## Contributing
 
-Contributions are welcome! Please see our [Contributing Guide](https://github.com/strictswift/strictswift/blob/main/CONTRIBUTING.md).
+Contributions are welcome! Please see our [Contributing Guide](https://github.com/thomasaiwilcox/StrictSwift/blob/main/CONTRIBUTING.md).
 
 ## License
 
-MIT License - see [LICENSE](https://github.com/strictswift/strictswift/blob/main/LICENSE)
+MIT License - see [LICENSE](https://github.com/thomasaiwilcox/StrictSwift/blob/main/LICENSE)
 
 ## Links
 
-- [GitHub Repository](https://github.com/strictswift/strictswift)
-- [Issue Tracker](https://github.com/strictswift/strictswift/issues)
-- [Changelog](https://github.com/strictswift/strictswift/blob/main/CHANGELOG.md)
+- [GitHub Repository](https://github.com/thomasaiwilcox/StrictSwift)
+- [Issue Tracker](https://github.com/thomasaiwilcox/StrictSwift/issues)
+- [Changelog](https://github.com/thomasaiwilcox/StrictSwift/blob/main/Editors/vscode/CHANGELOG.md)
