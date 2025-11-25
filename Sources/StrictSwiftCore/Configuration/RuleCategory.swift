@@ -10,6 +10,8 @@ public enum RuleCategory: String, Codable, CaseIterable, Sendable {
     case complexity
     case monolith
     case dependency
+    case security
+    case testing
 }
 
 /// Severity levels for rule violations

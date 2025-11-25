@@ -160,7 +160,7 @@ Profiles allow teams to pick the strictness they can tolerate:
 	•	server-default — balances productivity and safety; concurrency/ownership issues are errors, structural/perf issues warnings.
 	•	library-strict — focuses on public API stability, module layering, and documentation completeness.
 	•	app-relaxed — light-touch checks (unsafe APIs, obvious concurrency mistakes) for UI/prototype code.
-	•	rust-equivalent (beta) — opt-in profile aiming for Rust-grade guarantees, activated per-target only after the verification suite passes.
+	•	rust-inspired (beta) — opt-in profile applying Rust-inspired safety patterns, activated per-target only after the verification suite passes.
 
 Configuration example:
 
@@ -275,7 +275,7 @@ Structured JSON for CI, AI assistants, and auditing:
 
 	•	Open-source harness runs StrictSwift against representative Swift packages (Vapor, AsyncHTTPClient, SwiftNIO samples, internal microservices).
 	•	Each release must publish performance numbers (wall time, memory) and accuracy deltas (precision/recall for seeded violations).
-	•	“Rust-equivalent” profile graduates from beta only after passing the harness cases covering concurrency, ownership, and unsafe boundaries.
+	•	"Rust-inspired" profile graduates from beta only after passing the harness cases covering concurrency, ownership, and unsafe boundaries.
 	•	Benchmarks execute nightly to catch regressions; results feed `swift-strict benchmark`.
 
 ⸻
@@ -357,7 +357,7 @@ Could have (post-1.1):
 19. Roadmap Highlights
 
 	v1.1 — autofixes, telemetry-tuned thresholds, SourceKit integration, expanded performance heuristics.
-	v1.3 — rust-equivalent profile graduation (after harness validation), move-only enforcement, actor region inference beta.
+	v1.3 — rust-inspired profile graduation (after harness validation), move-only enforcement, actor region inference beta.
 	v2.0 — formal verification hooks, linear-type experiments, automated refactoring engine powered by rule metadata.
 
 ⸻

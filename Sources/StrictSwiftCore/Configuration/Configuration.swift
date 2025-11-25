@@ -332,18 +332,55 @@ public struct Configuration: Codable, Equatable, Sendable {
 }
 
 /// Merge rules with profile defaults
+/// - If category is disabled in YAML, keep it disabled
+/// - If severity was explicitly set in YAML, use YAML severity
+/// - Otherwise, use profile's severity (preserving profile defaults)
 private func mergeWithProfile(_ rules: RulesConfiguration, profile: Profile) -> RulesConfiguration {
     let profileRules = profile.configuration.rules
 
     return RulesConfiguration(
-        memory: rules.memory.enabled ? rules.memory : profileRules.memory,
-        concurrency: rules.concurrency.enabled ? rules.concurrency : profileRules.concurrency,
-        architecture: rules.architecture.enabled ? rules.architecture : profileRules.architecture,
-        safety: rules.safety.enabled ? rules.safety : profileRules.safety,
-        performance: rules.performance.enabled ? rules.performance : profileRules.performance,
-        complexity: rules.complexity.enabled ? rules.complexity : profileRules.complexity,
-        monolith: rules.monolith.enabled ? rules.monolith : profileRules.monolith,
-        dependency: rules.dependency.enabled ? rules.dependency : profileRules.dependency
+        memory: mergeCategory(yaml: rules.memory, profile: profileRules.memory),
+        concurrency: mergeCategory(yaml: rules.concurrency, profile: profileRules.concurrency),
+        architecture: mergeCategory(yaml: rules.architecture, profile: profileRules.architecture),
+        safety: mergeCategory(yaml: rules.safety, profile: profileRules.safety),
+        performance: mergeCategory(yaml: rules.performance, profile: profileRules.performance),
+        complexity: mergeCategory(yaml: rules.complexity, profile: profileRules.complexity),
+        monolith: mergeCategory(yaml: rules.monolith, profile: profileRules.monolith),
+        dependency: mergeCategory(yaml: rules.dependency, profile: profileRules.dependency),
+        security: mergeCategory(yaml: rules.security, profile: profileRules.security),
+        testing: mergeCategory(yaml: rules.testing, profile: profileRules.testing)
+    )
+}
+
+/// Merge a single category with profile defaults
+private func mergeCategory(yaml: RuleConfiguration, profile: RuleConfiguration) -> RuleConfiguration {
+    // If user explicitly disabled the category, honor that
+    // Preserve their severity/options settings so re-enabling doesn't lose them
+    if !yaml.enabled {
+        // Use YAML severity if explicitly set, otherwise use profile severity
+        let effectiveSeverity = yaml.hasSeverityOverride ? yaml.severity : profile.severity
+        
+        return RuleConfiguration(
+            severity: effectiveSeverity,
+            enabled: false,
+            options: yaml.options,
+            severityExplicitlySet: yaml.hasSeverityOverride,
+            optionsExplicitlySet: yaml.hasOptionsOverride
+        )
+    }
+    
+    // Use YAML severity if explicitly set, otherwise use profile severity
+    let effectiveSeverity = yaml.hasSeverityOverride ? yaml.severity : profile.severity
+    
+    // Use YAML options if explicitly set (even if empty), otherwise use profile options
+    let effectiveOptions = yaml.hasOptionsOverride ? yaml.options : profile.options
+    
+    return RuleConfiguration(
+        severity: effectiveSeverity,
+        enabled: true,
+        options: effectiveOptions,
+        severityExplicitlySet: yaml.hasSeverityOverride,
+        optionsExplicitlySet: yaml.hasOptionsOverride
     )
 }
 
@@ -392,7 +429,9 @@ extension Configuration {
                 performance: RuleConfiguration(severity: .warning),
                 complexity: RuleConfiguration(severity: .error),
                 monolith: RuleConfiguration(severity: .error),
-                dependency: RuleConfiguration(severity: .error)
+                dependency: RuleConfiguration(severity: .error),
+                security: RuleConfiguration(severity: .error),
+                testing: RuleConfiguration(severity: .warning)
             ),
             include: ["Sources/", "Tests/"],
             exclude: ["**/.build/**", "**/*.generated.swift"]
@@ -411,7 +450,9 @@ extension Configuration {
                 performance: RuleConfiguration(severity: .info),
                 complexity: RuleConfiguration(severity: .warning),
                 monolith: RuleConfiguration(severity: .warning),
-                dependency: RuleConfiguration(severity: .error)
+                dependency: RuleConfiguration(severity: .error),
+                security: RuleConfiguration(severity: .error),
+                testing: RuleConfiguration(severity: .warning)
             ),
             include: ["Sources/", "Tests/"],
             exclude: ["**/.build/**", "**/*.generated.swift"]
@@ -430,7 +471,9 @@ extension Configuration {
                 performance: RuleConfiguration(severity: .info),
                 complexity: RuleConfiguration(severity: .warning),
                 monolith: RuleConfiguration(severity: .info),
-                dependency: RuleConfiguration(severity: .warning)
+                dependency: RuleConfiguration(severity: .warning),
+                security: RuleConfiguration(severity: .error),
+                testing: RuleConfiguration(severity: .warning)
             ),
             include: ["Sources/"],
             exclude: ["**/.build/**", "**/*Tests/**", "**/*.generated.swift"]
@@ -449,17 +492,19 @@ extension Configuration {
                 performance: RuleConfiguration(severity: .info),
                 complexity: RuleConfiguration(severity: .info),
                 monolith: RuleConfiguration(severity: .info),
-                dependency: RuleConfiguration(severity: .warning)
+                dependency: RuleConfiguration(severity: .warning),
+                security: RuleConfiguration(severity: .warning),
+                testing: RuleConfiguration(severity: .info)
             ),
             include: ["Sources/"],
             exclude: ["**/.build/**", "**/*.generated.swift"]
         )
     }
 
-    /// Load rust-equivalent profile defaults
-    public static func loadRustEquivalent() -> Configuration {
+    /// Load rust-inspired profile defaults
+    public static func loadRustInspired() -> Configuration {
         Configuration(
-            profile: .rustEquivalent,
+            profile: .rustInspired,
             rules: RulesConfiguration(
                 memory: RuleConfiguration(severity: .error),
                 concurrency: RuleConfiguration(severity: .error),
@@ -468,7 +513,9 @@ extension Configuration {
                 performance: RuleConfiguration(severity: .error),
                 complexity: RuleConfiguration(severity: .error),
                 monolith: RuleConfiguration(severity: .error),
-                dependency: RuleConfiguration(severity: .error)
+                dependency: RuleConfiguration(severity: .error),
+                security: RuleConfiguration(severity: .error),
+                testing: RuleConfiguration(severity: .error)
             ),
             include: ["Sources/", "Tests/"],
             exclude: ["**/.build/**", "**/*.generated.swift"]

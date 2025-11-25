@@ -5,15 +5,81 @@ public struct RuleConfiguration: Codable, Equatable, Sendable {
     public let severity: DiagnosticSeverity
     public let enabled: Bool
     public let options: [String: String]
+    
+    /// Tracks whether severity was explicitly set (vs using default)
+    /// This is used for profile merging - false means use profile default
+    private let severityExplicitlySet: Bool
+    
+    /// Tracks whether options was explicitly set (even if empty)
+    /// This distinguishes "options: {}" (clear profile options) from omitted (use profile options)
+    private let optionsExplicitlySet: Bool
 
     public init(
         severity: DiagnosticSeverity = .warning,
         enabled: Bool = true,
-        options: [String: String] = [:]
+        options: [String: String] = [:],
+        severityExplicitlySet: Bool = false,
+        optionsExplicitlySet: Bool = false
     ) {
         self.severity = severity
         self.enabled = enabled
         self.options = options
+        self.severityExplicitlySet = severityExplicitlySet
+        self.optionsExplicitlySet = optionsExplicitlySet
+    }
+    
+    /// Whether the severity was explicitly configured (not just using default)
+    public var hasSeverityOverride: Bool {
+        return severityExplicitlySet
+    }
+    
+    /// Whether options was explicitly configured (even if empty, meaning user wants no options)
+    public var hasOptionsOverride: Bool {
+        return optionsExplicitlySet
+    }
+    
+    // Custom Codable implementation to detect explicit severity
+    private enum CodingKeys: String, CodingKey {
+        case severity, enabled, options
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        // Check if severity was explicitly provided in YAML
+        let explicitSeverity = try container.decodeIfPresent(DiagnosticSeverity.self, forKey: .severity)
+        self.severity = explicitSeverity ?? .warning
+        self.severityExplicitlySet = explicitSeverity != nil
+        
+        self.enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled) ?? true
+        
+        // Check if options was explicitly provided (even if empty)
+        // We use contains() to detect if the key exists at all
+        self.optionsExplicitlySet = container.contains(.options)
+        self.options = try container.decodeIfPresent([String: String].self, forKey: .options) ?? [:]
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        // Only encode severity if it was explicitly set (preserves round-trip intent)
+        if severityExplicitlySet {
+            try container.encode(severity, forKey: .severity)
+        }
+        
+        try container.encode(enabled, forKey: .enabled)
+        
+        // Only encode options if explicitly set (even if empty - user wants no options)
+        if optionsExplicitlySet {
+            try container.encode(options, forKey: .options)
+        }
+    }
+    
+    /// Equatable conformance (ignoring severityExplicitlySet for equality)
+    public static func == (lhs: RuleConfiguration, rhs: RuleConfiguration) -> Bool {
+        return lhs.severity == rhs.severity &&
+               lhs.enabled == rhs.enabled &&
+               lhs.options == rhs.options
     }
 }
 
@@ -27,6 +93,8 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
     public var complexity: RuleConfiguration
     public var monolith: RuleConfiguration
     public var dependency: RuleConfiguration
+    public var security: RuleConfiguration
+    public var testing: RuleConfiguration
 
     public static let `default` = RulesConfiguration(
         memory: RuleConfiguration(),
@@ -36,7 +104,9 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
         performance: RuleConfiguration(),
         complexity: RuleConfiguration(),
         monolith: RuleConfiguration(),
-        dependency: RuleConfiguration()
+        dependency: RuleConfiguration(),
+        security: RuleConfiguration(),
+        testing: RuleConfiguration()
     )
 
     public init(
@@ -47,7 +117,9 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
         performance: RuleConfiguration = RuleConfiguration(),
         complexity: RuleConfiguration = RuleConfiguration(),
         monolith: RuleConfiguration = RuleConfiguration(),
-        dependency: RuleConfiguration = RuleConfiguration()
+        dependency: RuleConfiguration = RuleConfiguration(),
+        security: RuleConfiguration = RuleConfiguration(),
+        testing: RuleConfiguration = RuleConfiguration()
     ) {
         self.memory = memory
         self.concurrency = concurrency
@@ -57,6 +129,8 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
         self.complexity = complexity
         self.monolith = monolith
         self.dependency = dependency
+        self.security = security
+        self.testing = testing
     }
 
     /// Get configuration for a specific rule category
@@ -78,6 +152,10 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
             return monolith
         case .dependency:
             return dependency
+        case .security:
+            return security
+        case .testing:
+            return testing
         }
     }
 
@@ -100,6 +178,10 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
             monolith = config
         case .dependency:
             dependency = config
+        case .security:
+            security = config
+        case .testing:
+            testing = config
         }
     }
 }

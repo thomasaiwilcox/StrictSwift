@@ -62,6 +62,10 @@ public actor RuleEngine: Sendable {
             return .architecture
         case "repeated_allocation", "large_struct_copy", "arc_churn", "hot_path_validation":
             return .performance
+        case "hardcoded_secrets", "insecure_crypto", "sensitive_logging", "sql_injection_pattern":
+            return .security
+        case "assertion_coverage", "async_test_timeout", "test_isolation", "flaky_test_pattern":
+            return .testing
         default:
             return .architecture
         }
@@ -201,5 +205,21 @@ extension RuleEngine {
         register(LargeStructCopyRule())
         register(ARCChurnRule())
         register(HotPathValidationRule())
+        register(StringConcatenationLoopRule())
+        register(RegexCompilationInLoopRule())
+
+        // Security Rules
+        register(HardcodedSecretsRule())
+        register(InsecureCryptoRule())
+        register(SensitiveLoggingRule())
+        register(SQLInjectionPatternRule())
+        register(SwallowedErrorRule())
+        register(ResourceLeakRule())
+
+        // Testing Rules
+        register(AssertionCoverageRule())
+        register(AsyncTestTimeoutRule())
+        register(TestIsolationRule())
+        register(FlakyTestPatternRule())
     }
 }

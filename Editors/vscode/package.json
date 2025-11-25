@@ -2,7 +2,7 @@
     "name": "strictswift",
     "displayName": "StrictSwift",
     "description": "Powerful static analysis for Swift code with real-time diagnostics and auto-fix support. Enforces memory safety, concurrency correctness, and architectural best practices.",
-    "version": "0.12.1",
+    "version": "0.12.6",
     "publisher": "strictswift",
     "license": "MIT",
     "icon": "images/icon.png",
@@ -45,24 +45,150 @@
                 "strictswift.serverPath": {
                     "type": "string",
                     "default": "",
-                    "description": "Path to the strictswift-lsp executable. If empty, will search in PATH."
+                    "description": "Path to the strictswift-lsp executable. If empty, will search in PATH and common locations."
                 },
                 "strictswift.configPath": {
                     "type": "string",
                     "default": "",
-                    "description": "Path to the StrictSwift configuration file. If empty, will search for .strictswift.yml in the workspace."
+                    "description": "Path to the StrictSwift configuration file (.strictswift.yml). If empty, will search in workspace root."
                 },
                 "strictswift.profile": {
                     "type": "string",
                     "enum": [
-                        "default",
-                        "strict",
-                        "lenient",
-                        "performance",
-                        "concurrency"
+                        "criticalCore",
+                        "serverDefault",
+                        "appRelaxed",
+                        "libraryStrict",
+                        "rustInspired",
+                        "custom"
                     ],
-                    "default": "default",
-                    "description": "Analysis profile to use"
+                    "enumDescriptions": [
+                        "Critical Core - Essential safety rules only, minimal overhead",
+                        "Server Default - Balanced rules for backend/server projects",
+                        "App Relaxed - Lenient rules for app development, gradual adoption",
+                        "Library Strict - Strict rules for library/framework development",
+                        "Rust Inspired (Beta) - Maximum strictness, Rust-inspired safety patterns",
+                        "Use custom rule configuration below"
+                    ],
+                    "default": "criticalCore",
+                    "description": "Analysis profile preset"
+                },
+                "strictswift.rules.safety.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable safety rules (force unwrap, force try, fatal error)"
+                },
+                "strictswift.rules.safety.severity": {
+                    "type": "string",
+                    "enum": [
+                        "error",
+                        "warning",
+                        "hint",
+                        "info"
+                    ],
+                    "default": "error",
+                    "description": "Severity level for safety rule violations"
+                },
+                "strictswift.rules.concurrency.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable concurrency rules (actor isolation, data races, sendable)"
+                },
+                "strictswift.rules.concurrency.severity": {
+                    "type": "string",
+                    "enum": [
+                        "error",
+                        "warning",
+                        "hint",
+                        "info"
+                    ],
+                    "default": "error",
+                    "description": "Severity level for concurrency rule violations"
+                },
+                "strictswift.rules.memory.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable memory rules (retain cycles, escaping references)"
+                },
+                "strictswift.rules.memory.severity": {
+                    "type": "string",
+                    "enum": [
+                        "error",
+                        "warning",
+                        "hint",
+                        "info"
+                    ],
+                    "default": "error",
+                    "description": "Severity level for memory rule violations"
+                },
+                "strictswift.rules.architecture.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable architecture rules (god classes, circular dependencies)"
+                },
+                "strictswift.rules.architecture.severity": {
+                    "type": "string",
+                    "enum": [
+                        "error",
+                        "warning",
+                        "hint",
+                        "info"
+                    ],
+                    "default": "warning",
+                    "description": "Severity level for architecture rule violations"
+                },
+                "strictswift.rules.complexity.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable complexity rules (cyclomatic complexity, nesting depth, function length)"
+                },
+                "strictswift.rules.complexity.severity": {
+                    "type": "string",
+                    "enum": [
+                        "error",
+                        "warning",
+                        "hint",
+                        "info"
+                    ],
+                    "default": "warning",
+                    "description": "Severity level for complexity rule violations"
+                },
+                "strictswift.rules.performance.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable performance rules (ARC churn, repeated allocations)"
+                },
+                "strictswift.rules.performance.severity": {
+                    "type": "string",
+                    "enum": [
+                        "error",
+                        "warning",
+                        "hint",
+                        "info"
+                    ],
+                    "default": "hint",
+                    "description": "Severity level for performance rule violations"
+                },
+                "strictswift.excludePaths": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [
+                        "**/.build/**",
+                        "**/Pods/**",
+                        "**/Carthage/**",
+                        "**/*.generated.swift"
+                    ],
+                    "description": "Glob patterns for files/folders to exclude from analysis"
+                },
+                "strictswift.includePaths": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "description": "Glob patterns for files/folders to include. Empty means include all Swift files."
                 },
                 "strictswift.trace.server": {
                     "type": "string",
@@ -92,6 +218,14 @@
             {
                 "command": "strictswift.fixAll",
                 "title": "StrictSwift: Fix All Auto-Fixable Issues"
+            },
+            {
+                "command": "strictswift.showProfile",
+                "title": "StrictSwift: Show Current Profile"
+            },
+            {
+                "command": "strictswift.generateConfig",
+                "title": "StrictSwift: Generate Configuration File"
             }
         ]
     },

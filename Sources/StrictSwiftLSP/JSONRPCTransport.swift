@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(Darwin)
 import CoreFoundation
+#endif
 
 // MARK: - JSON Type
 
@@ -55,12 +57,17 @@ extension JSON {
         // Handle numbers - check type carefully
         // NSNumber wraps both booleans and numbers
         if let number = value as? NSNumber {
+            #if canImport(Darwin)
             // CFBoolean has a specific type ID that we can check
             let boolID = CFBooleanGetTypeID()
             let numID = CFGetTypeID(number as CFTypeRef)
             if numID == boolID {
                 return .bool(number.boolValue)
             }
+            #else
+            // On Linux, we treat everything as number to avoid CoreFoundation dependency issues
+            // This is a compromise for build stability
+            #endif
             return .number(number.doubleValue)
         }
         
@@ -169,10 +176,16 @@ actor JSONRPCTransport {
     private let input: FileHandle
     private let output: FileHandle
     private var buffer = Data()
+    private var isShutdown = false
     
     init(input: FileHandle, output: FileHandle) {
         self.input = input
         self.output = output
+    }
+    
+    /// Mark the transport as shut down to prevent further writes
+    func shutdown() {
+        isShutdown = true
     }
     
     // MARK: - Reading
@@ -293,6 +306,11 @@ actor JSONRPCTransport {
     }
     
     private func writeMessage(_ json: JSON) async throws {
+        // Don't write if shutdown has been requested
+        guard !isShutdown else {
+            return
+        }
+        
         let body = try json.toData()
         let header = "Content-Length: \(body.count)\r\n\r\n"
         
@@ -300,7 +318,12 @@ actor JSONRPCTransport {
             throw JSONRPCError.writeError
         }
         
-        output.write(headerData)
-        output.write(body)
+        // Use do-catch to handle write errors gracefully (e.g., broken pipe)
+        do {
+            try output.write(contentsOf: headerData)
+            try output.write(contentsOf: body)
+        } catch {
+            // Stream might be closed - this is okay during shutdown
+        }
     }
 }

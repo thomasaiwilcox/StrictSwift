@@ -253,22 +253,135 @@ public actor AnalysisCache {
     // MARK: - Private Helpers
     
     /// Hash configuration for cache invalidation
+    /// IMPORTANT: This hash must include ALL configuration that affects analysis results
     private static func hashConfiguration(_ config: Configuration) -> UInt64 {
-        // Include key settings that affect analysis results
-        var hashString = config.profile.rawValue
-        hashString += String(config.maxJobs)
-        hashString += config.include.joined()
-        hashString += config.exclude.joined()
+        var hashString = ""
         
-        // Add rule configurations
-        hashString += String(config.rules.safety.enabled)
-        hashString += String(config.rules.concurrency.enabled)
-        hashString += String(config.rules.memory.enabled)
-        hashString += String(config.rules.architecture.enabled)
-        hashString += String(config.rules.complexity.enabled)
-        hashString += String(config.rules.performance.enabled)
+        // 1. Basic configuration
+        hashString += config.profile.rawValue
+        hashString += String(config.maxJobs)
+        hashString += config.include.joined(separator: "|")
+        hashString += config.exclude.joined(separator: "|")
+        
+        // 2. Rule categories - full details including options
+        let categories: [(String, RuleConfiguration)] = [
+            ("safety", config.rules.safety),
+            ("concurrency", config.rules.concurrency),
+            ("memory", config.rules.memory),
+            ("architecture", config.rules.architecture),
+            ("complexity", config.rules.complexity),
+            ("performance", config.rules.performance),
+            ("monolith", config.rules.monolith),
+            ("dependency", config.rules.dependency),
+            ("security", config.rules.security),
+            ("testing", config.rules.testing)
+        ]
+        
+        for (name, ruleConfig) in categories {
+            hashString += "\(name):\(ruleConfig.enabled):\(ruleConfig.severity.rawValue)"
+            // Include all options
+            let sortedOptions = ruleConfig.options.sorted(by: { $0.key < $1.key })
+            for (key, value) in sortedOptions {
+                hashString += ":\(key)=\(value)"
+            }
+        }
+        
+        // 3. Advanced thresholds - ALL fields
+        let t = config.advanced.thresholds
+        hashString += "thresholds:\(t.maxCyclomaticComplexity):\(t.maxMethodLength):\(t.maxTypeComplexity)"
+        hashString += ":\(t.maxNestingDepth):\(t.maxParameterCount):\(t.maxPropertyCount):\(t.maxFileLength)"
+        
+        // 4. Rule-specific settings - full details including parameters and file patterns
+        let sortedRuleSettings = config.advanced.ruleSettings.sorted(by: { $0.key < $1.key })
+        for (ruleId, settings) in sortedRuleSettings {
+            hashString += "rule:\(ruleId):\(settings.enabled):\(settings.severity.rawValue)"
+            
+            // Include all parameters
+            let sortedParams = settings.parameters.sorted(by: { $0.key < $1.key })
+            for (key, value) in sortedParams {
+                hashString += ":\(key)=\(value.stringValue)"
+            }
+            
+            // Include file patterns
+            let fp = settings.filePatterns
+            hashString += ":inc=\(fp.include.joined(separator: ","))"
+            hashString += ":exc=\(fp.exclude.joined(separator: ","))"
+            hashString += ":noTest=\(fp.excludeTestFiles):noGen=\(fp.excludeGeneratedFiles)"
+        }
+        
+        // 5. Conditional settings
+        let sortedConditionals = config.advanced.conditionalSettings.sorted(by: { $0.name < $1.name })
+        for conditional in sortedConditionals {
+            hashString += "cond:\(conditional.name):\(conditional.priority)"
+            hashString += ":condition=\(hashCondition(conditional.condition))"
+            
+            // Include rule overrides with ALL fields
+            // Use "cond_" prefix for file patterns to distinguish from top-level ruleSettings
+            let sortedOverrides = conditional.ruleOverrides.sorted(by: { $0.key < $1.key })
+            for (ruleId, override) in sortedOverrides {
+                hashString += ":override:\(ruleId):\(override.enabled):\(override.severity.rawValue)"
+                let sortedParams = override.parameters.sorted(by: { $0.key < $1.key })
+                for (key, value) in sortedParams {
+                    hashString += ":cond_\(key)=\(value.stringValue)"
+                }
+                // Include file patterns with "cond_" prefix to avoid hash collision with top-level
+                let fp = override.filePatterns
+                hashString += ":cond_inc=\(fp.include.joined(separator: ","))"
+                hashString += ":cond_exc=\(fp.exclude.joined(separator: ","))"
+                hashString += ":cond_noTest=\(fp.excludeTestFiles):cond_noGen=\(fp.excludeGeneratedFiles)"
+            }
+        }
+        
+        // 6. Scope settings - all fields
+        let s = config.advanced.scopeSettings
+        hashString += "scope:\(s.analyzeTests):\(s.analyzeExtensions):\(s.analyzeGeneratedCode)"
+        hashString += ":\(s.minFileSizeLines):\(s.maxFileSizeLines):\(s.excludeEmptyFiles):\(s.excludeVendorCode)"
+        
+        // 7. Performance settings that affect analysis behavior - ALL fields
+        let p = config.advanced.performanceSettings
+        hashString += "perf:\(p.enableParallelAnalysis):\(p.enableIncrementalAnalysis)"
+        hashString += ":\(p.analysisTimeoutSeconds):\(p.maxParallelFiles)"
+        hashString += ":\(p.memoryThresholdMB):\(p.cacheAnalysisResults)"
+        
+        // 8. Baseline configuration - violations affect which diagnostics are reported
+        if let baseline = config.baseline {
+            hashString += "baseline:v\(baseline.version)"
+            hashString += ":created=\(baseline.created.timeIntervalSince1970)"
+            if let expires = baseline.expires {
+                hashString += ":expires=\(expires.timeIntervalSince1970)"
+            }
+            // Hash violation count and fingerprints for content-based invalidation
+            hashString += ":violations=\(baseline.violations.count)"
+            for violation in baseline.violations {
+                hashString += ":\(violation.ruleId):\(violation.fingerprint)"
+            }
+        } else {
+            hashString += "baseline:none"
+        }
         
         return FileFingerprint.fnv1aHash(hashString)
+    }
+    
+    /// Hash a configuration condition recursively
+    private static func hashCondition(_ condition: ConfigurationCondition) -> String {
+        switch condition {
+        case .pathPattern(let pattern):
+            return "path:\(pattern)"
+        case .fileName(let name):
+            return "file:\(name)"
+        case .fileExtension(let ext):
+            return "ext:\(ext)"
+        case .directory(let dir):
+            return "dir:\(dir)"
+        case .any(let conditions):
+            return "any:[\(conditions.map { hashCondition($0) }.joined(separator: ","))]"
+        case .all(let conditions):
+            return "all:[\(conditions.map { hashCondition($0) }.joined(separator: ","))]"
+        case .not(let condition):
+            return "not:\(hashCondition(condition))"
+        case .custom(let expr):
+            return "custom:\(expr)"
+        }
     }
 }
 
