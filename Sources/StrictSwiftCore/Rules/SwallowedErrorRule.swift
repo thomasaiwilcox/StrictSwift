@@ -33,17 +33,28 @@ private final class SwallowedErrorVisitor: SyntaxVisitor {
         
         // Check for empty catch block
         if statements.isEmpty {
-            violations.append(
-                ViolationBuilder(
-                    ruleId: "swallowed_error",
-                    category: .safety,
-                    location: sourceFile.location(of: node)
-                )
-                .message("Empty catch block swallows errors silently")
-                .suggestFix("Handle the error, log it, or rethrow it")
-                .severity(.warning)
-                .build()
+            var builder = ViolationBuilder(
+                ruleId: "swallowed_error",
+                category: .safety,
+                location: sourceFile.location(of: node)
             )
+            .message("Empty catch block swallows errors silently")
+            .suggestFix("Handle the error, log it, or rethrow it")
+            .severity(.warning)
+            
+            // Auto-fix
+            builder = builder.addStructuredFix(
+                title: "Add TODO comment",
+                kind: .refactor
+            ) { fix in
+                // Insert inside the block
+                fix.addEdit(TextEdit.insert(
+                    at: sourceFile.location(endOf: node.body.leftBrace), 
+                    text: "\n    // TODO: Handle error"
+                ))
+            }
+            
+            violations.append(builder.build())
             return .visitChildren
         }
         
