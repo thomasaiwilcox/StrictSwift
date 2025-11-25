@@ -297,6 +297,7 @@ public final class PerformanceProfiler: @unchecked Sendable {
     }
 
     private func getCurrentMemoryUsage() -> (current: UInt64, system: UInt64) {
+        #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
         var info = mach_task_basic_info()
         var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
 
@@ -314,8 +315,13 @@ public final class PerformanceProfiler: @unchecked Sendable {
             let systemMemory = ProcessInfo.processInfo.physicalMemory
             return (currentMemory, systemMemory)
         } else {
-            return (0, 0)
+            return (0, ProcessInfo.processInfo.physicalMemory)
         }
+        #else
+        // On Linux and other platforms, we can't easily get per-process memory
+        // Return system memory info only
+        return (0, ProcessInfo.processInfo.physicalMemory)
+        #endif
     }
 }
 
