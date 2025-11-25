@@ -203,6 +203,11 @@ public actor FixApplier {
         return result
     }
     
+    /// Apply a single fix to a string content (useful for testing)
+    public func apply(fix: StructuredFix, to content: String) throws -> String {
+        return try applyFix(fix, to: content)
+    }
+    
     /// Apply a single text edit to content
     private func applyEdit(_ edit: TextEdit, to content: String) throws -> String {
         let lines = content.split(separator: "\n", omittingEmptySubsequences: false).map(String.init)

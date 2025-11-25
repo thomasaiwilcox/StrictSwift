@@ -104,6 +104,11 @@ public final class SourceFile: @unchecked Sendable {
     public func location(of node: some SyntaxProtocol) -> Location {
         return location(for: node.positionAfterSkippingLeadingTrivia)
     }
+    
+    /// Get a Location for the end of a syntax node
+    public func location(endOf node: some SyntaxProtocol) -> Location {
+        return location(for: node.endPosition)
+    }
 
     /// Find the location of a function by name
     public func locationOfFunction(named functionName: String) -> Location? {

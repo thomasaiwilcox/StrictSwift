@@ -70,17 +70,29 @@ private final class StringConcatenationVisitor: SyntaxVisitor {
                         let right = elements[index + 1]
                         
                         if isLikelyStringOperation(left: left, right: right) {
-                            violations.append(
-                                ViolationBuilder(
-                                    ruleId: "string_concatenation_loop",
-                                    category: .performance,
-                                    location: sourceFile.location(of: binOp)
-                                )
-                                .message("String concatenation inside loop has O(n²) complexity")
-                                .suggestFix("Use an array of strings and join them, or use a string builder pattern")
-                                .severity(.warning)
-                                .build()
+                            var builder = ViolationBuilder(
+                                ruleId: "string_concatenation_loop",
+                                category: .performance,
+                                location: sourceFile.location(of: binOp)
                             )
+                            .message("String concatenation inside loop has O(n²) complexity")
+                            .suggestFix("Use an array of strings and join them, or use a string builder pattern")
+                            .severity(.warning)
+                            
+                            // Auto-fix: Convert += to .append()
+                            if op == "+=" {
+                                builder = builder.addStructuredFix(
+                                    title: "Convert to .append()",
+                                    kind: .refactor
+                                ) { fix in
+                                    // Replace " += " with ".append("
+                                    fix.addEdit(TextEdit(range: SourceRange(start: sourceFile.location(of: binOp), end: sourceFile.location(endOf: binOp)), newText: ".append("))
+                                    // Append ")" at the end of the right operand
+                                    fix.addEdit(TextEdit.insert(at: sourceFile.location(endOf: right), text: ")"))
+                                }
+                            }
+                            
+                            violations.append(builder.build())
                         }
                     }
                 }
