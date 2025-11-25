@@ -119,15 +119,22 @@ public actor FixApplier {
     }
     
     /// Apply fixes from violations to a file
-    /// Only applies one fix per violation (preferring the preferred fix)
+    /// Only applies one fix per violation (preferring the preferred fix if it meets confidence threshold)
     public func applyFixes(
         from violations: [Violation],
         to fileURL: URL
     ) async throws -> FixApplicationResult {
-        // Take only the preferred fix from each violation to avoid conflicts
+        // Take only fixes that meet confidence threshold, preferring the preferred fix
         let fixes = violations.compactMap { violation -> StructuredFix? in
-            // Get the preferred fix, or the first one if none is marked preferred
-            return violation.preferredFix ?? violation.structuredFixes.first
+            // First try preferred fix if it meets confidence threshold
+            if let preferred = violation.preferredFix,
+               preferred.confidence >= options.minimumConfidence {
+                return preferred
+            }
+            // Otherwise find first fix that meets confidence threshold
+            return violation.structuredFixes.first {
+                $0.confidence >= options.minimumConfidence
+            }
         }
         return try await applyFixes(fixes, to: fileURL)
     }

@@ -260,13 +260,41 @@ public actor AnalysisCache {
         hashString += config.include.joined()
         hashString += config.exclude.joined()
         
-        // Add rule configurations
-        hashString += String(config.rules.safety.enabled)
-        hashString += String(config.rules.concurrency.enabled)
-        hashString += String(config.rules.memory.enabled)
-        hashString += String(config.rules.architecture.enabled)
-        hashString += String(config.rules.complexity.enabled)
-        hashString += String(config.rules.performance.enabled)
+        // Hash ALL rule categories with full details (enabled, severity, options)
+        let categories: [(String, RuleConfiguration)] = [
+            ("safety", config.rules.safety),
+            ("concurrency", config.rules.concurrency),
+            ("memory", config.rules.memory),
+            ("architecture", config.rules.architecture),
+            ("complexity", config.rules.complexity),
+            ("performance", config.rules.performance),
+            ("monolith", config.rules.monolith),
+            ("dependency", config.rules.dependency)
+        ]
+        
+        for (name, ruleConfig) in categories {
+            hashString += name
+            hashString += String(ruleConfig.enabled)
+            hashString += ruleConfig.severity.rawValue
+            // Hash options in sorted order for determinism
+            for (key, value) in ruleConfig.options.sorted(by: { $0.key < $1.key }) {
+                hashString += key + value
+            }
+        }
+        
+        // Hash advanced configuration thresholds
+        hashString += String(config.advanced.thresholds.maxMethodLength)
+        hashString += String(config.advanced.thresholds.maxTypeComplexity)
+        hashString += String(config.advanced.thresholds.maxFileLength)
+        hashString += String(config.advanced.thresholds.maxCyclomaticComplexity)
+        hashString += String(config.advanced.thresholds.maxNestingDepth)
+        
+        // Hash rule-specific settings
+        for (ruleId, settings) in config.advanced.ruleSettings.sorted(by: { $0.key < $1.key }) {
+            hashString += ruleId
+            hashString += String(settings.enabled)
+            hashString += settings.severity.rawValue
+        }
         
         return FileFingerprint.fnv1aHash(hashString)
     }

@@ -5,15 +5,59 @@ public struct RuleConfiguration: Codable, Equatable, Sendable {
     public let severity: DiagnosticSeverity
     public let enabled: Bool
     public let options: [String: String]
+    
+    /// Tracks whether severity was explicitly set (vs using default)
+    /// This is used for profile merging - false means use profile default
+    private let severityExplicitlySet: Bool
 
     public init(
         severity: DiagnosticSeverity = .warning,
         enabled: Bool = true,
-        options: [String: String] = [:]
+        options: [String: String] = [:],
+        severityExplicitlySet: Bool = false
     ) {
         self.severity = severity
         self.enabled = enabled
         self.options = options
+        self.severityExplicitlySet = severityExplicitlySet
+    }
+    
+    /// Whether the severity was explicitly configured (not just using default)
+    public var hasSeverityOverride: Bool {
+        return severityExplicitlySet
+    }
+    
+    // Custom Codable implementation to detect explicit severity
+    private enum CodingKeys: String, CodingKey {
+        case severity, enabled, options
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        // Check if severity was explicitly provided in YAML
+        let explicitSeverity = try container.decodeIfPresent(DiagnosticSeverity.self, forKey: .severity)
+        self.severity = explicitSeverity ?? .warning
+        self.severityExplicitlySet = explicitSeverity != nil
+        
+        self.enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled) ?? true
+        self.options = try container.decodeIfPresent([String: String].self, forKey: .options) ?? [:]
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(severity, forKey: .severity)
+        try container.encode(enabled, forKey: .enabled)
+        if !options.isEmpty {
+            try container.encode(options, forKey: .options)
+        }
+    }
+    
+    /// Equatable conformance (ignoring severityExplicitlySet for equality)
+    public static func == (lhs: RuleConfiguration, rhs: RuleConfiguration) -> Bool {
+        return lhs.severity == rhs.severity &&
+               lhs.enabled == rhs.enabled &&
+               lhs.options == rhs.options
     }
 }
 
