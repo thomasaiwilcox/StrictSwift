@@ -1,5 +1,4 @@
 import Foundation
-import os.log
 
 /// Simple logging utility for StrictSwift
 public enum StrictSwiftLogger: Sendable {
