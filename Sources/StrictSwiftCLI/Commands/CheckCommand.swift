@@ -25,6 +25,15 @@ struct CheckCommand: AsyncParsableCommand {
 
     @Option(name: .long, help: "Fail on errors")
     var failOnError: Bool = true
+    
+    @Flag(name: .long, help: "Enable incremental analysis with caching")
+    var cache: Bool = false
+    
+    @Flag(name: .long, help: "Clear the analysis cache before running")
+    var clearCache: Bool = false
+    
+    @Flag(name: .long, help: "Show cache statistics after analysis")
+    var cacheStats: Bool = false
 
     func run() async throws {
         // Load configuration
@@ -56,11 +65,41 @@ struct CheckCommand: AsyncParsableCommand {
             maxJobs: finalConfiguration.maxJobs
         )
 
-        // Create analyzer
-        let analyzer = Analyzer(configuration: configurationWithBaseline)
+        // Set up caching if enabled
+        let projectRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+        var analysisCache: AnalysisCache?
+        
+        if cache {
+            analysisCache = AnalysisCache(
+                projectRoot: projectRoot,
+                configuration: configurationWithBaseline,
+                enabled: true
+            )
+            
+            if clearCache {
+                try await analysisCache?.clear()
+                print("🗑️  Cache cleared")
+            }
+        }
 
-        // Analyze files
-        let violations = try await analyzer.analyze(paths: paths)
+        // Create analyzer with optional cache
+        let analyzer = Analyzer(configuration: configurationWithBaseline, cache: analysisCache)
+
+        // Analyze files (incremental if cache enabled)
+        let violations: [Violation]
+        var cacheHitRate: Double = 0.0
+        var cachedFileCount: Int = 0
+        var analyzedFileCount: Int = 0
+        
+        if cache {
+            let result = try await analyzer.analyzeIncremental(paths: paths)
+            violations = result.violations
+            cacheHitRate = result.cacheHitRate
+            cachedFileCount = result.cachedFileCount
+            analyzedFileCount = result.analyzedFileCount
+        } else {
+            violations = try await analyzer.analyze(paths: paths)
+        }
 
         // Output results
         let reporter: Reporter = format == "json" ? JSONReporter() : HumanReporter()
@@ -70,6 +109,14 @@ struct CheckCommand: AsyncParsableCommand {
 
         let report = try reporter.generateReport(violationsToReport)
         print(report, terminator: "")
+        
+        // Show cache statistics if requested
+        if cache && cacheStats {
+            print("\n📊 Cache Statistics:")
+            print("   Cache hit rate: \(String(format: "%.1f", cacheHitRate * 100))%")
+            print("   Cached files: \(cachedFileCount)")
+            print("   Analyzed files: \(analyzedFileCount)")
+        }
 
         // Exit with error code if configured to do so
         let errors = violationsToReport.filter { $0.severity == .error }
