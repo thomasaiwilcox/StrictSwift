@@ -468,14 +468,12 @@ actor LSPServer {
         // Find fixes for each diagnostic
         for diagnostic in diagnostics {
             guard case .object(let diagObj) = diagnostic else {
-                fputs("Code action: diagnostic is not an object\n", stderr)
                 continue
             }
             
             // Check if we have data with fixes
             if case .object(let data) = diagObj["data"],
                case .array(let fixes) = data["fixes"] {
-                fputs("Code action: found \(fixes.count) fixes in diagnostic data\n", stderr)
                 
                 for fix in fixes {
                     guard case .object(let fixObj) = fix,
@@ -513,15 +511,13 @@ actor LSPServer {
                     codeActions.append(action)
                 }
             } else {
-                fputs("Code action: no data.fixes in diagnostic\n", stderr)
                 // Log what we do have
-                if case .string(let code) = diagObj["code"] {
-                    fputs("  diagnostic code: \(code)\n", stderr)
+                if case .string(_) = diagObj["code"] {
+                    // diagnostic code available
                 }
             }
         }
         
-        fputs("Code action: returning \(codeActions.count) actions\n", stderr)
         return .array(codeActions)
     }
     
@@ -534,7 +530,7 @@ actor LSPServer {
               case .string(let uri) = textDocument["uri"],
               case .object(let position) = obj["position"],
               case .number(let line) = position["line"],
-              case .number(let character) = position["character"] else {
+              case .number(_) = position["character"] else {
             return .null
         }
         
