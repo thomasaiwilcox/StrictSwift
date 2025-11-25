@@ -33,6 +33,9 @@ cp .build/release/swift-strict /usr/local/bin/
 # Analyze Swift files
 swift run swift-strict check Sources/
 
+# Enable incremental analysis with caching (13x faster on repeat runs)
+swift run swift-strict check Sources/ --cache --cache-stats
+
 # Create baseline for existing code
 swift run swift-strict baseline Sources/ --profile critical-core
 
@@ -41,6 +44,23 @@ swift run swift-strict ci Sources/ --format json
 
 # Use different profiles
 swift run swift-strict check Sources/ --profile rust-equivalent
+```
+
+### SwiftPM Plugin
+
+Add StrictSwift as a build tool plugin to your package:
+
+```swift
+// Package.swift
+dependencies: [
+    .package(url: "https://github.com/thomasaiwilcox/StrictSwift.git", from: "1.0.0"),
+],
+targets: [
+    .target(
+        name: "YourTarget",
+        plugins: [.plugin(name: "StrictSwiftPlugin", package: "StrictSwift")]
+    ),
+]
 ```
 
 ## Profiles
