@@ -1,0 +1,3786 @@
+{
+  "created" : "2025-11-25T12:58:18Z",
+  "version" : 1,
+  "violations" : [
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "af7060eb5db5d7fc",
+      "line" : 27,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "5154fd6271f07dcc",
+      "line" : 27,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "10e76b605312e3bb",
+      "line" : 27,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "470ac5eece2caf26",
+      "line" : 27,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "dd977fb353db893e",
+      "line" : 41,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "be258b193a38d557",
+      "line" : 53,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "438c4237181ebaf9",
+      "line" : 65,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "2825a5d3fd852157",
+      "line" : 103,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "f9291e3782b48145",
+      "line" : 105,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "8798832d5a27ab33",
+      "line" : 107,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "c0071d14c1a9e5b7",
+      "line" : 109,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "a215a53f4083a8af",
+      "line" : 114,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/BaselineCommand.swift",
+      "fingerprint" : "73b70e01d18adcf4",
+      "line" : 117,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CICommand.swift",
+      "fingerprint" : "d3c56d7d972b9918",
+      "line" : 27,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CICommand.swift",
+      "fingerprint" : "2c14a4726fd5dcfe",
+      "line" : 27,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CICommand.swift",
+      "fingerprint" : "72acf76c3289a79b",
+      "line" : 40,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CICommand.swift",
+      "fingerprint" : "c20c16443f5a6e3e",
+      "line" : 71,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CheckCommand.swift",
+      "fingerprint" : "12b26b2730ab70a7",
+      "line" : 27,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CheckCommand.swift",
+      "fingerprint" : "2d5c3f71f4af1b29",
+      "line" : 27,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CheckCommand.swift",
+      "fingerprint" : "cb2cf9bb0969ed47",
+      "line" : 40,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CheckCommand.swift",
+      "fingerprint" : "c7bf0a68b5af307a",
+      "line" : 71,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CheckCommand.swift",
+      "fingerprint" : "6e9700effcc8df5",
+      "line" : 76,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CheckCommand.swift",
+      "fingerprint" : "6fb3bc3211e47c7b",
+      "line" : 81,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/CheckCommand.swift",
+      "fingerprint" : "f07a1a4a29e8bf52",
+      "line" : 84,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCLI\/Commands\/ExplainCommand.swift",
+      "fingerprint" : "6ab504d9127b2e27",
+      "line" : 13,
+      "ruleId" : "print_in_production"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/ImportTracker.swift",
+      "fingerprint" : "234e36ce619b1383",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/ImportTracker.swift",
+      "fingerprint" : "bc1105993956da9f",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/ImportTracker.swift",
+      "fingerprint" : "19f826b27dd5218b",
+      "line" : 14,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/ImportTracker.swift",
+      "fingerprint" : "4650b7d9cae98d15",
+      "line" : 14,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/ImportTracker.swift",
+      "fingerprint" : "5c7cfb464997afa7",
+      "line" : 14,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/SourceFile.swift",
+      "fingerprint" : "e06fe5bd70125666",
+      "line" : 87,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/SourceFile.swift",
+      "fingerprint" : "16713cafe66e528b",
+      "line" : 88,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/SourceFile.swift",
+      "fingerprint" : "ce1416ed592f297a",
+      "line" : 90,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/SymbolCollector.swift",
+      "fingerprint" : "8e37b77f00f2974b",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/SymbolCollector.swift",
+      "fingerprint" : "67a531fab5bacc2a",
+      "line" : 124,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/SymbolCollector.swift",
+      "fingerprint" : "34c07df0a5355a02",
+      "line" : 157,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/AST\/SymbolCollector.swift",
+      "fingerprint" : "365aa91c801bfda7",
+      "line" : 160,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Analyzer.swift",
+      "fingerprint" : "c56076ecbc122c61",
+      "line" : 54,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Analyzer.swift",
+      "fingerprint" : "74251b50308ca63b",
+      "line" : 65,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Analyzer.swift",
+      "fingerprint" : "df99bc37127041d9",
+      "line" : 72,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Analyzer.swift",
+      "fingerprint" : "90e70e3eef6c8759",
+      "line" : 98,
+      "ruleId" : "unstructured_task"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Analyzer.swift",
+      "fingerprint" : "939d63c285a85721",
+      "line" : 102,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "951859c830fde62a",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "e91e2833382eae04",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "490856437ee99d03",
+      "line" : 1,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "d153437afd1ef82c",
+      "line" : 65,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "4643f220bc15f28",
+      "line" : 140,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "45c5e1030e6c11bc",
+      "line" : 216,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "beb4705f6b4cbed6",
+      "line" : 256,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "b85673d602054a1d",
+      "line" : 370,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "ba76627e889adb1a",
+      "line" : 370,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "6346a8ea2562443",
+      "line" : 383,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "70eca9487b216891",
+      "line" : 384,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "36c3ad038af19f4f",
+      "line" : 394,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
+      "fingerprint" : "a4add5f84cc8eaf8",
+      "line" : 420,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/BaselineConfiguration.swift",
+      "fingerprint" : "9872569073f26339",
+      "line" : 27,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/BaselineConfiguration.swift",
+      "fingerprint" : "d5a58a94f267df62",
+      "line" : 106,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/Configuration.swift",
+      "fingerprint" : "e41632421b1dd439",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/Configuration.swift",
+      "fingerprint" : "a9aa7bd94f715695",
+      "line" : 3,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/Configuration.swift",
+      "fingerprint" : "38872e824ca84381",
+      "line" : 44,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/Configuration.swift",
+      "fingerprint" : "190c2436115ea1ca",
+      "line" : 52,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/Configuration.swift",
+      "fingerprint" : "916780ab085a2aa",
+      "line" : 97,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/Configuration.swift",
+      "fingerprint" : "d5fd79421f0b5606",
+      "line" : 240,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/Configuration.swift",
+      "fingerprint" : "56dfb299eae1e4ce",
+      "line" : 250,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/ConfigurationTypes.swift",
+      "fingerprint" : "4ca7487ef09bfac3",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/ConfigurationTypes.swift",
+      "fingerprint" : "a328c305313d7e54",
+      "line" : 25,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/ConfigurationTypes.swift",
+      "fingerprint" : "1a4a6dc113537d5",
+      "line" : 188,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/ConfigurationTypes.swift",
+      "fingerprint" : "99f87de43ad61a38",
+      "line" : 188,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/ConfigurationTypes.swift",
+      "fingerprint" : "5fa0a263b8815baf",
+      "line" : 202,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/ConfigurationTypes.swift",
+      "fingerprint" : "978e256fa7a88d46",
+      "line" : 231,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/ConfigurationTypes.swift",
+      "fingerprint" : "f4dca55135544f5c",
+      "line" : 252,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/ConfigurationTypes.swift",
+      "fingerprint" : "5648f775d19be9c1",
+      "line" : 264,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/RuleConfiguration.swift",
+      "fingerprint" : "4d71d64cdb724728",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/RuleConfiguration.swift",
+      "fingerprint" : "273e74e139d74aba",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/RuleConfiguration.swift",
+      "fingerprint" : "9bdc9ad7bbce5bc9",
+      "line" : 18,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/RuleConfiguration.swift",
+      "fingerprint" : "80484c3cb35ba171",
+      "line" : 29,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Configuration\/RuleConfiguration.swift",
+      "fingerprint" : "3b9f27a6805adfa4",
+      "line" : 60,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "12e267eee2bc039c",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "d6fd6fdb7cdb3b55",
+      "line" : 1,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "4f13680ab91bee0d",
+      "line" : 203,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "e69cd70826ba5b8b",
+      "line" : 246,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "876b78dc8046a359",
+      "line" : 248,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "ec0ce2eb77bbe15c",
+      "line" : 261,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "a174483592a25d5",
+      "line" : 277,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "8cad0458cfc1f65d",
+      "line" : 310,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "d2c7f6a677899914",
+      "line" : 310,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "c89b147e01950da0",
+      "line" : 335,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "546861020694ecd4",
+      "line" : 337,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "4835557725a01a82",
+      "line" : 533,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "6d1dceb3b87ca991",
+      "line" : 533,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
+      "fingerprint" : "1d0346f72684facb",
+      "line" : 547,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "50fab49fe9d38615",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "6f2d8e7c28e2ba0c",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "298d68890d218c13",
+      "line" : 1,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "268b0ca32082d9a6",
+      "line" : 177,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "c1ccfbf7056b7679",
+      "line" : 200,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "7d2fef4a0e6a807",
+      "line" : 200,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "46a0758bffcfee1",
+      "line" : 200,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "e6fc0fa709be8771",
+      "line" : 200,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "8726e3b2af478442",
+      "line" : 200,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "62e9715f96674c62",
+      "line" : 292,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
+      "fingerprint" : "cbea81a9bccfc604",
+      "line" : 397,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "54fc498a9b4bd1dd",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "11ba4e17f6e754f2",
+      "line" : 55,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "e092c34e6b696a51",
+      "line" : 55,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "c40813231bf0bcff",
+      "line" : 55,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "e0ad88adbd3beffc",
+      "line" : 55,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "56560daa3a699ba8",
+      "line" : 149,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "e7f623069ab75ace",
+      "line" : 149,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "d06239f5f8d4dd21",
+      "line" : 169,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "942c0e354cf7eff",
+      "line" : 169,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "f08d2735eaf8979b",
+      "line" : 221,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "cb84de8315d78d7",
+      "line" : 221,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "1312b8fc9c786f74",
+      "line" : 221,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "5669db7928b6c56d",
+      "line" : 221,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "77082277894686f7",
+      "line" : 226,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "7b951c565dbeac2d",
+      "line" : 226,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "541555d6f9f439c4",
+      "line" : 238,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "13e0e9645d737b66",
+      "line" : 269,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "e12a54a712eb39a3",
+      "line" : 285,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "98d9a93928e0a713",
+      "line" : 290,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "e5b9281009e8d7bd",
+      "line" : 315,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "3739ccd63695df3c",
+      "line" : 315,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "d10196c47bd649eb",
+      "line" : 320,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyAnalyzer.swift",
+      "fingerprint" : "c89e767d98b1846d",
+      "line" : 333,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "9702657a0a152dfa",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "86eee71676dec2ea",
+      "line" : 64,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "d56f2fb3c21d8070",
+      "line" : 64,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "ed30318185d4e49f",
+      "line" : 64,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "cd906e8996d7e819",
+      "line" : 64,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "c4f94190d742d66d",
+      "line" : 64,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "f541ce34befa388f",
+      "line" : 77,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "8e4183b65d33f867",
+      "line" : 84,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "32729db7913ba50b",
+      "line" : 144,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "c3a398a268e958ca",
+      "line" : 164,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "4888e99cac35f5e7",
+      "line" : 165,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "6ae786abaeb50e77",
+      "line" : 166,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "2a61eff619a312b8",
+      "line" : 167,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "7f63678d2e68532b",
+      "line" : 210,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "d619cf06df88545f",
+      "line" : 217,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "fb0823f7de9f56e9",
+      "line" : 246,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "682c8771fe4160d1",
+      "line" : 259,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "fab71afd768268aa",
+      "line" : 270,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "211fbcad2d614c4c",
+      "line" : 270,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "4e9d06ee4c5d82e5",
+      "line" : 275,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "ccb71f8e12aa9b1b",
+      "line" : 275,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "a05eb1888f277103",
+      "line" : 282,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "6cadaa8cd14ee55e",
+      "line" : 333,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "e9d028548e3e4f7e",
+      "line" : 339,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/DependencyGraph.swift",
+      "fingerprint" : "42d4b4c4aebde3ef",
+      "line" : 345,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
+      "fingerprint" : "50cdadcd77767e54",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
+      "fingerprint" : "c09c8225887a757",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
+      "fingerprint" : "be18464f330ee754",
+      "line" : 61,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
+      "fingerprint" : "dd5d0f995c2127ee",
+      "line" : 90,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
+      "fingerprint" : "c8b4d8cd04862cd9",
+      "line" : 92,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
+      "fingerprint" : "b9c8cfb48dfb6b84",
+      "line" : 127,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
+      "fingerprint" : "ea646cb77d27ab35",
+      "line" : 170,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
+      "fingerprint" : "70a21f92b2c5e90c",
+      "line" : 172,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
+      "fingerprint" : "5ac4191d45520854",
+      "line" : 208,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
+      "fingerprint" : "6061a673baed2bea",
+      "line" : 300,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ModuleBoundaryValidator.swift",
+      "fingerprint" : "ee376417a18564d0",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ModuleBoundaryValidator.swift",
+      "fingerprint" : "c1a1dab775f0094a",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ModuleBoundaryValidator.swift",
+      "fingerprint" : "c4c175d48820c0fb",
+      "line" : 1,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ModuleBoundaryValidator.swift",
+      "fingerprint" : "c9166010f78309e",
+      "line" : 119,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ModuleBoundaryValidator.swift",
+      "fingerprint" : "9cadb5bea6c95059",
+      "line" : 134,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ModuleBoundaryValidator.swift",
+      "fingerprint" : "8ac5c1d757a184b1",
+      "line" : 271,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ModuleBoundaryValidator.swift",
+      "fingerprint" : "81b70e2a7249ce5",
+      "line" : 289,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ModuleBoundaryValidator.swift",
+      "fingerprint" : "8d816cdb2bb08d58",
+      "line" : 482,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ModuleBoundaryValidator.swift",
+      "fingerprint" : "687f94e487aca0c7",
+      "line" : 515,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "c18acaaab51e7ed3",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "470e175a6fe9ab99",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "69d0810cb9c1e7c8",
+      "line" : 1,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "5f215da09194c907",
+      "line" : 1,
+      "ruleId" : "non_sendable_capture"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "cd1786c3045e0eaf",
+      "line" : 130,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "a0e8367b665c196e",
+      "line" : 130,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "b78af2220bad0453",
+      "line" : 130,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "a4318f36b8bd1d94",
+      "line" : 130,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "32cb2648142fff1e",
+      "line" : 167,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "b5939d1f1f0a8a8d",
+      "line" : 167,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "79bdcdd764654f76",
+      "line" : 170,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "5c07881856dd1ebd",
+      "line" : 170,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "e97bb651d2ce599b",
+      "line" : 200,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "fd1dd48d0d762758",
+      "line" : 200,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "b9132487929d60a2",
+      "line" : 282,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "fingerprint" : "cdfebc1eba850d44",
+      "line" : 479,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "eb0a242ef1dcc2c6",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "94ac09f53ff7f4d5",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "759531907181150c",
+      "line" : 1,
+      "ruleId" : "unstructured_task"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "3b0955423093a75",
+      "line" : 75,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "258826d6c29cafd6",
+      "line" : 79,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "28d6b697b060da41",
+      "line" : 112,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "3912ac9e46d70269",
+      "line" : 126,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "2ddee3660ba61c46",
+      "line" : 137,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "2fa2c40ef83dffcf",
+      "line" : 142,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "4b262059f4eb633c",
+      "line" : 168,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "7c5ce9f0b39c994d",
+      "line" : 195,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "33ef16eb28e9c0d7",
+      "line" : 214,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "22108fc83edc3158",
+      "line" : 215,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "52ebd62ba347b276",
+      "line" : 235,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "bcf13d95f540868f",
+      "line" : 235,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "f623f04b180520ee",
+      "line" : 250,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "eb0829bd2354ff09",
+      "line" : 263,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "b6aa88e9862047b1",
+      "line" : 323,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "c8f96713487d8fac",
+      "line" : 342,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "fingerprint" : "9be5ee6f9d4c7e9",
+      "line" : 351,
+      "ruleId" : "large_struct_copy"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "277e385d4626774c",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "52d2e1b46b55afe9",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "3b5eb7940eca8f7e",
+      "line" : 1,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "458929b6bc8c38f2",
+      "line" : 49,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "598e7379748fd998",
+      "line" : 69,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "5418d4c3e2b6977e",
+      "line" : 87,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "55aa8256e584739c",
+      "line" : 146,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "acd804a8c39e5077",
+      "line" : 170,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "11ba17d46ad0bcdd",
+      "line" : 203,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "ae6a882d0a567853",
+      "line" : 238,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "86a433f39c47a205",
+      "line" : 240,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "fc1a4dcc623c00f5",
+      "line" : 252,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "5028f310ef9eaf3d",
+      "line" : 285,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "cecdb1eed343c96e",
+      "line" : 307,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "22225c909b1a11c6",
+      "line" : 318,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "6d6f4d747c46d42c",
+      "line" : 327,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "af96aaa39f5410d1",
+      "line" : 389,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "fingerprint" : "f55a3f3c3dc3987c",
+      "line" : 439,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/PerformanceProfiler.swift",
+      "fingerprint" : "b33db51cd7dd6708",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/PerformanceProfiler.swift",
+      "fingerprint" : "a72f6c4a0a2c10ee",
+      "line" : 1,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/PerformanceProfiler.swift",
+      "fingerprint" : "11de14d759012645",
+      "line" : 79,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/PerformanceProfiler.swift",
+      "fingerprint" : "729d687f46b71325",
+      "line" : 304,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/PerformanceProfiler.swift",
+      "fingerprint" : "24a1f8d0d12499ce",
+      "line" : 306,
+      "ruleId" : "escaping_reference"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "737a92c004e8e4fe",
+      "line" : 1,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "96bd56cca553f820",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "4fbecbe06f326237",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "1b9fdc078a0641f0",
+      "line" : 1,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "233c01ec68879e45",
+      "line" : 1,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "78a5f728d7f735b7",
+      "line" : 72,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "8de0dec113d92534",
+      "line" : 72,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "6bb002367eaeeb2",
+      "line" : 86,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "c0e7fbf052bb6791",
+      "line" : 109,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "a83691939fc47bbe",
+      "line" : 128,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "8fa3589bb3de3e8a",
+      "line" : 131,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "6efdba1281ce4635",
+      "line" : 138,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/ResolvedTypes.swift",
+      "fingerprint" : "977b8a24ad734207",
+      "line" : 142,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "2936931b371e3f32",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "1c436547231fe30a",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "4a80240c91636f4d",
+      "line" : 1,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "d4cbcffa2681a12a",
+      "line" : 65,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "ac40ffffa1049079",
+      "line" : 119,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "1da906994e794c7a",
+      "line" : 124,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "fe2a553b7107422b",
+      "line" : 129,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "e5194f7bdfccd9dd",
+      "line" : 164,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "262340cf2d270a9",
+      "line" : 164,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "19f3f6a51d81476c",
+      "line" : 181,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "be088921a88dade2",
+      "line" : 182,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "e6a40acfdb74bf55",
+      "line" : 198,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "b24e625256533a07",
+      "line" : 198,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "258941d6fe096a3d",
+      "line" : 198,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "c2ff48ba2ca83b51",
+      "line" : 198,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "9691bb9cb7230eae",
+      "line" : 198,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "839ef104cb00aa5c",
+      "line" : 210,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "c10eeab12af15fbf",
+      "line" : 220,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "898ab97267941a72",
+      "line" : 234,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "9a32a580c6d358a",
+      "line" : 237,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "48d4668b8acbc8c3",
+      "line" : 240,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "517633aef35ae35e",
+      "line" : 273,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "3fa408abdce7063",
+      "line" : 282,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "6e16950e954c932c",
+      "line" : 301,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "f4343918c587d7c7",
+      "line" : 301,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "42ab5bf597e72806",
+      "line" : 301,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "f154af1d25b8901b",
+      "line" : 355,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "92e4e3a0d83dd804",
+      "line" : 355,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "6f52e675e0b54895",
+      "line" : 355,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "4c5b20a73cd2510e",
+      "line" : 355,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "a1ae40c741bd54d0",
+      "line" : 376,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "2ebdb6177fa32800",
+      "line" : 376,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "f9ba6bcc9b3c3a67",
+      "line" : 422,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "2d6b4d2622af9b71",
+      "line" : 422,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "90d7d3e345cc2ebd",
+      "line" : 422,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "eeadb33e82e48662",
+      "line" : 439,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "f8441a23088831c4",
+      "line" : 439,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "d632452c2d140a59",
+      "line" : 470,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "536dde0fa80fe268",
+      "line" : 485,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "8bd47843e2600660",
+      "line" : 485,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "7f547c57702aeaee",
+      "line" : 485,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "b0b97939fd46dc70",
+      "line" : 493,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "45b727c0420d431a",
+      "line" : 493,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "e275cdfe845124d5",
+      "line" : 543,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Infrastructure\/TypeResolver.swift",
+      "fingerprint" : "1641843794484587",
+      "line" : 543,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Reporting\/HumanReporter.swift",
+      "fingerprint" : "729d4303e91a44d6",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Reporting\/HumanReporter.swift",
+      "fingerprint" : "1f8f3d74ec694b3e",
+      "line" : 5,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Reporting\/HumanReporter.swift",
+      "fingerprint" : "ddf5464a3dd8f9b5",
+      "line" : 5,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Reporting\/HumanReporter.swift",
+      "fingerprint" : "212fca203957fae4",
+      "line" : 5,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Reporting\/HumanReporter.swift",
+      "fingerprint" : "5e6c0a640c61b935",
+      "line" : 10,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Reporting\/HumanReporter.swift",
+      "fingerprint" : "b6fe42ac4f040e11",
+      "line" : 22,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Reporting\/HumanReporter.swift",
+      "fingerprint" : "8e1420de56719f12",
+      "line" : 61,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Reporting\/JSONReporter.swift",
+      "fingerprint" : "d583fc2d5295bbdc",
+      "line" : 11,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "2f0f4de6651540e8",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "d3a3c895e0c5bb0f",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "3908f581eb401801",
+      "line" : 1,
+      "ruleId" : "non_sendable_capture"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "c0544925d097291",
+      "line" : 58,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "d2df3021eb0cdee7",
+      "line" : 58,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "b48765bc1c99363a",
+      "line" : 58,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "384e80cbfea0e853",
+      "line" : 58,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "5b4534826ca5b4dd",
+      "line" : 58,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "e820c608cd67b2d",
+      "line" : 58,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "9e9a1a25cb556003",
+      "line" : 229,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "8242cb7d44bae98b",
+      "line" : 277,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "92415f1982d46b64",
+      "line" : 301,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
+      "fingerprint" : "7b261ab5760ea291",
+      "line" : 401,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "14d030b1cd961bd9",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "da028562c558a305",
+      "line" : 1,
+      "ruleId" : "non_sendable_capture"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "a03265461186c8b0",
+      "line" : 85,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "4b6e2b9b167c4be9",
+      "line" : 114,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "742648f9e7c41455",
+      "line" : 133,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "21c872d07f230f28",
+      "line" : 165,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "5913ff42682206be",
+      "line" : 170,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "f62a0eb825a73428",
+      "line" : 171,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "98d1186125a0f71",
+      "line" : 176,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "97f95dca149f1a11",
+      "line" : 177,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "9a1ebbb75fc6764c",
+      "line" : 188,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "bc08e244f4e8996b",
+      "line" : 204,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
+      "fingerprint" : "b6433d4ec1b1b17c",
+      "line" : 214,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "629105ac5d2bad22",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "71466c9cfb7d7411",
+      "line" : 1,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "f6d174b5fadb243f",
+      "line" : 64,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "5aa196c99a4b8d6f",
+      "line" : 158,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "59516c57f80b1a29",
+      "line" : 170,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "100879b6574c9944",
+      "line" : 170,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "882489afec1c7773",
+      "line" : 170,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "9d76a159055dd3ab",
+      "line" : 227,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "49509bd3df1eaf2d",
+      "line" : 227,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "614207c91ad7c1d9",
+      "line" : 227,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "6fc509dccd331a95",
+      "line" : 227,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "43e9a20f412ff50e",
+      "line" : 278,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "79ba0a1ba7bd59b2",
+      "line" : 306,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "550edcd824d6fe10",
+      "line" : 315,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "98e7ff3a48a162e",
+      "line" : 335,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "22e351b37c11ec18",
+      "line" : 365,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "c63eb71c4f6aebeb",
+      "line" : 365,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "4b0bcacc4e9f2442",
+      "line" : 365,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "7b95edc3df9585a6",
+      "line" : 379,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "4a8c706c107d1bbb",
+      "line" : 400,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "3c056956d158b650",
+      "line" : 444,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "45452bb74ab0d84d",
+      "line" : 482,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
+      "fingerprint" : "f40f9bebbab253ef",
+      "line" : 545,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CircularDependencyRule.swift",
+      "fingerprint" : "c779f30f9860ca58",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CircularDependencyRule.swift",
+      "fingerprint" : "36e70a4903aa8096",
+      "line" : 55,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CircularDependencyRule.swift",
+      "fingerprint" : "a05d1a63f701f39",
+      "line" : 106,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CircularDependencyRule.swift",
+      "fingerprint" : "6e29749b00f127e8",
+      "line" : 127,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "ea14430389a3e140",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "ac5391f1954e4fe0",
+      "line" : 3,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "a1e9780740866ab5",
+      "line" : 26,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "788a3616c152b0db",
+      "line" : 26,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "387a817142ab3d69",
+      "line" : 43,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "ac881ecf3ffed1b2",
+      "line" : 126,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "cba0c3c9909aec54",
+      "line" : 126,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "4cb404662e5a1b92",
+      "line" : 126,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "a27131d8f961b952",
+      "line" : 126,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "c421ddc10ca39f96",
+      "line" : 139,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "7ba5e6dea4cb7906",
+      "line" : 156,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "a9bdc0fdfa4d57bb",
+      "line" : 173,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "f2944907e24f1447",
+      "line" : 191,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "3eb90473ad7ce9e0",
+      "line" : 207,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "ad5ebc7ba8f6b1aa",
+      "line" : 207,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "a69d77fec8cff3cb",
+      "line" : 207,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "1bccfc3be9d96da2",
+      "line" : 221,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "2cb703cbd4dc7793",
+      "line" : 238,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/CyclomaticComplexityRule.swift",
+      "fingerprint" : "966b16dced6a2418",
+      "line" : 253,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/DataRaceRule.swift",
+      "fingerprint" : "252246e26787daba",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/DataRaceRule.swift",
+      "fingerprint" : "a5dee7dd07f28213",
+      "line" : 110,
+      "ruleId" : "unstructured_task"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/DataRaceRule.swift",
+      "fingerprint" : "26b34fd0a45acedd",
+      "line" : 138,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/DataRaceRule.swift",
+      "fingerprint" : "cb66c416fa2c8cdb",
+      "line" : 194,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/DataRaceRule.swift",
+      "fingerprint" : "4ce05a148db27316",
+      "line" : 218,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "838812f0eee8106d",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "b5fb310fb85b3f42",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "d72e9ea60460ee1b",
+      "line" : 1,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "24f8dc5f8a7838eb",
+      "line" : 109,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "e97720e5cc1e4a2d",
+      "line" : 109,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "54ffa2603dcc7f14",
+      "line" : 109,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "4bb72ebe07ec7cf9",
+      "line" : 109,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "3d868bd0c53fce85",
+      "line" : 123,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "48d5beef5e7a3188",
+      "line" : 135,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "a3deb0e0266d168b",
+      "line" : 152,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "82d374a0af1dbc09",
+      "line" : 169,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "bf87a0d9033fb062",
+      "line" : 186,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "a1b0ed81cffaff4f",
+      "line" : 203,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "5320de978e677186",
+      "line" : 203,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "372b771cb7f76c18",
+      "line" : 203,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "53a6bbb8153d45e7",
+      "line" : 203,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "6909dc4c542fb335",
+      "line" : 226,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "b1244f81a69920a9",
+      "line" : 244,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "76b7229d447c1b6c",
+      "line" : 266,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "918c4a903cfb361d",
+      "line" : 283,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "6d9002bcc10e99f",
+      "line" : 283,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "d8a4d85a844bde7e",
+      "line" : 283,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "38461c0be042d603",
+      "line" : 283,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "a39b5793607fade",
+      "line" : 300,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "990e8db3d6a7a090",
+      "line" : 318,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "bc9379cfe2d7ff37",
+      "line" : 318,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "9eda21aeb3aecaac",
+      "line" : 331,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "4c80d49306f64dc1",
+      "line" : 332,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "7974c6441dc2db3a",
+      "line" : 340,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "9d6483f48642f36d",
+      "line" : 367,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "30d11e2b0560309",
+      "line" : 386,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "56cbdcb5947f4ad9",
+      "line" : 386,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "d524a5215b53ea07",
+      "line" : 386,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "afa88c934f211e7e",
+      "line" : 404,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "2ecb2d9a521e2c44",
+      "line" : 437,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "c05b22fb0192a5be",
+      "line" : 451,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "61f0c22d12739f43",
+      "line" : 479,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "8416a6c2bb3129e2",
+      "line" : 487,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "a89c1cd97a5f05b5",
+      "line" : 493,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "7d9ce7099992608b",
+      "line" : 544,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "fingerprint" : "b5162bf09f406697",
+      "line" : 566,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "ee5ed1feaaa37af5",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "443f9bda2dc2b8a",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "267d4acdab8e29ca",
+      "line" : 118,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "5d1c36af5c1f5ceb",
+      "line" : 134,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "7f84f0ffc5e6b5e9",
+      "line" : 134,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "ca86b0d11a1775dd",
+      "line" : 155,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "c96e07a12572c33d",
+      "line" : 173,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "163543c53870a239",
+      "line" : 215,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "fa9a815e137cf26a",
+      "line" : 215,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "122ad5e453ea4c8",
+      "line" : 215,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "e5f53f0afebd3e86",
+      "line" : 215,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "ac6556cfbc16eb24",
+      "line" : 215,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "c2ef5e76f4fe555f",
+      "line" : 248,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "d7eb739fb5ea29de",
+      "line" : 253,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "da5ca1a354811101",
+      "line" : 281,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "f9f08182b9fca22b",
+      "line" : 321,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
+      "fingerprint" : "ec94b0bcc99d29d9",
+      "line" : 338,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "3d931207e8f5e0ae",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "586f726b3912c05b",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "e2caecb85616000b",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "2dfe1bb384fd28d2",
+      "line" : 84,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "3c08faea19716511",
+      "line" : 100,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "8d2293cc4cf745f3",
+      "line" : 100,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "cc66d68844b01892",
+      "line" : 203,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "3a35d035dffc0964",
+      "line" : 203,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "96b9baf4ef423281",
+      "line" : 257,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "9c43d6f85834c362",
+      "line" : 285,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "1905d00f7b2d595c",
+      "line" : 339,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
+      "fingerprint" : "f74eeab0cfdd2a22",
+      "line" : 404,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "bf1097a414853143",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "ef8dbcfd2e554a0e",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "710abcc7b677589c",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "a185decebfdcddfa",
+      "line" : 83,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "74ec6be17e19e7a",
+      "line" : 99,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "58e66a388a43ce63",
+      "line" : 99,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "92f367d4070ef40e",
+      "line" : 99,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "414a61e2385151e9",
+      "line" : 99,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "9e6d19130c54b72e",
+      "line" : 99,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "35a3203796e9bced",
+      "line" : 183,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "a593d62eb452ab17",
+      "line" : 225,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "ce826f23e10dd751",
+      "line" : 252,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "6d6dc24efe432c0d",
+      "line" : 284,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
+      "fingerprint" : "d1b33241f9b9c1e5",
+      "line" : 330,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FatalErrorRule.swift",
+      "fingerprint" : "c7ce2cfb99055b96",
+      "line" : 62,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ForceTryRule.swift",
+      "fingerprint" : "7c7d2bf029c9c5b9",
+      "line" : 49,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ForceUnwrapRule.swift",
+      "fingerprint" : "223b29fe8522da3a",
+      "line" : 44,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ForceUnwrapRule.swift",
+      "fingerprint" : "bf0a57139adbdc50",
+      "line" : 64,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "3f4a06c058bdd6b6",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "a2478b5fb6772d8a",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "1c948c9492be805c",
+      "line" : 28,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "68a36f948af1d393",
+      "line" : 28,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "5c97fa16b9959b12",
+      "line" : 28,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "7669010e1f81c1c9",
+      "line" : 74,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "a84f6011cc331b6c",
+      "line" : 116,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "95ad1105cade03e8",
+      "line" : 136,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "2a8d21b8415312b3",
+      "line" : 272,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "4325dc7d0eae370f",
+      "line" : 422,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
+      "fingerprint" : "34ae372c9122feba",
+      "line" : 442,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GlobalStateRule.swift",
+      "fingerprint" : "27f8c97fc2445242",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GlobalStateRule.swift",
+      "fingerprint" : "3842af306452ceb0",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GlobalStateRule.swift",
+      "fingerprint" : "6eb345cc41d7ffc0",
+      "line" : 1,
+      "ruleId" : "non_sendable_capture"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GlobalStateRule.swift",
+      "fingerprint" : "6ba1bffc24a43fcd",
+      "line" : 29,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "ba3be6f618b16248",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "ff1be991fd84e150",
+      "line" : 2,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "8d70a140cec9bc21",
+      "line" : 60,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "8121dfc0e857c3de",
+      "line" : 60,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "6f708d98be6c77d4",
+      "line" : 60,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "a9f79d6361fb1bc8",
+      "line" : 60,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "1ea95c9c12444f",
+      "line" : 60,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "961921e8d5fd9607",
+      "line" : 60,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "806a1bd2f68670d2",
+      "line" : 123,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "7f1f50cebd29a7f6",
+      "line" : 124,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/GodClassRule.swift",
+      "fingerprint" : "98bce54322ae9c6d",
+      "line" : 129,
+      "ruleId" : "nesting_depth"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "2a00b1be9e01faa3",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "c0a02cf681bf87ba",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "9dd9445e478fd786",
+      "line" : 21,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "d32909c998d52ef4",
+      "line" : 21,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "db9d32fb113107ce",
+      "line" : 55,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "59ee052bf0cea521",
+      "line" : 111,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "1e881027caaae12",
+      "line" : 155,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "39ce51067bf72fa",
+      "line" : 181,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "1a5235fe2ea8dc82",
+      "line" : 196,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "c0b33015814952ec",
+      "line" : 212,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "276b46a2011f8772",
+      "line" : 228,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "b7fa97c407d9eb78",
+      "line" : 244,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "8ff38d03c7d6b760",
+      "line" : 265,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "3fcf6fdef0d21bd0",
+      "line" : 380,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "45f52352cf9da6b8",
+      "line" : 393,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "4256c70707dfda77",
+      "line" : 431,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
+      "fingerprint" : "fa171292321ee847",
+      "line" : 472,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "a5ec800feeaee3cd",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "d5bafbef006307c2",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "99157d6d7df813cd",
+      "line" : 1,
+      "ruleId" : "non_sendable_capture"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "e4ded87793f72275",
+      "line" : 61,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "9e61face319be6a",
+      "line" : 177,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "912bbcab3ae0d344",
+      "line" : 229,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "bb496cacddc2dbf1",
+      "line" : 248,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "a1586a2033635f4e",
+      "line" : 249,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "25a86558694dc7d9",
+      "line" : 262,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "8dbb107f9ea73505",
+      "line" : 262,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "9407cf15173a032b",
+      "line" : 262,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "9802873c52c81d6d",
+      "line" : 287,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "e3840e5c8ce1f202",
+      "line" : 289,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "5fc22d27c9ff2e48",
+      "line" : 302,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "a131aaf450e03d6f",
+      "line" : 322,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "75a35e0009a471ed",
+      "line" : 323,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "1aca96cb864d946d",
+      "line" : 348,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
+      "fingerprint" : "1b21dfd9e0d24ac9",
+      "line" : 349,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LayeredDependenciesRule.swift",
+      "fingerprint" : "dc56160d27bc306",
+      "line" : 81,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LayeredDependenciesRule.swift",
+      "fingerprint" : "ca4eb29ceee89806",
+      "line" : 98,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LayeredDependenciesRule.swift",
+      "fingerprint" : "e1f66a7dc9f26b98",
+      "line" : 98,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LayeredDependenciesRule.swift",
+      "fingerprint" : "ef3eb83a80345614",
+      "line" : 98,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LayeredDependenciesRule.swift",
+      "fingerprint" : "8d79f8ae393e24d",
+      "line" : 112,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/LayeredDependenciesRule.swift",
+      "fingerprint" : "cff5d0426c21e363",
+      "line" : 136,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "9662b0ac72fe736f",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "9534c7d2403f351e",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "2391c42cffd61c9e",
+      "line" : 3,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "8565cb7044011a06",
+      "line" : 3,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "85216628df5fb8e5",
+      "line" : 21,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "ce18d13e80036fef",
+      "line" : 21,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "81995f2e1526ca3f",
+      "line" : 78,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "9794a428465eba5a",
+      "line" : 185,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "68eaea1863ea8907",
+      "line" : 245,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "79da0dffe3c4dde8",
+      "line" : 262,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "56203077417a16f6",
+      "line" : 262,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "4c035ea7bedeb38e",
+      "line" : 297,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "61662b67f9c4b558",
+      "line" : 299,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "8273a7409b5e4c53",
+      "line" : 304,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "e3e73cfe54ed908b",
+      "line" : 319,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "13517902a9099fd1",
+      "line" : 342,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
+      "fingerprint" : "aeca310c1eabebfd",
+      "line" : 368,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/MutableStaticRule.swift",
+      "fingerprint" : "74d171751f99a4d0",
+      "line" : 55,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "be4eca23541ed33f",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "5dfd316abbcad15a",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "664adceff6f3bddc",
+      "line" : 26,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "9f23b6d5cfb2b96",
+      "line" : 26,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "cd5e0fcd3dc3f5c1",
+      "line" : 68,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "978cb5ec2f4350fa",
+      "line" : 110,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "fba20bbdc6861738",
+      "line" : 126,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "741d859c08d0a56",
+      "line" : 142,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "8848e3c9335bd3fd",
+      "line" : 142,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "4f3ed60b22e7f697",
+      "line" : 142,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "6517bb9ed7bef521",
+      "line" : 142,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "c2498eec37f0cf4a",
+      "line" : 142,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "792ec68bed121731",
+      "line" : 271,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "24f09fc26214e045",
+      "line" : 293,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "bbbe9b75a1127f4f",
+      "line" : 337,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "134db22301a02ba9",
+      "line" : 356,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "7a6829fa033b91c8",
+      "line" : 370,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
+      "fingerprint" : "478448b680c764eb",
+      "line" : 390,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NonSendableCaptureRule.swift",
+      "fingerprint" : "af9c1b7e59c4600c",
+      "line" : 1,
+      "ruleId" : "non_sendable_capture"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NonSendableCaptureRule.swift",
+      "fingerprint" : "b0cd196e2ef023e0",
+      "line" : 34,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NonSendableCaptureRule.swift",
+      "fingerprint" : "aee3bc885e036acc",
+      "line" : 94,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NonSendableCaptureRule.swift",
+      "fingerprint" : "3c6078551272831",
+      "line" : 116,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/NonSendableCaptureRule.swift",
+      "fingerprint" : "a2b82436b594ded9",
+      "line" : 138,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/PrintInProductionRule.swift",
+      "fingerprint" : "9b63d7b7886031cb",
+      "line" : 62,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "85f261265da08f27",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "de170b2d5c1b861e",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "b9606a9f00b7126",
+      "line" : 1,
+      "ruleId" : "non_sendable_capture"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "cdb7742f06afd855",
+      "line" : 115,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "2bba288cb75ffafa",
+      "line" : 127,
+      "ruleId" : "architectural_health"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "a78ac6efeabfff34",
+      "line" : 127,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "83c3287587c01e83",
+      "line" : 127,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "ce488080f0c09d31",
+      "line" : 127,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "9840f0b188a2b5dd",
+      "line" : 127,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "fdb993a3474ed636",
+      "line" : 217,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "721b402a992bdc81",
+      "line" : 249,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "a3a442c0ad39ed03",
+      "line" : 272,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "dedca6238146f4b2",
+      "line" : 327,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "720438bac22e8a41",
+      "line" : 348,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "b66742a4c5b3a4d0",
+      "line" : 369,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "aef41462a30062b",
+      "line" : 382,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "715dd7720295da90",
+      "line" : 413,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "22e16f091b8e46a4",
+      "line" : 450,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
+      "fingerprint" : "c7141fd8636af2e2",
+      "line" : 461,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Rule.swift",
+      "fingerprint" : "c80b776b18fa1c49",
+      "line" : 5,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Rule.swift",
+      "fingerprint" : "23ec431c8f638ab5",
+      "line" : 7,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Rule.swift",
+      "fingerprint" : "1133d6c6fe3f4ef8",
+      "line" : 10,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Rule.swift",
+      "fingerprint" : "385167d1a078d9a1",
+      "line" : 13,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Rule.swift",
+      "fingerprint" : "b303d4664eb0dfda",
+      "line" : 16,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Rule.swift",
+      "fingerprint" : "a210a976aff0a904",
+      "line" : 19,
+      "ruleId" : "global_state"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Rule.swift",
+      "fingerprint" : "f92e91d168629ac4",
+      "line" : 22,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Rule.swift",
+      "fingerprint" : "d4aa7ae07c12da19",
+      "line" : 25,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "5b0056362b0e43e5",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "e08be65870fbf26",
+      "line" : 36,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "90c3486b3e7ee30e",
+      "line" : 90,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "f358a73bd9fbf95b",
+      "line" : 122,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "9d42734eee4795a5",
+      "line" : 122,
+      "ruleId" : "escaping_reference"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "c42ded215c86cfb5",
+      "line" : 122,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "a54d0689ace98c1d",
+      "line" : 122,
+      "ruleId" : "unstructured_task"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "ed4f5b7373caae99",
+      "line" : 124,
+      "ruleId" : "arc_churn"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "6cb1a07fb571f63b",
+      "line" : 124,
+      "ruleId" : "escaping_reference"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "1f9c86c29fa72783",
+      "line" : 124,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "46e56a6f20a55d27",
+      "line" : 140,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
+      "fingerprint" : "f30796c687ac68e1",
+      "line" : 140,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/UnstructuredTaskRule.swift",
+      "fingerprint" : "8d4e8f19439f128d",
+      "line" : 42,
+      "ruleId" : "unstructured_task"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/UnstructuredTaskRule.swift",
+      "fingerprint" : "3f67325a647476cb",
+      "line" : 46,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/UnstructuredTaskRule.swift",
+      "fingerprint" : "4f535e8c271f2cb2",
+      "line" : 72,
+      "ruleId" : "unstructured_task"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/UnstructuredTaskRule.swift",
+      "fingerprint" : "213917192900f6b8",
+      "line" : 74,
+      "ruleId" : "unstructured_task"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/UnstructuredTaskRule.swift",
+      "fingerprint" : "d08ffd8226a0fa14",
+      "line" : 78,
+      "ruleId" : "unstructured_task"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/UnstructuredTaskRule.swift",
+      "fingerprint" : "6e403c7bbee05be3",
+      "line" : 80,
+      "ruleId" : "unstructured_task"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Violation.swift",
+      "fingerprint" : "95a0106800780490",
+      "line" : 41,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Violation.swift",
+      "fingerprint" : "2067d4f7e26e55ef",
+      "line" : 67,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Violation.swift",
+      "fingerprint" : "49325382d28f1092",
+      "line" : 73,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Violation.swift",
+      "fingerprint" : "4a90d48be750cab8",
+      "line" : 79,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Rules\/Violation.swift",
+      "fingerprint" : "cf211cb09cd75887",
+      "line" : 85,
+      "ruleId" : "exclusive_access"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/HotPathAnnotation.swift",
+      "fingerprint" : "49917694bbb1d9e7",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/HotPathAnnotation.swift",
+      "fingerprint" : "3c0ea5f1c8d69a12",
+      "line" : 1,
+      "ruleId" : "enhanced_god_class"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/HotPathAnnotation.swift",
+      "fingerprint" : "8ceea7bbd38e89d7",
+      "line" : 1,
+      "ruleId" : "non_sendable_capture"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/HotPathAnnotation.swift",
+      "fingerprint" : "e9b1be66eb5cd063",
+      "line" : 17,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/HotPathAnnotation.swift",
+      "fingerprint" : "ce0f79137016beb8",
+      "line" : 111,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/HotPathAnnotation.swift",
+      "fingerprint" : "9cf8998b408c3581",
+      "line" : 207,
+      "ruleId" : "enhanced_layered_dependencies"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/HotPathAnnotation.swift",
+      "fingerprint" : "af8a2da2f7ad54ae",
+      "line" : 364,
+      "ruleId" : "repeated_allocation"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/HotPathAnnotation.swift",
+      "fingerprint" : "4cdb3cf7fb768c",
+      "line" : 413,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "fingerprint" : "54476745607b7b11",
+      "line" : 1,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "fingerprint" : "4f65e8022c69f50d",
+      "line" : 15,
+      "ruleId" : "function_length"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "fingerprint" : "b888056d350c0f7c",
+      "line" : 52,
+      "ruleId" : "cyclomatic_complexity"
+    },
+    {
+      "file" : "Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "fingerprint" : "1ebf3d8caa0d3dd5",
+      "line" : 74,
+      "ruleId" : "print_in_production"
+    }
+  ]
+}
