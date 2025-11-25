@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(Darwin)
+import Darwin
+#endif
 
 /// Performance metrics for analysis operations
 public struct PerformanceMetrics: Sendable, Codable {
@@ -299,7 +302,7 @@ public final class PerformanceProfiler: @unchecked Sendable {
     }
 
     private func getCurrentMemoryUsage() -> (current: UInt64, system: UInt64) {
-        #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+        #if canImport(Darwin)
         var info = mach_task_basic_info()
         var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
 
