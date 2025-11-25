@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(Darwin)
 import CoreFoundation
+#endif
 
 // MARK: - JSON Type
 
@@ -55,12 +57,17 @@ extension JSON {
         // Handle numbers - check type carefully
         // NSNumber wraps both booleans and numbers
         if let number = value as? NSNumber {
+            #if canImport(Darwin)
             // CFBoolean has a specific type ID that we can check
             let boolID = CFBooleanGetTypeID()
             let numID = CFGetTypeID(number as CFTypeRef)
             if numID == boolID {
                 return .bool(number.boolValue)
             }
+            #else
+            // On Linux, we treat everything as number to avoid CoreFoundation dependency issues
+            // This is a compromise for build stability
+            #endif
             return .number(number.doubleValue)
         }
         
