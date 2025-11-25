@@ -38,10 +38,12 @@ jobs:
       - name: Run tests
         run: |
           if [ "${{ matrix.os }}" = "macos-latest" ]; then
-            swift test --enable-code-coverage
+            swift test --enable-code-coverage -v 2>&1 | tee test_output.txt
           else
-            swift test
+            swift test -v 2>&1 | tee test_output.txt
           fi
+          # Show any failures
+          grep -i "fail\|error" test_output.txt || true
 
       - name: Generate coverage report (macOS only)
         if: matrix.os == 'macos-latest'
