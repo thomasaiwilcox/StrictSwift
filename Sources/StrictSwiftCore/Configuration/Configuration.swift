@@ -78,6 +78,51 @@ public struct Configuration: Codable, Equatable, Sendable {
         let yaml = try encoder.encode(self)
         try yaml.write(to: url, atomically: true, encoding: .utf8)
     }
+    
+    /// Auto-discover configuration file in a directory
+    /// Searches for configuration files in the following order:
+    /// 1. .strictswift.yml / .strictswift.yaml (hidden config)
+    /// 2. strictswift.yml / strictswift.yaml (visible config)
+    /// 3. .strictswift/config.yml / .strictswift/config.yaml (directory config)
+    /// - Parameter directory: The directory to search in
+    /// - Returns: URL to the found configuration file, or nil if not found
+    public static func discover(in directory: URL) -> URL? {
+        let configNames = [
+            ".strictswift.yml",
+            ".strictswift.yaml",
+            "strictswift.yml",
+            "strictswift.yaml",
+            ".strictswift/config.yml",
+            ".strictswift/config.yaml"
+        ]
+        
+        for name in configNames {
+            let configURL = directory.appendingPathComponent(name)
+            if FileManager.default.fileExists(atPath: configURL.path) {
+                return configURL
+            }
+        }
+        
+        return nil
+    }
+    
+    /// Auto-discover and load configuration from a directory
+    /// - Parameters:
+    ///   - directory: The directory to search in
+    ///   - fallbackProfile: Profile to use if no configuration is found
+    /// - Returns: Loaded configuration or profile defaults
+    public static func discoverAndLoad(
+        in directory: URL,
+        fallbackProfile: Profile = .criticalCore
+    ) -> Configuration {
+        guard let configURL = discover(in: directory) else {
+            StrictSwiftLogger.info("No configuration file found, using \(fallbackProfile) profile")
+            return fallbackProfile.configuration
+        }
+        
+        StrictSwiftLogger.info("Found configuration at \(configURL.path)")
+        return load(from: configURL, profile: fallbackProfile)
+    }
 
     /// Validate configuration
     public func validate() throws {

@@ -7,6 +7,7 @@ let package = Package(
     products: [
         .executable(name: "swift-strict", targets: ["StrictSwiftCLI"]),
         .library(name: "StrictSwiftCore", targets: ["StrictSwiftCore"]),
+        .plugin(name: "StrictSwiftPlugin", targets: ["StrictSwiftPlugin"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-syntax.git", from: "600.0.0"),
@@ -30,6 +31,13 @@ let package = Package(
                 .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
                 .product(name: "Yams", package: "Yams"),
                 .product(name: "SystemPackage", package: "swift-system"),
+            ]
+        ),
+        .plugin(
+            name: "StrictSwiftPlugin",
+            capability: .buildTool(),
+            dependencies: [
+                .target(name: "StrictSwiftCLI")
             ]
         ),
         .testTarget(

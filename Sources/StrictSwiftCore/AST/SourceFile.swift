@@ -11,6 +11,13 @@ public final class SourceFile: @unchecked Sendable {
     public let tree: SourceFileSyntax
     public let symbols: [Symbol]
     public let imports: [Import]
+    
+    /// Hash of the source content for caching
+    public let contentHash: UInt64
+    /// File modification date at parse time
+    public let modificationDate: Date
+    /// File size in bytes
+    public let fileSize: Int64
 
     private let _lock = NSLock()
 
@@ -18,6 +25,12 @@ public final class SourceFile: @unchecked Sendable {
         self.url = url
         let source = try String(contentsOf: url, encoding: .utf8)
         self.tree = Parser.parse(source: source)
+        
+        // Compute fingerprint data
+        self.contentHash = FileFingerprint.fnv1aHash(source)
+        let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+        self.modificationDate = attributes[.modificationDate] as? Date ?? Date()
+        self.fileSize = attributes[.size] as? Int64 ?? Int64(source.utf8.count)
 
         let symbolCollector = SymbolCollector(fileURL: url, tree: tree)
         symbolCollector.walk(tree)
@@ -32,6 +45,11 @@ public final class SourceFile: @unchecked Sendable {
     public init(url: URL, source: String) {
         self.url = url
         self.tree = Parser.parse(source: source)
+        
+        // Compute fingerprint data from source
+        self.contentHash = FileFingerprint.fnv1aHash(source)
+        self.modificationDate = Date()
+        self.fileSize = Int64(source.utf8.count)
 
         let symbolCollector = SymbolCollector(fileURL: url, tree: tree)
         symbolCollector.walk(tree)
@@ -40,6 +58,16 @@ public final class SourceFile: @unchecked Sendable {
         let importTracker = ImportTracker(fileURL: url, tree: tree)
         importTracker.walk(tree)
         self.imports = importTracker.imports
+    }
+    
+    /// Get the file fingerprint for caching
+    public var fingerprint: FileFingerprint {
+        return FileFingerprint(
+            path: url.path,
+            contentHash: contentHash,
+            modificationDate: modificationDate,
+            size: fileSize
+        )
     }
 
     /// Get the absolute path as string
