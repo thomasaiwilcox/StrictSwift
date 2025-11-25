@@ -67,73 +67,86 @@ public actor RuleEngine: Sendable {
         }
     }
 
-    /// Analyze a source file with all applicable rules
+    /// Analyze a source file with all applicable rules (parallel rule execution)
     public func analyze(_ sourceFile: SourceFile, in context: AnalysisContext, configuration: Configuration) async -> [Violation] {
-        var allViolations: [Violation] = []
-
-        // Process each rule
-        for rule in rules {
-            // Check if rule should analyze this file using advanced configuration
-            guard configuration.shouldAnalyze(ruleId: rule.id, file: sourceFile.url.path) else { continue }
-
-            // Get rule-specific configuration
+        // Filter applicable rules first
+        let applicableRules = rules.filter { rule in
+            guard configuration.shouldAnalyze(ruleId: rule.id, file: sourceFile.url.path) else { return false }
             let ruleConfig = configuration.configuration(for: rule.id, file: sourceFile.url.path)
-            guard ruleConfig.enabled else { continue }
-
-            // Check if the file should be analyzed by the rule itself
-            guard rule.shouldAnalyze(sourceFile) else { continue }
-
-            // Run the rule
-            let violations = await rule.analyze(sourceFile, in: context)
-
-            // Apply configuration severity
-            let configuredViolations = violations.map { violation -> Violation in
-                Violation(
-                    ruleId: violation.ruleId,
-                    category: violation.category,
-                    severity: ruleConfig.severity,
-                    message: violation.message,
-                    location: violation.location,
-                    relatedLocations: violation.relatedLocations,
-                    suggestedFixes: violation.suggestedFixes,
-                    structuredFixes: violation.structuredFixes,
-                    context: violation.context
-                )
-            }
-
-            allViolations.append(contentsOf: configuredViolations)
+            guard ruleConfig.enabled else { return false }
+            return rule.shouldAnalyze(sourceFile)
         }
-
-        return allViolations
+        
+        // Run all applicable rules in parallel
+        return await withTaskGroup(of: [Violation].self) { group in
+            for rule in applicableRules {
+                let ruleConfig = configuration.configuration(for: rule.id, file: sourceFile.url.path)
+                
+                group.addTask {
+                    let violations = await rule.analyze(sourceFile, in: context)
+                    
+                    // Apply configuration severity
+                    return violations.map { violation in
+                        Violation(
+                            ruleId: violation.ruleId,
+                            category: violation.category,
+                            severity: ruleConfig.severity,
+                            message: violation.message,
+                            location: violation.location,
+                            relatedLocations: violation.relatedLocations,
+                            suggestedFixes: violation.suggestedFixes,
+                            structuredFixes: violation.structuredFixes,
+                            context: violation.context
+                        )
+                    }
+                }
+            }
+            
+            var allViolations: [Violation] = []
+            for await violations in group {
+                allViolations.append(contentsOf: violations)
+            }
+            return allViolations
+        }
     }
 
-    /// Analyze multiple files in parallel
+    /// Analyze multiple files in parallel with bounded concurrency
     public func analyze(
         _ sourceFiles: [SourceFile],
         in context: AnalysisContext,
         configuration: Configuration
     ) async -> [Violation] {
-        // Limit parallelism based on configuration
-        let maxJobs = configuration.maxJobs
-        let chunks = sourceFiles.chunked(into: maxJobs)
-
-        var allViolations: [Violation] = []
-
-        for chunk in chunks {
-            await withTaskGroup(of: [Violation].self) { group in
-                for sourceFile in chunk {
-                    group.addTask {
-                        await self.analyze(sourceFile, in: context, configuration: configuration)
-                    }
+        let maxConcurrency = configuration.maxJobs
+        
+        return await withTaskGroup(of: [Violation].self) { group in
+            var allViolations: [Violation] = []
+            var pendingFiles = sourceFiles[...]
+            var runningTasks = 0
+            
+            // Start initial batch of tasks up to maxConcurrency
+            while runningTasks < maxConcurrency, let file = pendingFiles.popFirst() {
+                group.addTask {
+                    await self.analyze(file, in: context, configuration: configuration)
                 }
-
-                for await violations in group {
-                    allViolations.append(contentsOf: violations)
+                runningTasks += 1
+            }
+            
+            // As tasks complete, start new ones to maintain concurrency
+            for await violations in group {
+                allViolations.append(contentsOf: violations)
+                runningTasks -= 1
+                
+                // Start next task if there are more files
+                if let file = pendingFiles.popFirst() {
+                    group.addTask {
+                        await self.analyze(file, in: context, configuration: configuration)
+                    }
+                    runningTasks += 1
                 }
             }
+            
+            return allViolations
         }
-
-        return allViolations
     }
 }
 
@@ -188,14 +201,5 @@ extension RuleEngine {
         register(LargeStructCopyRule())
         register(ARCChurnRule())
         register(HotPathValidationRule())
-    }
-}
-
-/// Helper for chunking arrays
-private extension Array {
-    func chunked(into size: Int) -> [[Element]] {
-        return stride(from: 0, to: count, by: size).map {
-            Array(self[$0..<Swift.min($0 + size, count)])
-        }
     }
 }

@@ -2,7 +2,15 @@
 
 All notable changes to the StrictSwift extension will be documented in this file.
 
-## [0.11.0] - 2025-01-XX
+## [0.12.1] - 2025-11-25
+
+### Performance Improvements
+- **Parallel rule execution**: Rules now run in parallel within each file analysis
+- **Parallel file analysis**: Multiple files analyzed concurrently with bounded concurrency
+- **Cached RuleEngine**: Rule initialization only happens once per session, not per analysis
+- **Faster startup**: Reduced initial analysis time significantly (1200%+ CPU utilization)
+
+## [0.11.0] - 2025-11-XX
 
 ### Added
 - Initial release of StrictSwift VS Code extension

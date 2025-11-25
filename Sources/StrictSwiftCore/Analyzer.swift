@@ -1,10 +1,25 @@
 import Foundation
 import SystemPackage
 
+/// Thread-safe holder for cached RuleEngine
+private actor RuleEngineCache {
+    private var engine: RuleEngine?
+    
+    func getOrCreate() async -> RuleEngine {
+        if let engine = engine {
+            return engine
+        }
+        let newEngine = await RuleEngine()
+        engine = newEngine
+        return newEngine
+    }
+}
+
 /// Main analyzer that orchestrates StrictSwift analysis
 public final class Analyzer: Sendable {
     private let configuration: Configuration
     private let cache: AnalysisCache?
+    private let ruleEngineCache = RuleEngineCache()
 
     public init(configuration: Configuration) {
         self.configuration = configuration
@@ -39,8 +54,8 @@ public final class Analyzer: Sendable {
             context.isIncluded(file.path)
         }
 
-        // Run analysis
-        let ruleEngine = await RuleEngine()
+        // Run analysis - use cached RuleEngine for performance
+        let ruleEngine = await ruleEngineCache.getOrCreate()
         let violations = await ruleEngine.analyze(filteredFiles, in: context, configuration: configuration)
 
         // Apply baseline filtering if configured
@@ -102,7 +117,7 @@ public final class Analyzer: Sendable {
         // Analyze uncached files
         var newViolations: [Violation] = []
         if !filesToAnalyze.isEmpty {
-            let ruleEngine = await RuleEngine()
+            let ruleEngine = await ruleEngineCache.getOrCreate()
             newViolations = await ruleEngine.analyze(filesToAnalyze, in: context, configuration: configuration)
             
             // Cache the results per file
@@ -167,7 +182,7 @@ public final class Analyzer: Sendable {
         files: [SourceFile],
         context: AnalysisContext
     ) async -> [Violation] {
-        let ruleEngine = await RuleEngine()
+        let ruleEngine = await ruleEngineCache.getOrCreate()
         let allViolations = await ruleEngine.analyze(files, in: context, configuration: configuration)
         
         // Filter to only cross-file rule violations

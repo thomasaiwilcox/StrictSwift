@@ -2,9 +2,10 @@
     "name": "strictswift",
     "displayName": "StrictSwift",
     "description": "Powerful static analysis for Swift code with real-time diagnostics and auto-fix support. Enforces memory safety, concurrency correctness, and architectural best practices.",
-    "version": "0.12.0",
+    "version": "0.12.1",
     "publisher": "strictswift",
     "license": "MIT",
+    "icon": "images/icon.png",
     "galleryBanner": {
         "color": "#F05138",
         "theme": "dark"
@@ -53,13 +54,23 @@
                 },
                 "strictswift.profile": {
                     "type": "string",
-                    "enum": ["default", "strict", "lenient", "performance", "concurrency"],
+                    "enum": [
+                        "default",
+                        "strict",
+                        "lenient",
+                        "performance",
+                        "concurrency"
+                    ],
                     "default": "default",
                     "description": "Analysis profile to use"
                 },
                 "strictswift.trace.server": {
                     "type": "string",
-                    "enum": ["off", "messages", "verbose"],
+                    "enum": [
+                        "off",
+                        "messages",
+                        "verbose"
+                    ],
                     "default": "off",
                     "description": "Traces the communication between VS Code and the StrictSwift language server"
                 }
