@@ -6,6 +6,7 @@ let package = Package(
     platforms: [.macOS(.v15)],
     products: [
         .executable(name: "swift-strict", targets: ["StrictSwiftCLI"]),
+        .executable(name: "strictswift-lsp", targets: ["StrictSwiftLSP"]),
         .library(name: "StrictSwiftCore", targets: ["StrictSwiftCore"]),
         .plugin(name: "StrictSwiftPlugin", targets: ["StrictSwiftPlugin"]),
     ],
@@ -39,6 +40,13 @@ let package = Package(
             dependencies: [
                 .target(name: "StrictSwiftCLI")
             ]
+        ),
+        .executableTarget(
+            name: "StrictSwiftLSP",
+            dependencies: [
+                "StrictSwiftCore",
+            ],
+            path: "Sources/StrictSwiftLSP"
         ),
         .testTarget(
             name: "StrictSwiftTests",

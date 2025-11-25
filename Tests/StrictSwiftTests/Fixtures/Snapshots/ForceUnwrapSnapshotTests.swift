@@ -209,7 +209,11 @@ final class ForceUnwrapSnapshotTests: XCTestCase {
             }
 
             if !violation.context.isEmpty {
-                result += "  Context: \(violation.context)\n"
+                // Sort context keys for deterministic snapshot output
+                let sortedContext = violation.context.sorted { $0.key < $1.key }
+                    .map { "\"\($0.key)\": \"\($0.value)\"" }
+                    .joined(separator: ", ")
+                result += "  Context: [\(sortedContext)]\n"
             }
 
             result += "\n"

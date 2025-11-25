@@ -53,3 +53,4 @@ Docs/
 # Debug files
 debug_rule.swift
 debug_syntax/.strictswift-cache/
+.strictswift-cache/

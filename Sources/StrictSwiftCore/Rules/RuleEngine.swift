@@ -96,6 +96,7 @@ public actor RuleEngine: Sendable {
                     location: violation.location,
                     relatedLocations: violation.relatedLocations,
                     suggestedFixes: violation.suggestedFixes,
+                    structuredFixes: violation.structuredFixes,
                     context: violation.context
                 )
             }

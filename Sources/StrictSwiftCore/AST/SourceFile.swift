@@ -98,6 +98,12 @@ public final class SourceFile: @unchecked Sendable {
             column: loc.column
         )
     }
+    
+    /// Get a Location from a syntax node, skipping leading trivia (newlines, whitespace)
+    /// This gives the actual position of the code, not including preceding whitespace
+    public func location(of node: some SyntaxProtocol) -> Location {
+        return location(for: node.positionAfterSkippingLeadingTrivia)
+    }
 
     /// Find the location of a function by name
     public func locationOfFunction(named functionName: String) -> Location? {

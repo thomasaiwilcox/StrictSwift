@@ -14,8 +14,10 @@ public struct Violation: Codable, Hashable, Sendable {
     public let location: Location
     /// Additional related locations (e.g., in circular dependencies)
     public let relatedLocations: [Location]
-    /// Suggested fixes
+    /// Suggested fixes (human-readable descriptions)
     public let suggestedFixes: [String]
+    /// Structured fixes that can be automatically applied
+    public let structuredFixes: [StructuredFix]
     /// Context information for the violation
     public let context: [String: String]
 
@@ -27,6 +29,7 @@ public struct Violation: Codable, Hashable, Sendable {
         location: Location,
         relatedLocations: [Location] = [],
         suggestedFixes: [String] = [],
+        structuredFixes: [StructuredFix] = [],
         context: [String: String] = [:]
     ) {
         self.ruleId = ruleId
@@ -36,7 +39,23 @@ public struct Violation: Codable, Hashable, Sendable {
         self.location = location
         self.relatedLocations = relatedLocations
         self.suggestedFixes = suggestedFixes
+        self.structuredFixes = structuredFixes
         self.context = context
+    }
+    
+    /// Whether this violation has any auto-fixable structured fixes
+    public var hasAutoFix: Bool {
+        return !structuredFixes.isEmpty
+    }
+    
+    /// Get the preferred structured fix, if any
+    public var preferredFix: StructuredFix? {
+        return structuredFixes.first(where: { $0.isPreferred }) ?? structuredFixes.first
+    }
+    
+    /// Get only safe fixes (confidence == .safe)
+    public var safeFixes: [StructuredFix] {
+        return structuredFixes.filter { $0.confidence == .safe }
     }
 }
 
@@ -50,6 +69,7 @@ public struct ViolationBuilder {
     private var message: String = ""
     private var relatedLocations: [Location] = []
     private var suggestedFixes: [String] = []
+    private var structuredFixes: [StructuredFix] = []
     private var context: [String: String] = [:]
 
     public init(ruleId: String, category: RuleCategory, location: Location) {
@@ -81,6 +101,24 @@ public struct ViolationBuilder {
         builder.suggestedFixes.append(fix)
         return builder
     }
+    
+    /// Add a structured fix that can be automatically applied
+    public func addStructuredFix(_ fix: StructuredFix) -> ViolationBuilder {
+        var builder = self
+        builder.structuredFixes.append(fix)
+        return builder
+    }
+    
+    /// Add a structured fix using a builder closure
+    public func addStructuredFix(
+        title: String,
+        kind: FixKind,
+        configure: (inout StructuredFixBuilder) -> Void
+    ) -> ViolationBuilder {
+        var fixBuilder = StructuredFixBuilder(title: title, kind: kind, ruleId: ruleId)
+        configure(&fixBuilder)
+        return addStructuredFix(fixBuilder.build())
+    }
 
     public func addContext(key: String, value: String) -> ViolationBuilder {
         var builder = self
@@ -97,6 +135,7 @@ public struct ViolationBuilder {
             location: location,
             relatedLocations: relatedLocations,
             suggestedFixes: suggestedFixes,
+            structuredFixes: structuredFixes,
             context: context
         )
     }
