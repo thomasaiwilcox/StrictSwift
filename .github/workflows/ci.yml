@@ -36,7 +36,12 @@ jobs:
         run: swift build -v
 
       - name: Run tests
-        run: swift test --enable-code-coverage
+        run: |
+          if [ "${{ matrix.os }}" = "macos-latest" ]; then
+            swift test --enable-code-coverage
+          else
+            swift test
+          fi
 
       - name: Generate coverage report (macOS only)
         if: matrix.os == 'macos-latest'
