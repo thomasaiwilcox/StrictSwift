@@ -153,7 +153,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
                 let name = attribute.attributeName.trimmedDescription
                 var arguments: [String] = []
 
-                if let argumentList = attribute.arguments?.as(TupleExprElementListSyntax.self) {
+                if let argumentList = attribute.arguments?.as(LabeledExprListSyntax.self) {
                     arguments = argumentList.description
                         .trimmingCharacters(in: .whitespacesAndNewlines)
                         .components(separatedBy: ",")
