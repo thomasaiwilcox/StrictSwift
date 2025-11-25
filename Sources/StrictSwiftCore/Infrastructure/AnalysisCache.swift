@@ -253,14 +253,17 @@ public actor AnalysisCache {
     // MARK: - Private Helpers
     
     /// Hash configuration for cache invalidation
+    /// IMPORTANT: This hash must include ALL configuration that affects analysis results
     private static func hashConfiguration(_ config: Configuration) -> UInt64 {
-        // Include key settings that affect analysis results
-        var hashString = config.profile.rawValue
-        hashString += String(config.maxJobs)
-        hashString += config.include.joined()
-        hashString += config.exclude.joined()
+        var hashString = ""
         
-        // Hash ALL rule categories with full details (enabled, severity, options)
+        // 1. Basic configuration
+        hashString += config.profile.rawValue
+        hashString += String(config.maxJobs)
+        hashString += config.include.joined(separator: "|")
+        hashString += config.exclude.joined(separator: "|")
+        
+        // 2. Rule categories - full details including options
         let categories: [(String, RuleConfiguration)] = [
             ("safety", config.rules.safety),
             ("concurrency", config.rules.concurrency),
@@ -273,30 +276,87 @@ public actor AnalysisCache {
         ]
         
         for (name, ruleConfig) in categories {
-            hashString += name
-            hashString += String(ruleConfig.enabled)
-            hashString += ruleConfig.severity.rawValue
-            // Hash options in sorted order for determinism
-            for (key, value) in ruleConfig.options.sorted(by: { $0.key < $1.key }) {
-                hashString += key + value
+            hashString += "\(name):\(ruleConfig.enabled):\(ruleConfig.severity.rawValue)"
+            // Include all options
+            let sortedOptions = ruleConfig.options.sorted(by: { $0.key < $1.key })
+            for (key, value) in sortedOptions {
+                hashString += ":\(key)=\(value)"
             }
         }
         
-        // Hash advanced configuration thresholds
-        hashString += String(config.advanced.thresholds.maxMethodLength)
-        hashString += String(config.advanced.thresholds.maxTypeComplexity)
-        hashString += String(config.advanced.thresholds.maxFileLength)
-        hashString += String(config.advanced.thresholds.maxCyclomaticComplexity)
-        hashString += String(config.advanced.thresholds.maxNestingDepth)
+        // 3. Advanced thresholds - ALL fields
+        let t = config.advanced.thresholds
+        hashString += "thresholds:\(t.maxCyclomaticComplexity):\(t.maxMethodLength):\(t.maxTypeComplexity)"
+        hashString += ":\(t.maxNestingDepth):\(t.maxParameterCount):\(t.maxPropertyCount):\(t.maxFileLength)"
         
-        // Hash rule-specific settings
-        for (ruleId, settings) in config.advanced.ruleSettings.sorted(by: { $0.key < $1.key }) {
-            hashString += ruleId
-            hashString += String(settings.enabled)
-            hashString += settings.severity.rawValue
+        // 4. Rule-specific settings - full details including parameters and file patterns
+        let sortedRuleSettings = config.advanced.ruleSettings.sorted(by: { $0.key < $1.key })
+        for (ruleId, settings) in sortedRuleSettings {
+            hashString += "rule:\(ruleId):\(settings.enabled):\(settings.severity.rawValue)"
+            
+            // Include all parameters
+            let sortedParams = settings.parameters.sorted(by: { $0.key < $1.key })
+            for (key, value) in sortedParams {
+                hashString += ":\(key)=\(value.stringValue)"
+            }
+            
+            // Include file patterns
+            let fp = settings.filePatterns
+            hashString += ":inc=\(fp.include.joined(separator: ","))"
+            hashString += ":exc=\(fp.exclude.joined(separator: ","))"
+            hashString += ":noTest=\(fp.excludeTestFiles):noGen=\(fp.excludeGeneratedFiles)"
         }
         
+        // 5. Conditional settings
+        let sortedConditionals = config.advanced.conditionalSettings.sorted(by: { $0.name < $1.name })
+        for conditional in sortedConditionals {
+            hashString += "cond:\(conditional.name):\(conditional.priority)"
+            hashString += ":condition=\(hashCondition(conditional.condition))"
+            
+            // Include rule overrides
+            let sortedOverrides = conditional.ruleOverrides.sorted(by: { $0.key < $1.key })
+            for (ruleId, override) in sortedOverrides {
+                hashString += ":override:\(ruleId):\(override.enabled):\(override.severity.rawValue)"
+                let sortedParams = override.parameters.sorted(by: { $0.key < $1.key })
+                for (key, value) in sortedParams {
+                    hashString += ":\(key)=\(value.stringValue)"
+                }
+            }
+        }
+        
+        // 6. Scope settings - all fields
+        let s = config.advanced.scopeSettings
+        hashString += "scope:\(s.analyzeTests):\(s.analyzeExtensions):\(s.analyzeGeneratedCode)"
+        hashString += ":\(s.minFileSizeLines):\(s.maxFileSizeLines):\(s.excludeEmptyFiles):\(s.excludeVendorCode)"
+        
+        // 7. Performance settings that affect analysis behavior
+        let p = config.advanced.performanceSettings
+        hashString += "perf:\(p.enableParallelAnalysis):\(p.enableIncrementalAnalysis)"
+        hashString += ":\(p.analysisTimeoutSeconds)"
+        
         return FileFingerprint.fnv1aHash(hashString)
+    }
+    
+    /// Hash a configuration condition recursively
+    private static func hashCondition(_ condition: ConfigurationCondition) -> String {
+        switch condition {
+        case .pathPattern(let pattern):
+            return "path:\(pattern)"
+        case .fileName(let name):
+            return "file:\(name)"
+        case .fileExtension(let ext):
+            return "ext:\(ext)"
+        case .directory(let dir):
+            return "dir:\(dir)"
+        case .any(let conditions):
+            return "any:[\(conditions.map { hashCondition($0) }.joined(separator: ","))]"
+        case .all(let conditions):
+            return "all:[\(conditions.map { hashCondition($0) }.joined(separator: ","))]"
+        case .not(let condition):
+            return "not:\(hashCondition(condition))"
+        case .custom(let expr):
+            return "custom:\(expr)"
+        }
     }
 }
 
