@@ -162,7 +162,7 @@ public final class ComplexityAnalyzer: Sendable {
         let source = sourceFile.source()
         let tree = Parser.parse(source: source)
 
-        var analyzer = ComplexitySyntaxAnalyzer(options: options, sourceFile: sourceFile)
+        let analyzer = ComplexitySyntaxAnalyzer(options: options, sourceFile: sourceFile)
         analyzer.walk(tree)
         return analyzer.result
     }
@@ -373,7 +373,6 @@ private class ComplexitySyntaxAnalyzer: SyntaxAnyVisitor {
 
     private func calculateOverallComplexity(fileMetrics: ComplexityAnalyzer.FileMetrics) -> ComplexityAnalyzer.ComplexityMetrics {
         let complexities = functionMetrics.values
-        let totalCyclomatic = complexities.reduce(0) { $0 + $1.cyclomaticComplexity }
         let maxCyclomatic = complexities.map { $0.cyclomaticComplexity }.max() ?? 1
         let maxNesting = complexities.map { $0.nestingDepth }.max() ?? 0
 
