@@ -73,17 +73,31 @@ private final class ResourceLeakVisitor: SyntaxVisitor {
             if isTrackedResource(initExpr, typeAnnotation: binding.typeAnnotation) {
                 // 3. Check if there is a defer block *after* this declaration that closes it
                 if !hasCleanupInDefer(varName: varName, statements: statements, startIndex: index + 1) {
-                    violations.append(
-                        ViolationBuilder(
-                            ruleId: "resource_leak",
-                            category: .safety,
-                            location: sourceFile.location(of: varDecl)
-                        )
-                        .message("Resource '\(varName)' created without a corresponding defer block for cleanup")
-                        .suggestFix("Add 'defer { \(varName).close() }' immediately after initialization")
-                        .severity(.warning)
-                        .build()
+                    var builder = ViolationBuilder(
+                        ruleId: "resource_leak",
+                        category: .safety,
+                        location: sourceFile.location(of: varDecl)
                     )
+                    .message("Resource '\(varName)' created without a corresponding defer block for cleanup")
+                    .suggestFix("Add 'defer { \(varName).close() }' immediately after initialization")
+                    .severity(.warning)
+                    
+                    // Auto-fix
+                    builder = builder.addStructuredFix(
+                        title: "Add defer cleanup",
+                        kind: .refactor
+                    ) { fix in
+                        // Get indentation of the current line
+                        let indentation = self.getIndentation(from: varDecl)
+                        
+                        // Insert after the declaration
+                        fix.addEdit(TextEdit.insert(
+                            at: self.sourceFile.location(endOf: varDecl), 
+                            text: "\n\(indentation)defer { \(varName).close() }"
+                        ))
+                    }
+                    
+                    violations.append(builder.build())
                 }
             }
         }
@@ -127,5 +141,17 @@ private final class ResourceLeakVisitor: SyntaxVisitor {
             bodyText.contains("\(varName).\(method)()") || 
             bodyText.contains("\(varName)?.\(method)()")
         }
+    }
+    
+    private func getIndentation(from node: SyntaxProtocol) -> String {
+        for piece in node.leadingTrivia.reversed() {
+            if case .spaces(let count) = piece {
+                return String(repeating: " ", count: count)
+            }
+            if case .tabs(let count) = piece {
+                return String(repeating: "\t", count: count)
+            }
+        }
+        return ""
     }
 }
