@@ -359,7 +359,7 @@ actor LSPServer {
               case .string(let text) = textDocument["text"],
               case .string(let languageId) = textDocument["languageId"],
               case .number(let version) = textDocument["version"] else {
-            fputs("Invalid didOpen params\n", stderr)
+            log("Invalid didOpen params")
             return
         }
         
@@ -384,7 +384,7 @@ actor LSPServer {
               case .string(let uri) = textDocument["uri"],
               case .number(let version) = textDocument["version"],
               case .array(let changes) = obj["contentChanges"] else {
-            fputs("Invalid didChange params\n", stderr)
+            log("Invalid didChange params")
             return
         }
         
@@ -453,22 +453,22 @@ actor LSPServer {
               case .string(let uri) = textDocument["uri"],
               case .object(_) = obj["range"],
               case .object(let contextObj) = obj["context"] else {
-            fputs("Code action: invalid params\n", stderr)
+            log("Code action: invalid params")
             return .array([])
         }
         
         guard let document = openDocuments[uri] else {
-            fputs("Code action: document not found\n", stderr)
+            log("Code action: document not found")
             return .array([])
         }
         
         // Get diagnostics from context
         guard case .array(let diagnostics) = contextObj["diagnostics"] else {
-            fputs("Code action: no diagnostics in context\n", stderr)
+            log("Code action: no diagnostics in context")
             return .array([])
         }
         
-        fputs("Code action: processing \(diagnostics.count) diagnostics\n", stderr)
+        log("Code action: processing \(diagnostics.count) diagnostics")
         
         var codeActions: [JSON] = []
         
