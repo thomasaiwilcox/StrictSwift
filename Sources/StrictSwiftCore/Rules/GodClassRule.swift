@@ -100,8 +100,6 @@ public final class GodClassRule: Rule {
 
         guard !classLines.isEmpty else { return nil }
 
-        let classContent = classLines.joined(separator: "\n")
-
         // Count methods, properties, and dependencies
         var methodCount = 0
         var propertyCount = 0

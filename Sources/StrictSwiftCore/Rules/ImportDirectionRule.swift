@@ -283,8 +283,8 @@ private class ImportDirectionAnalyzer: SyntaxAnyVisitor {
         // Built-in forbidden imports based on architectural pattern
         switch policyType {
         case "clean_architecture":
-            let forbiddenCleanArchitecture = ["Foundation"].contains(module)
-            return false // Foundation is generally allowed
+            // Foundation is generally allowed in clean architecture
+            return false
 
         case "mvc":
             // MVC specific rules

@@ -371,7 +371,7 @@ private class DetailedLengthAnalyzer: SyntaxAnyVisitor {
     }
 
     private func estimateComplexity<T: DeclSyntaxProtocol>(_ node: T) -> Int {
-        var complexity = 1 // Base complexity
+        let complexity = 1 // Base complexity
 
         // This is a simplified complexity estimation
         // In a real implementation, you would traverse the AST and count
