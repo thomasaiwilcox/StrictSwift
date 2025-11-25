@@ -82,7 +82,7 @@ private final class ActorIsolationVisitor: SyntaxVisitor {
             if let body = node.body {
                 let bodyDescription = body.trimmedDescription
                 if bodyDescription.contains("self.") {
-                    let location = sourceFile.location(for: node.position)
+                    let location = sourceFile.location(of: node)
                     let violation = ViolationBuilder(
                         ruleId: "actor_isolation",
                         category: .concurrency,
@@ -111,7 +111,7 @@ private final class ActorIsolationVisitor: SyntaxVisitor {
                 // Check for risky API access
                 for riskyAPI in riskyAPIs {
                     if baseName.contains(riskyAPI) {
-                        let location = sourceFile.location(for: node.position)
+                        let location = sourceFile.location(of: node)
                         let violation = ViolationBuilder(
                             ruleId: "actor_isolation",
                             category: .concurrency,
@@ -185,7 +185,7 @@ private final class ActorIsolationVisitor: SyntaxVisitor {
             }
 
             if !hasJustification {
-                let location = sourceFile.location(for: node.position)
+                let location = sourceFile.location(of: node)
                 let violation = ViolationBuilder(
                     ruleId: "actor_isolation",
                     category: .concurrency,
@@ -211,7 +211,7 @@ private final class ActorIsolationVisitor: SyntaxVisitor {
         // Check for Task.detached usage in MainActor context
         if isMainActorIsolated && callDescription == "Task.detached" {
             // This is actually a valid pattern, but warn about potential issues
-            let location = sourceFile.location(for: node.position)
+            let location = sourceFile.location(of: node)
             let violation = ViolationBuilder(
                 ruleId: "actor_isolation",
                 category: .concurrency,

@@ -78,7 +78,7 @@ private final class LayeredDependenciesVisitor: SyntaxAnyVisitor {
                         nodeDescription.contains("Realm") ||
                         nodeDescription.contains("SQLite")) {
 
-                        let location = sourceFile.location(for: node.position)
+                        let location = sourceFile.location(of: node)
 
                         let violation = ViolationBuilder(
                             ruleId: "layered_dependencies",
@@ -109,7 +109,7 @@ private final class LayeredDependenciesVisitor: SyntaxAnyVisitor {
 
                 for nextWord in nextWords {
                     if dataLayerPatterns.contains(nextWord) {
-                        let location = sourceFile.location(for: node.position)
+                        let location = sourceFile.location(of: node)
 
                         let violation = ViolationBuilder(
                             ruleId: "layered_dependencies",
@@ -133,7 +133,7 @@ private final class LayeredDependenciesVisitor: SyntaxAnyVisitor {
 
                 for nextWord in nextWords {
                     if presentationLayerPatterns.contains(nextWord) {
-                        let location = sourceFile.location(for: node.position)
+                        let location = sourceFile.location(of: node)
 
                         let violation = ViolationBuilder(
                             ruleId: "layered_dependencies",

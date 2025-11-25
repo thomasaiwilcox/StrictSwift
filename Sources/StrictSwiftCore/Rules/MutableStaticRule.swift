@@ -52,7 +52,7 @@ private final class MutableStaticVisitor: SyntaxVisitor {
             return .visitChildren
         }
         
-        let location = sourceFile.location(for: node.position)
+        let location = sourceFile.location(of: node)
 
         let violation = ViolationBuilder(
             ruleId: "mutable_static",

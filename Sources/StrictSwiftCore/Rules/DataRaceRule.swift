@@ -135,7 +135,7 @@ private final class DataRaceVisitor: SyntaxVisitor {
                typeName == "UnsafeMutableRawPointer" ||
                typeName == "UnsafeMutableBufferPointer" {
 
-                let location = sourceFile.location(for: node.position)
+                let location = sourceFile.location(of: node)
                 let violation = ViolationBuilder(
                     ruleId: "data_race",
                     category: .concurrency,

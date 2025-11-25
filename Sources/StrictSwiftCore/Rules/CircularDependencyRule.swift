@@ -103,7 +103,7 @@ private final class CircularDependencyVisitor: SyntaxAnyVisitor {
         for dependency in dependencies {
             // Check for self-dependency (circular reference to same type)
             if dependency.lowercased() == typeName.lowercased() {
-                let location = sourceFile.location(for: node.position)
+                let location = sourceFile.location(of: node)
 
                 let violation = ViolationBuilder(
                     ruleId: "circular_dependency",
@@ -124,7 +124,7 @@ private final class CircularDependencyVisitor: SyntaxAnyVisitor {
                (dependency.contains("Controller") && typeName.contains("Coordinator")) ||
                (dependency.contains("Coordinator") && typeName.contains("Controller")) {
 
-                let location = sourceFile.location(for: node.position)
+                let location = sourceFile.location(of: node)
 
                 let violation = ViolationBuilder(
                     ruleId: "circular_dependency",

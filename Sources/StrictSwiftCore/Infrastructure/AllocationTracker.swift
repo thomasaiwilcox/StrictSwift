@@ -426,7 +426,7 @@ private class AllocationSyntaxAnalyzer: SyntaxAnyVisitor {
         let allocationId = "closure_\(allocationCounter)"
         allocationCounter += 1
 
-        let location = sourceFile.location(for: node.position)
+        let location = sourceFile.location(of: node)
         let sourceLocation = Location(
             file: sourceFile.url,
             line: location.line,
@@ -452,7 +452,7 @@ private class AllocationSyntaxAnalyzer: SyntaxAnyVisitor {
         let allocationId = "array_\(allocationCounter)"
         allocationCounter += 1
 
-        let location = sourceFile.location(for: node.position)
+        let location = sourceFile.location(of: node)
         let sourceLocation = Location(
             file: sourceFile.url,
             line: location.line,
@@ -478,7 +478,7 @@ private class AllocationSyntaxAnalyzer: SyntaxAnyVisitor {
         let allocationId = "dict_\(allocationCounter)"
         allocationCounter += 1
 
-        let location = sourceFile.location(for: node.position)
+        let location = sourceFile.location(of: node)
         let sourceLocation = Location(
             file: sourceFile.url,
             line: location.line,

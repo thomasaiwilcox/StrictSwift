@@ -151,7 +151,7 @@ private final class GlobalStateAnalyzer: SyntaxVisitor {
         let shouldFlag = isFileScope || (isStatic && !isPrivate)
         
         if shouldFlag {
-            let location = sourceFile.location(for: node.position)
+            let location = sourceFile.location(of: node)
             let varName = node.bindings.first?.pattern.trimmedDescription ?? "unknown"
             
             let message: String
@@ -194,7 +194,7 @@ private final class GlobalStateAnalyzer: SyntaxVisitor {
         ]
         
         if let members = problematicSingletons[baseExpr], members.contains(memberName) {
-            let location = sourceFile.location(for: node.position)
+            let location = sourceFile.location(of: node)
             
             violations.append(ViolationBuilder(
                 ruleId: "global_state",

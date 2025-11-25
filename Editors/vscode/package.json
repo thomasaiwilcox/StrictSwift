@@ -1,9 +1,14 @@
 {
     "name": "strictswift",
     "displayName": "StrictSwift",
-    "description": "Static analysis for Swift code with auto-fix support",
-    "version": "0.11.0",
+    "description": "Powerful static analysis for Swift code with real-time diagnostics and auto-fix support. Enforces memory safety, concurrency correctness, and architectural best practices.",
+    "version": "0.12.0",
     "publisher": "strictswift",
+    "license": "MIT",
+    "galleryBanner": {
+        "color": "#F05138",
+        "theme": "dark"
+    },
     "engines": {
         "vscode": "^1.85.0"
     },
@@ -15,7 +20,12 @@
         "swift",
         "linter",
         "static analysis",
-        "code quality"
+        "code quality",
+        "memory safety",
+        "concurrency",
+        "ios",
+        "macos",
+        "swiftui"
     ],
     "activationEvents": [
         "onLanguage:swift",

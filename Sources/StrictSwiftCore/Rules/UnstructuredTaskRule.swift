@@ -43,7 +43,7 @@ private final class UnstructuredTaskVisitor: SyntaxAnyVisitor {
 
         // Look for Task.init or standalone Task calls that indicate unstructured concurrency
         if isUnstructuredTaskCreation(nodeDescription) {
-            let location = sourceFile.location(for: node.position)
+            let location = sourceFile.location(of: node)
 
             let violation = ViolationBuilder(
                 ruleId: "unstructured_task",

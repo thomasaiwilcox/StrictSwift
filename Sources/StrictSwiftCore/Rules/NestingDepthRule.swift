@@ -268,7 +268,7 @@ private class DetailedNestingAnalyzer: SyntaxAnyVisitor {
     override func visit(_ node: ClosureCaptureClauseSyntax) -> SyntaxVisitorContinueKind {
         // Analyze capture list for complexity
         if node.items.count > 3 {
-            let location = sourceFile.location(for: node.position)
+            let location = sourceFile.location(of: node)
             let violation = ViolationBuilder(
                 ruleId: "nesting_depth",
                 category: .complexity,
@@ -290,7 +290,7 @@ private class DetailedNestingAnalyzer: SyntaxAnyVisitor {
     override func visit(_ node: TernaryExprSyntax) -> SyntaxVisitorContinueKind {
         // Ternary operators can add cognitive complexity
         if currentNestingDepth >= maxNestingDepth - 1 {
-            let location = sourceFile.location(for: node.position)
+            let location = sourceFile.location(of: node)
             let violation = ViolationBuilder(
                 ruleId: "nesting_depth",
                 category: .complexity,

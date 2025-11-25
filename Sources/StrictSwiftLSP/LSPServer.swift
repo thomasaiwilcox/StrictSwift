@@ -23,6 +23,9 @@ actor LSPServer {
     // Document management
     private var openDocuments: [String: OpenDocument] = [:]
     
+    // Store violations per document for hover lookup
+    private var documentViolations: [String: [Violation]] = [:]
+    
     // Analysis engine
     private var analyzer: Analyzer?
     /// LSP configuration - no include filters since editor explicitly opens files
@@ -284,65 +287,82 @@ actor LSPServer {
               case .string(let uri) = textDocument["uri"],
               case .object(_) = obj["range"],
               case .object(let contextObj) = obj["context"] else {
+            fputs("Code action: invalid params\n", stderr)
             return .array([])
         }
         
-        guard openDocuments[uri] != nil else {
+        guard let document = openDocuments[uri] else {
+            fputs("Code action: document not found\n", stderr)
             return .array([])
         }
         
         // Get diagnostics from context
         guard case .array(let diagnostics) = contextObj["diagnostics"] else {
+            fputs("Code action: no diagnostics in context\n", stderr)
             return .array([])
         }
+        
+        fputs("Code action: processing \(diagnostics.count) diagnostics\n", stderr)
         
         var codeActions: [JSON] = []
         
         // Find fixes for each diagnostic
         for diagnostic in diagnostics {
-            guard case .object(let diagObj) = diagnostic,
-                  case .object(let data) = diagObj["data"],
-                  case .array(let fixes) = data["fixes"] else {
+            guard case .object(let diagObj) = diagnostic else {
+                fputs("Code action: diagnostic is not an object\n", stderr)
                 continue
             }
             
-            for fix in fixes {
-                guard case .object(let fixObj) = fix,
-                      case .string(let title) = fixObj["title"],
-                      case .array(let edits) = fixObj["edits"] else {
-                    continue
-                }
+            // Check if we have data with fixes
+            if case .object(let data) = diagObj["data"],
+               case .array(let fixes) = data["fixes"] {
+                fputs("Code action: found \(fixes.count) fixes in diagnostic data\n", stderr)
                 
-                // Convert to workspace edit
-                var textEdits: [JSON] = []
-                for edit in edits {
-                    guard case .object(let editObj) = edit,
-                          case .object(let rangeObj) = editObj["range"],
-                          case .string(let newText) = editObj["newText"] else {
+                for fix in fixes {
+                    guard case .object(let fixObj) = fix,
+                          case .string(let title) = fixObj["title"],
+                          case .array(let edits) = fixObj["edits"] else {
                         continue
                     }
                     
-                    textEdits.append(.object([
-                        "range": .object(rangeObj),
-                        "newText": .string(newText)
-                    ]))
-                }
-                
-                let action: JSON = .object([
-                    "title": .string(title),
-                    "kind": .string("quickfix"),
-                    "diagnostics": .array([diagnostic]),
-                    "edit": .object([
-                        "changes": .object([
-                            uri: .array(textEdits)
+                    // Convert to workspace edit
+                    var textEdits: [JSON] = []
+                    for edit in edits {
+                        guard case .object(let editObj) = edit,
+                              case .object(let rangeObj) = editObj["range"],
+                              case .string(let newText) = editObj["newText"] else {
+                            continue
+                        }
+                        
+                        textEdits.append(.object([
+                            "range": .object(rangeObj),
+                            "newText": .string(newText)
+                        ]))
+                    }
+                    
+                    let action: JSON = .object([
+                        "title": .string(title),
+                        "kind": .string("quickfix"),
+                        "diagnostics": .array([diagnostic]),
+                        "edit": .object([
+                            "changes": .object([
+                                uri: .array(textEdits)
+                            ])
                         ])
                     ])
-                ])
-                
-                codeActions.append(action)
+                    
+                    codeActions.append(action)
+                }
+            } else {
+                fputs("Code action: no data.fixes in diagnostic\n", stderr)
+                // Log what we do have
+                if case .string(let code) = diagObj["code"] {
+                    fputs("  diagnostic code: \(code)\n", stderr)
+                }
             }
         }
         
+        fputs("Code action: returning \(codeActions.count) actions\n", stderr)
         return .array(codeActions)
     }
     
@@ -354,8 +374,8 @@ actor LSPServer {
               case .object(let textDocument) = obj["textDocument"],
               case .string(let uri) = textDocument["uri"],
               case .object(let position) = obj["position"],
-              case .number(_) = position["line"],
-              case .number(_) = position["character"] else {
+              case .number(let line) = position["line"],
+              case .number(let character) = position["character"] else {
             return .null
         }
         
@@ -363,10 +383,71 @@ actor LSPServer {
             return .null
         }
         
-        // For now, return a simple hover for diagnostics at this position
-        // In a full implementation, we'd check if the position is on a violation
+        // Find violations at this position
+        guard let violations = documentViolations[uri] else {
+            return .null
+        }
         
-        return .null
+        // LSP uses 0-based lines, our violations use 1-based
+        let targetLine = Int(line) + 1
+        
+        // Find a violation on this line
+        guard let violation = violations.first(where: { $0.location.line == targetLine }) else {
+            return .null
+        }
+        
+        // Build rich hover content
+        let severityEmoji: String
+        switch violation.severity {
+        case .error: severityEmoji = "🔴"
+        case .warning: severityEmoji = "🟡"
+        case .hint: severityEmoji = "💡"
+        case .info: severityEmoji = "ℹ️"
+        }
+        
+        var markdown = "## \(severityEmoji) \(violation.ruleId)\n\n"
+        markdown += "**Category:** \(violation.category.rawValue)\n\n"
+        markdown += "**Severity:** \(violation.severity.rawValue)\n\n"
+        markdown += "---\n\n"
+        markdown += "\(violation.message)\n\n"
+        
+        // Add suggested fixes
+        if !violation.suggestedFixes.isEmpty {
+            markdown += "### Suggested Fixes\n\n"
+            for fix in violation.suggestedFixes {
+                markdown += "- \(fix)\n"
+            }
+            markdown += "\n"
+        }
+        
+        // Add structured fix info
+        if !violation.structuredFixes.isEmpty {
+            markdown += "### Quick Fixes Available\n\n"
+            for fix in violation.structuredFixes {
+                markdown += "- **\(fix.title)**"
+                if let description = fix.description {
+                    markdown += ": \(description)"
+                }
+                markdown += "\n"
+            }
+            markdown += "\n"
+            markdown += "_Click the 💡 lightbulb to apply a fix_\n"
+        }
+        
+        // Add context info if available
+        if !violation.context.isEmpty {
+            markdown += "\n### Context\n\n"
+            for (key, value) in violation.context.sorted(by: { $0.key < $1.key }) {
+                markdown += "- **\(key):** \(value)\n"
+            }
+        }
+        
+        return .object([
+            "contents": .object([
+                "kind": .string("markdown"),
+                "value": .string(markdown)
+            ])
+        ])
     }
     
     // MARK: - Analysis
@@ -408,6 +489,9 @@ actor LSPServer {
                 let diagnostic = convertViolationToDiagnostic(violation)
                 diagnostics.append(diagnostic)
             }
+            
+            // Store violations for hover lookup
+            documentViolations[document.uri] = violations
             
             try await publishDiagnostics(uri: document.uri, diagnostics: diagnostics)
         } catch {

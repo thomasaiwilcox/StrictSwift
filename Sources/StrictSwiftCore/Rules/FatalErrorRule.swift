@@ -59,7 +59,7 @@ private final class FatalErrorVisitor: SyntaxVisitor {
             return .visitChildren
         }
         
-        let location = sourceFile.location(for: node.position)
+        let location = sourceFile.location(of: node)
 
         let violation = ViolationBuilder(
             ruleId: "fatal_error",

@@ -214,7 +214,7 @@ private class AllocationPatternAnalyzer: SyntaxAnyVisitor {
                     
                     // Report expensive allocations inside loops
                     if inLoop && isExpensiveLoopAllocation(calledFunction) {
-                        let locationInfo = sourceFile.location(for: node.position)
+                        let locationInfo = sourceFile.location(of: node)
                         let violation = ViolationBuilder(
                             ruleId: "repeated_allocation",
                             category: .performance,
@@ -246,7 +246,7 @@ private class AllocationPatternAnalyzer: SyntaxAnyVisitor {
             
             // Report expensive allocations inside loops even if below threshold
             if inLoop && isExpensiveLoopAllocation(calledFunction) {
-                let locationInfo = sourceFile.location(for: node.position)
+                let locationInfo = sourceFile.location(of: node)
                 let violation = ViolationBuilder(
                     ruleId: "repeated_allocation",
                     category: .performance,
@@ -269,7 +269,7 @@ private class AllocationPatternAnalyzer: SyntaxAnyVisitor {
             trackAllocation(location: node.position)
 
             if inLoop {
-                let locationInfo = sourceFile.location(for: node.position)
+                let locationInfo = sourceFile.location(of: node)
                 let violation = ViolationBuilder(
                     ruleId: "repeated_allocation",
                     category: .performance,

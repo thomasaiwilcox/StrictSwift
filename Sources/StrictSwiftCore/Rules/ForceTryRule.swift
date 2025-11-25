@@ -74,7 +74,7 @@ private final class ForceTryVisitor: SyntaxVisitor {
         var fixes: [StructuredFix] = []
         
         // Get position info from node
-        let startLocation = sourceFile.location(for: node.position)
+        let startLocation = sourceFile.location(of: node)
         let endLocation = sourceFile.location(for: node.endPosition)
         let filePath = sourceFile.url.path
         

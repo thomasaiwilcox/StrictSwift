@@ -87,7 +87,7 @@ private final class PrintInProductionVisitor: SyntaxVisitor {
         var fixes: [StructuredFix] = []
         
         // Get position info from node
-        let startLocation = sourceFile.location(for: node.position)
+        let startLocation = sourceFile.location(of: node)
         let endLocation = sourceFile.location(for: node.endPosition)
         let filePath = sourceFile.url.path
         
@@ -143,7 +143,7 @@ private final class PrintInProductionVisitor: SyntaxVisitor {
     
     /// Finds the full statement range including leading whitespace and trailing newline
     private func findStatementRange(for node: FunctionCallExprSyntax) -> SourceRange {
-        let startLocation = sourceFile.location(for: node.position)
+        let startLocation = sourceFile.location(of: node)
         let endLocation = sourceFile.location(for: node.endPosition)
         let filePath = sourceFile.url.path
         

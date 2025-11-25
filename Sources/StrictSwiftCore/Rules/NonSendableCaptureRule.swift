@@ -91,7 +91,7 @@ private final class NonSendableCaptureVisitor: SyntaxAnyVisitor {
         // Look for Task patterns with potential non-Sendable captures
         for type in nonSendableTypes {
             if nodeDescription.contains("Task") && nodeDescription.contains(type) {
-                let location = sourceFile.location(for: node.position)
+                let location = sourceFile.location(of: node)
 
                 let violation = ViolationBuilder(
                     ruleId: "non_sendable_capture",
@@ -113,7 +113,7 @@ private final class NonSendableCaptureVisitor: SyntaxAnyVisitor {
         // Look for async patterns with potential non-Sendable captures
         for type in nonSendableTypes {
             if nodeDescription.contains("async") && nodeDescription.contains(type) {
-                let location = sourceFile.location(for: node.position)
+                let location = sourceFile.location(of: node)
 
                 let violation = ViolationBuilder(
                     ruleId: "non_sendable_capture",
@@ -135,7 +135,7 @@ private final class NonSendableCaptureVisitor: SyntaxAnyVisitor {
         // Look for DispatchQueue patterns with potential non-Sendable captures
         for type in nonSendableTypes {
             if (nodeDescription.contains("DispatchQueue") || nodeDescription.contains(".async")) && nodeDescription.contains(type) {
-                let location = sourceFile.location(for: node.position)
+                let location = sourceFile.location(of: node)
 
                 let violation = ViolationBuilder(
                     ruleId: "non_sendable_capture",

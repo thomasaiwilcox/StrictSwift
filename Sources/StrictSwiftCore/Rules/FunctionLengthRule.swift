@@ -269,7 +269,7 @@ private class DetailedLengthAnalyzer: SyntaxAnyVisitor {
             if let initializer = bindings.initializer {
                 let propertyComplexity = analyzeInitializerComplexity(initializer.value)
                 if propertyComplexity > ruleConfig.parameter("maxPropertyComplexity", defaultValue: 5) {
-                    let location = sourceFile.location(for: node.position)
+                    let location = sourceFile.location(of: node)
                     let violation = ViolationBuilder(
                         ruleId: "function_length",
                         category: .complexity,

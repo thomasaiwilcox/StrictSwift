@@ -1,96 +1,119 @@
-# StrictSwift VS Code Extension
+# StrictSwift for VS Code
 
-Static analysis for Swift code with real-time diagnostics and auto-fix support.
+**StrictSwift** is a powerful static analysis tool for Swift that enforces memory safety, concurrency correctness, and architectural best practices. This VS Code extension provides real-time diagnostics and quick fixes as you code.
 
 ## Features
 
-- **Real-time Diagnostics**: Get warnings and errors as you type
-- **Quick Fixes**: Apply auto-fixes for common issues with one click
-- **Code Actions**: Right-click to see available fixes for violations
-- **Workspace Analysis**: Analyze your entire Swift project
+### 🔴 Real-time Diagnostics
+Get instant feedback on potential issues in your Swift code:
+- **Memory Safety**: Force unwraps, force tries, retain cycles
+- **Concurrency**: Data races, non-Sendable captures, actor isolation
+- **Architecture**: Circular dependencies, god classes, layer violations
+- **Code Quality**: Function length, nesting depth, complexity
+
+### 💡 Quick Fixes
+One-click fixes for common issues:
+- Convert force unwrap `x!` to optional binding `if let`
+- Replace `try!` with proper error handling
+- Remove debug print statements
+- And more...
+
+### 📊 Rich Hover Information
+Hover over any diagnostic to see:
+- Rule explanation
+- Severity and category
+- Available fixes
+- Related context
 
 ## Requirements
 
-- Visual Studio Code 1.85.0 or later
-- StrictSwift language server (`strictswift-lsp`)
+- **VS Code** 1.85.0 or later
+- **Swift** 5.9 or later (for the LSP server)
+- **StrictSwift LSP Server** - See installation instructions below
 
 ## Installation
 
 ### From VS Code Marketplace
-
 1. Open VS Code
-2. Go to Extensions (Cmd+Shift+X)
+2. Go to Extensions (⇧⌘X)
 3. Search for "StrictSwift"
 4. Click Install
 
-### Building from Source
+### Install the LSP Server
+
+The extension requires the StrictSwift LSP server to be installed:
 
 ```bash
-cd Editors/vscode
-npm install
-npm run compile
-```
+# Clone the repository
+git clone https://github.com/strictswift/strictswift.git
+cd strictswift
 
-Then load the extension in VS Code by pressing F5 (Run Extension Development Host).
+# Build the LSP server
+swift build -c release --product strictswift-lsp
 
-## Installing the Language Server
-
-Build the language server from the StrictSwift repository:
-
-```bash
-swift build -c release
-# Binary is at .build/release/strictswift-lsp
-```
-
-Or install globally:
-
-```bash
+# Copy to a location in your PATH (optional)
 cp .build/release/strictswift-lsp /usr/local/bin/
 ```
+
+### Configure the Extension
+
+If the LSP server is not in your PATH, configure its location:
+
+1. Open Settings (⌘,)
+2. Search for "StrictSwift"
+3. Set `strictswift.serverPath` to the full path of the `strictswift-lsp` executable
 
 ## Configuration
 
 | Setting | Description | Default |
 |---------|-------------|---------|
 | `strictswift.enable` | Enable/disable StrictSwift | `true` |
-| `strictswift.serverPath` | Path to `strictswift-lsp` executable | (auto-detect) |
-| `strictswift.configPath` | Path to configuration file | `.strictswift.yml` |
-| `strictswift.profile` | Analysis profile | `default` |
-| `strictswift.trace.server` | Trace level for debugging | `off` |
+| `strictswift.serverPath` | Path to LSP server executable | `""` (searches PATH) |
+| `strictswift.configPath` | Path to `.strictswift.yml` | `""` (auto-detect) |
+| `strictswift.profile` | Analysis profile | `"default"` |
+| `strictswift.trace.server` | LSP trace level | `"off"` |
 
 ## Commands
 
-- **StrictSwift: Restart Language Server** - Restart the language server
-- **StrictSwift: Analyze Current File** - Trigger analysis of the current file
-- **StrictSwift: Analyze Workspace** - Analyze all Swift files in the workspace
+- **StrictSwift: Restart Language Server** - Restart the LSP server
+- **StrictSwift: Analyze Current File** - Run analysis on the current file
+- **StrictSwift: Analyze Workspace** - Run analysis on all Swift files
 - **StrictSwift: Fix All Auto-Fixable Issues** - Apply all available fixes
 
-## Supported Rules
+## Rules
 
-StrictSwift includes rules for:
+StrictSwift includes 25+ rules across multiple categories:
 
-- **Safety**: Force unwrap, force try, fatalError detection
-- **Concurrency**: Data race, actor isolation, Sendable violations
-- **Complexity**: Cyclomatic complexity, function length, nesting depth
-- **Performance**: Large struct copies, repeated allocations
-- **Architecture**: Layered dependencies, circular dependencies, god class detection
+### Safety
+- `force_unwrap` - Avoid force unwrapping optionals
+- `force_try` - Avoid force try expressions
+- `fatal_error` - Avoid fatal error in production
+- `print_in_production` - Remove debug print statements
 
-## Development
+### Concurrency
+- `actor_isolation` - Proper actor isolation
+- `data_race` - Potential data race detection
+- `non_sendable_capture` - Non-Sendable types in concurrent contexts
 
-```bash
-# Install dependencies
-npm install
+### Architecture
+- `circular_dependency` - Detect circular module dependencies
+- `god_class` - Detect overly large classes
+- `layered_dependencies` - Enforce architectural layers
 
-# Compile TypeScript
-npm run compile
+### Memory
+- `retain_cycle` - Detect potential retain cycles
+- `escaping_reference` - Unsafe escaping references
 
-# Watch for changes
-npm run watch
+## Contributing
 
-# Run tests
-npm test
-```
+Contributions are welcome! Please see our [Contributing Guide](https://github.com/strictswift/strictswift/blob/main/CONTRIBUTING.md).
 
 ## License
 
-MIT License - see the LICENSE file in the root repository.
+MIT License - see [LICENSE](https://github.com/strictswift/strictswift/blob/main/LICENSE)
+
+## Links
+
+- [GitHub Repository](https://github.com/strictswift/strictswift)
+- [Issue Tracker](https://github.com/strictswift/strictswift/issues)
+- [Changelog](https://github.com/strictswift/strictswift/blob/main/CHANGELOG.md)
