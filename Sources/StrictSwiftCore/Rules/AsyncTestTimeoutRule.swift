@@ -202,19 +202,15 @@ private final class AsyncTestTimeoutVisitor: SyntaxVisitor {
     }
     
     private func extractNumericValue(from expr: ExprSyntax) -> Double? {
-        // Integer literal
-        if let intLiteral = expr.as(IntegerLiteralExprSyntax.self) {
-            return Double(intLiteral.literal.text)
-        }
-        
-        // Float literal
-        if let floatLiteral = expr.as(FloatLiteralExprSyntax.self) {
-            return Double(floatLiteral.literal.text)
-        }
-        
-        // Underscore-separated literals (1_000_000)
+        // Integer literal (strip underscores first for literals like 1_000_000)
         if let intLiteral = expr.as(IntegerLiteralExprSyntax.self) {
             let text = intLiteral.literal.text.replacingOccurrences(of: "_", with: "")
+            return Double(text)
+        }
+        
+        // Float literal (strip underscores for literals like 1_000.5)
+        if let floatLiteral = expr.as(FloatLiteralExprSyntax.self) {
+            let text = floatLiteral.literal.text.replacingOccurrences(of: "_", with: "")
             return Double(text)
         }
         

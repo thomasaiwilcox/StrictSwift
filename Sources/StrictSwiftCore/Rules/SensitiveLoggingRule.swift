@@ -234,8 +234,11 @@ private final class SensitiveLoggingVisitor: SyntaxVisitor {
                     sensitiveType: sensitiveType
                 )
             }
-            // Recursively check base expression
-            checkInterpolatedExpression(memberAccess.base!, in: callNode)
+            // Recursively check base expression if present
+            // (base is nil for leading-dot syntax like .password or enum cases)
+            if let base = memberAccess.base {
+                checkInterpolatedExpression(base, in: callNode)
+            }
         }
     }
     
