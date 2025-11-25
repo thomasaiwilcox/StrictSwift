@@ -412,9 +412,9 @@ final class ComplexityAnalysisTests: XCTestCase {
         )
 
         // Measure performance
-        let startTime = CFAbsoluteTimeGetCurrent()
+        let startTime = Date()
         let violations = await complexityRule.analyze(sourceFile, in: context)
-        let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+        let timeElapsed = Date().timeIntervalSince(startTime)
 
         // Should complete in reasonable time
         XCTAssertLessThan(timeElapsed, 2.0, "Complexity analysis should complete quickly")

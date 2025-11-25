@@ -282,9 +282,9 @@ extension MemorySafetyRulesTests {
         )
 
         // Measure analysis time
-        let startTime = CFAbsoluteTimeGetCurrent()
+        let startTime = Date()
         let violations = await rule.analyze(sourceFile, in: context)
-        let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+        let timeElapsed = Date().timeIntervalSince(startTime)
 
         // Should complete analysis in reasonable time (less than 1 second for this test)
         XCTAssertLessThan(timeElapsed, 1.0, "Analysis should complete quickly")

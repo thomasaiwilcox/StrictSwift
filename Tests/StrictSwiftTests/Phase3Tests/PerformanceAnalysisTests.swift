@@ -411,9 +411,9 @@ final class PerformanceAnalysisTests: XCTestCase {
         )
 
         // Measure performance
-        let startTime = CFAbsoluteTimeGetCurrent()
+        let startTime = Date()
         let violations = await allocationRule.analyze(sourceFile, in: context)
-        let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+        let timeElapsed = Date().timeIntervalSince(startTime)
 
         // Should complete in reasonable time
         XCTAssertLessThan(timeElapsed, 1.5, "Performance analysis should complete quickly")
