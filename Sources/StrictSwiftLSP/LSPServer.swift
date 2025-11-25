@@ -73,6 +73,13 @@ actor LSPServer {
         "performance": "🚀 Performance"
     ]
     
+    /// Log a message to stderr in a thread-safe way
+    private func log(_ message: String) {
+        if let data = (message + "\n").data(using: .utf8) {
+            try? FileHandle.standardError.write(contentsOf: data)
+        }
+    }
+    
     // Analysis engine
     private var analyzer: Analyzer?
     /// LSP configuration - no include filters since editor explicitly opens files
@@ -94,7 +101,7 @@ actor LSPServer {
     
     /// Apply configuration from VS Code settings
     private func applyConfiguration(_ settings: [String: JSON]) {
-        fputs("Applying configuration from VS Code settings\n", stderr)
+        log("Applying configuration from VS Code settings")
         
         // Parse profile - map VS Code names to actual enum cases
         var profile: Profile = .criticalCore
@@ -160,7 +167,7 @@ actor LSPServer {
         
         // Recreate analyzer with new configuration
         analyzer = Analyzer(configuration: configuration)
-        fputs("Configuration applied: profile=\(profile), safety=\(safetyConfig.severity)\n", stderr)
+        log("Configuration applied: profile=\(profile), safety=\(safetyConfig.severity)")
     }
     
     /// Handle workspace/didChangeConfiguration notification
@@ -188,7 +195,7 @@ actor LSPServer {
     }
     
     func run() async {
-        fputs("StrictSwift LSP Server starting...\n", stderr)
+        log("StrictSwift LSP Server starting...")
         
         while isRunning {
             do {
@@ -205,12 +212,12 @@ actor LSPServer {
                     isRunning = false
                     break
                 }
-                fputs("Error reading message: \(error)\n", stderr)
+                log("Error reading message: \(error)")
                 // Don't crash on read errors, just continue
             }
         }
         
-        fputs("StrictSwift LSP Server stopped.\n", stderr)
+        log("StrictSwift LSP Server stopped.")
     }
     
     // MARK: - Message Handling
@@ -228,7 +235,7 @@ actor LSPServer {
     }
     
     private func handleRequest(id: RequestID, method: String, params: JSON?) async {
-        fputs("Received request: \(method)\n", stderr)
+        log("Received request: \(method)")
         
         do {
             let result: JSON
@@ -255,7 +262,7 @@ actor LSPServer {
     }
     
     private func handleNotification(method: String, params: JSON?) async {
-        fputs("Received notification: \(method)\n", stderr)
+        log("Received notification: \(method)")
         
         switch method {
         case "initialized":
@@ -273,7 +280,7 @@ actor LSPServer {
         case "workspace/didChangeConfiguration":
             await handleDidChangeConfiguration(params: params)
         default:
-            fputs("Unhandled notification: \(method)\n", stderr)
+            log("Unhandled notification: \(method)")
         }
     }
     
@@ -319,21 +326,21 @@ actor LSPServer {
     }
     
     private func handleInitialized() {
-        fputs("Server initialized successfully\n", stderr)
+        log("Server initialized successfully")
         
         // Initialize the analyzer
         analyzer = Analyzer(configuration: configuration)
     }
     
     private func handleShutdown() -> JSON {
-        fputs("Shutdown requested\n", stderr)
+        log("Shutdown requested")
         shutdownRequested = true
         isShuttingDown = true
         return .null
     }
     
     private func handleExit() async {
-        fputs("Exit notification received\n", stderr)
+        log("Exit notification received")
         isRunning = false
         isShuttingDown = true
         // Mark the transport as shutdown to prevent further writes
