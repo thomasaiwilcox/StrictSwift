@@ -65,9 +65,12 @@ public enum StrictSwiftLogger: Sendable {
         let fileName = (file as NSString).lastPathComponent
         let location = includeSourceLocation ? " [\(fileName):\(line)]" : ""
 
-        // Use stderr for warnings and errors to avoid polluting stdout
+        // Use FileHandle for thread-safe stderr access
+        let output = "\(prefix)\(location): \(message)\n"
         if level >= .warning {
-            fputs("\(prefix)\(location): \(message)\n", stderr)
+            if let data = output.data(using: .utf8) {
+                FileHandle.standardError.write(data)
+            }
         } else {
             print("\(prefix)\(location): \(message)")
         }
