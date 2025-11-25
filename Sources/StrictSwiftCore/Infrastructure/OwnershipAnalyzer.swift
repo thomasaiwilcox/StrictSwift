@@ -425,6 +425,18 @@ private class OwnershipAnalyzerVisitor: SyntaxAnyVisitor {
         // Analyze what's being returned
         let returnValue = expression.trimmedDescription
 
+        // Only mark as escaping if we're returning something that could have lifetime issues:
+        // 1. Closures (which capture state)
+        // 2. UnsafePointer types
+        // 3. inout parameters (can't actually return these, but check anyway)
+        let isClosureReturn = expression.is(ClosureExprSyntax.self)
+        let isUnsafePointer = returnValue.contains("UnsafePointer") || 
+                              returnValue.contains("UnsafeMutablePointer") ||
+                              returnValue.contains("UnsafeBufferPointer") ||
+                              returnValue.contains("UnsafeRawPointer")
+        
+        let couldEscape = isClosureReturn || isUnsafePointer
+
         // Create return reference from current function to return value
         if let currentFunctionId = context.currentFunctionId {
             let reference = OwnershipGraph.Reference(
@@ -432,7 +444,7 @@ private class OwnershipAnalyzerVisitor: SyntaxAnyVisitor {
                 to: returnValue,
                 type: .returnValue,
                 location: location,
-                isEscaping: true
+                isEscaping: couldEscape
             )
 
             collectedReferences.append(reference)

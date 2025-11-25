@@ -165,7 +165,7 @@ private class EscapingReferenceAnalyzer: SyntaxAnyVisitor {
 
     override func visit(_ node: VariableDeclSyntax) -> SyntaxVisitorContinueKind {
         analyzeVariableDeclaration(node)
-        return .skipChildren
+        return .visitChildren  // Must visit children to catch closures in variable initializers
     }
 
     override func visit(_ node: StructDeclSyntax) -> SyntaxVisitorContinueKind {
@@ -296,22 +296,10 @@ private class EscapingReferenceAnalyzer: SyntaxAnyVisitor {
     }
 
     private func analyzeReturnStatement(_ expression: ExprSyntax, location: AbsolutePosition) {
-        let expressionString = expression.trimmedDescription
-
-        // Check if returning a local variable that could escape
-        if isLocalVariableReference(expressionString) && currentScope != "global" {
-            let violationLocation = sourceFile.location(for: location)
-            violations.append(ViolationBuilder(
-                ruleId: "escaping_reference",
-                category: .memory,
-                location: violationLocation
-            )
-            .message("Returning local variable '\(expressionString)' may extend its lifetime unexpectedly")
-            .suggestFix("Consider using copy or move semantics, or restructure the code")
-            .severity(.warning)
-            .build())
-        }
-
+        // Only flag return statements that could actually cause escaping issues:
+        // 1. Returning closures (which may capture local state)
+        // 2. Returning unsafe pointers to local memory
+        
         // Check for returning closures that capture local variables
         if expression.as(ClosureExprSyntax.self) != nil {
             let violationLocation = sourceFile.location(for: location)
@@ -324,7 +312,30 @@ private class EscapingReferenceAnalyzer: SyntaxAnyVisitor {
             .suggestFix("Ensure closure captures are explicitly weak/unowned or restructure")
             .severity(.warning)
             .build())
+            return
         }
+        
+        // Check for returning unsafe pointers
+        let expressionString = expression.trimmedDescription
+        if expressionString.contains("UnsafePointer") || 
+           expressionString.contains("UnsafeMutablePointer") ||
+           expressionString.contains("UnsafeBufferPointer") ||
+           expressionString.contains("UnsafeRawPointer") ||
+           expressionString.contains("withUnsafe") {
+            let violationLocation = sourceFile.location(for: location)
+            violations.append(ViolationBuilder(
+                ruleId: "escaping_reference",
+                category: .memory,
+                location: violationLocation
+            )
+            .message("Returning unsafe pointer may cause lifetime issues")
+            .suggestFix("Ensure the underlying memory outlives the pointer usage")
+            .severity(.warning)
+            .build())
+        }
+        
+        // Note: Normal return values (like `return result`) are NOT escaping issues.
+        // Swift's ARC handles reference counting automatically for returned values.
     }
 
     private func analyzeVariableDeclaration(_ decl: VariableDeclSyntax) {
@@ -393,19 +404,26 @@ private class EscapingReferenceAnalyzer: SyntaxAnyVisitor {
     }
 
     private func isLocalVariableReference(_ expression: String) -> Bool {
-        // Heuristic to detect local variable references
-        // In a real implementation, this would be more sophisticated
-        let localVariablePatterns = [
-            "let ", "var ", "self."
-        ]
-
-        for pattern in localVariablePatterns {
-            if expression.contains(pattern) {
-                return true
-            }
-        }
-
-        return false
+        // Only flag if it's a simple identifier that could be a local variable
+        // This is a heuristic - without full semantic analysis we can't be certain
+        
+        // Skip obvious non-local references
+        if expression.hasPrefix("self.") { return false }
+        if expression.contains("(") { return false }  // Function call
+        if expression.contains(".") { return false }  // Property access
+        if expression.hasPrefix("\"") { return false }  // String literal
+        if Int(expression) != nil { return false }  // Number literal
+        if expression == "nil" || expression == "true" || expression == "false" { return false }
+        if expression.isEmpty { return false }
+        
+        // A simple identifier like "result", "value", etc. could be a local variable
+        // but we can't know for sure without semantic analysis
+        // Be conservative - only return true for very simple identifiers
+        let isSimpleIdentifier = expression.allSatisfy { $0.isLetter || $0.isNumber || $0 == "_" }
+        
+        // Even simple identifiers are usually fine to capture - Swift handles this safely
+        // So we only flag if it looks like an inout capture or unsafe pointer
+        return false  // Be conservative - don't flag simple identifier captures
     }
 
     private func isExternalVariable(_ variable: String) -> Bool {
