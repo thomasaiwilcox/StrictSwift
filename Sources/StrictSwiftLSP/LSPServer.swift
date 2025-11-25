@@ -580,7 +580,6 @@ actor LSPServer {
         var markdown = "## \(severityEmoji) \(ruleDisplayName)\n\n"
         markdown += "**Category:** \(categoryDisplayName)  •  **Severity:** \(severityName)\n\n"
         markdown += "---\n\n"
-        markdown += "---\n\n"
         markdown += "\(violation.message)\n\n"
         
         // Add suggested fixes

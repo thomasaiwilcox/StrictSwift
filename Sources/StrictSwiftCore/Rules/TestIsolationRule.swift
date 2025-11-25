@@ -204,7 +204,7 @@ private final class TestIsolationVisitor: SyntaxVisitor {
         // Check if any argument contains temp directory references
         let fullCallText = node.description.lowercased()
         let tempIndicators = [
-            "temporarydirectory", "nstemorarydirectory", "tmp", "temp",
+            "temporarydirectory", "nstemporarydirectory", "tmp", "temp",
             "fileprovider.temporarydirectory"
         ]
         
