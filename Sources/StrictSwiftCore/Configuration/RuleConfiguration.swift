@@ -93,6 +93,8 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
     public var complexity: RuleConfiguration
     public var monolith: RuleConfiguration
     public var dependency: RuleConfiguration
+    public var security: RuleConfiguration
+    public var testing: RuleConfiguration
 
     public static let `default` = RulesConfiguration(
         memory: RuleConfiguration(),
@@ -102,7 +104,9 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
         performance: RuleConfiguration(),
         complexity: RuleConfiguration(),
         monolith: RuleConfiguration(),
-        dependency: RuleConfiguration()
+        dependency: RuleConfiguration(),
+        security: RuleConfiguration(),
+        testing: RuleConfiguration()
     )
 
     public init(
@@ -113,7 +117,9 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
         performance: RuleConfiguration = RuleConfiguration(),
         complexity: RuleConfiguration = RuleConfiguration(),
         monolith: RuleConfiguration = RuleConfiguration(),
-        dependency: RuleConfiguration = RuleConfiguration()
+        dependency: RuleConfiguration = RuleConfiguration(),
+        security: RuleConfiguration = RuleConfiguration(),
+        testing: RuleConfiguration = RuleConfiguration()
     ) {
         self.memory = memory
         self.concurrency = concurrency
@@ -123,6 +129,8 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
         self.complexity = complexity
         self.monolith = monolith
         self.dependency = dependency
+        self.security = security
+        self.testing = testing
     }
 
     /// Get configuration for a specific rule category
@@ -144,6 +152,10 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
             return monolith
         case .dependency:
             return dependency
+        case .security:
+            return security
+        case .testing:
+            return testing
         }
     }
 
@@ -166,6 +178,10 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
             monolith = config
         case .dependency:
             dependency = config
+        case .security:
+            security = config
+        case .testing:
+            testing = config
         }
     }
 }

@@ -346,7 +346,9 @@ private func mergeWithProfile(_ rules: RulesConfiguration, profile: Profile) -> 
         performance: mergeCategory(yaml: rules.performance, profile: profileRules.performance),
         complexity: mergeCategory(yaml: rules.complexity, profile: profileRules.complexity),
         monolith: mergeCategory(yaml: rules.monolith, profile: profileRules.monolith),
-        dependency: mergeCategory(yaml: rules.dependency, profile: profileRules.dependency)
+        dependency: mergeCategory(yaml: rules.dependency, profile: profileRules.dependency),
+        security: mergeCategory(yaml: rules.security, profile: profileRules.security),
+        testing: mergeCategory(yaml: rules.testing, profile: profileRules.testing)
     )
 }
 
@@ -427,7 +429,9 @@ extension Configuration {
                 performance: RuleConfiguration(severity: .warning),
                 complexity: RuleConfiguration(severity: .error),
                 monolith: RuleConfiguration(severity: .error),
-                dependency: RuleConfiguration(severity: .error)
+                dependency: RuleConfiguration(severity: .error),
+                security: RuleConfiguration(severity: .error),
+                testing: RuleConfiguration(severity: .warning)
             ),
             include: ["Sources/", "Tests/"],
             exclude: ["**/.build/**", "**/*.generated.swift"]
@@ -446,7 +450,9 @@ extension Configuration {
                 performance: RuleConfiguration(severity: .info),
                 complexity: RuleConfiguration(severity: .warning),
                 monolith: RuleConfiguration(severity: .warning),
-                dependency: RuleConfiguration(severity: .error)
+                dependency: RuleConfiguration(severity: .error),
+                security: RuleConfiguration(severity: .error),
+                testing: RuleConfiguration(severity: .warning)
             ),
             include: ["Sources/", "Tests/"],
             exclude: ["**/.build/**", "**/*.generated.swift"]
@@ -465,7 +471,9 @@ extension Configuration {
                 performance: RuleConfiguration(severity: .info),
                 complexity: RuleConfiguration(severity: .warning),
                 monolith: RuleConfiguration(severity: .info),
-                dependency: RuleConfiguration(severity: .warning)
+                dependency: RuleConfiguration(severity: .warning),
+                security: RuleConfiguration(severity: .error),
+                testing: RuleConfiguration(severity: .warning)
             ),
             include: ["Sources/"],
             exclude: ["**/.build/**", "**/*Tests/**", "**/*.generated.swift"]
@@ -484,7 +492,9 @@ extension Configuration {
                 performance: RuleConfiguration(severity: .info),
                 complexity: RuleConfiguration(severity: .info),
                 monolith: RuleConfiguration(severity: .info),
-                dependency: RuleConfiguration(severity: .warning)
+                dependency: RuleConfiguration(severity: .warning),
+                security: RuleConfiguration(severity: .warning),
+                testing: RuleConfiguration(severity: .info)
             ),
             include: ["Sources/"],
             exclude: ["**/.build/**", "**/*.generated.swift"]
@@ -503,7 +513,9 @@ extension Configuration {
                 performance: RuleConfiguration(severity: .error),
                 complexity: RuleConfiguration(severity: .error),
                 monolith: RuleConfiguration(severity: .error),
-                dependency: RuleConfiguration(severity: .error)
+                dependency: RuleConfiguration(severity: .error),
+                security: RuleConfiguration(severity: .error),
+                testing: RuleConfiguration(severity: .error)
             ),
             include: ["Sources/", "Tests/"],
             exclude: ["**/.build/**", "**/*.generated.swift"]

@@ -272,7 +272,9 @@ public actor AnalysisCache {
             ("complexity", config.rules.complexity),
             ("performance", config.rules.performance),
             ("monolith", config.rules.monolith),
-            ("dependency", config.rules.dependency)
+            ("dependency", config.rules.dependency),
+            ("security", config.rules.security),
+            ("testing", config.rules.testing)
         ]
         
         for (name, ruleConfig) in categories {
