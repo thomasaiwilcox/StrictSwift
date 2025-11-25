@@ -116,7 +116,11 @@ public final class DependencyGraph: @unchecked Sendable {
     public func findCycles() -> [[String]] {
         lock.lock()
         defer { lock.unlock() }
+        return findCyclesUnsafe()
+    }
 
+    /// Internal implementation that doesn't acquire the lock (caller must hold the lock)
+    private func findCyclesUnsafe() -> [[String]] {
         var cycles: [[String]] = []
         var visited: Set<String> = []
         var recursionStack: Set<String> = []
@@ -280,7 +284,7 @@ public final class DependencyGraph: @unchecked Sendable {
             description += "\n"
         }
 
-        let cycles = findCycles()
+        let cycles = findCyclesUnsafe()
         if !cycles.isEmpty {
             description += "Circular Dependencies:\n"
             for (index, cycle) in cycles.enumerated() {
@@ -311,9 +315,8 @@ public final class DependencyGraph: @unchecked Sendable {
         for (_, node) in other.nodes {
             if nodes[node.name] == nil {
                 nodes[node.name] = node
-            } else {
+            } else if var existingNode = nodes[node.name] {
                 // Merge dependencies for existing node
-                var existingNode = nodes[node.name]!
                 existingNode.dependencies.formUnion(node.dependencies)
                 existingNode.dependents.formUnion(node.dependents)
                 nodes[node.name] = existingNode

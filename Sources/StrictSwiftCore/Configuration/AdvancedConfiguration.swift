@@ -76,7 +76,7 @@ public struct RuleSpecificConfiguration: Codable, Equatable, Sendable {
     public let ruleId: String
     public let enabled: Bool
     public let severity: DiagnosticSeverity
-    public let parameters: [String: ConfigurationValue]
+    public var parameters: [String: ConfigurationValue]
     public let filePatterns: FilePatternConfiguration
 
     public init(
@@ -307,7 +307,7 @@ public struct ScopeConfiguration: Codable, Equatable, Sendable {
     public let excludeVendorCode: Bool
 
     public init(
-        analyzeTests: Bool = false,
+        analyzeTests: Bool = true,
         analyzeExtensions: Bool = true,
         analyzeGeneratedCode: Bool = false,
         minFileSizeLines: Int = 1,
@@ -368,6 +368,26 @@ public enum ConfigurationValue: Codable, Equatable, Sendable {
         default: return nil
         }
     }
+
+    /// Create a ConfigurationValue from any value
+    public static func create(_ value: Any) -> ConfigurationValue {
+        if let stringValue = value as? String {
+            return .stringValue(stringValue)
+        } else if let integerValue = value as? Int {
+            return .integerValue(integerValue)
+        } else if let doubleValue = value as? Double {
+            return .doubleValue(doubleValue)
+        } else if let booleanValue = value as? Bool {
+            return .booleanValue(booleanValue)
+        } else if let arrayValue = value as? [Any] {
+            return .arrayValue(arrayValue.map { create($0) })
+        } else if let stringArrayValue = value as? [String] {
+            return .stringArrayValue(stringArrayValue)
+        } else {
+            // Fallback to string representation
+            return .stringValue(String(describing: value))
+        }
+    }
 }
 
 /// Protocol for types that can be created from ConfigurationValue
@@ -406,6 +426,7 @@ extension Double: ConfigurationValueRepresentable {
         }
     }
 }
+
 
 extension Bool: ConfigurationValueRepresentable {
     public init?(from value: ConfigurationValue) {

@@ -344,7 +344,7 @@ public final class EnhancedGodClassRule: Rule {
                     category: .architecture,
                     location: location
                 )
-                .message("Excessive nesting depth (\(currentNestingDepth)) in class '\(currentClass!)'")
+                .message("Excessive nesting depth (\(currentNestingDepth)) in class '\(currentClass ?? "Unknown")'")
                 .suggestFix("Extract nested code into separate methods or classes")
                 .severity(severity(from: .warning, ruleSeverity: ruleConfig.severity))
                 .build()
@@ -371,7 +371,7 @@ public final class EnhancedGodClassRule: Rule {
                         category: .architecture,
                         location: location
                     )
-                    .message("Method in class '\(currentClass!)' is too long (\(methodLength) lines)")
+                    .message("Method in class '\(currentClass ?? "Unknown")' is too long (\(methodLength) lines)")
                     .suggestFix("Break down into smaller, more focused methods")
                     .severity(severityForCount(count: methodLength, threshold: maxMethodLines, ruleSeverity: ruleConfig.severity))
                     .build()

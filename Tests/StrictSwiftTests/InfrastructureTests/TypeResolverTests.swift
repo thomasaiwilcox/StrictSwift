@@ -56,17 +56,17 @@ final class TypeResolverTests: XCTestCase {
         XCTAssertNotNil(cacheProperty)
         XCTAssertEqual(cacheProperty?.type, "[String: Any]")
         XCTAssertTrue(cacheProperty?.isMutable ?? false)
-        XCTAssertTrue(cacheProperty?.isPrivate ?? false)
+        XCTAssertEqual(cacheProperty?.accessLevel, .private)
 
         // Check methods
         let fetchMethod = userServiceType?.methods.first { $0.name == "fetchUser" }
         XCTAssertNotNil(fetchMethod)
         XCTAssertEqual(fetchMethod?.returnType, "User?")
-        XCTAssertTrue(fetchMethod?.isPublic ?? false)
+        XCTAssertEqual(fetchMethod?.accessLevel, .public)
 
         let validateMethod = userServiceType?.methods.first { $0.name == "validateUser" }
         XCTAssertNotNil(validateMethod)
-        XCTAssertTrue(validateMethod?.isPrivate ?? false)
+        XCTAssertEqual(validateMethod?.accessLevel, .private)
     }
 
     func testTypeResolverStructResolution() throws {
@@ -318,7 +318,10 @@ final class TypeResolverTests: XCTestCase {
         // Check complexity metrics
         XCTAssertEqual(complexity?.propertyCount, 10)
         XCTAssertEqual(complexity?.methodCount, 15)
-        XCTAssertEqual(complexity?.complexityScore, 10 * 2 + 15 + 10) // 45
+        // Formula: propertyCount * 2 + methodCount + inheritanceDepth * 3 + protocolCount * 2 + publicMembersCount
+        // publicMembersCount = 10 (public properties) + 15 (public methods) = 25
+        // Score = 10 * 2 + 15 + 0 * 3 + 0 * 2 + 25 = 60
+        XCTAssertEqual(complexity?.complexityScore, 60)
         XCTAssertTrue(complexity?.isGodClass ?? false)
     }
 
@@ -388,12 +391,13 @@ final class TypeResolverTests: XCTestCase {
 
         resolver.resolveTypes(from: [sourceFile])
 
-        // Find types inheriting from UIViewController
+        // Find types inheriting from UIViewController (directly or transitively)
         let viewControllerSubclasses = resolver.typesInheriting(from: "UIViewController")
-        XCTAssertEqual(viewControllerSubclasses.count, 3)
+        XCTAssertEqual(viewControllerSubclasses.count, 4)
         XCTAssertTrue(viewControllerSubclasses.contains { $0.name == "UITableViewController" })
         XCTAssertTrue(viewControllerSubclasses.contains { $0.name == "CustomTableViewController" })
         XCTAssertTrue(viewControllerSubclasses.contains { $0.name == "BaseController" })
+        XCTAssertTrue(viewControllerSubclasses.contains { $0.name == "SpecificController" })
 
         // Find types inheriting from UITableViewController
         let tableViewControllerSubclasses = resolver.typesInheriting(from: "UITableViewController")

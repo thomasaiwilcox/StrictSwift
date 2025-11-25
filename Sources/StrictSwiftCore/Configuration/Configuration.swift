@@ -66,8 +66,8 @@ public struct Configuration: Codable, Equatable, Sendable {
                 advanced: config.advanced
             )
         } catch {
-            print("Warning: Failed to load configuration from \(url.path): \(error)")
-            print("Using profile defaults instead")
+            StrictSwiftLogger.warning("Failed to load configuration from \(url.path): \(error)")
+            StrictSwiftLogger.info("Using profile defaults instead")
             return profile.configuration
         }
     }
@@ -161,6 +161,86 @@ public struct Configuration: Codable, Equatable, Sendable {
 
         // Check scope settings
         return advanced.scopeSettings.shouldAnalyze(file: file)
+    }
+
+      /// Set a parameter for a specific rule
+    public mutating func setRuleParameter(_ ruleId: String, _ parameter: String, value: Any) {
+        var ruleConfig = advanced.configuration(for: ruleId) ?? RuleSpecificConfiguration(ruleId: ruleId)
+        var newParameters = ruleConfig.parameters
+        newParameters[parameter] = ConfigurationValue.create(value)
+
+        ruleConfig.parameters = newParameters
+        var newRuleSettings = advanced.ruleSettings
+        newRuleSettings[ruleId] = ruleConfig
+
+        // Create new advanced configuration with updated rule settings while preserving all other state
+        let newAdvanced = AdvancedConfiguration(
+            ruleSettings: newRuleSettings,
+            conditionalSettings: advanced.conditionalSettings,
+            thresholds: advanced.thresholds,
+            performanceSettings: advanced.performanceSettings,
+            scopeSettings: advanced.scopeSettings
+        )
+
+        // Update only the advanced configuration, preserving all other fields
+        self = Configuration(
+            profile: profile,
+            rules: rules,
+            baseline: baseline,
+            include: include,
+            exclude: exclude,
+            maxJobs: maxJobs,
+            advanced: newAdvanced
+        )
+    }
+
+    /// Enable or disable a specific rule
+    public mutating func enableRule(_ ruleId: String, enabled: Bool) {
+        let existingConfig = advanced.configuration(for: ruleId)
+        let ruleConfig = RuleSpecificConfiguration(
+            ruleId: ruleId,
+            enabled: enabled,
+            severity: existingConfig?.severity ?? .warning,
+            parameters: existingConfig?.parameters ?? [:],
+            filePatterns: existingConfig?.filePatterns ?? FilePatternConfiguration()
+        )
+
+        var newRuleSettings = advanced.ruleSettings
+        newRuleSettings[ruleId] = ruleConfig
+
+        // Create new advanced configuration with updated rule settings while preserving all other state
+        let newAdvanced = AdvancedConfiguration(
+            ruleSettings: newRuleSettings,
+            conditionalSettings: advanced.conditionalSettings,
+            thresholds: advanced.thresholds,
+            performanceSettings: advanced.performanceSettings,
+            scopeSettings: advanced.scopeSettings
+        )
+
+        // Update only the advanced configuration, preserving all other fields
+        self = Configuration(
+            profile: profile,
+            rules: rules,
+            baseline: baseline,
+            include: include,
+            exclude: exclude,
+            maxJobs: maxJobs,
+            advanced: newAdvanced
+        )
+    }
+
+    /// Create a copy of the configuration with modified rule settings (immutable approach)
+    public func withRuleParameter(_ ruleId: String, _ parameter: String, value: Any) -> Configuration {
+        var copy = self
+        copy.setRuleParameter(ruleId, parameter, value: value)
+        return copy
+    }
+
+    /// Create a copy of the configuration with modified rule enabled state (immutable approach)
+    public func withRuleEnabled(_ ruleId: String, enabled: Bool) -> Configuration {
+        var copy = self
+        copy.enableRule(ruleId, enabled: enabled)
+        return copy
     }
 
     /// Export configuration as YAML

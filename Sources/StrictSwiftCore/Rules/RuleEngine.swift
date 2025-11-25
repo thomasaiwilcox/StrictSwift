@@ -54,6 +54,14 @@ public actor RuleEngine: Sendable {
             return .architecture
         case "architectural_health":
             return .architecture
+        case "escaping_reference", "exclusive_access", "memory_leak", "retain_cycle":
+            return .memory
+        case "cyclomatic_complexity", "nesting_depth", "function_length":
+            return .complexity
+        case "module_boundary", "import_direction", "file_length", "type_count":
+            return .architecture
+        case "repeated_allocation", "large_struct_copy", "arc_churn", "hot_path_validation":
+            return .performance
         default:
             return .architecture
         }
@@ -147,17 +155,38 @@ extension RuleEngine {
         register(DataRaceRule())
 
         // Phase 1 Architecture Rules
-        register(LayeredDependenciesRule())
+        // Note: Using Enhanced versions which supersede the basic implementations
+        // register(LayeredDependenciesRule())  // Superseded by EnhancedLayeredDependenciesRule
         register(CircularDependencyRule())
-        register(GodClassRule())
+        // register(GodClassRule())  // Superseded by EnhancedGodClassRule
         register(GlobalStateRule())
 
         // Phase 1 Architecture Rules Complete ✅
 
         // Phase 2 Enhanced Rules using Infrastructure
-        register(EnhancedLayeredDependenciesRule())
-        register(EnhancedGodClassRule())
+        // These enhanced rules replace their basic counterparts with more sophisticated analysis
+        register(EnhancedLayeredDependenciesRule())  // Replaces LayeredDependenciesRule
+        register(EnhancedGodClassRule())  // Replaces GodClassRule
         register(ArchitecturalHealthRule())
+
+        // Phase 3 Memory & Ownership Rules
+        register(EscapingReferenceRule())
+        register(ExclusiveAccessRule())
+
+        // Phase 3 Complexity Rules
+        register(CyclomaticComplexityRule())
+        register(NestingDepthRule())
+        register(FunctionLengthRule())
+
+        // Phase 3 Enhanced Architecture Rules
+        register(ModuleBoundaryRule())
+        register(ImportDirectionRule())
+
+        // Phase 3 Performance Rules
+        register(RepeatedAllocationRule())
+        register(LargeStructCopyRule())
+        register(ARCChurnRule())
+        register(HotPathValidationRule())
     }
 }
 

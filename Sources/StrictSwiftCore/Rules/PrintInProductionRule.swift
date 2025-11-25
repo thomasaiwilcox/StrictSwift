@@ -5,7 +5,7 @@ import SwiftSyntax
 public final class PrintInProductionRule: Rule {
     public var id: String { "print_in_production" }
     public var name: String { "Print in Production" }
-    public var description: String { "Detects print() statements that should not be in production code" }
+    public var description: String { "Detects print(), dump(), and debugPrint() statements that should not be in production code" }
     public var category: RuleCategory { .safety }
     public var defaultSeverity: DiagnosticSeverity { .warning }
     public var enabledByDefault: Bool { true }
@@ -28,10 +28,13 @@ public final class PrintInProductionRule: Rule {
     }
 }
 
-/// Syntax visitor that finds print() statements
+/// Syntax visitor that finds print(), dump(), debugPrint() statements
 private final class PrintInProductionVisitor: SyntaxAnyVisitor {
     let sourceFile: SourceFile
     var violations: [Violation] = []
+    
+    /// Debug output functions to detect
+    private let debugFunctions = ["print", "dump", "debugPrint"]
 
     init(sourceFile: SourceFile) {
         self.sourceFile = sourceFile
@@ -39,24 +42,28 @@ private final class PrintInProductionVisitor: SyntaxAnyVisitor {
     }
 
     public override func visitAny(_ node: Syntax) -> SyntaxVisitorContinueKind {
-        // Check for print() calls by looking for "print(" in the syntax description
-        // We need to be more specific to avoid matching variables or functions named "print"
-        if node.description.contains("print(") {
-            let location = sourceFile.location(for: node.position)
+        let description = node.description
+        
+        // Check for debug output function calls
+        for funcName in debugFunctions {
+            let pattern = "\(funcName)("
+            if description.contains(pattern) {
+                let location = sourceFile.location(for: node.position)
 
-            let violation = ViolationBuilder(
-                ruleId: "print_in_production",
-                category: .safety,
-                location: location
-            )
-            .message("print() statement found in production code")
-            .suggestFix("Replace with proper logging framework or remove debug output")
-            .severity(.warning)
-            .build()
+                let violation = ViolationBuilder(
+                    ruleId: "print_in_production",
+                    category: .safety,
+                    location: location
+                )
+                .message("\(funcName)() statement found in production code")
+                .suggestFix("Replace with proper logging framework or remove debug output")
+                .severity(.warning)
+                .build()
 
-            violations.append(violation)
+                violations.append(violation)
 
-            return .skipChildren
+                return .skipChildren
+            }
         }
 
         return .visitChildren

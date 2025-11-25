@@ -174,7 +174,8 @@ public final class LayerValidator: @unchecked Sendable {
         }
 
         // Allow dependencies to lower levels (if enabled)
-        if policy.allowLowerLevelDependencies && from.level < to.level {
+        // Lower level = more fundamental (lower number), so higher-to-lower means from.level > to.level
+        if policy.allowLowerLevelDependencies && from.level > to.level {
             return true
         }
 
@@ -194,8 +195,8 @@ public final class LayerValidator: @unchecked Sendable {
             return true
 
         case .importModule:
-            // Module imports have special handling
-            return from.level <= to.level
+            // Module imports have special handling - allow imports from higher to lower levels
+            return from.level >= to.level
 
         default:
             return false

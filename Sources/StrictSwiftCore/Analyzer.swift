@@ -120,7 +120,8 @@ public final class Analyzer: Sendable {
     ) -> [Violation] {
         // Check if baseline has expired
         if baseline.isExpired {
-            print("⚠️ Warning: Baseline expired on \(baseline.expires!.description)")
+            let expiryDescription = baseline.expires?.description ?? "unknown date"
+            StrictSwiftLogger.warning("Baseline expired on \(expiryDescription)")
             return violations
         }
 

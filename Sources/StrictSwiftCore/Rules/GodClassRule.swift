@@ -52,7 +52,8 @@ public final class GodClassRule: Rule {
                 }
             }
         } catch {
-            // If regex fails, return no violations
+            // Log regex failure for debugging
+            StrictSwiftLogger.warning("GodClassRule regex failed: \(error.localizedDescription)")
         }
 
         return violations
@@ -122,10 +123,15 @@ public final class GodClassRule: Rule {
                 if line.contains(":") {
                     if let colonRange = line.range(of: ":") {
                         let afterColon = line[colonRange.upperBound...]
-                        let components = afterColon.components(separatedBy: .whitespacesAndNewlines)
+                        let components = afterColon.trimmingCharacters(in: .whitespaces)
+                            .components(separatedBy: .whitespaces)
+                            .filter { !$0.isEmpty }
                         if let typeName = components.first {
                             let cleanType = typeName.components(separatedBy: "=").first ?? typeName
-                            dependencies.insert(cleanType.trimmingCharacters(in: .whitespacesAndNewlines))
+                            let finalType = cleanType.trimmingCharacters(in: .whitespacesAndNewlines)
+                            if !finalType.isEmpty {
+                                dependencies.insert(finalType)
+                            }
                         }
                     }
                 }

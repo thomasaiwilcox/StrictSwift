@@ -62,6 +62,9 @@ private class FindFirstTypeVisitor: SyntaxAnyVisitor {
         return .skipChildren
     }
 }
+/// Comprehensive architectural health analysis rule
+/// SAFETY: @unchecked Sendable is safe because this rule has no stored state.
+/// Infrastructure components are created fresh per analysis call for thread safety.
 public final class ArchitecturalHealthRule: Rule, @unchecked Sendable {
     public var id: String { "architectural_health" }
     public var name: String { "Architectural Health" }

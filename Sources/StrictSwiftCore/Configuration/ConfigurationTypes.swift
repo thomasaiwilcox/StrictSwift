@@ -187,6 +187,25 @@ extension ConfigurationValue {
         return .stringValue(value)
     }
 
+    /// Create from Any value (for configuration API)
+    public static func from(_ value: Any) -> ConfigurationValue {
+        if let stringValue = value as? String {
+            return .stringValue(stringValue)
+        } else if let intValue = value as? Int {
+            return .integerValue(intValue)
+        } else if let doubleValue = value as? Double {
+            return .doubleValue(doubleValue)
+        } else if let boolValue = value as? Bool {
+            return .booleanValue(boolValue)
+        } else if let arrayValue = value as? [String] {
+            return .stringArrayValue(arrayValue)
+        } else if let arrayValue = value as? [ConfigurationValue] {
+            return .arrayValue(arrayValue)
+        } else {
+            return .stringValue(String(describing: value))
+        }
+    }
+
     public static func integer(_ value: Int) -> ConfigurationValue {
         return .integerValue(value)
     }

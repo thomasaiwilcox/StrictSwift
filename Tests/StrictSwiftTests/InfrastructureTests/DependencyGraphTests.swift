@@ -220,9 +220,12 @@ final class DependencyGraphTests: XCTestCase {
 
         let dependencies = graph.allDependencies
         XCTAssertEqual(dependencies.count, 3)
-        XCTAssertEqual(dependencies.first?.strength.rawValue, 1)
-        XCTAssertEqual(dependencies.dropFirst().first?.strength.rawValue, 2)
-        XCTAssertEqual(dependencies.dropFirst(2).first?.strength.rawValue, 3)
+        
+        // Check that all strengths are present (order is not guaranteed)
+        let strengths = Set(dependencies.map { $0.strength.rawValue })
+        XCTAssertTrue(strengths.contains(1), "Should contain weak strength")
+        XCTAssertTrue(strengths.contains(2), "Should contain medium strength")
+        XCTAssertTrue(strengths.contains(3), "Should contain strong strength")
     }
 
     func testDependencyType() throws {
@@ -248,8 +251,10 @@ final class DependencyGraphTests: XCTestCase {
         let dependencies = graph.allDependencies
         XCTAssertEqual(dependencies.count, types.count)
 
-        for (index, dependency) in dependencies.enumerated() {
-            XCTAssertEqual(dependency.type.rawValue, types[index].rawValue)
+        // Check that all types are present (order is not guaranteed)
+        let foundTypes = Set(dependencies.map { $0.type.rawValue })
+        for type in types {
+            XCTAssertTrue(foundTypes.contains(type.rawValue), "Should contain type \(type.rawValue)")
         }
     }
 
@@ -270,8 +275,10 @@ final class DependencyGraphTests: XCTestCase {
         let nodes = graph.allNodes
         XCTAssertEqual(nodes.count, types.count)
 
-        for (index, node) in nodes.enumerated() {
-            XCTAssertEqual(node.type.rawValue, types[index].rawValue)
+        // Check that all types are present (order is not guaranteed)
+        let foundTypes = Set(nodes.map { $0.type.rawValue })
+        for type in types {
+            XCTAssertTrue(foundTypes.contains(type.rawValue), "Should contain node type \(type.rawValue)")
         }
     }
 

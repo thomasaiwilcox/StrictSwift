@@ -1,8 +1,8 @@
 import Foundation
 import SwiftSyntax
 
-/// Detects potential actor isolation violations
-public final class ActorIsolationRule: Rule {
+/// Detects potential actor isolation violations using AST-based analysis
+public final class ActorIsolationRule: Rule, Sendable {
     public var id: String { "actor_isolation" }
     public var name: String { "Actor Isolation" }
     public var description: String { "Detects potential actor isolation violations" }
@@ -13,14 +13,10 @@ public final class ActorIsolationRule: Rule {
     public init() {}
 
     public func analyze(_ sourceFile: SourceFile, in context: AnalysisContext) async -> [Violation] {
-        var violations: [Violation] = []
         let tree = sourceFile.tree
-
         let visitor = ActorIsolationVisitor(sourceFile: sourceFile)
         visitor.walk(tree)
-        violations = visitor.violations
-
-        return violations
+        return visitor.violations
     }
 
     public func shouldAnalyze(_ sourceFile: SourceFile) -> Bool {
@@ -28,20 +24,20 @@ public final class ActorIsolationRule: Rule {
     }
 }
 
-/// Syntax visitor that finds potential actor isolation violations
-private final class ActorIsolationVisitor: SyntaxAnyVisitor {
+/// AST-based visitor that finds potential actor isolation violations
+private final class ActorIsolationVisitor: SyntaxVisitor {
     let sourceFile: SourceFile
     var violations: [Violation] = []
 
-    // Patterns that indicate actor contexts
-    private let actorContexts: Set<String> = [
-        "actor", "MainActor", "@MainActor", "nonisolated"
-    ]
+    // Track actor context
+    private var isInActorDeclaration = false
+    private var isMainActorIsolated = false
+    private var currentActorName: String?
 
-    // Patterns that might indicate actor isolation violations
-    private let riskyPatterns: Set<String> = [
-        "DispatchQueue.main", "NotificationCenter", "UserDefaults",
-        "FileManager", "URLSession", "Timer", "RunLoop"
+    // Risky APIs that should be used carefully in actor contexts
+    private let riskyAPIs: Set<String> = [
+        "DispatchQueue", "NotificationCenter", "UserDefaults",
+        "FileManager", "Timer", "RunLoop"
     ]
 
     init(sourceFile: SourceFile) {
@@ -49,91 +45,144 @@ private final class ActorIsolationVisitor: SyntaxAnyVisitor {
         super.init(viewMode: .sourceAccurate)
     }
 
-    public override func visitAny(_ node: Syntax) -> SyntaxVisitorContinueKind {
-        let nodeDescription = node.description
+    // MARK: - Track Actor Declarations
 
-        // Look for actor definitions and their usage
-        if isActorContext(nodeDescription) {
-            analyzeActorContext(node, nodeDescription: nodeDescription)
+    override func visit(_ node: ActorDeclSyntax) -> SyntaxVisitorContinueKind {
+        isInActorDeclaration = true
+        currentActorName = node.name.text
+        return .visitChildren
+    }
+
+    override func visitPost(_ node: ActorDeclSyntax) {
+        isInActorDeclaration = false
+        currentActorName = nil
+    }
+
+    // MARK: - Track @MainActor Attribute
+
+    override func visit(_ node: AttributeSyntax) -> SyntaxVisitorContinueKind {
+        let attrName = node.attributeName.trimmedDescription
+        if attrName == "MainActor" {
+            isMainActorIsolated = true
         }
+        return .visitChildren
+    }
 
-        // Look for MainActor usage with potential issues
-        if nodeDescription.contains("@MainActor") || nodeDescription.contains("MainActor") {
-            analyzeMainActorUsage(node, nodeDescription: nodeDescription)
+    // MARK: - Check Function Declarations in Actors
+
+    override func visit(_ node: FunctionDeclSyntax) -> SyntaxVisitorContinueKind {
+        // Check for nonisolated functions that access actor state
+        // We need to check the modifiers directly on the function node
+        let hasNonisolated = node.modifiers.contains { modifier in
+            modifier.name.tokenKind == .keyword(.nonisolated)
+        }
+        
+        if isInActorDeclaration && hasNonisolated {
+            // Check function body for self access
+            if let body = node.body {
+                let bodyDescription = body.trimmedDescription
+                if bodyDescription.contains("self.") {
+                    let location = sourceFile.location(for: node.position)
+                    let violation = ViolationBuilder(
+                        ruleId: "actor_isolation",
+                        category: .concurrency,
+                        location: location
+                    )
+                    .message("nonisolated function '\(node.name.text)' accesses actor state via 'self'")
+                    .suggestFix("Remove nonisolated modifier or avoid accessing actor-isolated state")
+                    .severity(.warning)
+                    .build()
+
+                    violations.append(violation)
+                }
+            }
         }
 
         return .visitChildren
     }
 
-    private func isActorContext(_ nodeDescription: String) -> Bool {
-        return nodeDescription.contains("actor ") ||
-               nodeDescription.contains("@MainActor") ||
-               nodeDescription.contains("MainActor.run") ||
-               nodeDescription.contains("nonisolated")
+    // MARK: - Check for Risky API Usage in Actor Context
+
+    override func visit(_ node: MemberAccessExprSyntax) -> SyntaxVisitorContinueKind {
+        if isInActorDeclaration || isMainActorIsolated {
+            if let base = node.base {
+                let baseName = base.trimmedDescription
+
+                // Check for risky API access
+                for riskyAPI in riskyAPIs {
+                    if baseName.contains(riskyAPI) {
+                        let location = sourceFile.location(for: node.position)
+                        let violation = ViolationBuilder(
+                            ruleId: "actor_isolation",
+                            category: .concurrency,
+                            location: location
+                        )
+                        .message("Potentially unsafe '\(riskyAPI)' access in actor-isolated context")
+                        .suggestFix("Use Task.detached for non-isolated work or ensure API is thread-safe")
+                        .severity(.warning)
+                        .build()
+
+                        violations.append(violation)
+                        break
+                    }
+                }
+            }
+        }
+
+        return .visitChildren
     }
 
-    private func analyzeActorContext(_ node: Syntax, nodeDescription: String) {
-        // Check for potentially risky operations in actor context
-        for pattern in riskyPatterns {
-            if nodeDescription.contains(pattern) {
-                let location = sourceFile.location(for: node.position)
+    // MARK: - Check for @unchecked Sendable Without Justification
 
+    override func visit(_ node: InheritedTypeSyntax) -> SyntaxVisitorContinueKind {
+        let typeDescription = node.type.trimmedDescription
+
+        if typeDescription.contains("@unchecked") && typeDescription.contains("Sendable") {
+            // Look for a comment justification
+            let leadingTrivia = node.leadingTrivia.description
+            let hasJustification = leadingTrivia.contains("//") || leadingTrivia.contains("/*")
+
+            if !hasJustification {
+                let location = sourceFile.location(for: node.position)
                 let violation = ViolationBuilder(
                     ruleId: "actor_isolation",
                     category: .concurrency,
                     location: location
                 )
-                .message("Potentially unsafe operation '\(pattern)' in actor context")
-                .suggestFix("Consider using proper actor isolation or move to non-isolated context")
+                .message("@unchecked Sendable conformance without documented justification")
+                .suggestFix("Add a comment explaining why @unchecked Sendable is safe: // SAFETY: ...")
                 .severity(.warning)
                 .build()
 
                 violations.append(violation)
-                break
             }
         }
+
+        return .visitChildren
     }
 
-    private func analyzeMainActorUsage(_ node: Syntax, nodeDescription: String) {
-        // Look for MainActor with synchronous access to non-MainActor isolated code
-        if nodeDescription.contains("@MainActor") &&
-           (nodeDescription.contains("DispatchQueue") ||
-            nodeDescription.contains("NotificationCenter") ||
-            nodeDescription.contains("UserDefaults")) {
+    // MARK: - Check for Task.detached in MainActor Context
 
+    override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {
+        let callDescription = node.calledExpression.trimmedDescription
+
+        // Check for Task.detached usage in MainActor context
+        if isMainActorIsolated && callDescription == "Task.detached" {
+            // This is actually a valid pattern, but warn about potential issues
             let location = sourceFile.location(for: node.position)
-
             let violation = ViolationBuilder(
                 ruleId: "actor_isolation",
                 category: .concurrency,
                 location: location
             )
-            .message("MainActor context accessing non-actor isolated APIs")
-            .suggestFix("Use Task.detached or proper isolation boundaries")
-            .severity(.warning)
+            .message("Task.detached in MainActor context - ensure no MainActor-isolated state is captured")
+            .suggestFix("Verify captured values are Sendable or use explicit capture list")
+            .severity(.info)
             .build()
 
             violations.append(violation)
         }
 
-        // Check for actor isolation bypass patterns
-        if nodeDescription.contains("nonisolated") &&
-           nodeDescription.contains("Task") &&
-           nodeDescription.contains("MainActor") {
-
-            let location = sourceFile.location(for: node.position)
-
-            let violation = ViolationBuilder(
-                ruleId: "actor_isolation",
-                category: .concurrency,
-                location: location
-            )
-            .message("Potential actor isolation bypass using nonisolated")
-            .suggestFix("Ensure this isolation bypass is intentional and safe")
-            .severity(.warning)
-            .build()
-
-            violations.append(violation)
-        }
+        return .visitChildren
     }
 }
