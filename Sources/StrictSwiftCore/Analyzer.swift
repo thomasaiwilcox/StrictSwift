@@ -44,14 +44,15 @@ public final class Analyzer: Sendable {
         let projectRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let context = AnalysisContext(configuration: configuration, projectRoot: projectRoot)
 
-        // Add all source files to context
-        for file in sourceFiles {
-            context.addSourceFile(file)
-        }
-
-        // Filter files based on include/exclude patterns
+        // Filter files based on include/exclude patterns BEFORE adding to context
+        // This ensures cross-file rules (DeadCodeRule, graph-enhanced rules) only see included files
         let filteredFiles = sourceFiles.filter { file in
             context.isIncluded(file.path)
+        }
+
+        // Only add filtered files to context - this populates allSourceFiles and globalGraph
+        for file in filteredFiles {
+            context.addSourceFile(file)
         }
 
         // Run analysis - use cached RuleEngine for performance

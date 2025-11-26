@@ -23,13 +23,14 @@ private final class ResourceLeakVisitor: SyntaxVisitor {
     let sourceFile: SourceFile
     var violations: [Violation] = []
 
-    // Resources that require cleanup
-    private let trackedTypes = [
-        "FileHandle",
-        "InputStream",
-        "OutputStream",
-        "sqlite3_stmt",
-        "OpaquePointer" // Often used for C resources
+    // Resources that require cleanup, mapped to their cleanup code
+    // nil cleanup means no auto-fix should be offered (manual cleanup required)
+    private let trackedResources: [String: String?] = [
+        "FileHandle": "close()",
+        "InputStream": "close()",
+        "OutputStream": "close()",
+        "sqlite3_stmt": nil,      // Requires sqlite3_finalize(stmt) - C API, no auto-fix
+        "OpaquePointer": nil      // Generic C pointer - cleanup varies, no auto-fix
     ]
     
     private let cleanupMethods = [
@@ -69,20 +70,26 @@ private final class ResourceLeakVisitor: SyntaxVisitor {
             let varName = pattern.identifier.text
             let initExpr = initializer.value.trimmedDescription
             
-            // 2. Check if it's a tracked resource
-            if isTrackedResource(initExpr, typeAnnotation: binding.typeAnnotation) {
-                // 3. Check if there is a defer block *after* this declaration that closes it
-                if !hasCleanupInDefer(varName: varName, statements: statements, startIndex: index + 1) {
-                    var builder = ViolationBuilder(
-                        ruleId: "resource_leak",
-                        category: .safety,
-                        location: sourceFile.location(of: varDecl)
-                    )
-                    .message("Resource '\(varName)' created without a corresponding defer block for cleanup")
-                    .suggestFix("Add 'defer { \(varName).close() }' immediately after initialization")
-                    .severity(.warning)
+            // 2. Check if it's a tracked resource and get its cleanup method
+            let resourceInfo = getTrackedResourceInfo(initExpr, typeAnnotation: binding.typeAnnotation)
+            guard let (resourceType, cleanupMethod) = resourceInfo else { continue }
+            
+            // 3. Check if there is a defer block *after* this declaration that closes it
+            if !hasCleanupInDefer(varName: varName, statements: statements, startIndex: index + 1) {
+                var builder = ViolationBuilder(
+                    ruleId: "resource_leak",
+                    category: .safety,
+                    location: sourceFile.location(of: varDecl)
+                )
+                .severity(.warning)
+                
+                // Customize message based on whether auto-fix is available
+                if let cleanup = cleanupMethod {
+                    builder = builder
+                        .message("Resource '\(varName)' created without a corresponding defer block for cleanup")
+                        .suggestFix("Add 'defer { \(varName).\(cleanup) }' immediately after initialization")
                     
-                    // Auto-fix
+                    // Only offer auto-fix for types with known cleanup methods
                     builder = builder.addStructuredFix(
                         title: "Add defer cleanup",
                         kind: .refactor
@@ -93,28 +100,54 @@ private final class ResourceLeakVisitor: SyntaxVisitor {
                         // Insert after the declaration
                         fix.addEdit(TextEdit.insert(
                             at: self.sourceFile.location(endOf: varDecl), 
-                            text: "\n\(indentation)defer { \(varName).close() }"
+                            text: "\n\(indentation)defer { \(varName).\(cleanup) }"
                         ))
                     }
-                    
-                    violations.append(builder.build())
+                } else {
+                    // C types or resources without auto-fix - provide manual guidance
+                    let suggestion = getSuggestedCleanup(for: resourceType, varName: varName)
+                    builder = builder
+                        .message("Resource '\(varName)' (\(resourceType)) requires manual cleanup in a defer block")
+                        .suggestFix(suggestion)
+                    // No auto-fix offered - cleanup varies by resource type
                 }
+                
+                violations.append(builder.build())
             }
         }
     }
     
-    private func isTrackedResource(_ initExpr: String, typeAnnotation: TypeAnnotationSyntax?) -> Bool {
+    /// Returns (resourceType, cleanupMethod) if tracked, nil if not tracked
+    /// cleanupMethod is nil if no auto-fix should be offered
+    private func getTrackedResourceInfo(_ initExpr: String, typeAnnotation: TypeAnnotationSyntax?) -> (String, String?)? {
         // Check explicit type annotation
         if let typeName = typeAnnotation?.type.trimmedDescription {
-            if trackedTypes.contains(where: { typeName.contains($0) }) {
-                return true
+            for (resourceType, cleanup) in trackedResources {
+                if typeName.contains(resourceType) {
+                    return (resourceType, cleanup)
+                }
             }
         }
         
         // Check initializer type (heuristic)
-        return trackedTypes.contains { type in
-            initExpr.contains(type + "(") || // Constructor: FileHandle(...)
-            initExpr.contains(type + ".")    // Factory: FileHandle.standardInput
+        for (resourceType, cleanup) in trackedResources {
+            if initExpr.contains(resourceType + "(") || initExpr.contains(resourceType + ".") {
+                return (resourceType, cleanup)
+            }
+        }
+        
+        return nil
+    }
+    
+    /// Returns suggested cleanup code for C types that don't have auto-fix
+    private func getSuggestedCleanup(for resourceType: String, varName: String) -> String {
+        switch resourceType {
+        case "sqlite3_stmt":
+            return "Add 'defer { sqlite3_finalize(\(varName)) }' for SQLite statement cleanup"
+        case "OpaquePointer":
+            return "Add appropriate defer cleanup based on the resource type (e.g., sqlite3_close, CFRelease)"
+        default:
+            return "Add a defer block to clean up the resource"
         }
     }
     
