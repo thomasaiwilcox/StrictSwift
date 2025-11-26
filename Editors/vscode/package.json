@@ -73,6 +73,11 @@
                     "default": "criticalCore",
                     "description": "Analysis profile preset"
                 },
+                "strictswift.useEnhancedRules": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Enable graph-enhanced rules for cross-file analysis. Provides coupling metrics, dead code detection, and more accurate circular dependency detection. Requires more memory but catches more issues."
+                },
                 "strictswift.rules.safety.enabled": {
                     "type": "boolean",
                     "default": true,

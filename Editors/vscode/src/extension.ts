@@ -131,6 +131,7 @@ sudo cp .build/release/strictswift-lsp /usr/local/bin/
     // Build initialization options from VS Code settings
     const initializationOptions = {
         profile: config.get<string>('profile', 'criticalCore'),
+        useEnhancedRules: config.get<boolean>('useEnhancedRules', false),
         rules: {
             safety: {
                 enabled: config.get<boolean>('rules.safety.enabled', true),

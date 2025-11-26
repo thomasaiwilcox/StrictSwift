@@ -149,6 +149,12 @@ actor LSPServer {
             }
         }
         
+        // Parse useEnhancedRules setting
+        var useEnhancedRules = false
+        if case .bool(let enhanced) = settings["useEnhancedRules"] {
+            useEnhancedRules = enhanced
+        }
+        
         configuration = Configuration(
             profile: profile,
             rules: RulesConfiguration(
@@ -162,12 +168,13 @@ actor LSPServer {
                 dependency: architectureConfig
             ),
             include: [],
-            exclude: excludePaths
+            exclude: excludePaths,
+            useEnhancedRules: useEnhancedRules
         )
         
         // Recreate analyzer with new configuration
         analyzer = Analyzer(configuration: configuration)
-        log("Configuration applied: profile=\(profile), safety=\(safetyConfig.severity)")
+        log("Configuration applied: profile=\(profile), safety=\(safetyConfig.severity), useEnhancedRules=\(useEnhancedRules)")
     }
     
     /// Handle workspace/didChangeConfiguration notification
