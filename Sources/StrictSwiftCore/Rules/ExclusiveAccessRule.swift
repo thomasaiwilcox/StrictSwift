@@ -288,28 +288,69 @@ private class ExclusiveAccessAnalyzer: SyntaxAnyVisitor {
         let writeAccesses = accesses.filter { $0.type == .write }
         guard writeAccesses.count > maxConcurrentAccess else { return }
 
-        let scopeSet = Set(writeAccesses.map { $0.scopeIdentifier })
-        guard scopeSet.count > maxConcurrentAccess else { return }
-
-        let scopeKey = scopeSet.sorted().joined(separator: "|")
-        let cacheKey = "\(target)|\(scopeKey)"
-        guard !reportedConcurrentAccesses.contains(cacheKey) else { return }
-        reportedConcurrentAccesses.insert(cacheKey)
-
-        guard let latestWrite = writeAccesses.last else { return }
-        let latestLocation = latestWrite.location
-        let locationInfo = sourceFile.location(for: latestLocation)
-        let scopeSummary = scopeSet.joined(separator: ", ")
-
-        violations.append(ViolationBuilder(
-            ruleId: "exclusive_access",
-            category: .memory,
-            location: locationInfo
-        )
-        .message("Concurrent writes to '\(target)' from scopes: \(scopeSummary)")
-        .suggestFix("Synchronize access to '\(target)' or avoid mutating it across these scopes simultaneously")
-        .severity(.error)
-        .build())
+        // Only flag as concurrent access if writes happen in OVERLAPPING scopes
+        // (e.g., nested closures, inout parameters passed to same function)
+        // Different methods in the same class are NOT concurrent - they execute sequentially
+        
+        // Check for actual concurrent access patterns:
+        // 1. Same closure/function with multiple writes (could be loop or recursive)
+        // 2. Nested scopes where outer scope writes and inner scope also writes
+        // 3. inout parameter aliasing
+        
+        // Group by function - only flag if multiple writes in same function/closure
+        var writesByFunction: [String: [AccessInfo]] = [:]
+        for access in writeAccesses {
+            let funcKey = access.function ?? "global"
+            writesByFunction[funcKey, default: []].append(access)
+        }
+        
+        // For each function, check if there are writes from nested closures
+        for (funcName, funcWrites) in writesByFunction {
+            // Check for closure captures that might execute concurrently
+            let closureWrites = funcWrites.filter { $0.closure != nil }
+            let directWrites = funcWrites.filter { $0.closure == nil }
+            
+            // Flag if both direct writes and closure writes exist (potential escape)
+            if !closureWrites.isEmpty && !directWrites.isEmpty {
+                let cacheKey = "\(target)|\(funcName)|closure_capture"
+                guard !reportedConcurrentAccesses.contains(cacheKey) else { continue }
+                reportedConcurrentAccesses.insert(cacheKey)
+                
+                guard let latestWrite = closureWrites.last else { continue }
+                let locationInfo = sourceFile.location(for: latestWrite.location)
+                
+                violations.append(ViolationBuilder(
+                    ruleId: "exclusive_access",
+                    category: .memory,
+                    location: locationInfo
+                )
+                .message("Potential exclusive access violation: '\(target)' is written both directly and in a closure in '\(funcName)'")
+                .suggestFix("Use a capture list or local copy to avoid potential data races")
+                .severity(.warning)
+                .build())
+            }
+            
+            // Check for multiple closure scopes (could run concurrently)
+            let uniqueClosures = Set(closureWrites.compactMap { $0.closure })
+            if uniqueClosures.count > 1 {
+                let cacheKey = "\(target)|\(funcName)|multi_closure"
+                guard !reportedConcurrentAccesses.contains(cacheKey) else { continue }
+                reportedConcurrentAccesses.insert(cacheKey)
+                
+                guard let latestWrite = closureWrites.last else { continue }
+                let locationInfo = sourceFile.location(for: latestWrite.location)
+                
+                violations.append(ViolationBuilder(
+                    ruleId: "exclusive_access",
+                    category: .memory,
+                    location: locationInfo
+                )
+                .message("Potential exclusive access violation: '\(target)' is written in multiple closures that may execute concurrently")
+                .suggestFix("Ensure closures don't run concurrently or use proper synchronization")
+                .severity(.warning)
+                .build())
+            }
+        }
     }
 
     private func hasThreadSafetyAttributes(_ decl: VariableDeclSyntax) -> Bool {
