@@ -26,8 +26,8 @@ struct CheckCommand: AsyncParsableCommand {
     @Option(name: .long, help: "Fail on errors")
     var failOnError: Bool = true
     
-    @Flag(name: .long, help: "Enable incremental analysis with caching")
-    var cache: Bool = false
+    @Flag(name: .long, help: "Disable incremental analysis caching (caching is enabled by default)")
+    var noCache: Bool = false
     
     @Flag(name: .long, help: "Clear the analysis cache before running")
     var clearCache: Bool = false
@@ -41,8 +41,27 @@ struct CheckCommand: AsyncParsableCommand {
     
     @Option(name: .long, help: "Minimum severity to report (error|warning|info|hint)")
     var minSeverity: String?
+    
+    // Semantic analysis options
+    @Option(name: .long, help: "Semantic analysis mode (off|hybrid|full|auto). Default: auto")
+    var semantic: String?
+    
+    @Flag(name: .long, help: "Fail if requested semantic mode is unavailable")
+    var semanticStrict: Bool = false
+    
+    // Learning options
+    @Flag(name: .long, help: "Enable learning system to improve accuracy based on feedback")
+    var learning: Bool = false
+    
+    // Debug options
+    @Flag(name: .long, help: "Enable verbose logging including SourceKit debug info")
+    var verbose: Bool = false
 
     func run() async throws {
+        // Enable verbose logging if requested
+        if verbose {
+            StrictSwiftLogger.enableVerbose()
+        }
         // Load configuration
         let profileEnum = Profile(rawValue: profile) ?? .criticalCore
         let configURL = config.map { URL(fileURLWithPath: $0) }
@@ -62,6 +81,9 @@ struct CheckCommand: AsyncParsableCommand {
             baselineConfig = finalConfiguration.baseline
         }
 
+        // Parse semantic mode from CLI
+        let cliSemanticMode: SemanticMode? = semantic.flatMap { SemanticMode(rawValue: $0.lowercased()) }
+        
         // Create final configuration with proper baseline handling
         let configurationWithBaseline = Configuration(
             profile: finalConfiguration.profile,
@@ -71,14 +93,18 @@ struct CheckCommand: AsyncParsableCommand {
             exclude: finalConfiguration.exclude,
             maxJobs: finalConfiguration.maxJobs,
             advanced: finalConfiguration.advanced,
-            useEnhancedRules: finalConfiguration.useEnhancedRules
+            useEnhancedRules: finalConfiguration.useEnhancedRules,
+            semanticMode: cliSemanticMode ?? finalConfiguration.semanticMode,
+            semanticStrict: semanticStrict ? true : finalConfiguration.semanticStrict,
+            perRuleSemanticModes: finalConfiguration.perRuleSemanticModes,
+            perRuleSemanticStrict: finalConfiguration.perRuleSemanticStrict
         )
 
-        // Set up caching if enabled
+        // Set up caching (enabled by default, disable with --no-cache)
         let projectRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         var analysisCache: AnalysisCache?
         
-        if cache {
+        if !noCache {
             analysisCache = AnalysisCache(
                 projectRoot: projectRoot,
                 configuration: configurationWithBaseline,
@@ -91,23 +117,46 @@ struct CheckCommand: AsyncParsableCommand {
             }
         }
 
-        // Create analyzer with optional cache
-        let analyzer = Analyzer(configuration: configurationWithBaseline, cache: analysisCache)
-
-        // Analyze files (incremental if cache enabled)
+        // Analyze files using either AnalysisRunner (learning mode) or Analyzer (standard)
         let violations: [Violation]
         var cacheHitRate: Double = 0.0
         var cachedFileCount: Int = 0
         var analyzedFileCount: Int = 0
+        var learningStats: LearningStatisticsSummary?
+        var suppressedCount: Int = 0
         
-        if cache {
-            let result = try await analyzer.analyzeIncremental(paths: paths)
+        if learning {
+            // Use AnalysisRunner for learning integration
+            let runner = AnalysisRunner(
+                configuration: configurationWithBaseline,
+                cache: analysisCache,
+                learning: LearningSystem(projectRoot: projectRoot)
+            )
+            let result = try await runner.analyze(paths: paths)
             violations = result.violations
-            cacheHitRate = result.cacheHitRate
-            cachedFileCount = result.cachedFileCount
-            analyzedFileCount = result.analyzedFileCount
+            learningStats = result.learningStats
+            suppressedCount = result.suppressedCount
+            if let cacheResult = result.cacheStats {
+                cacheHitRate = cacheResult.hitRate
+                cachedFileCount = cacheResult.cachedFiles
+                analyzedFileCount = cacheResult.analyzedFiles
+            }
         } else {
-            violations = try await analyzer.analyze(paths: paths)
+            // Standard analysis without learning
+            let analyzer = Analyzer(configuration: configurationWithBaseline, cache: analysisCache)
+            
+            if !noCache {
+                let result = try await analyzer.analyzeIncremental(paths: paths)
+                violations = result.violations
+                cacheHitRate = result.cacheHitRate
+                cachedFileCount = result.cachedFileCount
+                analyzedFileCount = result.analyzedFileCount
+            } else {
+                violations = try await analyzer.analyze(paths: paths)
+            }
+            
+            // Cache violations for feedback lookup even without learning mode
+            await ViolationCache.shared.storeViolations(violations)
         }
 
         // Parse minimum severity filter
@@ -150,11 +199,23 @@ struct CheckCommand: AsyncParsableCommand {
         print(report, terminator: "")
         
         // Show cache statistics if requested (skip for agent format)
-        if cache && cacheStats && format.lowercased() != "agent" {
+        if !noCache && cacheStats && format.lowercased() != "agent" {
             print("\n📊 Cache Statistics:")
             print("   Cache hit rate: \(String(format: "%.1f", cacheHitRate * 100))%")
             print("   Cached files: \(cachedFileCount)")
             print("   Analyzed files: \(analyzedFileCount)")
+        }
+        
+        // Show learning statistics if in learning mode (skip for agent format)
+        if learning && format.lowercased() != "agent" {
+            print("\n📚 Learning Statistics:")
+            if suppressedCount > 0 {
+                print("   Suppressed based on feedback: \(suppressedCount)")
+            }
+            if let stats = learningStats {
+                print("   Rules with feedback: \(stats.rulesWithFeedback)")
+                print("   Overall accuracy: \(String(format: "%.1f%%", stats.overallAccuracy * 100))")
+            }
         }
 
         // Exit with error code if configured to do so

@@ -54,6 +54,9 @@ public final class Analyzer: Sendable {
         for file in filteredFiles {
             context.addSourceFile(file)
         }
+        
+        // Initialize semantic analysis if configured
+        try await initializeSemanticAnalysis(context: context)
 
         // Run analysis - use cached RuleEngine for performance
         let ruleEngine = await ruleEngineCache.getOrCreate()
@@ -104,13 +107,25 @@ public final class Analyzer: Sendable {
             context.addSourceFile(file)
         }
         
+        // Initialize semantic analysis if configured
+        // This must happen before rule analysis so context.semanticResolver is available
+        try await initializeSemanticAnalysis(context: context)
+        
         // Separate files into cached and uncached
         var cachedViolations: [Violation] = []
         var filesToAnalyze: [SourceFile] = []
         
+        // Build set of included file paths for filtering cached violations
+        let includedPaths = Set(filteredFiles.map { $0.url.path })
+        
         for file in filteredFiles {
             if let cached = await cache.getCachedResult(for: file.url) {
-                cachedViolations.append(contentsOf: cached.violations)
+                // Only include cached violations for files that are still included
+                // This handles the case where include/exclude patterns changed
+                let validViolations = cached.violations.filter { violation in
+                    includedPaths.contains(violation.location.file.path)
+                }
+                cachedViolations.append(contentsOf: validViolations)
             } else {
                 filesToAnalyze.append(file)
             }
@@ -154,6 +169,9 @@ public final class Analyzer: Sendable {
         
         // Persist cache
         try await cache.save()
+        
+        // Log semantic resolution statistics
+        await logSemanticStats(context: context)
         
         let totalFiles = filteredFiles.count
         let cachedFiles = totalFiles - filesToAnalyze.count
@@ -322,6 +340,136 @@ public final class Analyzer: Sendable {
         return violations.filter { violation in
             let fingerprint = ViolationFingerprint(violation: violation, projectRoot: projectRoot)
             return !baselineFingerprints.contains(fingerprint)
+        }
+    }
+    
+    // MARK: - Semantic Analysis
+    
+    /// Initialize semantic analysis based on configuration
+    private func initializeSemanticAnalysis(context: AnalysisContext) async throws {
+        let projectRoot = context.projectRoot
+        
+        // Detect semantic capabilities
+        let detector = SemanticCapabilityDetector(projectRoot: projectRoot)
+        let capabilities = detector.detect()
+        
+        // Resolve semantic mode from layered configuration
+        let resolver = SemanticModeResolver(capabilities: capabilities, projectRoot: projectRoot)
+        let yamlConfig = SemanticModeYAMLConfig.from(configuration)
+        
+        // Parse CLI mode - already in configuration
+        let resolved = resolver.resolve(
+            cliMode: configuration.semanticMode,
+            cliStrict: configuration.semanticStrict ?? false,
+            yamlConfig: yamlConfig
+        )
+        
+        // Log resolution for debugging
+        resolved.logResolution()
+        
+        // Check strict mode requirements
+        if let error = resolved.checkStrictRequirements() {
+            throw SemanticAnalysisError.strictModeUnsatisfied(error)
+        }
+        
+        // Log degradation warnings - always visible for user awareness
+        if let degradation = resolved.degradation {
+            // Use warning level which always outputs to stderr
+            StrictSwiftLogger.warning(
+                "Semantic mode degraded from '\(degradation.requestedMode.rawValue)' to '\(degradation.actualMode.rawValue)': \(degradation.reason)"
+            )
+            // Provide actionable guidance
+            if degradation.actualMode == .off {
+                StrictSwiftLogger.warning(
+                    "Analysis continues with syntactic-only mode. For full semantic analysis, ensure SourceKit is available (Xcode installed)."
+                )
+            } else if degradation.actualMode == .hybrid && degradation.requestedMode == .full {
+                StrictSwiftLogger.warning(
+                    "Analysis continues in hybrid mode. Build indexes may improve results."
+                )
+            }
+        }
+        
+        // Create semantic resolver if semantic analysis is enabled
+        if resolved.hasSemantic {
+            let semanticResolver = try await SemanticTypeResolver.create(
+                config: resolved,
+                capabilities: capabilities,
+                projectRoot: projectRoot
+            )
+            
+            context.setSemanticResolver(semanticResolver, config: resolved)
+            
+            // Enhance global graph with semantic info if in full mode
+            if resolved.effectiveMode == .full {
+                let graph = context.globalGraph()
+                let files = context.allSourceFiles
+                let result = await graph.enhanceWithSemantics(using: semanticResolver, for: files)
+                
+                // Get resolver stats after enhancement
+                let stats = await semanticResolver.getStatistics()
+                
+                StrictSwiftLogger.info(
+                    "Semantic enhancement [\(resolved.effectiveMode.displayName)]: " +
+                    "\(result.newlyResolved) resolved via SourceKit, " +
+                    "\(result.edgesAdded) edges added, " +
+                    "\(stats.sourceKitQueries) queries made"
+                )
+            } else if resolved.effectiveMode == .hybrid {
+                // In hybrid mode, log that we're ready for on-demand queries
+                StrictSwiftLogger.info(
+                    "Semantic analysis [Hybrid]: SourceKit enabled for ambiguous references"
+                )
+            }
+        } else {
+            // Set resolved config even in off mode for consistency
+            context.setSemanticResolver(
+                SemanticTypeResolver(mode: .off, sourceKitClient: nil, projectRoot: projectRoot),
+                config: resolved
+            )
+        }
+    }
+    
+    /// Log semantic resolution statistics
+    private func logSemanticStats(context: AnalysisContext) async {
+        guard let resolver = context.semanticResolver,
+              let modeConfig = context.semanticModeResolved else {
+            return
+        }
+        
+        let stats = await resolver.getStatistics()
+        
+        // Only log if any semantic work was done
+        if stats.totalReferences > 0 || stats.sourceKitQueries > 0 {
+            let mode = modeConfig.effectiveMode
+            let sourceKitUsed = stats.resolvedFromSourceKit > 0 || stats.sourceKitQueries > 0
+            
+            StrictSwiftLogger.info(
+                "Semantic analysis [\(mode.displayName)]: " +
+                "\(stats.totalReferences) refs, " +
+                "\(stats.resolvedFromSourceKit) via SourceKit, " +
+                "\(stats.resolvedFromAnnotation) from syntax, " +
+                "\(stats.sourceKitQueries) queries"
+            )
+            
+            if sourceKitUsed {
+                StrictSwiftLogger.debug(
+                    "SourceKit usage: \(stats.sourceKitQueries) queries, " +
+                    "\(stats.cacheHits) cache hits (\(String(format: "%.1f", stats.cacheHitRate * 100))%)"
+                )
+            }
+        }
+    }
+}
+
+/// Errors related to semantic analysis
+public enum SemanticAnalysisError: Error, LocalizedError {
+    case strictModeUnsatisfied(String)
+    
+    public var errorDescription: String? {
+        switch self {
+        case .strictModeUnsatisfied(let message):
+            return "Semantic analysis requirement not met: \(message)"
         }
     }
 }

@@ -752,4 +752,211 @@ public final class GlobalReferenceGraph: @unchecked Sendable {
         conditionalConformances.removeAll()
         _unresolvedReferences.removeAll()
     }
+    
+    // MARK: - Semantic Enhancement
+    
+    /// Result of semantic enhancement
+    public struct SemanticEnhancementResult: Sendable {
+        /// Number of previously unresolved references now resolved
+        public let newlyResolved: Int
+        /// Number of references with improved precision (fewer candidates)
+        public let improvedPrecision: Int
+        /// Number of edges added
+        public let edgesAdded: Int
+        /// Number of edges removed (incorrect)
+        public let edgesRemoved: Int
+    }
+    
+    /// Enhance the reference graph using semantic type information
+    /// 
+    /// In hybrid/full mode, this method re-resolves unresolved references
+    /// and improves precision on ambiguous references using SourceKit type data.
+    /// 
+    /// - Parameters:
+    ///   - resolver: The semantic type resolver to use
+    ///   - files: Source files to enhance (all files if nil)
+    /// - Returns: Statistics about the enhancement
+    public func enhanceWithSemantics(
+        using resolver: SemanticTypeResolver,
+        for files: [SourceFile]? = nil
+    ) async -> SemanticEnhancementResult {
+        // Extract data synchronously first
+        let (unresolvedRefs, filesToProcess) = extractDataForEnhancement(files: files)
+        
+        var newlyResolved = 0
+        var improvedPrecision = 0
+        var edgesAdded = 0
+        var edgesRemoved = 0
+        
+        // Group unresolved references by file for batch querying
+        let refsByFile = Dictionary(grouping: unresolvedRefs) { $0.location.file }
+        
+        for file in filesToProcess {
+            guard let fileRefs = refsByFile[file.url] else { continue }
+            
+            // Convert to resolver locations for batch query
+            let locations = fileRefs.map { ref in
+                SemanticTypeResolver.ReferenceLocation(
+                    file: file.url.path,
+                    line: ref.location.line,
+                    column: ref.location.column,
+                    identifier: ref.referencedName
+                )
+            }
+            
+            // Batch resolve types
+            let resolvedTypes = await resolver.resolveTypes(at: locations)
+            
+            // Process results - apply enhancements synchronously
+            for (index, ref) in fileRefs.enumerated() {
+                let location = locations[index]
+                
+                guard let resolvedType = resolvedTypes[location] else { continue }
+                
+                // Try to find matching symbols using the resolved type info
+                let result = applyEnhancement(ref: ref, resolvedType: resolvedType, file: file)
+                
+                if result.wasResolved {
+                    newlyResolved += 1
+                }
+                if result.precisionImproved {
+                    improvedPrecision += 1
+                }
+                edgesAdded += result.edgesAdded
+                edgesRemoved += result.edgesRemoved
+            }
+        }
+        
+        return SemanticEnhancementResult(
+            newlyResolved: newlyResolved,
+            improvedPrecision: improvedPrecision,
+            edgesAdded: edgesAdded,
+            edgesRemoved: edgesRemoved
+        )
+    }
+    
+    /// Extract data needed for enhancement (synchronous, can use locks)
+    private func extractDataForEnhancement(files: [SourceFile]?) -> ([SymbolReference], [SourceFile]) {
+        lock.lock()
+        defer { lock.unlock() }
+        let unresolvedRefs = _unresolvedReferences
+        let filesToProcess = files ?? []
+        return (unresolvedRefs, filesToProcess)
+    }
+    
+    /// Apply enhancement to a single reference (synchronous, can use locks)
+    private func applyEnhancement(
+        ref: SymbolReference,
+        resolvedType: SemanticTypeResolver.ResolvedType,
+        file: SourceFile
+    ) -> ReferenceEnhancementResult {
+        lock.lock()
+        defer { lock.unlock() }
+        return enhanceReference(ref, with: resolvedType, in: file)
+    }
+    
+    /// Enhancement result for a single reference
+    private struct ReferenceEnhancementResult {
+        var wasResolved: Bool = false
+        var precisionImproved: Bool = false
+        var edgesAdded: Int = 0
+        var edgesRemoved: Int = 0
+    }
+    
+    /// Enhance a single reference using semantic type info
+    /// Called with lock held
+    private func enhanceReference(
+        _ ref: SymbolReference,
+        with resolvedType: SemanticTypeResolver.ResolvedType,
+        in file: SourceFile
+    ) -> ReferenceEnhancementResult {
+        var result = ReferenceEnhancementResult()
+        
+        // Find symbols matching the resolved type's fully qualified name
+        var candidates: [SymbolID] = []
+        
+        // Search by fully qualified name first
+        if let matches = symbolsByQualifiedName[resolvedType.fullyQualifiedName] {
+            candidates = matches
+        }
+        
+        // Also search by simple name within the module
+        if candidates.isEmpty, let moduleName = resolvedType.moduleName {
+            let moduleQualified = "\(moduleName).\(resolvedType.simpleName)"
+            if let matches = symbolsByQualifiedName[moduleQualified] {
+                candidates = matches
+            }
+        }
+        
+        // Try matching by simple name + type filtering
+        if candidates.isEmpty, let nameMatches = symbolsByName[resolvedType.simpleName] {
+            candidates = nameMatches.filter { id in
+                guard let symbol = symbolsByID[id] else { return false }
+                return isKindCompatibleWithResolvedType(symbol.kind, resolvedType.kind)
+            }
+        }
+        
+        guard !candidates.isEmpty else { return result }
+        
+        // Find the source symbol (who is referencing)
+        let sourceID: SymbolID?
+        if !ref.scopeContext.isEmpty {
+            // Find the symbol at this scope
+            sourceID = symbolsByQualifiedName[ref.scopeContext]?.first
+        } else {
+            sourceID = nil
+        }
+        
+        // If we have a single clear match, it's high confidence
+        if candidates.count == 1, let targetID = candidates.first {
+            let wasUnresolved = _unresolvedReferences.contains(ref)
+            
+            // Add the edge
+            if let sourceID = sourceID {
+                if references[sourceID] == nil {
+                    references[sourceID] = []
+                }
+                let wasNew = references[sourceID]?.insert(targetID).inserted ?? false
+                if wasNew {
+                    result.edgesAdded += 1
+                }
+                
+                if referencedBy[targetID] == nil {
+                    referencedBy[targetID] = []
+                }
+                referencedBy[targetID]?.insert(sourceID)
+            }
+            
+            // Remove from unresolved
+            if wasUnresolved {
+                _unresolvedReferences.removeAll { $0 == ref }
+                result.wasResolved = true
+            }
+        }
+        
+        return result
+    }
+    
+    /// Check if symbol kind is compatible with resolved type kind
+    private func isKindCompatibleWithResolvedType(
+        _ symbolKind: SymbolKind,
+        _ typeKind: SemanticTypeResolver.ResolvedType.TypeKind
+    ) -> Bool {
+        switch typeKind {
+        case .class:
+            return symbolKind == .class
+        case .struct:
+            return symbolKind == .struct
+        case .enum:
+            return symbolKind == .enum
+        case .protocol:
+            return symbolKind == .protocol
+        case .function:
+            return symbolKind == .function || symbolKind == .initializer
+        case .property:
+            return symbolKind == .variable
+        case .unknown:
+            return true // Accept any
+        }
+    }
 }

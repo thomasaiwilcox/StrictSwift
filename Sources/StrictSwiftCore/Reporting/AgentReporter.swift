@@ -66,8 +66,8 @@ public struct AgentReporter: Reporter {
                 warnings: filtered.filter { $0.severity == .warning }.count,
                 info: filtered.filter { $0.severity == .info }.count
             ),
-            violations: filtered.enumerated().map { index, violation in
-                agentViolation(from: violation, id: "v\(index + 1)", fileContents: fileContents)
+            violations: filtered.map { violation in
+                agentViolation(from: violation, id: violation.stableId, fileContents: fileContents)
             }
         )
         

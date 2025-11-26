@@ -5,15 +5,24 @@ public struct HumanReporter: Reporter {
     public init() {}
 
     public func generateReport(_ violations: [Violation]) throws -> String {
+        return try generateReport(violations, metadata: nil)
+    }
+    
+    public func generateReport(_ violations: [Violation], metadata: AnalysisMetadata?) throws -> String {
+        var result = ""
+        
+        // Show analysis mode header if metadata provided
+        if let metadata = metadata {
+            result += modeHeader(metadata)
+        }
+        
         guard !violations.isEmpty else {
-            return "✅ No violations found.\n"
+            return result + "✅ No violations found.\n"
         }
 
         // Group violations by file for cleaner output
         let violationsByFile = Dictionary(grouping: violations) { $0.location.file.path }
             .sorted { $0.key < $1.key }
-
-        var result = ""
 
         for (file, fileViolations) in violationsByFile {
             result += "\n📁 \(file)\n"
@@ -67,5 +76,33 @@ public struct HumanReporter: Reporter {
         case .info: return "ℹ️"
         case .hint: return "💡"
         }
+    }
+    
+    private func modeHeader(_ metadata: AnalysisMetadata) -> String {
+        let modeIcon: String
+        
+        switch metadata.semanticMode {
+        case .off:
+            modeIcon = "📝"
+        case .hybrid:
+            modeIcon = "🔬"
+        case .full:
+            modeIcon = "🧬"
+        case .auto:
+            modeIcon = "🔄"
+        }
+        
+        var header = "\(modeIcon) Analysis mode: \(metadata.semanticMode.rawValue)"
+        header += " (\(metadata.modeSource))\n"
+        
+        if let degradedFrom = metadata.degradedFrom {
+            header += "   ⚠️ Degraded from \(degradedFrom.rawValue)"
+            if let reason = metadata.degradationReason {
+                header += ": \(reason)"
+            }
+            header += "\n"
+        }
+        
+        return header
     }
 }

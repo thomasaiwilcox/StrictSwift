@@ -55,6 +55,11 @@ public final class AnalysisContext: @unchecked Sendable {
     /// Only built when first accessed by a graph-requiring rule
     private var _globalGraph: GlobalReferenceGraph?
     private let graphLock = NSLock()
+    
+    /// Semantic analysis configuration
+    private var _semanticResolver: SemanticTypeResolver?
+    private var _semanticModeResolved: SemanticModeResolver.ResolvedConfiguration?
+    private let semanticLock = NSLock()
 
     public init(configuration: Configuration, projectRoot: URL) {
         self.configuration = configuration
@@ -104,6 +109,44 @@ public final class AnalysisContext: @unchecked Sendable {
         graph.build(from: files)
         _globalGraph = graph
         return graph
+    }
+    
+    // MARK: - Semantic Analysis
+    
+    /// Set the semantic type resolver (called by Analyzer after initialization)
+    public func setSemanticResolver(_ resolver: SemanticTypeResolver, config: SemanticModeResolver.ResolvedConfiguration) {
+        semanticLock.lock()
+        defer { semanticLock.unlock() }
+        _semanticResolver = resolver
+        _semanticModeResolved = config
+    }
+    
+    /// Get the semantic type resolver if available
+    public var semanticResolver: SemanticTypeResolver? {
+        semanticLock.lock()
+        defer { semanticLock.unlock() }
+        return _semanticResolver
+    }
+    
+    /// Get the resolved semantic mode configuration
+    public var semanticModeResolved: SemanticModeResolver.ResolvedConfiguration? {
+        semanticLock.lock()
+        defer { semanticLock.unlock() }
+        return _semanticModeResolved
+    }
+    
+    /// Whether semantic analysis is enabled
+    public var hasSemanticAnalysis: Bool {
+        semanticLock.lock()
+        defer { semanticLock.unlock() }
+        return _semanticModeResolved?.hasSemantic ?? false
+    }
+    
+    /// The effective semantic mode
+    public var effectiveSemanticMode: SemanticMode {
+        semanticLock.lock()
+        defer { semanticLock.unlock() }
+        return _semanticModeResolved?.effectiveMode ?? .off
     }
 
     /// Check if a path is included in the analysis

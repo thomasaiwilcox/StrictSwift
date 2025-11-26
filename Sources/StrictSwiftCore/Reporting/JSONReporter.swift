@@ -9,9 +9,14 @@ public struct JSONReporter: Reporter {
     }
 
     public func generateReport(_ violations: [Violation]) throws -> String {
+        return try generateReport(violations, metadata: nil)
+    }
+    
+    public func generateReport(_ violations: [Violation], metadata: AnalysisMetadata?) throws -> String {
         let report = JSONReport(
             version: 2,
             timestamp: ISO8601DateFormatter().string(from: Date()),
+            analysisMode: metadata.map { JSONAnalysisMode(from: $0) },
             summary: Summary(
                 total: violations.count,
                 errors: violations.filter { $0.severity == .error }.count,
@@ -32,6 +37,7 @@ public struct JSONReporter: Reporter {
 
     private func jsonViolation(from violation: Violation) -> JSONViolation {
         return JSONViolation(
+            id: violation.stableId,
             ruleId: violation.ruleId,
             category: violation.category.rawValue,
             severity: violation.severity.rawValue,
@@ -58,8 +64,23 @@ public struct JSONReporter: Reporter {
     private struct JSONReport: Codable {
         let version: Int
         let timestamp: String
+        let analysisMode: JSONAnalysisMode?
         let summary: Summary
         let violations: [JSONViolation]
+    }
+    
+    private struct JSONAnalysisMode: Codable {
+        let mode: String
+        let source: String
+        let degradedFrom: String?
+        let degradationReason: String?
+        
+        init(from metadata: AnalysisMetadata) {
+            self.mode = metadata.semanticMode.rawValue
+            self.source = metadata.modeSource
+            self.degradedFrom = metadata.degradedFrom?.rawValue
+            self.degradationReason = metadata.degradationReason
+        }
     }
 
     private struct Summary: Codable {
@@ -71,6 +92,7 @@ public struct JSONReporter: Reporter {
     }
 
     private struct JSONViolation: Codable {
+        let id: String
         let ruleId: String
         let category: String
         let severity: String

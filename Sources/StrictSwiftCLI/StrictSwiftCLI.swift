@@ -11,7 +11,8 @@ struct SwiftStrict: AsyncParsableCommand {
             CICommand.self,
             BaselineCommand.self,
             ExplainCommand.self,
-            FixCommand.self
+            FixCommand.self,
+            FeedbackCommand.self
         ],
         defaultSubcommand: CheckCommand.self
     )

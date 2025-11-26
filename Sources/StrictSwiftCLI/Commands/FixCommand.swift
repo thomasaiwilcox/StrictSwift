@@ -45,6 +45,13 @@ struct FixCommand: AsyncParsableCommand {
     @Flag(name: .long, help: "Skip creating backup before applying fixes (not recommended)")
     var noBackup: Bool = false
     
+    // Semantic analysis options
+    @Option(name: .long, help: "Semantic analysis mode (off|hybrid|full|auto). Default: auto")
+    var semantic: String?
+    
+    @Flag(name: .long, help: "Fail if requested semantic mode is unavailable")
+    var semanticStrict: Bool = false
+    
     /// Default backup directory
     private static let backupDirName = ".strictswift-backup"
 
@@ -58,7 +65,26 @@ struct FixCommand: AsyncParsableCommand {
         // Load configuration
         let profileEnum = Profile(rawValue: profile) ?? .criticalCore
         let configURL = config.map { URL(fileURLWithPath: $0) }
-        let configuration = Configuration.load(from: configURL, profile: profileEnum)
+        let loadedConfiguration = Configuration.load(from: configURL, profile: profileEnum)
+        
+        // Parse semantic mode from CLI
+        let cliSemanticMode: SemanticMode? = semantic.flatMap { SemanticMode(rawValue: $0.lowercased()) }
+        
+        // Create configuration with semantic settings
+        let configuration = Configuration(
+            profile: loadedConfiguration.profile,
+            rules: loadedConfiguration.rules,
+            baseline: loadedConfiguration.baseline,
+            include: loadedConfiguration.include,
+            exclude: loadedConfiguration.exclude,
+            maxJobs: loadedConfiguration.maxJobs,
+            advanced: loadedConfiguration.advanced,
+            useEnhancedRules: loadedConfiguration.useEnhancedRules,
+            semanticMode: cliSemanticMode ?? loadedConfiguration.semanticMode,
+            semanticStrict: semanticStrict ? true : loadedConfiguration.semanticStrict,
+            perRuleSemanticModes: loadedConfiguration.perRuleSemanticModes,
+            perRuleSemanticStrict: loadedConfiguration.perRuleSemanticStrict
+        )
 
         // Create analyzer
         let analyzer = Analyzer(configuration: configuration)

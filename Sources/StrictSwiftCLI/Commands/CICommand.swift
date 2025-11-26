@@ -25,6 +25,13 @@ struct CICommand: AsyncParsableCommand {
 
     @Option(name: .long, help: "Path to baseline file")
     var baseline: String?
+    
+    // Semantic analysis options
+    @Option(name: .long, help: "Semantic analysis mode (off|hybrid|full|auto). Default: auto")
+    var semantic: String?
+    
+    @Flag(name: .long, help: "Fail if requested semantic mode is unavailable")
+    var semanticStrict: Bool = false
 
     func run() async throws {
         // Load configuration
@@ -46,6 +53,9 @@ struct CICommand: AsyncParsableCommand {
             baselineConfig = finalConfiguration.baseline
         }
 
+        // Parse semantic mode from CLI
+        let cliSemanticMode: SemanticMode? = semantic.flatMap { SemanticMode(rawValue: $0.lowercased()) }
+        
         // Create final configuration with proper baseline handling
         let configurationWithBaseline = Configuration(
             profile: finalConfiguration.profile,
@@ -54,7 +64,12 @@ struct CICommand: AsyncParsableCommand {
             include: finalConfiguration.include,
             exclude: finalConfiguration.exclude,
             maxJobs: finalConfiguration.maxJobs,
-            advanced: finalConfiguration.advanced
+            advanced: finalConfiguration.advanced,
+            useEnhancedRules: finalConfiguration.useEnhancedRules,
+            semanticMode: cliSemanticMode ?? finalConfiguration.semanticMode,
+            semanticStrict: semanticStrict ? true : finalConfiguration.semanticStrict,
+            perRuleSemanticModes: finalConfiguration.perRuleSemanticModes,
+            perRuleSemanticStrict: finalConfiguration.perRuleSemanticStrict
         )
 
         // Create analyzer

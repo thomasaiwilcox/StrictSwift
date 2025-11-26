@@ -20,6 +20,14 @@ public struct Configuration: Codable, Equatable, Sendable {
     public let advanced: AdvancedConfiguration
     /// Whether to use enhanced graph-based rules (requires cross-file analysis)
     public let useEnhancedRules: Bool
+    /// Semantic analysis mode for type resolution
+    public let semanticMode: SemanticMode?
+    /// Whether to fail if semantic mode can't be satisfied (CI gate)
+    public let semanticStrict: Bool?
+    /// Per-rule semantic mode overrides
+    public let perRuleSemanticModes: [String: SemanticMode]?
+    /// Per-rule semantic strict overrides
+    public let perRuleSemanticStrict: [String: Bool]?
 
     public init(
         profile: Profile = .criticalCore,
@@ -29,7 +37,11 @@ public struct Configuration: Codable, Equatable, Sendable {
         exclude: [String] = [],
         maxJobs: Int = ProcessInfo.processInfo.processorCount,
         advanced: AdvancedConfiguration = AdvancedConfiguration(),
-        useEnhancedRules: Bool = false
+        useEnhancedRules: Bool = false,
+        semanticMode: SemanticMode? = nil,
+        semanticStrict: Bool? = nil,
+        perRuleSemanticModes: [String: SemanticMode]? = nil,
+        perRuleSemanticStrict: [String: Bool]? = nil
     ) {
         self.profile = profile
         self.rules = rules
@@ -39,6 +51,10 @@ public struct Configuration: Codable, Equatable, Sendable {
         self.maxJobs = maxJobs
         self.advanced = advanced
         self.useEnhancedRules = useEnhancedRules
+        self.semanticMode = semanticMode
+        self.semanticStrict = semanticStrict
+        self.perRuleSemanticModes = perRuleSemanticModes
+        self.perRuleSemanticStrict = perRuleSemanticStrict
     }
 
     /// Default configuration
@@ -553,3 +569,7 @@ extension Configuration {
         )
     }
 }
+
+// MARK: - Semantic Configurable Conformance
+
+extension Configuration: SemanticConfigurable {}

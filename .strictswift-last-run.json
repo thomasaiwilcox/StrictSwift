@@ -1,0 +1,94 @@
+{
+  "lastRunDate" : "2025-11-26T23:14:14Z",
+  "version" : 1,
+  "violations" : {
+    "1eb21aba0e3799ff" : {
+      "category" : "memory",
+      "column" : 61,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "line" : 22,
+      "message" : "Global mutable state 'minLevel' can cause exclusive access violations in concurrent code",
+      "ruleId" : "exclusive_access",
+      "severity" : "warning",
+      "stableId" : "1eb21aba0e3799ff",
+      "timestamp" : "2025-11-26T23:14:14Z"
+    },
+    "4ce4073f3360d6f9" : {
+      "category" : "architecture",
+      "column" : 5,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "line" : 29,
+      "message" : "Static\/class mutable variable 'minLevel' is shared mutable state",
+      "ruleId" : "global_state",
+      "severity" : "warning",
+      "stableId" : "4ce4073f3360d6f9",
+      "timestamp" : "2025-11-26T23:14:14Z"
+    },
+    "552615b187a884c4" : {
+      "category" : "safety",
+      "column" : 13,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "line" : 110,
+      "message" : "print() statement found in production code",
+      "ruleId" : "print_in_production",
+      "severity" : "warning",
+      "stableId" : "552615b187a884c4",
+      "timestamp" : "2025-11-26T23:14:14Z"
+    },
+    "903f5167b6ca284e" : {
+      "category" : "safety",
+      "column" : 5,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "line" : 22,
+      "message" : "Mutable static variable can cause data races and global state issues",
+      "ruleId" : "mutable_static",
+      "severity" : "warning",
+      "stableId" : "903f5167b6ca284e",
+      "timestamp" : "2025-11-26T23:14:14Z"
+    },
+    "a2a06828151023b7" : {
+      "category" : "complexity",
+      "column" : 6,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "line" : 87,
+      "message" : "Function 'log' has cyclomatic complexity of 12 (threshold: 10)",
+      "ruleId" : "cyclomatic_complexity",
+      "severity" : "warning",
+      "stableId" : "a2a06828151023b7",
+      "timestamp" : "2025-11-26T23:14:14Z"
+    },
+    "ac11f641a9a682a2" : {
+      "category" : "memory",
+      "column" : 39,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "line" : 18,
+      "message" : "Global mutable state '_minLevel' can cause exclusive access violations in concurrent code",
+      "ruleId" : "exclusive_access",
+      "severity" : "warning",
+      "stableId" : "ac11f641a9a682a2",
+      "timestamp" : "2025-11-26T23:14:14Z"
+    },
+    "ed3e7f2200e83ef9" : {
+      "category" : "safety",
+      "column" : 5,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "line" : 29,
+      "message" : "Mutable static variable can cause data races and global state issues",
+      "ruleId" : "mutable_static",
+      "severity" : "warning",
+      "stableId" : "ed3e7f2200e83ef9",
+      "timestamp" : "2025-11-26T23:14:14Z"
+    },
+    "ee8c8d605a7510a0" : {
+      "category" : "complexity",
+      "column" : 6,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "line" : 51,
+      "message" : "Function 'levelFromEnvironment' has cyclomatic complexity of 11 (threshold: 10)",
+      "ruleId" : "cyclomatic_complexity",
+      "severity" : "warning",
+      "stableId" : "ee8c8d605a7510a0",
+      "timestamp" : "2025-11-26T23:14:14Z"
+    }
+  }
+}
