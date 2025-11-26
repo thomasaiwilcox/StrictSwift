@@ -79,6 +79,15 @@ private final class GlobalStateAnalyzer: SyntaxVisitor {
         scopeDepth -= 1
     }
     
+    override func visit(_ node: ProtocolDeclSyntax) -> SyntaxVisitorContinueKind {
+        scopeDepth += 1
+        return .visitChildren
+    }
+    
+    override func visitPost(_ node: ProtocolDeclSyntax) {
+        scopeDepth -= 1
+    }
+    
     override func visit(_ node: ExtensionDeclSyntax) -> SyntaxVisitorContinueKind {
         scopeDepth += 1
         return .visitChildren

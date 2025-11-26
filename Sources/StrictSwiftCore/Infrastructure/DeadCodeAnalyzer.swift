@@ -478,6 +478,21 @@ public final class DeadCodeAnalyzer: Sendable {
             return true
         }
         
+        // Protocol extension default implementations should be ignored
+        // They're implicitly live because they provide default behavior for protocol conformers
+        if let parentID = symbol.parentID,
+           let parent = graph.symbol(for: parentID),
+           parent.kind == .extension {
+            // Check if the extension is extending a protocol
+            // Extension qualifiedName format is "ExtendedTypeName" or "ExtendedTypeName.SubType"
+            let extendedTypeName = parent.name
+            // Look for a protocol with this name
+            if let extendedType = graph.symbols(named: extendedTypeName).first,
+               extendedType.kind == SymbolKind.protocol {
+                return true
+            }
+        }
+        
         // Associated types are protocol requirements
         if symbol.kind == .associatedType {
             return true
