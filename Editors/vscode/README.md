@@ -82,27 +82,53 @@ If the LSP server is not in your PATH, configure its location:
 
 ## Rules
 
-StrictSwift includes 25+ rules across multiple categories:
+StrictSwift includes 43+ rules across multiple categories:
 
 ### Safety
 - `force_unwrap` - Avoid force unwrapping optionals
 - `force_try` - Avoid force try expressions
 - `fatal_error` - Avoid fatal error in production
 - `print_in_production` - Remove debug print statements
+- `swallowed_error` - Detect silently swallowed errors
+- `resource_leak` - Detect potential resource leaks
 
 ### Concurrency
 - `actor_isolation` - Proper actor isolation
 - `data_race` - Potential data race detection
 - `non_sendable_capture` - Non-Sendable types in concurrent contexts
+- `unstructured_task` - Prefer structured concurrency
 
 ### Architecture
 - `circular_dependency` - Detect circular module dependencies
-- `god_class` - Detect overly large classes
+- `god_class` / `enhanced_god_class` - Detect overly large classes
 - `layered_dependencies` - Enforce architectural layers
+- `dead_code` - Detect unused code across files
+- `module_boundary` - Enforce module boundaries
+- `import_direction` - Enforce import direction rules
 
 ### Memory
 - `retain_cycle` - Detect potential retain cycles
 - `escaping_reference` - Unsafe escaping references
+- `exclusive_access` - Potential exclusive access violations
+
+### Complexity
+- `cyclomatic_complexity` - Function complexity thresholds
+- `function_length` - Maximum function length
+- `nesting_depth` - Maximum nesting depth
+- `file_length` - Maximum file length
+
+### Performance
+- `arc_churn` - Detect excessive ARC operations
+- `large_struct_copy` - Detect expensive struct copies
+- `repeated_allocation` - Detect allocations in loops
+- `hot_path_validation` - Performance-critical path checks
+
+### Graph-Enhanced Rules (opt-in)
+Enable with `useEnhancedRules: true` in `.strictswift.yml`:
+- `god_class_enhanced` - Cross-file coupling analysis
+- `coupling_metrics` - Afferent/efferent coupling metrics
+- `circular_dependency_graph` - DFS-based cycle detection
+- `non_sendable_capture_graph` - Symbol graph Sendable checking
 
 ## Contributing
 
