@@ -17,7 +17,7 @@ struct CheckCommand: AsyncParsableCommand {
     @Option(name: .long, help: "Path to configuration file")
     var config: String?
 
-    @Option(name: .long, help: "Output format (human|json)")
+    @Option(name: .long, help: "Output format (human|json|agent)")
     var format: String = "human"
 
     @Option(name: .long, help: "Path to baseline file")
@@ -34,6 +34,13 @@ struct CheckCommand: AsyncParsableCommand {
     
     @Flag(name: .long, help: "Show cache statistics after analysis")
     var cacheStats: Bool = false
+    
+    // Agent mode options
+    @Option(name: .long, help: "Number of source context lines to include (agent format only)")
+    var contextLines: Int = 0
+    
+    @Option(name: .long, help: "Minimum severity to report (error|warning|info|hint)")
+    var minSeverity: String?
 
     func run() async throws {
         // Load configuration
@@ -103,17 +110,47 @@ struct CheckCommand: AsyncParsableCommand {
             violations = try await analyzer.analyze(paths: paths)
         }
 
-        // Output results
-        let reporter: Reporter = format == "json" ? JSONReporter() : HumanReporter()
+        // Parse minimum severity filter
+        let severityFilter: DiagnosticSeverity? = {
+            guard let sev = minSeverity?.lowercased() else { return nil }
+            switch sev {
+            case "error": return .error
+            case "warning": return .warning
+            case "info": return .info
+            case "hint": return .hint
+            default: return nil
+            }
+        }()
+
+        // Output results based on format
+        let reporter: Reporter
+        switch format.lowercased() {
+        case "json":
+            reporter = JSONReporter()
+        case "agent":
+            let options = AgentReporterOptions(
+                contextLines: contextLines,
+                includeFixes: true,
+                minSeverity: severityFilter
+            )
+            reporter = AgentReporter(options: options)
+        default:
+            reporter = HumanReporter()
+        }
 
         // Filter baseline violations for display (unless show-baseline flag is set)
-        let violationsToReport = violations
+        var violationsToReport = violations
+        
+        // Apply severity filter for non-agent formats (agent format handles internally)
+        if format.lowercased() != "agent", let minSev = severityFilter {
+            violationsToReport = violations.filter { severityRank($0.severity) >= severityRank(minSev) }
+        }
 
         let report = try reporter.generateReport(violationsToReport)
         print(report, terminator: "")
         
-        // Show cache statistics if requested
-        if cache && cacheStats {
+        // Show cache statistics if requested (skip for agent format)
+        if cache && cacheStats && format.lowercased() != "agent" {
             print("\n📊 Cache Statistics:")
             print("   Cache hit rate: \(String(format: "%.1f", cacheHitRate * 100))%")
             print("   Cached files: \(cachedFileCount)")
@@ -123,15 +160,31 @@ struct CheckCommand: AsyncParsableCommand {
         // Exit with error code if configured to do so
         let errors = violationsToReport.filter { $0.severity == .error }
         if failOnError && !errors.isEmpty {
-            print("\n❌ Analysis failed with \(errors.count) error(s)")
+            // Agent format: exit silently, JSON already contains the info
+            if format.lowercased() != "agent" {
+                print("\n❌ Analysis failed with \(errors.count) error(s)")
+            }
             throw ExitCode.failure
         }
 
-        if violationsToReport.isEmpty {
-            print("\n✅ No violations found!")
-        } else {
-            let warnings = violationsToReport.filter { $0.severity == .warning }
-            print("\n⚠️ Found \(violationsToReport.count) violation(s) (\(errors.count) error(s), \(warnings.count) warning(s))")
+        // Human-friendly summary (skip for agent/json formats)
+        if format.lowercased() == "human" {
+            if violationsToReport.isEmpty {
+                print("\n✅ No violations found!")
+            } else {
+                let warnings = violationsToReport.filter { $0.severity == .warning }
+                print("\n⚠️ Found \(violationsToReport.count) violation(s) (\(errors.count) error(s), \(warnings.count) warning(s))")
+            }
+        }
+    }
+    
+    /// Severity ranking for filtering
+    private func severityRank(_ severity: DiagnosticSeverity) -> Int {
+        switch severity {
+        case .error: return 4
+        case .warning: return 3
+        case .info: return 2
+        case .hint: return 1
         }
     }
 }

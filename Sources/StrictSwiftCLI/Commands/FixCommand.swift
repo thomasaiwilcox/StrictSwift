@@ -35,6 +35,9 @@ struct FixCommand: AsyncParsableCommand {
     
     @Flag(name: .long, help: "Apply fixes without confirmation")
     var yes: Bool = false
+    
+    @Flag(name: .long, help: "Output in agent-friendly JSON format with structured diff")
+    var agent: Bool = false
 
     func run() async throws {
         // Load configuration
@@ -45,8 +48,10 @@ struct FixCommand: AsyncParsableCommand {
         // Create analyzer
         let analyzer = Analyzer(configuration: configuration)
 
-        // Analyze files to find violations
-        print("🔍 Analyzing files for fixable violations...")
+        // Analyze files to find violations (silent in agent mode)
+        if !agent {
+            print("🔍 Analyzing files for fixable violations...")
+        }
         let violations = try await analyzer.analyze(paths: paths)
         
         // Filter to only violations with structured fixes
@@ -59,7 +64,14 @@ struct FixCommand: AsyncParsableCommand {
         }
         
         if fixableViolations.isEmpty {
-            print("✅ No fixable violations found!")
+            if agent {
+                // Output empty agent result
+                let reporter = AgentFixReporter()
+                let report = try reporter.generateReport([])
+                print(report)
+            } else {
+                print("✅ No fixable violations found!")
+            }
             return
         }
         
@@ -88,31 +100,41 @@ struct FixCommand: AsyncParsableCommand {
             count + violation.structuredFixes.filter { $0.confidence >= minConfidence }.count
         }
         
-        print("📝 Found \(totalFixes) fixable issue(s) across \(violationsByFile.count) file(s)")
-        print("   Confidence level: \(minConfidence.rawValue)")
+        if !agent {
+            print("📝 Found \(totalFixes) fixable issue(s) across \(violationsByFile.count) file(s)")
+            print("   Confidence level: \(minConfidence.rawValue)")
+        }
         
         if totalFixes == 0 {
-            print("✅ No fixes match the confidence level!")
+            if agent {
+                let reporter = AgentFixReporter()
+                let report = try reporter.generateReport([])
+                print(report)
+            } else {
+                print("✅ No fixes match the confidence level!")
+            }
             return
         }
         
-        // Show summary of fixes
-        print("\nFixes to apply:")
-        for (file, fileViolations) in violationsByFile.sorted(by: { $0.key.path < $1.key.path }) {
-            let fixes = fileViolations.flatMap { $0.structuredFixes.filter { $0.confidence >= minConfidence } }
-            if !fixes.isEmpty {
-                print("  📄 \(file.lastPathComponent): \(fixes.count) fix(es)")
-                for fix in fixes.prefix(5) {
-                    print("     • \(fix.title) [\(fix.kind.rawValue)]")
-                }
-                if fixes.count > 5 {
-                    print("     ... and \(fixes.count - 5) more")
+        // Show summary of fixes (human mode only)
+        if !agent {
+            print("\nFixes to apply:")
+            for (file, fileViolations) in violationsByFile.sorted(by: { $0.key.path < $1.key.path }) {
+                let fixes = fileViolations.flatMap { $0.structuredFixes.filter { $0.confidence >= minConfidence } }
+                if !fixes.isEmpty {
+                    print("  📄 \(file.lastPathComponent): \(fixes.count) fix(es)")
+                    for fix in fixes.prefix(5) {
+                        print("     • \(fix.title) [\(fix.kind.rawValue)]")
+                    }
+                    if fixes.count > 5 {
+                        print("     ... and \(fixes.count - 5) more")
+                    }
                 }
             }
         }
         
-        // Confirm unless --yes or --dry-run
-        if !dryRun && !yes {
+        // Confirm unless --yes, --dry-run, or --agent
+        if !dryRun && !yes && !agent {
             print("\n⚠️  This will modify \(violationsByFile.count) file(s).")
             print("   Run with --dry-run to preview changes, or --yes to skip confirmation.")
             print("   Continue? (y/n): ", terminator: "")
@@ -124,8 +146,6 @@ struct FixCommand: AsyncParsableCommand {
         }
         
         // Create fix applier
-        // Note: Syntax validation is disabled because it can reject valid transformations
-        // that involve multi-line changes or structural modifications
         let options = FixApplier.Options(
             minimumConfidence: minConfidence,
             validateSyntax: false,
@@ -140,7 +160,7 @@ struct FixCommand: AsyncParsableCommand {
             let result = try await applier.applyFixes(from: fileViolations, to: fileURL)
             allResults.append(result)
             
-            if result.hasChanges {
+            if result.hasChanges && !agent {
                 if diff || dryRun {
                     print("\n--- \(fileURL.lastPathComponent) ---")
                     print(result.generateDiff())
@@ -153,18 +173,26 @@ struct FixCommand: AsyncParsableCommand {
             try await applier.writeResults(allResults)
         }
         
-        // Summary
-        let summary = FixSummary(results: allResults)
-        print("\n" + String(repeating: "─", count: 50))
-        if dryRun {
-            print("🔍 Dry run complete (no files modified)")
+        // Output results
+        if agent {
+            // Agent mode: JSON output
+            let reporter = AgentFixReporter()
+            let report = try reporter.generateReport(allResults)
+            print(report)
         } else {
-            print("✅ Fix complete!")
-        }
-        print("   Files modified: \(summary.modifiedFiles)/\(summary.totalFiles)")
-        print("   Fixes applied: \(summary.totalApplied)")
-        if summary.totalSkipped > 0 {
-            print("   Fixes skipped: \(summary.totalSkipped)")
+            // Human mode: summary
+            let summary = FixSummary(results: allResults)
+            print("\n" + String(repeating: "─", count: 50))
+            if dryRun {
+                print("🔍 Dry run complete (no files modified)")
+            } else {
+                print("✅ Fix complete!")
+            }
+            print("   Files modified: \(summary.modifiedFiles)/\(summary.totalFiles)")
+            print("   Fixes applied: \(summary.totalApplied)")
+            if summary.totalSkipped > 0 {
+                print("   Fixes skipped: \(summary.totalSkipped)")
+            }
         }
     }
 }
