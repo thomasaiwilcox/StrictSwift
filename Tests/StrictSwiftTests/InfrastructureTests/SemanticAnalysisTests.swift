@@ -45,14 +45,14 @@ final class SemanticAnalysisTests: XCTestCase {
     // MARK: - SemanticCapabilities Tests
     
     func testSemanticCapabilitiesBestAvailableMode() {
-        // Full capabilities -> full mode
+        // Full capabilities -> hybrid mode (we prefer hybrid for performance)
         let fullCaps = SemanticCapabilities(
             sourceKitAvailable: true,
             sourceKitPath: "/usr/lib/sourcekitd",
             buildArtifactsExist: true,
             isSwiftPackage: true
         )
-        XCTAssertEqual(fullCaps.bestAvailableMode, .full)
+        XCTAssertEqual(fullCaps.bestAvailableMode, .hybrid)
         
         // SourceKit only -> hybrid mode
         let basicCaps = SemanticCapabilities(
@@ -184,11 +184,11 @@ final class SemanticAnalysisTests: XCTestCase {
         )
         let resolver = SemanticModeResolver(capabilities: capabilities, projectRoot: URL(fileURLWithPath: "/tmp"))
         
-        // No CLI, no YAML - should auto-detect
+        // No CLI, no YAML - should auto-detect to hybrid (preferred for performance)
         let resolved = resolver.resolve(cliMode: nil, cliStrict: false, yamlConfig: nil)
         
-        // Auto with full capabilities should resolve to full
-        XCTAssertEqual(resolved.effectiveMode, .full)
+        // Auto with full capabilities should resolve to hybrid (we prefer hybrid for performance)
+        XCTAssertEqual(resolved.effectiveMode, .hybrid)
         XCTAssertEqual(resolved.modeSource, .autoDetected)
         XCTAssertFalse(resolved.isStrict)
     }
