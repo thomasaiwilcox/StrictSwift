@@ -258,7 +258,18 @@ public final class OwnershipGraph: @unchecked Sendable {
         // Group references by target
         let refsByTarget = Dictionary(grouping: allRefs) { $0.to }
 
-        for (_, targetRefs) in refsByTarget {
+        for (target, targetRefs) in refsByTarget {
+            // Skip function calls and initializers - they can't have exclusive access violations
+            // Function calls: analyze(sourceFile), foo(), Set<T>()
+            guard !isFunctionCallOrInitializer(target) else { continue }
+            
+            // Skip 'self' - accessing self from different methods is not an exclusive access violation
+            // Real exclusive access to self would be overlapping inout &self, which is rare
+            guard target != "self" else { continue }
+            
+            // Skip non-storage targets (complex expressions, subscripts, etc.)
+            guard isStoredPropertyOrVariable(target) else { continue }
+            
             // Find multiple mutable accesses to the same target
             let mutableRefs = targetRefs.filter { isMutableReference($0) }
             if mutableRefs.count > 1 {
@@ -277,6 +288,34 @@ public final class OwnershipGraph: @unchecked Sendable {
         }
 
         return violations
+    }
+    
+    /// Checks if a target string represents a function call or initializer
+    private func isFunctionCallOrInitializer(_ target: String) -> Bool {
+        // Function calls: analyze(sourceFile), foo(), bar.baz(), Set<T>()
+        guard target.contains("(") && target.hasSuffix(")") else { return false }
+        
+        // Check for balanced parentheses
+        var depth = 0
+        for char in target {
+            if char == "(" { depth += 1 }
+            else if char == ")" { depth -= 1 }
+            if depth < 0 { return false }
+        }
+        return depth == 0
+    }
+    
+    /// Checks if a target represents a stored property or variable access
+    private func isStoredPropertyOrVariable(_ target: String) -> Bool {
+        // Simple identifier: count, items, foo
+        let simpleIdentifier = target.range(of: #"^[a-zA-Z_][a-zA-Z0-9_]*$"#, options: .regularExpression) != nil
+        if simpleIdentifier { return true }
+        
+        // Property access: self.property, object.property (one dot only)
+        let propertyAccess = target.range(of: #"^[a-zA-Z_][a-zA-Z0-9_]*\.[a-zA-Z_][a-zA-Z0-9_]*$"#, options: .regularExpression) != nil
+        if propertyAccess { return true }
+        
+        return false
     }
 
     /// Clear the graph

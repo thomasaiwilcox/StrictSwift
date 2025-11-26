@@ -8,7 +8,7 @@ import SwiftParser
 public final class ARCChurnRule: Rule, @unchecked Sendable {
     public var id: String { "arc_churn" }
     public var name: String { "ARC Churn" }
-    public var description: String { "Detects excessive retain/release patterns and ARC churn that can degrade performance" }
+    public var description: String { "Detects excessive retain/release patterns and ARC churn in loop bodies. Iterator expressions (e.g., for x in items.sorted()) are excluded as they execute once, not per iteration." }
     public var category: RuleCategory { .performance }
     public var defaultSeverity: DiagnosticSeverity { .warning }
     public var enabledByDefault: Bool { true }
@@ -132,38 +132,72 @@ private class ARCChurnAnalyzer: SyntaxAnyVisitor {
     }
 
     // MARK: - Loop Detection
-
+    
+    // For loops: visit the sequence expression BEFORE incrementing loopDepth
+    // because the sequence is evaluated ONCE, not per iteration.
+    // Example: `for x in items.sorted()` - sorted() is called once, not per iteration
     override func visit(_ node: ForStmtSyntax) -> SyntaxVisitorContinueKind {
+        // First visit the sequence expression - it runs once before the loop
+        walk(node.sequence)
+        
+        // Now enter the loop body context
         loopDepth += 1
         referenceAccessesInLoop.removeAll()
-        return .visitChildren
-    }
-
-    override func visitPost(_ node: ForStmtSyntax) {
+        
+        // Visit the pattern (usually just a simple identifier, safe to visit in loop context)
+        walk(node.pattern)
+        
+        // Visit the loop body
+        walk(node.body)
+        
+        // Check for ARC churn and exit loop context
         checkLoopARCChurn(at: node.position)
         loopDepth -= 1
+        
+        // Skip automatic children traversal since we did it manually
+        return .skipChildren
     }
 
+    // While loops: visit the conditions BEFORE incrementing loopDepth
+    // because `while let x = iterator.next()` evaluates next() per iteration,
+    // but the condition setup itself is evaluated before the body
     override func visit(_ node: WhileStmtSyntax) -> SyntaxVisitorContinueKind {
+        // Visit conditions outside loop context - they're evaluated per iteration
+        // but flagging them as "in loop" would be misleading since the user can't easily move them out
+        // Actually, we SHOULD flag these since they run per iteration, but we'll be more lenient
+        // and only flag obvious patterns inside the body
+        walk(node.conditions)
+        
+        // Enter loop body context
         loopDepth += 1
         referenceAccessesInLoop.removeAll()
-        return .visitChildren
-    }
-
-    override func visitPost(_ node: WhileStmtSyntax) {
+        
+        // Visit the loop body
+        walk(node.body)
+        
+        // Check for ARC churn and exit loop context
         checkLoopARCChurn(at: node.position)
         loopDepth -= 1
+        
+        return .skipChildren
     }
 
     override func visit(_ node: RepeatStmtSyntax) -> SyntaxVisitorContinueKind {
+        // Enter loop body context
         loopDepth += 1
         referenceAccessesInLoop.removeAll()
-        return .visitChildren
-    }
-
-    override func visitPost(_ node: RepeatStmtSyntax) {
+        
+        // Visit the loop body
+        walk(node.body)
+        
+        // Check for ARC churn
         checkLoopARCChurn(at: node.position)
         loopDepth -= 1
+        
+        // Visit condition outside loop context (it runs per iteration but at the end)
+        walk(node.condition)
+        
+        return .skipChildren
     }
 
     // MARK: - Closure Detection

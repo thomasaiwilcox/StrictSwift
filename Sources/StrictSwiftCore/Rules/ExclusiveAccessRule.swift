@@ -8,7 +8,7 @@ import SwiftParser
 public final class ExclusiveAccessRule: Rule, @unchecked Sendable {
     public var id: String { "exclusive_access" }
     public var name: String { "Exclusive Access" }
-    public var description: String { "Detects exclusive access violations that could cause data races and memory corruption" }
+    public var description: String { "Detects overlapping mutable accesses to stored properties and variables that could cause data races. Only flags true concurrent access patterns, not sequential mutations." }
     public var category: RuleCategory { .memory }
     public var defaultSeverity: DiagnosticSeverity { .error }
     public var enabledByDefault: Bool { true }
@@ -235,6 +235,12 @@ private class ExclusiveAccessAnalyzer: SyntaxAnyVisitor {
         
         // Filter out literal values - they cannot have exclusive access violations
         guard !isLiteralValue(trimmedTarget) else { return }
+        
+        // Filter out function calls and initializers - these are not storage accesses
+        guard !isFunctionCallOrInitializer(trimmedTarget) else { return }
+        
+        // Only track accesses to stored properties and variables
+        guard isStoredPropertyOrVariable(trimmedTarget) else { return }
 
         let access = AccessInfo(
             target: trimmedTarget,
@@ -249,6 +255,38 @@ private class ExclusiveAccessAnalyzer: SyntaxAnyVisitor {
         if type == .write {
             checkForConcurrentAccess(trimmedTarget)
         }
+    }
+    
+    /// Checks if a target string represents a function call or initializer
+    /// These are not storage accesses and cannot have exclusive access violations
+    private func isFunctionCallOrInitializer(_ target: String) -> Bool {
+        // Function calls: analyze(sourceFile), foo(), bar.baz()
+        // Must have balanced parentheses and end with )
+        guard target.contains("(") && target.hasSuffix(")") else { return false }
+        
+        // Check for balanced parentheses
+        var depth = 0
+        for char in target {
+            if char == "(" { depth += 1 }
+            else if char == ")" { depth -= 1 }
+            if depth < 0 { return false }
+        }
+        return depth == 0
+    }
+    
+    /// Checks if a target represents a stored property or variable access
+    /// Returns true for: simple identifiers (x, count), property accesses (self.x, object.y)
+    /// Returns false for: complex expressions, subscripts, method chains
+    private func isStoredPropertyOrVariable(_ target: String) -> Bool {
+        // Simple identifier: count, items, foo
+        let simpleIdentifier = target.range(of: #"^[a-zA-Z_][a-zA-Z0-9_]*$"#, options: .regularExpression) != nil
+        if simpleIdentifier { return true }
+        
+        // Property access: self.property, object.property (one dot only)
+        let propertyAccess = target.range(of: #"^[a-zA-Z_][a-zA-Z0-9_]*\.[a-zA-Z_][a-zA-Z0-9_]*$"#, options: .regularExpression) != nil
+        if propertyAccess { return true }
+        
+        return false
     }
     
     /// Checks if a target string represents a literal value that cannot have exclusive access violations

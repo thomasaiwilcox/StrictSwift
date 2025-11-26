@@ -5,7 +5,7 @@ import SwiftSyntax
 public final class SQLInjectionPatternRule: Rule {
     public var id: String { "sql_injection_pattern" }
     public var name: String { "SQL Injection Pattern" }
-    public var description: String { "Detects string interpolation in SQL queries which may lead to SQL injection vulnerabilities" }
+    public var description: String { "Detects string interpolation in SQL queries. Requires SQL structure (keyword + clause like SELECT...FROM, UPDATE...SET) to avoid false positives on Swift keywords" }
     public var category: RuleCategory { .security }
     public var defaultSeverity: DiagnosticSeverity { .error }
     public var enabledByDefault: Bool { true }
@@ -160,12 +160,37 @@ private final class SQLInjectionVisitor: SyntaxVisitor {
         return ""
     }
     
+    /// Checks if a string looks like SQL by requiring BOTH a main keyword AND a clause keyword
+    /// at word boundaries. This prevents false positives on Swift keywords like `.union()` or `update`.
     private func containsSQLKeywords(_ stringLiteral: StringLiteralExprSyntax) -> Bool {
-        let content = extractStringContent(from: stringLiteral).uppercased()
+        let content = extractStringContent(from: stringLiteral)
         
-        // Check for main SQL keywords
-        for keyword in Self.sqlKeywords {
-            if content.contains(keyword) {
+        // Check for main SQL keyword at word boundary
+        guard hasSQLKeywordAtWordBoundary(content, keywords: Self.sqlKeywords) else {
+            return false
+        }
+        
+        // Also require a clause keyword to confirm SQL structure
+        // This prevents false positives on strings that happen to contain "UPDATE" or "UNION"
+        return hasSQLKeywordAtWordBoundary(content, keywords: Self.sqlClauseKeywords)
+    }
+    
+    /// Checks if any of the keywords appear at word boundaries in the content
+    private func hasSQLKeywordAtWordBoundary(_ content: String, keywords: [String]) -> Bool {
+        let uppercased = content.uppercased()
+        
+        for keyword in keywords {
+            // Build a pattern that requires word boundaries
+            // Word boundary = start of string, whitespace, quote, paren, or comma
+            let escapedKeyword = NSRegularExpression.escapedPattern(for: keyword)
+            let pattern = "(?:^|[\\s\"'(,])(\(escapedKeyword))(?:[\\s\"'),;]|$)"
+            
+            guard let regex = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else {
+                continue
+            }
+            
+            let range = NSRange(uppercased.startIndex..., in: uppercased)
+            if regex.firstMatch(in: uppercased, options: [], range: range) != nil {
                 return true
             }
         }
