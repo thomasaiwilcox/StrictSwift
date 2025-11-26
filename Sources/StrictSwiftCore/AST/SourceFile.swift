@@ -12,6 +12,9 @@ public final class SourceFile: @unchecked Sendable {
     public let symbols: [Symbol]
     public let imports: [Import]
     
+    /// The module name this file belongs to
+    public let moduleName: String
+    
     /// Hash of the source content for caching
     public let contentHash: UInt64
     /// File modification date at parse time
@@ -21,8 +24,9 @@ public final class SourceFile: @unchecked Sendable {
 
     private let _lock = NSLock()
 
-    public init(url: URL) throws {
+    public init(url: URL, moduleName: String = "Unknown") throws {
         self.url = url
+        self.moduleName = moduleName
         let source = try String(contentsOf: url, encoding: .utf8)
         self.tree = Parser.parse(source: source)
         
@@ -32,7 +36,7 @@ public final class SourceFile: @unchecked Sendable {
         self.modificationDate = attributes[.modificationDate] as? Date ?? Date()
         self.fileSize = attributes[.size] as? Int64 ?? Int64(source.utf8.count)
 
-        let symbolCollector = SymbolCollector(fileURL: url, tree: tree)
+        let symbolCollector = SymbolCollector(fileURL: url, tree: tree, moduleName: moduleName)
         symbolCollector.walk(tree)
         self.symbols = symbolCollector.symbols
 
@@ -42,8 +46,9 @@ public final class SourceFile: @unchecked Sendable {
     }
 
     /// Convenience initializer for testing
-    public init(url: URL, source: String) {
+    public init(url: URL, source: String, moduleName: String = "Unknown") {
         self.url = url
+        self.moduleName = moduleName
         self.tree = Parser.parse(source: source)
         
         // Compute fingerprint data from source
@@ -51,7 +56,7 @@ public final class SourceFile: @unchecked Sendable {
         self.modificationDate = Date()
         self.fileSize = Int64(source.utf8.count)
 
-        let symbolCollector = SymbolCollector(fileURL: url, tree: tree)
+        let symbolCollector = SymbolCollector(fileURL: url, tree: tree, moduleName: moduleName)
         symbolCollector.walk(tree)
         self.symbols = symbolCollector.symbols
 

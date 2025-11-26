@@ -179,6 +179,9 @@ extension RuleEngine {
         // register(GodClassRule())  // Superseded by EnhancedGodClassRule
         register(GlobalStateRule())
 
+        // Phase 5 Dead Code Detection
+        register(DeadCodeRule())
+
         // Phase 1 Architecture Rules Complete ✅
 
         // Phase 2 Enhanced Rules using Infrastructure

@@ -173,7 +173,8 @@ public final class Analyzer: Sendable {
             "unused-public-declaration",
             "orphan-protocol",
             "dependency-inversion",
-            "module-boundary"
+            "module-boundary",
+            "dead-code"
         ]
     }
     
