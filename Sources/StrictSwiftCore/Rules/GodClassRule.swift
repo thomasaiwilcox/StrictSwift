@@ -10,25 +10,32 @@ public final class GodClassRule: Rule {
     public var defaultSeverity: DiagnosticSeverity { .warning }
     public var enabledByDefault: Bool { true }
 
-    // Configuration thresholds
-    private let maxMethods: Int = 15
-    private let maxProperties: Int = 10
-    private let maxLines: Int = 200
-    private let maxDependencies: Int = 8
+    // Default configuration thresholds (can be overridden via configuration)
+    private let defaultMaxMethods: Int = 15
+    private let defaultMaxProperties: Int = 10
+    private let defaultMaxLines: Int = 200
+    private let defaultMaxDependencies: Int = 8
 
     public init() {}
 
     public func analyze(_ sourceFile: SourceFile, in context: AnalysisContext) async -> [Violation] {
         var violations: [Violation] = []
         let source = sourceFile.source()
+        
+        // Get configuration for this rule
+        let ruleConfig = context.configuration.configuration(for: id, file: sourceFile.url.path)
+        let maxMethods = ruleConfig.parameter("maxMethods", defaultValue: defaultMaxMethods)
+        let maxProperties = ruleConfig.parameter("maxProperties", defaultValue: defaultMaxProperties)
+        let maxLines = ruleConfig.parameter("maxLines", defaultValue: defaultMaxLines)
+        let maxDependencies = ruleConfig.parameter("maxDependencies", defaultValue: defaultMaxDependencies)
 
         // Use text-based analysis for the whole file
-        violations = analyzeSourceCode(source, sourceFile: sourceFile)
+        violations = analyzeSourceCode(source, sourceFile: sourceFile, maxMethods: maxMethods, maxProperties: maxProperties, maxLines: maxLines, maxDependencies: maxDependencies)
 
         return violations
     }
 
-    private func analyzeSourceCode(_ source: String, sourceFile: SourceFile) -> [Violation] {
+    private func analyzeSourceCode(_ source: String, sourceFile: SourceFile, maxMethods: Int, maxProperties: Int, maxLines: Int, maxDependencies: Int) -> [Violation] {
         var violations: [Violation] = []
 
         // Find all class declarations using a simpler pattern - match just the class declaration line
@@ -46,7 +53,7 @@ public final class GodClassRule: Rule {
                     let classDeclaration = String(source[start..<end])
 
                     // Find the class name and extract the entire class content from the full source
-                    if let violation = analyzeClassFromDeclaration(classDeclaration, sourceFile: sourceFile, fullSource: source) {
+                    if let violation = analyzeClassFromDeclaration(classDeclaration, sourceFile: sourceFile, fullSource: source, maxMethods: maxMethods, maxProperties: maxProperties, maxLines: maxLines, maxDependencies: maxDependencies) {
                         violations.append(violation)
                     }
                 }
@@ -59,7 +66,7 @@ public final class GodClassRule: Rule {
         return violations
     }
 
-    private func analyzeClassFromDeclaration(_ classDeclaration: String, sourceFile: SourceFile, fullSource: String) -> Violation? {
+    private func analyzeClassFromDeclaration(_ classDeclaration: String, sourceFile: SourceFile, fullSource: String, maxMethods: Int, maxProperties: Int, maxLines: Int, maxDependencies: Int) -> Violation? {
         // Extract class name from declaration
         let pattern = "class\\s+([A-Za-z][A-Za-z0-9]*)"
         guard let regex = try? NSRegularExpression(pattern: pattern),

@@ -166,7 +166,17 @@ sudo cp .build/release/strictswift-lsp /usr/local/bin/
             }
         },
         excludePaths: config.get<string[]>('excludePaths', []),
-        includePaths: config.get<string[]>('includePaths', [])
+        includePaths: config.get<string[]>('includePaths', []),
+        // Threshold settings - passed as both nested and flat for compatibility
+        thresholds: {
+            maxFileLines: config.get<number>('maxFileLines', 200),
+            maxFunctionLines: config.get<number>('maxFunctionLines', 50),
+            maxCyclomaticComplexity: config.get<number>('maxCyclomaticComplexity', 10)
+        },
+        // Also pass as flat settings for simpler LSP parsing
+        maxFileLines: config.get<number>('maxFileLines', 200),
+        maxFunctionLines: config.get<number>('maxFunctionLines', 50),
+        maxCyclomaticComplexity: config.get<number>('maxCyclomaticComplexity', 10)
     };
 
     // Client options

@@ -190,6 +190,32 @@ public struct Configuration: Codable, Equatable, Sendable {
         let category = RuleEngine.ruleCategory(for: ruleId)
         let categoryConfig = rules.configuration(for: category)
 
+        // Start with global thresholds as default parameters
+        var mergedParameters = ruleConfig.parameters
+        let thresholds = advanced.thresholds
+        
+        // Apply global thresholds as defaults (rule-specific params take precedence)
+        if mergedParameters["maxCyclomaticComplexity"] == nil {
+            mergedParameters["maxCyclomaticComplexity"] = .integerValue(thresholds.maxCyclomaticComplexity)
+        }
+        if mergedParameters["maxLines"] == nil && mergedParameters["maxFileLines"] == nil {
+            mergedParameters["maxLines"] = .integerValue(thresholds.maxFileLength)
+            mergedParameters["maxFileLines"] = .integerValue(thresholds.maxFileLength)
+        }
+        if mergedParameters["maxFunctionLines"] == nil && mergedParameters["maxMethodLength"] == nil {
+            mergedParameters["maxFunctionLines"] = .integerValue(thresholds.maxMethodLength)
+            mergedParameters["maxMethodLength"] = .integerValue(thresholds.maxMethodLength)
+        }
+        if mergedParameters["maxNestingDepth"] == nil {
+            mergedParameters["maxNestingDepth"] = .integerValue(thresholds.maxNestingDepth)
+        }
+        if mergedParameters["maxPropertyCount"] == nil {
+            mergedParameters["maxPropertyCount"] = .integerValue(thresholds.maxPropertyCount)
+        }
+        if mergedParameters["maxParameterCount"] == nil {
+            mergedParameters["maxParameterCount"] = .integerValue(thresholds.maxParameterCount)
+        }
+
         // Merge configurations with rule config taking precedence
         // Rule configuration always overrides category configuration for severity
         // This allows users to downgrade rules from error to warning or info
@@ -197,7 +223,7 @@ public struct Configuration: Codable, Equatable, Sendable {
             ruleId: ruleId,
             enabled: ruleConfig.enabled && categoryConfig.enabled,
             severity: ruleConfig.severity,
-            parameters: ruleConfig.parameters,
+            parameters: mergedParameters,
             filePatterns: ruleConfig.filePatterns
         )
     }
