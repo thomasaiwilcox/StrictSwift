@@ -93,14 +93,15 @@ public final class Analyzer: Sendable {
         let projectRoot = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let context = AnalysisContext(configuration: configuration, projectRoot: projectRoot)
         
-        // Add all source files to context
-        for file in sourceFiles {
-            context.addSourceFile(file)
-        }
-        
-        // Filter files based on include/exclude patterns
+        // Filter files based on include/exclude patterns BEFORE adding to context
+        // This ensures cross-file rules (DeadCodeRule, graph-enhanced rules) only see included files
         let filteredFiles = sourceFiles.filter { file in
             context.isIncluded(file.path)
+        }
+        
+        // Only add filtered files to context - this populates allSourceFiles and globalGraph
+        for file in filteredFiles {
+            context.addSourceFile(file)
         }
         
         // Separate files into cached and uncached
@@ -167,15 +168,21 @@ public final class Analyzer: Sendable {
     }
     
     /// Rules that require cross-file analysis and can't be cached per-file
+    /// NOTE: These must match the actual rule IDs (underscore format, not hyphenated)
     private var crossFileRuleIdentifiers: Set<String> {
         return [
-            "circular-dependency",
-            "layered-dependencies",
-            "unused-public-declaration",
-            "orphan-protocol",
-            "dependency-inversion",
-            "module-boundary",
-            "dead-code"
+            "circular_dependency",
+            "circular_dependency_graph",
+            "layered_dependencies",
+            "unused_public_declaration",
+            "orphan_protocol",
+            "dependency_inversion",
+            "module_boundary",
+            "dead_code",
+            // Graph-enhanced rules
+            "enhanced_god_class",
+            "coupling_metrics",
+            "enhanced_non_sendable_capture"
         ]
     }
     
@@ -196,14 +203,19 @@ public final class Analyzer: Sendable {
         var hash: UInt64 = 14695981039346656037 // FNV-1a offset basis
         let fnvPrime: UInt64 = 1099511628211
         
-        // Include enabled categories in hash
+        // Include ALL enabled categories in hash
+        // This ensures cache invalidation when any category is changed
         let categories: [(String, RuleConfiguration)] = [
             ("safety", configuration.rules.safety),
             ("concurrency", configuration.rules.concurrency),
             ("memory", configuration.rules.memory),
             ("architecture", configuration.rules.architecture),
             ("complexity", configuration.rules.complexity),
-            ("performance", configuration.rules.performance)
+            ("performance", configuration.rules.performance),
+            ("monolith", configuration.rules.monolith),
+            ("dependency", configuration.rules.dependency),
+            ("security", configuration.rules.security),
+            ("testing", configuration.rules.testing)
         ]
         
         for (name, config) in categories where config.enabled {
