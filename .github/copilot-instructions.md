@@ -27,7 +27,16 @@ When working on Swift code, use StrictSwift for static analysis:
    structured diffs. Apply high-confidence fixes automatically, prompt for 
    medium-confidence fixes.
 
-5. **Key rules to understand**:
+5. **CRITICAL - Placeholder defaults**: Some fixes use `<#default#>` placeholders
+   that require manual replacement. These are intentional to force context-aware
+   defaults. If you apply fixes with placeholders, you MUST replace them with
+   appropriate values before the code can compile.
+
+6. **Undo capability**: If fixes break the build, run `swift-strict fix --undo`
+   to restore files from backup. Backups are created automatically before
+   applying fixes.
+
+7. **Key rules to understand**:
    - force_unwrap: Use `if let`, `guard let`, or nil coalescing instead
    - data_race: Protect shared mutable state with actors or locks
    - retain_cycle: Add `[weak self]` or `[unowned self]` in closures

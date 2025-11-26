@@ -101,7 +101,12 @@ Options:
   --confidence <level>    Minimum confidence: low, medium, high (default: high)
   --dry-run               Preview fixes without applying
   --agent                 Output structured JSON for AI agents
+  --undo                  Restore files from last backup
+  --no-backup             Skip creating backup (not recommended)
+  --yes                   Apply without confirmation
 ```
+
+**Backup & Undo**: By default, `fix` creates a backup in `.strictswift-backup/` before modifying files. If fixes cause problems (e.g., broken builds from placeholder defaults), run `swift-strict fix --undo` to restore the original files.
 
 ### baseline - Create baseline for existing code
 

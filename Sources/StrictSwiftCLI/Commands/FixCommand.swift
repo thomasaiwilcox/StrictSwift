@@ -38,8 +38,23 @@ struct FixCommand: AsyncParsableCommand {
     
     @Flag(name: .long, help: "Output in agent-friendly JSON format with structured diff")
     var agent: Bool = false
+    
+    @Flag(name: .long, help: "Undo the last fix operation (restore from backup)")
+    var undo: Bool = false
+    
+    @Flag(name: .long, help: "Skip creating backup before applying fixes (not recommended)")
+    var noBackup: Bool = false
+    
+    /// Default backup directory
+    private static let backupDirName = ".strictswift-backup"
 
     func run() async throws {
+        // Handle undo mode
+        if undo {
+            try await performUndo()
+            return
+        }
+        
         // Load configuration
         let profileEnum = Profile(rawValue: profile) ?? .criticalCore
         let configURL = config.map { URL(fileURLWithPath: $0) }
@@ -170,6 +185,14 @@ struct FixCommand: AsyncParsableCommand {
         
         // Write changes unless dry run
         if !dryRun {
+            // Create backup before applying fixes (unless disabled)
+            if !noBackup {
+                try await createBackup(for: allResults)
+                if !agent {
+                    print("💾 Backup created in \(Self.backupDirName)/ (use --undo to restore)")
+                }
+            }
+            
             try await applier.writeResults(allResults)
         }
         
@@ -193,6 +216,168 @@ struct FixCommand: AsyncParsableCommand {
             if summary.totalSkipped > 0 {
                 print("   Fixes skipped: \(summary.totalSkipped)")
             }
+            if !noBackup && !dryRun {
+                print("   💡 Run 'swift-strict fix --undo' to restore original files")
+            }
         }
     }
+    
+    // MARK: - Backup & Undo
+    
+    /// Get the backup directory URL
+    private func getBackupDir() -> URL {
+        // Find workspace root (look for Package.swift, .git, etc.)
+        let currentDir = FileManager.default.currentDirectoryPath
+        return URL(fileURLWithPath: currentDir).appendingPathComponent(Self.backupDirName)
+    }
+    
+    /// Create backup of files before modifying them
+    private func createBackup(for results: [FixApplicationResult]) async throws {
+        let backupDir = getBackupDir()
+        let fm = FileManager.default
+        
+        // Remove old backup if it exists
+        if fm.fileExists(atPath: backupDir.path) {
+            try fm.removeItem(at: backupDir)
+        }
+        
+        // Create fresh backup directory
+        try fm.createDirectory(at: backupDir, withIntermediateDirectories: true)
+        
+        // Create manifest file with metadata
+        var manifest = BackupManifest(
+            timestamp: Date(),
+            files: []
+        )
+        
+        // Backup each modified file
+        for result in results where result.hasChanges {
+            let originalFile = result.file
+            
+            // Create relative path structure in backup
+            let relativePath = originalFile.path.replacingOccurrences(
+                of: FileManager.default.currentDirectoryPath + "/",
+                with: ""
+            )
+            
+            let backupFile = backupDir
+                .appendingPathComponent("files")
+                .appendingPathComponent(relativePath)
+            
+            // Create parent directories
+            try fm.createDirectory(
+                at: backupFile.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+            
+            // Write original content to backup
+            try result.originalContent.write(to: backupFile, atomically: true, encoding: .utf8)
+            
+            manifest.files.append(BackupFileEntry(
+                originalPath: originalFile.path,
+                backupPath: backupFile.path,
+                relativePath: relativePath
+            ))
+        }
+        
+        // Write manifest
+        let manifestFile = backupDir.appendingPathComponent("manifest.json")
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.dateEncodingStrategy = .iso8601
+        let manifestData = try encoder.encode(manifest)
+        try manifestData.write(to: manifestFile)
+    }
+    
+    /// Restore files from backup
+    private func performUndo() async throws {
+        let backupDir = getBackupDir()
+        let fm = FileManager.default
+        
+        // Check if backup exists
+        guard fm.fileExists(atPath: backupDir.path) else {
+            print("❌ No backup found. Run 'swift-strict fix' first to create a backup.")
+            return
+        }
+        
+        // Read manifest
+        let manifestFile = backupDir.appendingPathComponent("manifest.json")
+        guard fm.fileExists(atPath: manifestFile.path) else {
+            print("❌ Backup manifest not found. Backup may be corrupted.")
+            return
+        }
+        
+        let manifestData = try Data(contentsOf: manifestFile)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let manifest = try decoder.decode(BackupManifest.self, from: manifestData)
+        
+        // Show what will be restored
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        print("📦 Found backup from \(formatter.string(from: manifest.timestamp))")
+        print("   Files to restore: \(manifest.files.count)")
+        
+        for entry in manifest.files {
+            print("   • \(entry.relativePath)")
+        }
+        
+        // Confirm unless --yes
+        if !yes {
+            print("\n⚠️  This will overwrite \(manifest.files.count) file(s) with backup versions.")
+            print("   Continue? (y/n): ", terminator: "")
+            
+            guard let response = readLine()?.lowercased(), response == "y" || response == "yes" else {
+                print("❌ Aborted")
+                return
+            }
+        }
+        
+        // Restore files
+        var restoredCount = 0
+        var failedCount = 0
+        
+        for entry in manifest.files {
+            do {
+                let backupContent = try String(contentsOfFile: entry.backupPath, encoding: .utf8)
+                let originalURL = URL(fileURLWithPath: entry.originalPath)
+                try backupContent.write(to: originalURL, atomically: true, encoding: .utf8)
+                restoredCount += 1
+            } catch {
+                print("   ⚠️ Failed to restore \(entry.relativePath): \(error.localizedDescription)")
+                failedCount += 1
+            }
+        }
+        
+        // Clean up backup after successful restore
+        if failedCount == 0 {
+            try? fm.removeItem(at: backupDir)
+        }
+        
+        print("\n" + String(repeating: "─", count: 50))
+        print("✅ Undo complete!")
+        print("   Files restored: \(restoredCount)")
+        if failedCount > 0 {
+            print("   Failed: \(failedCount)")
+            print("   ⚠️ Backup preserved due to failures")
+        } else {
+            print("   Backup removed")
+        }
+    }
+}
+
+// MARK: - Backup Types
+
+/// Manifest for backup metadata
+private struct BackupManifest: Codable {
+    let timestamp: Date
+    var files: [BackupFileEntry]
+}
+
+/// Entry for a backed-up file
+private struct BackupFileEntry: Codable {
+    let originalPath: String
+    let backupPath: String
+    let relativePath: String
 }
