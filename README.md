@@ -197,8 +197,19 @@ Enable with `useEnhancedRules: true` or `--enhanced` for cross-file analysis:
 - **coupling_metrics** - Reports instability metrics and coupling violations
 - **circular_dependency_graph** - DFS-based cycle detection in type graph
 - **non_sendable_capture_graph** - Sendable conformance checking via symbol graph
-- **dead_code** - Detects unused functions, types, and variables across files
+- **dead_code** - Detects unused functions, types, and variables across files (see caveats below)
 - **layered_dependencies** - Validates architectural layer boundaries
+
+#### Dead Code Detection Caveats
+
+The `dead_code` rule uses static analysis and may produce false positives for:
+- Properties accessed via `self.propertyName` in complex expressions
+- Functions called across module boundaries
+- Code used via reflection, dynamic dispatch, or string-based APIs
+- Protocol witnesses and synthesized members
+
+**Recommendation**: Always manually verify dead code suggestions before deletion.
+Use `--min-severity warning` to filter to higher-confidence results only.
 
 ## VS Code Extension
 

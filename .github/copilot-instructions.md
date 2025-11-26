@@ -43,6 +43,16 @@ When working on Swift code, use StrictSwift for static analysis:
    - god_class: Split large classes into smaller, focused components
    - circular_dependency: Use protocols or dependency injection
 
+8. **Dead code detection caveats**: The `dead-code` rule uses static analysis and
+   may produce false positives, especially for:
+   - Properties accessed via `self.propertyName` in complex expressions
+   - Functions called across module boundaries
+   - Code used via reflection, dynamic dispatch, or string-based APIs
+   - Protocol witnesses and synthesized members
+   
+   **Always manually verify dead code suggestions before deletion.**
+   Use `--min-severity warning` to filter to higher-confidence results.
+
 ---
 
 ## Swift Safety Guidelines

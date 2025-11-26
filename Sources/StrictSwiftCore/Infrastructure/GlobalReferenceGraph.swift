@@ -405,7 +405,28 @@ public final class GlobalReferenceGraph: @unchecked Sendable {
             let typeMatches = candidates.filter { id in
                 guard let symbol = symbolsByID[id] else { return false }
                 // Check if symbol is a member of the base type
-                return symbol.qualifiedName.hasPrefix(baseType + ".")
+                // Handle both "Type.member" and "Module.Type.member" patterns
+                let qualifiedName = symbol.qualifiedName
+                
+                // Direct match: "BaseType.member"
+                if qualifiedName.hasPrefix(baseType + ".") {
+                    return true
+                }
+                
+                // Module-qualified match: "*.BaseType.member"
+                // Check if qualified name contains ".BaseType." anywhere
+                if qualifiedName.contains("." + baseType + ".") {
+                    return true
+                }
+                
+                // Also check if the parent's name matches the base type
+                if let parentID = symbol.parentID,
+                   let parent = symbolsByID[parentID],
+                   parent.name == baseType {
+                    return true
+                }
+                
+                return false
             }
             if !typeMatches.isEmpty {
                 return typeMatches

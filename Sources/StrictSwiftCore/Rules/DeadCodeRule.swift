@@ -16,13 +16,13 @@ public final class DeadCodeRule: Rule, Sendable {
     /// Minimum confidence level to report (filters out low confidence by default)
     private let minimumConfidence: DeadCodeConfidence
     
-    public init(configuration: DeadCodeConfiguration = .libraryDefault, minimumConfidence: DeadCodeConfidence = .low) {
+    public init(configuration: DeadCodeConfiguration = .libraryDefault, minimumConfidence: DeadCodeConfidence = .medium) {
         self.analyzerConfiguration = configuration
         self.minimumConfidence = minimumConfidence
     }
     
     public convenience init() {
-        self.init(configuration: .libraryDefault, minimumConfidence: .low)
+        self.init(configuration: .libraryDefault, minimumConfidence: .medium)
     }
 
     public func analyze(_ sourceFile: SourceFile, in context: AnalysisContext) async -> [Violation] {
@@ -46,8 +46,8 @@ public final class DeadCodeRule: Rule, Sendable {
         // Build DeadCodeConfiguration from parameters or use default
         let deadCodeConfig = buildConfiguration(from: ruleConfig, context: context)
         
-        // Get minimum confidence from config (default: low = report all)
-        let minConfidenceString = ruleConfig.parameter("minimumConfidence", defaultValue: "low")
+        // Get minimum confidence from config (default: medium for safety)
+        let minConfidenceString = ruleConfig.parameter("minimumConfidence", defaultValue: "medium")
         let minConfidence = DeadCodeConfidence(rawValue: minConfidenceString) ?? minimumConfidence
         
         // Use the shared global reference graph (lazily built on first access)
