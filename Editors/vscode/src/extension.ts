@@ -8,6 +8,8 @@ import {
 } from 'vscode-languageclient/node';
 
 let client: LanguageClient | undefined;
+let outputChannel: vscode.OutputChannel | undefined;
+let traceChannel: vscode.OutputChannel | undefined;
 
 export async function activate(context: vscode.ExtensionContext) {
     console.log('StrictSwift extension is activating...');
@@ -18,8 +20,13 @@ export async function activate(context: vscode.ExtensionContext) {
     // Show activation message
     vscode.window.showInformationMessage('StrictSwift extension activated!');
     
-    // Create output channel immediately
-    const outputChannel = vscode.window.createOutputChannel('StrictSwift');
+    // Create output channels once (reused across restarts)
+    if (!outputChannel) {
+        outputChannel = vscode.window.createOutputChannel('StrictSwift');
+    }
+    if (!traceChannel) {
+        traceChannel = vscode.window.createOutputChannel('StrictSwift Trace');
+    }
     outputChannel.appendLine('StrictSwift extension starting...');
     outputChannel.show();
 
@@ -170,8 +177,8 @@ sudo cp .build/release/strictswift-lsp /usr/local/bin/
             configurationSection: 'strictswift'
         },
         initializationOptions,
-        outputChannelName: 'StrictSwift',
-        traceOutputChannel: vscode.window.createOutputChannel('StrictSwift Trace')
+        outputChannel: outputChannel,
+        traceOutputChannel: traceChannel
     };
 
     // Create and start the client
@@ -254,14 +261,37 @@ async function fileExists(filePath: string): Promise<boolean> {
 let extensionContext: vscode.ExtensionContext | undefined;
 
 async function restartServer(): Promise<void> {
+    outputChannel?.appendLine('Restarting StrictSwift language server...');
+    vscode.window.showInformationMessage('Restarting StrictSwift language server...');
+    
     if (client) {
-        await client.stop();
+        try {
+            outputChannel?.appendLine('Stopping current server...');
+            // Stop the client and wait for it to fully terminate
+            await client.stop();
+            outputChannel?.appendLine('Server stopped');
+        } catch (error) {
+            console.error('Error stopping client:', error);
+            outputChannel?.appendLine(`Error stopping client: ${error}`);
+            // Continue with restart even if stop failed
+        }
         client = undefined;
     }
     
+    // Small delay to ensure the old process is fully terminated
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
     if (extensionContext) {
-        await startServer(extensionContext);
-        vscode.window.showInformationMessage('StrictSwift language server restarted');
+        try {
+            outputChannel?.appendLine('Starting new server instance...');
+            await startServer(extensionContext);
+            outputChannel?.appendLine('Server restarted successfully');
+            vscode.window.showInformationMessage('StrictSwift language server restarted successfully');
+        } catch (error) {
+            console.error('Error restarting server:', error);
+            outputChannel?.appendLine(`Error restarting server: ${error}`);
+            vscode.window.showErrorMessage(`Failed to restart StrictSwift language server: ${error}`);
+        }
     } else {
         vscode.window.showErrorMessage('Cannot restart: extension context not available');
     }
