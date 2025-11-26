@@ -63,7 +63,8 @@ struct CheckCommand: AsyncParsableCommand {
             include: finalConfiguration.include,
             exclude: finalConfiguration.exclude,
             maxJobs: finalConfiguration.maxJobs,
-            advanced: finalConfiguration.advanced
+            advanced: finalConfiguration.advanced,
+            useEnhancedRules: finalConfiguration.useEnhancedRules
         )
 
         // Set up caching if enabled

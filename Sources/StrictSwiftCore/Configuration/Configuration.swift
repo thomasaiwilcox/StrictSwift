@@ -67,7 +67,8 @@ public struct Configuration: Codable, Equatable, Sendable {
                 include: config.include.isEmpty ? profile.configuration.include : config.include,
                 exclude: config.exclude.isEmpty ? profile.configuration.exclude : config.exclude,
                 maxJobs: config.maxJobs > 0 ? config.maxJobs : profile.configuration.maxJobs,
-                advanced: config.advanced
+                advanced: config.advanced,
+                useEnhancedRules: config.useEnhancedRules
             )
         } catch {
             StrictSwiftLogger.warning("Failed to load configuration from \(url.path): \(error)")

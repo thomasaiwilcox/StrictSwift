@@ -1,8 +1,11 @@
 # StrictSwift Configuration
 # This configuration provides sensible defaults for dogfooding the tool
 
-# Use development profile with relaxed thresholds for complexity rules
-profile: development
+# Use app-relaxed profile with relaxed thresholds for complexity rules
+profile: app-relaxed
+
+# Enable graph-enhanced rules for cross-file analysis
+useEnhancedRules: true
 
 # Exclude test files from analysis
 exclude:
