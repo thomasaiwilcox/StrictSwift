@@ -91,6 +91,11 @@ public final class GlobalReferenceGraph: @unchecked Sendable {
     /// Type → conditional conformances declared via extensions
     private var conditionalConformances: [SymbolID: [ConditionalConformance]] = [:]
     
+    // MARK: - Sendable Conformance Cache
+    
+    /// Cache for Sendable conformance checks (performance optimization)
+    private var sendableConformanceCache: [SymbolID: Bool] = [:]
+    
     // MARK: - Diagnostics
     
     /// References that could not be resolved to any symbol
@@ -266,6 +271,66 @@ public final class GlobalReferenceGraph: @unchecked Sendable {
         
         // Find all symbols whose parent is this protocol
         return symbolsByID.values.filter { $0.parentID == protocolID }
+    }
+    
+    /// Check if a type conforms to Sendable (directly or via inheritance)
+    /// Results are cached for performance
+    public func conformsToSendable(_ typeID: SymbolID) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        
+        // Check cache first
+        if let cached = sendableConformanceCache[typeID] {
+            return cached
+        }
+        
+        // Check direct Sendable conformance by name
+        if let protocolNames = conformsToProtocolName[typeID],
+           protocolNames.contains("Sendable") {
+            sendableConformanceCache[typeID] = true
+            return true
+        }
+        
+        // Check if any conformed protocol is Sendable
+        if let conformedProtocols = implementsProtocol[typeID] {
+            for protocolID in conformedProtocols {
+                if let protocolSymbol = symbolsByID[protocolID],
+                   protocolSymbol.name == "Sendable" {
+                    sendableConformanceCache[typeID] = true
+                    return true
+                }
+            }
+        }
+        
+        // Check superclass (for class types)
+        if let symbol = symbolsByID[typeID],
+           symbol.kind == .class,
+           let parentID = symbol.parentID,
+           let parent = symbolsByID[parentID],
+           parent.kind == .class {
+            // Recursively check parent class - release lock temporarily
+            lock.unlock()
+            let parentConforms = conformsToSendable(parentID)
+            lock.lock()
+            if parentConforms {
+                sendableConformanceCache[typeID] = true
+                return true
+            }
+        }
+        
+        // Structs and enums with all Sendable members are implicitly Sendable
+        // This is a simplification - full check would analyze all stored properties
+        if let symbol = symbolsByID[typeID],
+           (symbol.kind == .struct || symbol.kind == .enum) {
+            // Check if explicitly marked @unchecked Sendable
+            if symbol.attributes.contains(where: { $0.name == "unchecked" }) {
+                sendableConformanceCache[typeID] = true
+                return true
+            }
+        }
+        
+        sendableConformanceCache[typeID] = false
+        return false
     }
     
     // MARK: - Associated Types

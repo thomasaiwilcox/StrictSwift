@@ -189,6 +189,12 @@ extension RuleEngine {
         register(EnhancedLayeredDependenciesRule())  // Replaces LayeredDependenciesRule
         register(EnhancedGodClassRule())  // Replaces GodClassRule
         register(ArchitecturalHealthRule())
+        
+        // Graph-enhanced rules (opt-in via useEnhancedRules: true)
+        register(GraphEnhancedGodClassRule())  // Cross-file coupling analysis
+        register(CouplingMetricsRule())  // Afferent/efferent coupling metrics
+        register(CircularDependencyGraphRule())  // Graph-based cycle detection
+        register(GraphEnhancedNonSendableCaptureRule())  // Sendable conformance checking
 
         // Phase 3 Memory & Ownership Rules
         register(EscapingReferenceRule())

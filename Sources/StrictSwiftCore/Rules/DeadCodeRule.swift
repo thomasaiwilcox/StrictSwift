@@ -50,9 +50,8 @@ public final class DeadCodeRule: Rule, Sendable {
         let minConfidenceString = ruleConfig.parameter("minimumConfidence", defaultValue: "low")
         let minConfidence = DeadCodeConfidence(rawValue: minConfidenceString) ?? minimumConfidence
         
-        // Build the global reference graph
-        let graph = GlobalReferenceGraph()
-        graph.build(from: allFiles)
+        // Use the shared global reference graph (lazily built on first access)
+        let graph = context.globalGraph()
         
         // Run dead code analysis
         let analyzer = DeadCodeAnalyzer(graph: graph, configuration: deadCodeConfig)

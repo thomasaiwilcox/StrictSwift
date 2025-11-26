@@ -18,6 +18,8 @@ public struct Configuration: Codable, Equatable, Sendable {
     public let maxJobs: Int
     /// Advanced configuration with granular control
     public let advanced: AdvancedConfiguration
+    /// Whether to use enhanced graph-based rules (requires cross-file analysis)
+    public let useEnhancedRules: Bool
 
     public init(
         profile: Profile = .criticalCore,
@@ -26,7 +28,8 @@ public struct Configuration: Codable, Equatable, Sendable {
         include: [String] = [],
         exclude: [String] = [],
         maxJobs: Int = ProcessInfo.processInfo.processorCount,
-        advanced: AdvancedConfiguration = AdvancedConfiguration()
+        advanced: AdvancedConfiguration = AdvancedConfiguration(),
+        useEnhancedRules: Bool = false
     ) {
         self.profile = profile
         self.rules = rules
@@ -35,6 +38,7 @@ public struct Configuration: Codable, Equatable, Sendable {
         self.exclude = exclude
         self.maxJobs = maxJobs
         self.advanced = advanced
+        self.useEnhancedRules = useEnhancedRules
     }
 
     /// Default configuration
