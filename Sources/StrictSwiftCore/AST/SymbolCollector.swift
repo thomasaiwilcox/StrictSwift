@@ -88,7 +88,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .class,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         ) {
@@ -104,7 +104,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .struct,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         ) {
@@ -119,7 +119,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .enum,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         ) {
@@ -134,7 +134,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .protocol,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         ) {
@@ -149,7 +149,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .function,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         )
@@ -167,7 +167,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
             createSymbol(
                 name: identifier.text,
                 kind: .variable,
-                position: binding.position,
+                position: binding.positionAfterSkippingLeadingTrivia,
                 modifiers: node.modifiers,
                 attributes: node.attributes
             )
@@ -187,7 +187,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: name,
             kind: .extension,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         ) {
@@ -202,7 +202,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: "init",
             kind: .initializer,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         )
@@ -213,7 +213,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: "deinit",
             kind: .deinitializer,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         )
@@ -224,7 +224,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: "subscript",
             kind: .subscript,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         )
@@ -235,7 +235,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .typeAlias,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         )
@@ -246,7 +246,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .associatedType,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         )
@@ -259,7 +259,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .actor,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         ) {
@@ -276,7 +276,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .operator,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: DeclModifierListSyntax([]),
             attributes: AttributeListSyntax([])
         )
@@ -287,7 +287,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .precedenceGroup,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: DeclModifierListSyntax([]),
             attributes: AttributeListSyntax([])
         )
@@ -300,7 +300,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
         createSymbol(
             name: node.name.text,
             kind: .macro,
-            position: node.position,
+            position: node.positionAfterSkippingLeadingTrivia,
             modifiers: node.modifiers,
             attributes: node.attributes
         )
@@ -310,7 +310,7 @@ public final class SymbolCollector: SyntaxAnyVisitor {
     public override func visit(_ node: EnumCaseDeclSyntax) -> SyntaxVisitorContinueKind {
         // Each element in an enum case declaration creates a separate symbol
         for element in node.elements {
-            let loc = location(from: element.position)
+            let loc = location(from: element.positionAfterSkippingLeadingTrivia)
             let name = element.name.text
             let qualified = qualifiedName(for: name)
             

@@ -224,6 +224,7 @@ actor JSONRPCTransport {
         return try JSONRPCMessage.parse(json)
     }
     
+    // strictswift:ignore-start repeated_allocation -- Streaming I/O loop requires per-iteration allocations
     private func readLine() async throws -> String? {
         while true {
             // Check if we have a complete line in the buffer
@@ -254,6 +255,7 @@ actor JSONRPCTransport {
             buffer.append(chunk)
         }
     }
+    // strictswift:ignore-end
     
     private func readBytes(count: Int) async throws -> Data {
         while buffer.count < count {

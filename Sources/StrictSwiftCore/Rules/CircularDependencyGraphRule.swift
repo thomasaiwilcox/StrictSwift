@@ -97,6 +97,8 @@ public final class CircularDependencyGraphRule: Rule {
     }
 
     /// Check if a symbol ID represents a type (class, struct, enum, actor)
+    /// Note: This function is used in closure on line 82 but not detected by static analysis
+    // strictswift:ignore dead-code -- Used in closure filter, false positive from static analysis
     private func isTypeSymbol(_ id: SymbolID) -> Bool {
         let kind = id.kind
         return kind == .class || kind == .struct || kind == .enum || kind == .actor

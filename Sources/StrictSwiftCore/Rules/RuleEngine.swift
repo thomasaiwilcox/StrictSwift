@@ -112,8 +112,21 @@ public actor RuleEngine: Sendable {
             }
             
             // Filter out suppressed violations
+            // For cross-file rules, violations may be reported for different files than sourceFile
+            // So we need to look up the correct suppression tracker for each violation's file
             return allViolations.filter { violation in
-                !sourceFile.suppressionTracker.isSuppressed(ruleId: violation.ruleId, line: violation.location.line)
+                // First try the current file's tracker (most common case)
+                if violation.location.file == sourceFile.url {
+                    return !sourceFile.suppressionTracker.isSuppressed(ruleId: violation.ruleId, line: violation.location.line)
+                }
+                
+                // For cross-file violations, find the correct source file from context
+                if let targetFile = context.allSourceFiles.first(where: { $0.url == violation.location.file }) {
+                    return !targetFile.suppressionTracker.isSuppressed(ruleId: violation.ruleId, line: violation.location.line)
+                }
+                
+                // If we can't find the file, don't suppress (safer)
+                return true
             }
         }
     }

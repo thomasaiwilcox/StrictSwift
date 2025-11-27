@@ -294,6 +294,7 @@ public final class DeadCodeAnalyzer: Sendable {
     private let graph: GlobalReferenceGraph
     private let configuration: DeadCodeConfiguration
     
+    // strictswift:ignore large_struct_copy -- Config only passed at initialization, not in hot path
     public init(graph: GlobalReferenceGraph, configuration: DeadCodeConfiguration = .libraryDefault) {
         self.graph = graph
         self.configuration = configuration

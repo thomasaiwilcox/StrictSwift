@@ -66,6 +66,7 @@ advanced:
         # Functions used in closures may not be detected as used
         ignoredPatterns:
           - "isTypeSymbol"  # Used in closure filter, false positive
+          - "isTypeSymbol$"  # Regex pattern to match exactly
     
     # Cyclomatic complexity: relaxed for complex analysis code
     cyclomatic_complexity:
