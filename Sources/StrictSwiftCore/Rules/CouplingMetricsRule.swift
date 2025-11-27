@@ -17,15 +17,23 @@ public final class CouplingMetricsRule: Rule {
     public var defaultSeverity: DiagnosticSeverity { .warning }
     public var enabledByDefault: Bool { false } // Opt-in via useEnhancedRules
 
-    // Thresholds for violation reporting
-    private let maxAfferentCoupling: Int = 15  // Too many dependents = fragile
-    private let maxEfferentCoupling: Int = 12  // Too many dependencies = unstable
-    private let instabilityWarningThreshold: Double = 0.8  // High instability concern
+    // Default thresholds (can be overridden via configuration)
+    private let defaultMaxAfferentCoupling: Int = 15  // Too many dependents = fragile
+    private let defaultMaxEfferentCoupling: Int = 12  // Too many dependencies = unstable
+    private let defaultInstabilityThreshold: Double = 0.8  // High instability concern
 
     public init() {}
 
     public func analyze(_ sourceFile: SourceFile, in context: AnalysisContext) async -> [Violation] {
         guard context.configuration.useEnhancedRules else { return [] }
+
+        // Get configuration
+        let ruleConfig = context.configuration.configuration(for: id, file: sourceFile.url.path)
+        guard ruleConfig.enabled else { return [] }
+        
+        let maxAfferentCoupling = ruleConfig.parameter("maxAfferentCoupling", defaultValue: defaultMaxAfferentCoupling)
+        let maxEfferentCoupling = ruleConfig.parameter("maxEfferentCoupling", defaultValue: defaultMaxEfferentCoupling)
+        let instabilityThreshold = ruleConfig.parameter("instabilityThreshold", defaultValue: defaultInstabilityThreshold)
 
         var violations: [Violation] = []
         let graph = context.globalGraph()
@@ -50,7 +58,7 @@ public final class CouplingMetricsRule: Rule {
             }
             
             // High instability with high afferent coupling is particularly problematic
-            if instability > instabilityWarningThreshold && afferent > 5 {
+            if instability > instabilityThreshold && afferent > 5 {
                 issues.append(String(format: "unstable (I=%.2f) with many dependents - violates Stable Dependencies Principle", instability))
             }
 
@@ -59,7 +67,7 @@ public final class CouplingMetricsRule: Rule {
             let violation = ViolationBuilder(ruleId: id, category: category, location: symbol.location)
                 .message("\(symbol.kind) '\(symbol.name)': \(issues.joined(separator: "; "))")
                 .suggestFix("Consider extracting stable abstractions or reducing dependencies")
-                .severity(defaultSeverity)
+                .severity(ruleConfig.severity)
                 .build()
             violations.append(violation)
         }

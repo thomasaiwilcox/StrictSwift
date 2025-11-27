@@ -102,6 +102,17 @@ advanced:
         maxProperties: 25
         maxComplexityScore: 100
     
+    # Coupling metrics: relaxed for analyzer codebase
+    # Core types (SourceFile, Violation, Location) naturally have high afferent coupling
+    # Complex analyzers naturally have high efferent coupling
+    coupling_metrics:
+      enabled: true
+      severity: warning
+      parameters:
+        maxAfferentCoupling: 250   # Core types are expected to be widely used
+        maxEfferentCoupling: 100   # Analyzers need to use many types
+        instabilityThreshold: 0.95 # Only flag extreme instability
+    
     # Architectural health: only major issues
     architectural_health:
       enabled: true
