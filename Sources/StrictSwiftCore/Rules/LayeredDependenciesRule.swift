@@ -39,11 +39,6 @@ private final class LayeredDependenciesVisitor: SyntaxAnyVisitor {
         "UI", "Activity", "Fragment", "Window", "Scene", "Coordinator"
     ]
 
-    private let businessLayerPatterns: Set<String> = [
-        "Service", "Manager", "Interactor", "UseCase", "BusinessLogic",
-        "Domain", "Entity", "Model", "Repository", "Gateway"
-    ]
-
     private let dataLayerPatterns: Set<String> = [
         "DataSource", "DataAccess", "Database", "Storage", "Cache",
         "Network", "API", "Remote", "Local", "Persistence"

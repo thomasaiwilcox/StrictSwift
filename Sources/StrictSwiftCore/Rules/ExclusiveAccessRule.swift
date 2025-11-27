@@ -391,20 +391,6 @@ private class ExclusiveAccessAnalyzer: SyntaxAnyVisitor {
         }
     }
 
-    private func hasThreadSafetyAttributes(_ decl: VariableDeclSyntax) -> Bool {
-        for attribute in decl.attributes {
-            if let attributeName = attribute.as(AttributeSyntax.self)?.attributeName.as(IdentifierTypeSyntax.self) {
-                let threadSafetyAttributes = [
-                    "MainActor", "actor", "@unchecked", "Sendable", "synchronized"
-                ]
-                if threadSafetyAttributes.contains(attributeName.name.text) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
-
     private func isMutableBinding(_ decl: VariableDeclSyntax) -> Bool {
         guard let bindings = decl.bindings.first else { return false }
         guard decl.bindingSpecifier.tokenKind == .keyword(.var) else { return false }

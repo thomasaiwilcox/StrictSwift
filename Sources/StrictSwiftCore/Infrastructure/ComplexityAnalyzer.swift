@@ -209,9 +209,6 @@ private class ComplexitySyntaxAnalyzer: SyntaxAnyVisitor {
     private var currentFunction: String?
     private var currentType: String?
     private var currentNestingDepth: Int = 0
-    private var currentCyclomaticComplexity: Int = 1
-    private var currentCognitiveComplexity: Int = 0
-    private var currentLineCount: Int = 0
     private var currentFunctionCount: Int = 0
     private var currentPropertyCount: Int = 0
     private var currentTypeCount: Int = 0

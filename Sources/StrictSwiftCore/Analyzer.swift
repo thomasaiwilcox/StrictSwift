@@ -215,41 +215,6 @@ public final class Analyzer: Sendable {
         // Filter to only cross-file rule violations
         return allViolations.filter { crossFileRuleIdentifiers.contains($0.ruleId) }
     }
-    
-    /// Compute a hash representing the current rule configuration
-    private func computeRuleVersionHash() -> UInt64 {
-        var hash: UInt64 = 14695981039346656037 // FNV-1a offset basis
-        let fnvPrime: UInt64 = 1099511628211
-        
-        // Include ALL enabled categories in hash
-        // This ensures cache invalidation when any category is changed
-        let categories: [(String, RuleConfiguration)] = [
-            ("safety", configuration.rules.safety),
-            ("concurrency", configuration.rules.concurrency),
-            ("memory", configuration.rules.memory),
-            ("architecture", configuration.rules.architecture),
-            ("complexity", configuration.rules.complexity),
-            ("performance", configuration.rules.performance),
-            ("monolith", configuration.rules.monolith),
-            ("dependency", configuration.rules.dependency),
-            ("security", configuration.rules.security),
-            ("testing", configuration.rules.testing)
-        ]
-        
-        for (name, config) in categories where config.enabled {
-            for byte in name.utf8 {
-                hash ^= UInt64(byte)
-                hash = hash &* fnvPrime
-            }
-            let severityString = config.severity.rawValue
-            for byte in severityString.utf8 {
-                hash ^= UInt64(byte)
-                hash = hash &* fnvPrime
-            }
-        }
-        
-        return hash
-    }
 
     /// Find all Swift files in the given paths
     private func findSwiftFiles(in paths: [String]) throws -> [URL] {

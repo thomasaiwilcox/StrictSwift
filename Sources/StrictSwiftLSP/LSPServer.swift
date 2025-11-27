@@ -1,11 +1,6 @@
 import Foundation
 import StrictSwiftCore
 
-// MARK: - Error Types
-
-/// Error thrown when analysis exceeds the timeout
-private struct AnalysisTimeoutError: Error {}
-
 // MARK: - LSP Server Entry Point
 
 @main

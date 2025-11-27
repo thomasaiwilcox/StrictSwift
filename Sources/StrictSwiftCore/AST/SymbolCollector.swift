@@ -10,7 +10,6 @@ private struct ScopeEntry {
 /// Walks the syntax tree and collects symbol information with parent-child relationships
 public final class SymbolCollector: SyntaxAnyVisitor {
     public private(set) var symbols: [Symbol] = []
-    private var currentAccessibility: Accessibility = .internal
     private let fileURL: URL
     private let converter: SourceLocationConverter
     private let moduleName: String
