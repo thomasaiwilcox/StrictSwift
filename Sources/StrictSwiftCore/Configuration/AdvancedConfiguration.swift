@@ -1,7 +1,7 @@
 import Foundation
 
 /// Enhanced configuration system with granular rule control
-public struct AdvancedConfiguration: Codable, Equatable, Sendable {
+public struct AdvancedConfiguration: Equatable, Sendable {
     /// Rule-specific configurations
     public var ruleSettings: [String: RuleSpecificConfiguration]
     /// File pattern-based conditional configurations
@@ -26,7 +26,35 @@ public struct AdvancedConfiguration: Codable, Equatable, Sendable {
         self.performanceSettings = performanceSettings
         self.scopeSettings = scopeSettings
     }
+}
 
+// Custom Codable for AdvancedConfiguration to use defaults for missing keys
+extension AdvancedConfiguration: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case ruleSettings, conditionalSettings, thresholds, performanceSettings, scopeSettings
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.ruleSettings = try container.decodeIfPresent([String: RuleSpecificConfiguration].self, forKey: .ruleSettings) ?? [:]
+        self.conditionalSettings = try container.decodeIfPresent([ConditionalConfiguration].self, forKey: .conditionalSettings) ?? []
+        self.thresholds = try container.decodeIfPresent(ThresholdConfiguration.self, forKey: .thresholds) ?? ThresholdConfiguration()
+        self.performanceSettings = try container.decodeIfPresent(PerformanceConfiguration.self, forKey: .performanceSettings) ?? PerformanceConfiguration()
+        self.scopeSettings = try container.decodeIfPresent(ScopeConfiguration.self, forKey: .scopeSettings) ?? ScopeConfiguration()
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(ruleSettings, forKey: .ruleSettings)
+        try container.encode(conditionalSettings, forKey: .conditionalSettings)
+        try container.encode(thresholds, forKey: .thresholds)
+        try container.encode(performanceSettings, forKey: .performanceSettings)
+        try container.encode(scopeSettings, forKey: .scopeSettings)
+    }
+}
+
+extension AdvancedConfiguration {
     /// Get configuration for a specific rule
     public func configuration(for ruleId: String) -> RuleSpecificConfiguration? {
         return ruleSettings[ruleId]
@@ -72,7 +100,7 @@ public struct AdvancedConfiguration: Codable, Equatable, Sendable {
 }
 
 /// Configuration specific to individual rules
-public struct RuleSpecificConfiguration: Codable, Equatable, Sendable {
+public struct RuleSpecificConfiguration: Equatable, Sendable {
     public let ruleId: String
     public let enabled: Bool
     public let severity: DiagnosticSeverity
@@ -92,7 +120,44 @@ public struct RuleSpecificConfiguration: Codable, Equatable, Sendable {
         self.parameters = parameters
         self.filePatterns = filePatterns
     }
+}
 
+// Custom Codable for RuleSpecificConfiguration
+// When used in a dictionary like ruleSettings[ruleId], the ruleId comes from the key
+extension RuleSpecificConfiguration: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case ruleId, enabled, severity, parameters, filePatterns
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        // Try to get ruleId from the YAML, or infer from coding path (dictionary key)
+        if let ruleId = try container.decodeIfPresent(String.self, forKey: .ruleId) {
+            self.ruleId = ruleId
+        } else if let lastKey = decoder.codingPath.last?.stringValue {
+            // When decoded as a value in a [String: RuleSpecificConfiguration] dictionary,
+            // the last coding path component is the dictionary key (rule ID)
+            self.ruleId = lastKey
+        } else {
+            self.ruleId = ""
+        }
+        
+        self.enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled) ?? true
+        self.severity = try container.decodeIfPresent(DiagnosticSeverity.self, forKey: .severity) ?? .warning
+        self.parameters = try container.decodeIfPresent([String: ConfigurationValue].self, forKey: .parameters) ?? [:]
+        self.filePatterns = try container.decodeIfPresent(FilePatternConfiguration.self, forKey: .filePatterns) ?? FilePatternConfiguration()
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(ruleId, forKey: .ruleId)
+        try container.encode(enabled, forKey: .enabled)
+        try container.encode(severity, forKey: .severity)
+        try container.encode(parameters, forKey: .parameters)
+        try container.encode(filePatterns, forKey: .filePatterns)
+    }
+    
     /// Get typed parameter value
     public func parameter<T: ConfigurationValueRepresentable>(_ key: String, defaultValue: T) -> T {
         guard let value = parameters[key] else { return defaultValue }
@@ -326,26 +391,90 @@ public struct ScopeConfiguration: Codable, Equatable, Sendable {
 }
 
 /// Configuration value that can represent different types
-public enum ConfigurationValue: Codable, Equatable, Sendable {
+public enum ConfigurationValue: Equatable, Sendable {
     case stringValue(String)
     case integerValue(Int)
     case doubleValue(Double)
     case booleanValue(Bool)
     case arrayValue([ConfigurationValue])
     case stringArrayValue([String])
+}
 
-    public var stringValue: String {
+// Custom Codable implementation for ConfigurationValue
+// This handles decoding primitive YAML values directly (15, "text", true)
+// instead of the synthesized format ({"integerValue": {"_0": 15}})
+extension ConfigurationValue: Codable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        // Try to decode as primitive types first
+        if let intValue = try? container.decode(Int.self) {
+            self = .integerValue(intValue)
+            return
+        }
+        if let doubleValue = try? container.decode(Double.self) {
+            self = .doubleValue(doubleValue)
+            return
+        }
+        if let boolValue = try? container.decode(Bool.self) {
+            self = .booleanValue(boolValue)
+            return
+        }
+        if let stringValue = try? container.decode(String.self) {
+            self = .stringValue(stringValue)
+            return
+        }
+        // Try arrays
+        if let arrayValue = try? container.decode([ConfigurationValue].self) {
+            self = .arrayValue(arrayValue)
+            return
+        }
+        if let stringArrayValue = try? container.decode([String].self) {
+            self = .stringArrayValue(stringArrayValue)
+            return
+        }
+        
+        throw DecodingError.typeMismatch(
+            ConfigurationValue.self,
+            DecodingError.Context(
+                codingPath: decoder.codingPath,
+                debugDescription: "Unable to decode ConfigurationValue"
+            )
+        )
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .stringValue(let value):
+            try container.encode(value)
+        case .integerValue(let value):
+            try container.encode(value)
+        case .doubleValue(let value):
+            try container.encode(value)
+        case .booleanValue(let value):
+            try container.encode(value)
+        case .arrayValue(let values):
+            try container.encode(values)
+        case .stringArrayValue(let values):
+            try container.encode(values)
+        }
+    }
+}
+
+extension ConfigurationValue {
+    public var asString: String {
         switch self {
         case .stringValue(let value): return value
         case .integerValue(let value): return String(value)
         case .doubleValue(let value): return String(value)
         case .booleanValue(let value): return String(value)
-        case .arrayValue(let values): return "[\(values.map(\.stringValue).joined(separator: ", "))]"
+        case .arrayValue(let values): return "[\(values.map(\.asString).joined(separator: ", "))]"
         case .stringArrayValue(let values): return "[\(values.joined(separator: ", "))]"
         }
     }
 
-    public var integerValue: Int? {
+    public var asInt: Int? {
         switch self {
         case .integerValue(let value): return value
         case .stringValue(let value): return Int(value)
@@ -353,7 +482,7 @@ public enum ConfigurationValue: Codable, Equatable, Sendable {
         }
     }
 
-    public var boolValue: Bool? {
+    public var asBool: Bool? {
         switch self {
         case .booleanValue(let value): return value
         case .stringValue(let value): return Bool(value.lowercased())
@@ -361,13 +490,26 @@ public enum ConfigurationValue: Codable, Equatable, Sendable {
         }
     }
 
-    public var arrayValue: [ConfigurationValue]? {
+    public var asArray: [ConfigurationValue]? {
         switch self {
         case .arrayValue(let values): return values
         case .stringArrayValue(let values): return values.map { .stringValue($0) }
         default: return nil
         }
     }
+    
+    // Keep original names for backwards compatibility but deprecate them
+    @available(*, deprecated, renamed: "asString")
+    public var stringValue: String { asString }
+    
+    @available(*, deprecated, renamed: "asInt")
+    public var integerValue: Int? { asInt }
+    
+    @available(*, deprecated, renamed: "asBool")
+    public var boolValue: Bool? { asBool }
+    
+    @available(*, deprecated, renamed: "asArray")
+    public var arrayValue: [ConfigurationValue]? { asArray }
 
     /// Create a ConfigurationValue from any value
     public static func create(_ value: Any) -> ConfigurationValue {
@@ -447,14 +589,14 @@ extension String: ConfigurationValueRepresentable {
     public init?(from value: ConfigurationValue) {
         switch value {
         case .stringValue(let stringValue): self = stringValue
-        default: self = value.stringValue
+        default: self = value.asString
         }
     }
 }
 
 extension Array: ConfigurationValueRepresentable where Element: ConfigurationValueRepresentable {
     public init?(from value: ConfigurationValue) {
-        guard let configValues = value.arrayValue else { return nil }
+        guard let configValues = value.asArray else { return nil }
         self = configValues.compactMap { Element(from: $0) }
     }
 }

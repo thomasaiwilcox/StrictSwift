@@ -3,7 +3,7 @@ import Yams
 import SystemPackage
 
 /// Main configuration for StrictSwift analysis
-public struct Configuration: Codable, Equatable, Sendable {
+public struct Configuration: Equatable, Sendable {
     /// Profile being used
     public let profile: Profile
     /// Rule configurations
@@ -56,8 +56,50 @@ public struct Configuration: Codable, Equatable, Sendable {
         self.perRuleSemanticModes = perRuleSemanticModes
         self.perRuleSemanticStrict = perRuleSemanticStrict
     }
+}
 
-    /// Default configuration
+// Custom Codable implementation to use defaults for missing keys
+extension Configuration: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case profile, rules, baseline, include, exclude, maxJobs, advanced, useEnhancedRules
+        case semanticMode, semanticStrict, perRuleSemanticModes, perRuleSemanticStrict
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.profile = try container.decodeIfPresent(Profile.self, forKey: .profile) ?? .criticalCore
+        self.rules = try container.decodeIfPresent(RulesConfiguration.self, forKey: .rules) ?? .default
+        self.baseline = try container.decodeIfPresent(BaselineConfiguration.self, forKey: .baseline)
+        self.include = try container.decodeIfPresent([String].self, forKey: .include) ?? []
+        self.exclude = try container.decodeIfPresent([String].self, forKey: .exclude) ?? []
+        self.maxJobs = try container.decodeIfPresent(Int.self, forKey: .maxJobs) ?? ProcessInfo.processInfo.processorCount
+        self.advanced = try container.decodeIfPresent(AdvancedConfiguration.self, forKey: .advanced) ?? AdvancedConfiguration()
+        self.useEnhancedRules = try container.decodeIfPresent(Bool.self, forKey: .useEnhancedRules) ?? false
+        self.semanticMode = try container.decodeIfPresent(SemanticMode.self, forKey: .semanticMode)
+        self.semanticStrict = try container.decodeIfPresent(Bool.self, forKey: .semanticStrict)
+        self.perRuleSemanticModes = try container.decodeIfPresent([String: SemanticMode].self, forKey: .perRuleSemanticModes)
+        self.perRuleSemanticStrict = try container.decodeIfPresent([String: Bool].self, forKey: .perRuleSemanticStrict)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(profile, forKey: .profile)
+        try container.encode(rules, forKey: .rules)
+        try container.encodeIfPresent(baseline, forKey: .baseline)
+        try container.encode(include, forKey: .include)
+        try container.encode(exclude, forKey: .exclude)
+        try container.encode(maxJobs, forKey: .maxJobs)
+        try container.encode(advanced, forKey: .advanced)
+        try container.encode(useEnhancedRules, forKey: .useEnhancedRules)
+        try container.encodeIfPresent(semanticMode, forKey: .semanticMode)
+        try container.encodeIfPresent(semanticStrict, forKey: .semanticStrict)
+        try container.encodeIfPresent(perRuleSemanticModes, forKey: .perRuleSemanticModes)
+        try container.encodeIfPresent(perRuleSemanticStrict, forKey: .perRuleSemanticStrict)
+    }
+}
+
+extension Configuration {
     public static let `default` = Configuration()
 
     /// Load configuration from file

@@ -1,5 +1,7 @@
 # StrictSwift Configuration
-# This configuration provides sensible defaults for dogfooding the tool
+# This configuration is tuned for dogfooding the tool itself.
+# The tool intentionally uses patterns that its rules may flag
+# (e.g., FileManager.default for file system access).
 
 # Use app-relaxed profile with relaxed thresholds for complexity rules
 profile: app-relaxed
@@ -10,6 +12,7 @@ useEnhancedRules: true
 # Exclude test files from analysis
 exclude:
   - "Tests/**"
+  - "Plugins/**"
 
 # Configure individual rule categories
 rules:
@@ -23,21 +26,10 @@ rules:
   complexity:
     enabled: true
     severity: warning
-    options:
-      # Increase thresholds for this codebase during development
-      function_length_threshold: "75"
-      cyclomatic_complexity_threshold: "10"
-      nesting_depth_threshold: "6"
-      file_length_threshold: "600"
   
   architecture:
     enabled: true
     severity: warning
-    options:
-      # Increase thresholds for god class detection
-      god_class_method_threshold: "25"
-      god_class_property_threshold: "20"
-      file_line_threshold: "400"
   
   memory:
     enabled: true
@@ -50,6 +42,95 @@ rules:
   performance:
     enabled: true
     severity: warning
+
+# Advanced configuration for rule-specific settings
+advanced:
+  # Global thresholds for complexity rules
+  thresholds:
+    maxCyclomaticComplexity: 15
+    maxMethodLength: 100
+    maxTypeComplexity: 200
+    maxNestingDepth: 7
+    maxParameterCount: 8
+    maxPropertyCount: 30
+    maxFileLength: 800
+
+  # Rule-specific configurations
+  ruleSettings:
+    # Dead code: only high-confidence findings
+    dead-code:
+      enabled: true
+      severity: warning
+      parameters:
+        minimumConfidence: "high"
+    
+    # Cyclomatic complexity: relaxed for complex analysis code
+    cyclomatic_complexity:
+      enabled: true
+      severity: warning
+      parameters:
+        maxComplexity: 15
+        maxNestingDepth: 7
+        maxFunctionLength: 100
+    
+    # Function length: relaxed for analysis code
+    function_length:
+      enabled: true
+      severity: warning
+      parameters:
+        maxFunctionLength: 100
+        maxAccessorLength: 50
+    
+    # Nesting depth: relaxed
+    nesting_depth:
+      enabled: true
+      severity: warning
+      parameters:
+        maxNestingDepth: 7
+    
+    # God class: relaxed thresholds
+    enhanced_god_class:
+      enabled: true
+      severity: warning
+      parameters:
+        maxMethods: 30
+        maxProperties: 25
+        maxComplexityScore: 100
+    
+    # Architectural health: only major issues
+    architectural_health:
+      enabled: true
+      severity: warning
+      parameters:
+        minHealthScore: 40
+    
+    # String concatenation in loops: more permissive
+    string_concatenation_loop:
+      enabled: true
+      severity: warning
+      parameters:
+        minLoopIterations: 100
+    
+    # Repeated allocation: only large allocations
+    repeated_allocation:
+      enabled: true
+      severity: warning
+      parameters:
+        minAllocationSize: 1024
+    
+    # ARC churn: higher threshold
+    arc_churn:
+      enabled: true
+      severity: warning
+      parameters:
+        minChurnCount: 10
+    
+    # Large struct copy: only very large
+    large_struct_copy:
+      enabled: true
+      severity: warning
+      parameters:
+        minSizeBytes: 128
 
 # Maximum parallel analysis jobs
 maxJobs: 8

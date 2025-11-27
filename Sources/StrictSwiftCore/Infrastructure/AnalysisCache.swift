@@ -300,7 +300,7 @@ public actor AnalysisCache {
             // Include all parameters
             let sortedParams = settings.parameters.sorted(by: { $0.key < $1.key })
             for (key, value) in sortedParams {
-                hashString += ":\(key)=\(value.stringValue)"
+                hashString += ":\(key)=\(value.asString)"
             }
             
             // Include file patterns
@@ -323,7 +323,7 @@ public actor AnalysisCache {
                 hashString += ":override:\(ruleId):\(override.enabled):\(override.severity.rawValue)"
                 let sortedParams = override.parameters.sorted(by: { $0.key < $1.key })
                 for (key, value) in sortedParams {
-                    hashString += ":cond_\(key)=\(value.stringValue)"
+                    hashString += ":cond_\(key)=\(value.asString)"
                 }
                 // Include file patterns with "cond_" prefix to avoid hash collision with top-level
                 let fp = override.filePatterns
