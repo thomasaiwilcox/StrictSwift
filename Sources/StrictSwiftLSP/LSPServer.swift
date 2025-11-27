@@ -149,6 +149,60 @@ actor LSPServer {
             }
         }
         
+        // Parse useEnhancedRules setting
+        var useEnhancedRules = false
+        if case .bool(let enhanced) = settings["useEnhancedRules"] {
+            useEnhancedRules = enhanced
+        }
+        
+        // Parse threshold settings
+        var maxFileLines = 200
+        var maxFunctionLines = 50
+        var maxCyclomaticComplexity = 10
+        
+        if case .object(let thresholds) = settings["thresholds"] {
+            if case .number(let val) = thresholds["maxFileLines"] {
+                maxFileLines = Int(val)
+            }
+            if case .number(let val) = thresholds["maxFunctionLines"] {
+                maxFunctionLines = Int(val)
+            }
+            if case .number(let val) = thresholds["maxCyclomaticComplexity"] {
+                maxCyclomaticComplexity = Int(val)
+            }
+        }
+        
+        // Also check for top-level settings (VS Code sends them flat)
+        if case .number(let val) = settings["maxFileLines"] {
+            maxFileLines = Int(val)
+        }
+        if case .number(let val) = settings["maxFunctionLines"] {
+            maxFunctionLines = Int(val)
+        }
+        if case .number(let val) = settings["maxCyclomaticComplexity"] {
+            maxCyclomaticComplexity = Int(val)
+        }
+        
+        // Create threshold configuration
+        let thresholdConfig = ThresholdConfiguration(
+            maxCyclomaticComplexity: maxCyclomaticComplexity,
+            maxMethodLength: maxFunctionLines,
+            maxTypeComplexity: 100,
+            maxNestingDepth: 4,
+            maxParameterCount: 5,
+            maxPropertyCount: 20,
+            maxFileLength: maxFileLines
+        )
+        
+        // Create advanced configuration with thresholds
+        let advancedConfig = AdvancedConfiguration(
+            ruleSettings: [:],
+            conditionalSettings: [],
+            thresholds: thresholdConfig,
+            performanceSettings: PerformanceConfiguration(),
+            scopeSettings: ScopeConfiguration()
+        )
+        
         configuration = Configuration(
             profile: profile,
             rules: RulesConfiguration(
@@ -162,12 +216,14 @@ actor LSPServer {
                 dependency: architectureConfig
             ),
             include: [],
-            exclude: excludePaths
+            exclude: excludePaths,
+            advanced: advancedConfig,
+            useEnhancedRules: useEnhancedRules
         )
         
         // Recreate analyzer with new configuration
         analyzer = Analyzer(configuration: configuration)
-        log("Configuration applied: profile=\(profile), safety=\(safetyConfig.severity)")
+        log("Configuration applied: profile=\(profile), safety=\(safetyConfig.severity), useEnhancedRules=\(useEnhancedRules), maxFileLines=\(maxFileLines), maxFunctionLines=\(maxFunctionLines), maxCyclomaticComplexity=\(maxCyclomaticComplexity)")
     }
     
     /// Handle workspace/didChangeConfiguration notification

@@ -18,6 +18,16 @@ public struct Configuration: Codable, Equatable, Sendable {
     public let maxJobs: Int
     /// Advanced configuration with granular control
     public let advanced: AdvancedConfiguration
+    /// Whether to use enhanced graph-based rules (requires cross-file analysis)
+    public let useEnhancedRules: Bool
+    /// Semantic analysis mode for type resolution
+    public let semanticMode: SemanticMode?
+    /// Whether to fail if semantic mode can't be satisfied (CI gate)
+    public let semanticStrict: Bool?
+    /// Per-rule semantic mode overrides
+    public let perRuleSemanticModes: [String: SemanticMode]?
+    /// Per-rule semantic strict overrides
+    public let perRuleSemanticStrict: [String: Bool]?
 
     public init(
         profile: Profile = .criticalCore,
@@ -26,7 +36,12 @@ public struct Configuration: Codable, Equatable, Sendable {
         include: [String] = [],
         exclude: [String] = [],
         maxJobs: Int = ProcessInfo.processInfo.processorCount,
-        advanced: AdvancedConfiguration = AdvancedConfiguration()
+        advanced: AdvancedConfiguration = AdvancedConfiguration(),
+        useEnhancedRules: Bool = false,
+        semanticMode: SemanticMode? = nil,
+        semanticStrict: Bool? = nil,
+        perRuleSemanticModes: [String: SemanticMode]? = nil,
+        perRuleSemanticStrict: [String: Bool]? = nil
     ) {
         self.profile = profile
         self.rules = rules
@@ -35,6 +50,11 @@ public struct Configuration: Codable, Equatable, Sendable {
         self.exclude = exclude
         self.maxJobs = maxJobs
         self.advanced = advanced
+        self.useEnhancedRules = useEnhancedRules
+        self.semanticMode = semanticMode
+        self.semanticStrict = semanticStrict
+        self.perRuleSemanticModes = perRuleSemanticModes
+        self.perRuleSemanticStrict = perRuleSemanticStrict
     }
 
     /// Default configuration
@@ -63,7 +83,8 @@ public struct Configuration: Codable, Equatable, Sendable {
                 include: config.include.isEmpty ? profile.configuration.include : config.include,
                 exclude: config.exclude.isEmpty ? profile.configuration.exclude : config.exclude,
                 maxJobs: config.maxJobs > 0 ? config.maxJobs : profile.configuration.maxJobs,
-                advanced: config.advanced
+                advanced: config.advanced,
+                useEnhancedRules: config.useEnhancedRules
             )
         } catch {
             StrictSwiftLogger.warning("Failed to load configuration from \(url.path): \(error)")
@@ -185,6 +206,32 @@ public struct Configuration: Codable, Equatable, Sendable {
         let category = RuleEngine.ruleCategory(for: ruleId)
         let categoryConfig = rules.configuration(for: category)
 
+        // Start with global thresholds as default parameters
+        var mergedParameters = ruleConfig.parameters
+        let thresholds = advanced.thresholds
+        
+        // Apply global thresholds as defaults (rule-specific params take precedence)
+        if mergedParameters["maxCyclomaticComplexity"] == nil {
+            mergedParameters["maxCyclomaticComplexity"] = .integerValue(thresholds.maxCyclomaticComplexity)
+        }
+        if mergedParameters["maxLines"] == nil && mergedParameters["maxFileLines"] == nil {
+            mergedParameters["maxLines"] = .integerValue(thresholds.maxFileLength)
+            mergedParameters["maxFileLines"] = .integerValue(thresholds.maxFileLength)
+        }
+        if mergedParameters["maxFunctionLines"] == nil && mergedParameters["maxMethodLength"] == nil {
+            mergedParameters["maxFunctionLines"] = .integerValue(thresholds.maxMethodLength)
+            mergedParameters["maxMethodLength"] = .integerValue(thresholds.maxMethodLength)
+        }
+        if mergedParameters["maxNestingDepth"] == nil {
+            mergedParameters["maxNestingDepth"] = .integerValue(thresholds.maxNestingDepth)
+        }
+        if mergedParameters["maxPropertyCount"] == nil {
+            mergedParameters["maxPropertyCount"] = .integerValue(thresholds.maxPropertyCount)
+        }
+        if mergedParameters["maxParameterCount"] == nil {
+            mergedParameters["maxParameterCount"] = .integerValue(thresholds.maxParameterCount)
+        }
+
         // Merge configurations with rule config taking precedence
         // Rule configuration always overrides category configuration for severity
         // This allows users to downgrade rules from error to warning or info
@@ -192,7 +239,7 @@ public struct Configuration: Codable, Equatable, Sendable {
             ruleId: ruleId,
             enabled: ruleConfig.enabled && categoryConfig.enabled,
             severity: ruleConfig.severity,
-            parameters: ruleConfig.parameters,
+            parameters: mergedParameters,
             filePatterns: ruleConfig.filePatterns
         )
     }
@@ -522,3 +569,7 @@ extension Configuration {
         )
     }
 }
+
+// MARK: - Semantic Configurable Conformance
+
+extension Configuration: SemanticConfigurable {}

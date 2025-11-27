@@ -264,6 +264,14 @@ private class DetailedLengthAnalyzer: SyntaxAnyVisitor {
     // MARK: - Property Analysis
 
     override func visit(_ node: VariableDeclSyntax) -> SyntaxVisitorContinueKind {
+        // Only check stored properties at type level, NOT local variables inside functions
+        // A property at type level will have a MemberBlockItemSyntax as parent
+        guard let parent = node.parent,
+              parent.is(MemberBlockItemSyntax.self) else {
+            // This is a local variable inside a function - skip it
+            return .skipChildren
+        }
+        
         // Check for complex property initializers
         if let bindings = node.bindings.first {
             if let initializer = bindings.initializer {

@@ -1,5 +1,5 @@
 import Foundation
-import StrictSwiftCore
+@testable import StrictSwiftCore
 import XCTest
 
 final class ConfigurationTests: XCTestCase {
@@ -47,5 +47,15 @@ final class ConfigurationTests: XCTestCase {
 
         let newBaseline = baseline.adding(violation: violation)
         XCTAssertEqual(newBaseline.violations.count, 1)
+    }
+    
+    func testUseEnhancedRulesDefault() {
+        let config = Configuration()
+        XCTAssertFalse(config.useEnhancedRules, "useEnhancedRules should default to false")
+    }
+    
+    func testUseEnhancedRulesEnabled() {
+        let config = Configuration(useEnhancedRules: true)
+        XCTAssertTrue(config.useEnhancedRules)
     }
 }

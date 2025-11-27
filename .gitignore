@@ -54,3 +54,4 @@ Docs/
 debug_rule.swift
 debug_syntax/.strictswift-cache/
 .strictswift-cache/
+.strictswift-backup/

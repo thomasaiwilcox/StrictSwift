@@ -23,13 +23,19 @@ private final class ResourceLeakVisitor: SyntaxVisitor {
     let sourceFile: SourceFile
     var violations: [Violation] = []
 
-    // Resources that require cleanup
-    private let trackedTypes = [
-        "FileHandle",
-        "InputStream",
-        "OutputStream",
-        "sqlite3_stmt",
-        "OpaquePointer" // Often used for C resources
+    // Resources that require cleanup, mapped to their cleanup code
+    // Only track well-known Swift types where we can reliably suggest cleanup
+    // C types (OpaquePointer, sqlite3_stmt, etc.) are excluded because:
+    // 1. We lack type information to determine the correct cleanup API
+    // 2. The same OpaquePointer could be sqlite3*, sqlite3_stmt*, CFTypeRef, etc.
+    // 3. Wrong cleanup suggestions (e.g., sqlite3_finalize for a db handle) cause bugs
+    private let trackedResources: [String: String] = [
+        "FileHandle": "close()",
+        "InputStream": "close()",
+        "OutputStream": "close()",
+        "FileDescriptor": "close()",
+        "DispatchIO": "close()",
+        "URLSession": "invalidateAndCancel()"
     ]
     
     private let cleanupMethods = [
@@ -69,54 +75,73 @@ private final class ResourceLeakVisitor: SyntaxVisitor {
             let varName = pattern.identifier.text
             let initExpr = initializer.value.trimmedDescription
             
-            // 2. Check if it's a tracked resource
-            if isTrackedResource(initExpr, typeAnnotation: binding.typeAnnotation) {
-                // 3. Check if there is a defer block *after* this declaration that closes it
-                if !hasCleanupInDefer(varName: varName, statements: statements, startIndex: index + 1) {
-                    var builder = ViolationBuilder(
-                        ruleId: "resource_leak",
-                        category: .safety,
-                        location: sourceFile.location(of: varDecl)
-                    )
+            // 2. Check if it's a tracked resource and get its cleanup method
+            let resourceInfo = getTrackedResourceInfo(initExpr, typeAnnotation: binding.typeAnnotation)
+            guard let (resourceType, cleanupMethod) = resourceInfo else { continue }
+            
+            // 3. Check if there is a defer block *after* this declaration that closes it
+            if !hasCleanupInDefer(varName: varName, statements: statements, startIndex: index + 1) {
+                var builder = ViolationBuilder(
+                    ruleId: "resource_leak",
+                    category: .safety,
+                    location: sourceFile.location(of: varDecl)
+                )
+                .severity(.warning)
+                
+                // Customize message based on whether auto-fix is available
+                // All tracked resources now have known cleanup methods
+                builder = builder
                     .message("Resource '\(varName)' created without a corresponding defer block for cleanup")
-                    .suggestFix("Add 'defer { \(varName).close() }' immediately after initialization")
-                    .severity(.warning)
+                    .suggestFix("Add 'defer { \(varName).\(cleanupMethod) }' immediately after initialization")
+                
+                builder = builder.addStructuredFix(
+                    title: "Add defer cleanup",
+                    kind: .refactor
+                ) { fix in
+                    // Get indentation of the current line
+                    let indentation = self.getIndentation(from: varDecl)
                     
-                    // Auto-fix
-                    builder = builder.addStructuredFix(
-                        title: "Add defer cleanup",
-                        kind: .refactor
-                    ) { fix in
-                        // Get indentation of the current line
-                        let indentation = self.getIndentation(from: varDecl)
-                        
-                        // Insert after the declaration
-                        fix.addEdit(TextEdit.insert(
-                            at: self.sourceFile.location(endOf: varDecl), 
-                            text: "\n\(indentation)defer { \(varName).close() }"
-                        ))
-                    }
-                    
-                    violations.append(builder.build())
+                    // Insert after the declaration
+                    fix.addEdit(TextEdit.insert(
+                        at: self.sourceFile.location(endOf: varDecl), 
+                        text: "\n\(indentation)defer { \(varName).\(cleanupMethod) }"
+                    ))
                 }
+                
+                violations.append(builder.build())
             }
         }
     }
     
-    private func isTrackedResource(_ initExpr: String, typeAnnotation: TypeAnnotationSyntax?) -> Bool {
-        // Check explicit type annotation
+    /// Returns (resourceType, cleanupMethod) if tracked, nil if not tracked
+    /// Only returns matches for well-known Swift types where cleanup is unambiguous
+    private func getTrackedResourceInfo(_ initExpr: String, typeAnnotation: TypeAnnotationSyntax?) -> (String, String)? {
+        // Check explicit type annotation first (most reliable)
         if let typeName = typeAnnotation?.type.trimmedDescription {
-            if trackedTypes.contains(where: { typeName.contains($0) }) {
-                return true
+            for (resourceType, cleanup) in trackedResources {
+                if typeName.contains(resourceType) {
+                    return (resourceType, cleanup)
+                }
             }
         }
         
-        // Check initializer type (heuristic)
-        return trackedTypes.contains { type in
-            initExpr.contains(type + "(") || // Constructor: FileHandle(...)
-            initExpr.contains(type + ".")    // Factory: FileHandle.standardInput
+        // Check initializer for known Swift types only
+        // Be conservative - only match clear patterns like FileHandle.init or FileHandle(
+        for (resourceType, cleanup) in trackedResources {
+            // Match Type( or Type.init( patterns
+            if initExpr.contains(resourceType + "(") || 
+               initExpr.contains(resourceType + ".init(") ||
+               initExpr.contains(resourceType + ".standardInput") ||
+               initExpr.contains(resourceType + ".standardOutput") ||
+               initExpr.contains(resourceType + ".standardError") {
+                return (resourceType, cleanup)
+            }
         }
+        
+        return nil
     }
+    
+
     
     private func hasCleanupInDefer(varName: String, statements: [CodeBlockItemSyntax], startIndex: Int) -> Bool {
         // Look through remaining statements for a defer block

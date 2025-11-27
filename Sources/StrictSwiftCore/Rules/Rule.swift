@@ -40,7 +40,7 @@ public extension Rule {
 }
 
 /// Context information for analysis
-/// SAFETY: @unchecked Sendable is safe because all mutable state (_sourceFiles) is protected
+/// SAFETY: @unchecked Sendable is safe because all mutable state (_sourceFiles, _globalGraph) is protected
 /// by NSLock for thread-safe access. Consider migrating to actor in future versions.
 public final class AnalysisContext: @unchecked Sendable {
     /// Configuration for the analysis
@@ -50,6 +50,16 @@ public final class AnalysisContext: @unchecked Sendable {
     /// All source files being analyzed
     private var _sourceFiles: [URL: SourceFile] = [:]
     private let lock = NSLock()
+    
+    /// Lazily-built global reference graph for cross-file analysis
+    /// Only built when first accessed by a graph-requiring rule
+    private var _globalGraph: GlobalReferenceGraph?
+    private let graphLock = NSLock()
+    
+    /// Semantic analysis configuration
+    private var _semanticResolver: SemanticTypeResolver?
+    private var _semanticModeResolved: SemanticModeResolver.ResolvedConfiguration?
+    private let semanticLock = NSLock()
 
     public init(configuration: Configuration, projectRoot: URL) {
         self.configuration = configuration
@@ -81,6 +91,62 @@ public final class AnalysisContext: @unchecked Sendable {
         lock.lock()
         defer { lock.unlock() }
         return Array(_sourceFiles.values)
+    }
+    
+    /// Get or build the global reference graph for cross-file analysis
+    /// The graph is lazily built on first access and cached for reuse
+    public func globalGraph() -> GlobalReferenceGraph {
+        graphLock.lock()
+        defer { graphLock.unlock() }
+        
+        if let existing = _globalGraph {
+            return existing
+        }
+        
+        // Build the graph from all source files
+        let files = allSourceFiles
+        let graph = GlobalReferenceGraph()
+        graph.build(from: files)
+        _globalGraph = graph
+        return graph
+    }
+    
+    // MARK: - Semantic Analysis
+    
+    /// Set the semantic type resolver (called by Analyzer after initialization)
+    public func setSemanticResolver(_ resolver: SemanticTypeResolver, config: SemanticModeResolver.ResolvedConfiguration) {
+        semanticLock.lock()
+        defer { semanticLock.unlock() }
+        _semanticResolver = resolver
+        _semanticModeResolved = config
+    }
+    
+    /// Get the semantic type resolver if available
+    public var semanticResolver: SemanticTypeResolver? {
+        semanticLock.lock()
+        defer { semanticLock.unlock() }
+        return _semanticResolver
+    }
+    
+    /// Get the resolved semantic mode configuration
+    public var semanticModeResolved: SemanticModeResolver.ResolvedConfiguration? {
+        semanticLock.lock()
+        defer { semanticLock.unlock() }
+        return _semanticModeResolved
+    }
+    
+    /// Whether semantic analysis is enabled
+    public var hasSemanticAnalysis: Bool {
+        semanticLock.lock()
+        defer { semanticLock.unlock() }
+        return _semanticModeResolved?.hasSemantic ?? false
+    }
+    
+    /// The effective semantic mode
+    public var effectiveSemanticMode: SemanticMode {
+        semanticLock.lock()
+        defer { semanticLock.unlock() }
+        return _semanticModeResolved?.effectiveMode ?? .off
     }
 
     /// Check if a path is included in the analysis

@@ -263,4 +263,105 @@ final class ARCChurnRuleTests: XCTestCase {
         let arrayViolations = violations.filter { $0.message.contains("filter") }
         XCTAssertTrue(arrayViolations.isEmpty, "Should not detect array operations when disabled")
     }
+    
+    // MARK: - Iterator Expression Tests (False Positive Prevention)
+    
+    func testDoesNotFlagSortedInLoopIterator() async throws {
+        let sourceCode = """
+        func process(items: [String]) {
+            // sorted() is called ONCE here to create the sequence, not per iteration
+            for item in items.sorted() {
+                print(item)
+            }
+        }
+        """
+        
+        let sourceFile = SourceFile(url: URL(fileURLWithPath: "/tmp/test.swift"), source: sourceCode)
+        let rule = ARCChurnRule()
+        let context = AnalysisContext(
+            sourceFiles: [sourceFile],
+            workspace: URL(fileURLWithPath: "/tmp"),
+            configuration: Configuration()
+        )
+        
+        let violations = await rule.analyze(sourceFile, in: context)
+        let sortedViolations = violations.filter { $0.message.contains("sorted") }
+        
+        XCTAssertTrue(sortedViolations.isEmpty, "Should not flag sorted() in loop iterator expression")
+    }
+    
+    func testDoesNotFlagFilterInLoopIterator() async throws {
+        let sourceCode = """
+        func process(items: [Int]) {
+            // filter() is called ONCE here to create the sequence, not per iteration
+            for item in items.filter({ $0 > 0 }) {
+                print(item)
+            }
+        }
+        """
+        
+        let sourceFile = SourceFile(url: URL(fileURLWithPath: "/tmp/test.swift"), source: sourceCode)
+        let rule = ARCChurnRule()
+        let context = AnalysisContext(
+            sourceFiles: [sourceFile],
+            workspace: URL(fileURLWithPath: "/tmp"),
+            configuration: Configuration()
+        )
+        
+        let violations = await rule.analyze(sourceFile, in: context)
+        let filterViolations = violations.filter { $0.message.contains("filter") }
+        
+        XCTAssertTrue(filterViolations.isEmpty, "Should not flag filter() in loop iterator expression")
+    }
+    
+    func testFlagsSortedInLoopBody() async throws {
+        let sourceCode = """
+        func process(items: [String]) {
+            for _ in 0..<10 {
+                // sorted() is called 10 times here - this SHOULD be flagged
+                let sorted = items.sorted()
+                print(sorted.count)
+            }
+        }
+        """
+        
+        let sourceFile = SourceFile(url: URL(fileURLWithPath: "/tmp/test.swift"), source: sourceCode)
+        let rule = ARCChurnRule()
+        let context = AnalysisContext(
+            sourceFiles: [sourceFile],
+            workspace: URL(fileURLWithPath: "/tmp"),
+            configuration: Configuration()
+        )
+        
+        let violations = await rule.analyze(sourceFile, in: context)
+        let sortedViolations = violations.filter { $0.message.contains("sorted") }
+        
+        XCTAssertFalse(sortedViolations.isEmpty, "Should flag sorted() inside loop body")
+    }
+    
+    func testDoesNotFlagChainedOperationsInIterator() async throws {
+        let sourceCode = """
+        func process(items: [Int]) {
+            // The entire chain runs ONCE to create the sequence
+            for item in items.filter({ $0 > 0 }).sorted().map({ String($0) }) {
+                print(item)
+            }
+        }
+        """
+        
+        let sourceFile = SourceFile(url: URL(fileURLWithPath: "/tmp/test.swift"), source: sourceCode)
+        let rule = ARCChurnRule()
+        let context = AnalysisContext(
+            sourceFiles: [sourceFile],
+            workspace: URL(fileURLWithPath: "/tmp"),
+            configuration: Configuration()
+        )
+        
+        let violations = await rule.analyze(sourceFile, in: context)
+        let chainViolations = violations.filter { 
+            $0.message.contains("filter") || $0.message.contains("sorted") || $0.message.contains("map")
+        }
+        
+        XCTAssertTrue(chainViolations.isEmpty, "Should not flag chained operations in loop iterator")
+    }
 }

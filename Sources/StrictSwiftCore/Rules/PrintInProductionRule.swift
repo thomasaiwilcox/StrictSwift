@@ -24,7 +24,16 @@ public final class PrintInProductionRule: Rule {
     }
 
     public func shouldAnalyze(_ sourceFile: SourceFile) -> Bool {
-        return sourceFile.url.pathExtension == "swift"
+        guard sourceFile.url.pathExtension == "swift" else { return false }
+        
+        // Skip CLI modules - print() is expected and legitimate there
+        let path = sourceFile.url.path
+        if path.contains("/CLI/") || path.contains("CLI.swift") || 
+           path.hasSuffix("Command.swift") || path.contains("/Commands/") {
+            return false
+        }
+        
+        return true
     }
 }
 

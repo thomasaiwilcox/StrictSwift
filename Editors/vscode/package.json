@@ -73,6 +73,11 @@
                     "default": "criticalCore",
                     "description": "Analysis profile preset"
                 },
+                "strictswift.useEnhancedRules": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Enable graph-enhanced rules for cross-file analysis. Provides coupling metrics, dead code detection, and more accurate circular dependency detection. Requires more memory but catches more issues."
+                },
                 "strictswift.rules.safety.enabled": {
                     "type": "boolean",
                     "default": true,
@@ -152,6 +157,27 @@
                     ],
                     "default": "warning",
                     "description": "Severity level for complexity rule violations"
+                },
+                "strictswift.maxFileLines": {
+                    "type": "integer",
+                    "default": 200,
+                    "minimum": 50,
+                    "maximum": 2000,
+                    "description": "Maximum number of lines per file before triggering a warning. Set higher for more tolerance, lower for stricter enforcement."
+                },
+                "strictswift.maxFunctionLines": {
+                    "type": "integer",
+                    "default": 50,
+                    "minimum": 10,
+                    "maximum": 500,
+                    "description": "Maximum number of lines per function before triggering a warning."
+                },
+                "strictswift.maxCyclomaticComplexity": {
+                    "type": "integer",
+                    "default": 10,
+                    "minimum": 3,
+                    "maximum": 50,
+                    "description": "Maximum cyclomatic complexity per function before triggering a warning."
                 },
                 "strictswift.rules.performance.enabled": {
                     "type": "boolean",

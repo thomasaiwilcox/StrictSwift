@@ -179,6 +179,9 @@ extension RuleEngine {
         // register(GodClassRule())  // Superseded by EnhancedGodClassRule
         register(GlobalStateRule())
 
+        // Phase 5 Dead Code Detection
+        register(DeadCodeRule())
+
         // Phase 1 Architecture Rules Complete ✅
 
         // Phase 2 Enhanced Rules using Infrastructure
@@ -186,6 +189,12 @@ extension RuleEngine {
         register(EnhancedLayeredDependenciesRule())  // Replaces LayeredDependenciesRule
         register(EnhancedGodClassRule())  // Replaces GodClassRule
         register(ArchitecturalHealthRule())
+        
+        // Graph-enhanced rules (opt-in via useEnhancedRules: true)
+        register(GraphEnhancedGodClassRule())  // Cross-file coupling analysis
+        register(CouplingMetricsRule())  // Afferent/efferent coupling metrics
+        register(CircularDependencyGraphRule())  // Graph-based cycle detection
+        register(GraphEnhancedNonSendableCaptureRule())  // Sendable conformance checking
 
         // Phase 3 Memory & Ownership Rules
         register(EscapingReferenceRule())

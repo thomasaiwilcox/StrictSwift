@@ -143,11 +143,25 @@ public final class EnhancedLayeredDependenciesRule: Rule {
         // Get type complexity from configuration
         let maxDependencyDepth = ruleConfig.parameter("maxDependencyDepth", defaultValue: 3)
         _ = ruleConfig.parameter("allowLayerCrossing", defaultValue: false)
+        
+        // Patterns that legitimately require many methods (visitor pattern, protocol implementations)
+        let visitorPatterns = ["Visitor", "Walker", "Rewriter", "Observer", "Handler", "Delegate"]
 
         // Check for problematic type relationships
         let allTypes = typeResolver.allTypes
 
         for type in allTypes {
+            // Skip visitor pattern classes - they legitimately need many methods
+            let isVisitorPattern = visitorPatterns.contains { pattern in
+                type.name.contains(pattern) ||
+                type.inheritanceChain.contains { $0.contains(pattern) } ||
+                type.conformances.contains { $0.contains(pattern) }
+            }
+            
+            if isVisitorPattern {
+                continue
+            }
+            
             // Check if type has too many dependencies
             let complexity = typeResolver.complexity(of: type.name)
             if let complexity = complexity, complexity.complexityScore > maxDependencyDepth * 10 {

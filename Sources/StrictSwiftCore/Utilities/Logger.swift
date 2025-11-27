@@ -14,8 +14,43 @@ public enum StrictSwiftLogger: Sendable {
         }
     }
 
-    /// Current minimum log level (can be set via environment variable STRICTSWIFT_LOG_LEVEL)
-    public static let minLevel: Level = {
+    /// Lock for thread-safe access to mutable state
+    private static let lock = NSLock()
+    
+    /// Backing storage for log level (can be changed at runtime)
+    /// Thread-safety is ensured via lock - marked nonisolated(unsafe) to suppress warning
+    nonisolated(unsafe) private static var _minLevel: Level?
+    
+    /// Current minimum log level
+    /// Can be set via:
+    /// 1. setMinLevel() at runtime (highest priority)
+    /// 2. STRICTSWIFT_LOG_LEVEL environment variable
+    /// 3. Default: .warning
+    public static var minLevel: Level {
+        get {
+            lock.lock()
+            defer { lock.unlock() }
+            if let level = _minLevel { return level }
+            return levelFromEnvironment()
+        }
+        set {
+            lock.lock()
+            defer { lock.unlock() }
+            _minLevel = newValue
+        }
+    }
+    
+    /// Set minimum log level programmatically
+    public static func setMinLevel(_ level: Level) {
+        minLevel = level
+    }
+    
+    /// Enable verbose/debug logging
+    public static func enableVerbose() {
+        minLevel = .debug
+    }
+    
+    private static func levelFromEnvironment() -> Level {
         if let envLevel = ProcessInfo.processInfo.environment["STRICTSWIFT_LOG_LEVEL"]?.lowercased() {
             switch envLevel {
             case "debug": return .debug
@@ -26,7 +61,7 @@ public enum StrictSwiftLogger: Sendable {
             }
         }
         return .warning
-    }()
+    }
 
     /// Whether to include file/line information in logs
     public static let includeSourceLocation: Bool = true
