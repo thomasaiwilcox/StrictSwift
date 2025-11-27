@@ -217,7 +217,10 @@ public actor SourceKitDService {
         let requestBits = Int(bitPattern: request)
         return try await withCheckedThrowingContinuation { continuation in
             DispatchQueue.global(qos: .userInitiated).async {
-                let requestPtr = UnsafeMutableRawPointer(bitPattern: requestBits)!
+                guard let requestPtr = UnsafeMutableRawPointer(bitPattern: requestBits) else {
+                    continuation.resume(throwing: SourceKitError.invalidResponse)
+                    return
+                }
                 guard let responsePtr = api.send_request_sync(requestPtr) else {
                     continuation.resume(throwing: SourceKitError.invalidResponse)
                     return

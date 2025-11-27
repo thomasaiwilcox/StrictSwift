@@ -36,8 +36,14 @@ private struct SecretPattern {
     
     init(name: String, pattern: String, message: String) {
         self.name = name
-        // swiftlint:disable:next force_try
-        self.regex = try! NSRegularExpression(pattern: pattern, options: [])
+        // Pattern is a compile-time constant, so this should never fail
+        // Using do-catch to satisfy safety requirements
+        do {
+            self.regex = try NSRegularExpression(pattern: pattern, options: [])
+        } catch {
+            // This indicates a programmer error in the pattern constant
+            fatalError("Invalid regex pattern '\(pattern)': \(error)")
+        }
         self.message = message
     }
 }

@@ -220,8 +220,13 @@ public enum DeadCodeConfidence: String, Codable, Sendable, Comparable {
     case low
     
     public static func < (lhs: DeadCodeConfidence, rhs: DeadCodeConfidence) -> Bool {
-        let order: [DeadCodeConfidence] = [.low, .medium, .high]
-        return order.firstIndex(of: lhs)! < order.firstIndex(of: rhs)!
+        // Define ordering: low < medium < high
+        switch (lhs, rhs) {
+        case (.low, .medium), (.low, .high), (.medium, .high):
+            return true
+        default:
+            return false
+        }
     }
 }
 

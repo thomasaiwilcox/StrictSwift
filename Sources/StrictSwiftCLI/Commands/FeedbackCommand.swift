@@ -184,8 +184,8 @@ struct FeedbackCommand: AsyncParsableCommand {
         
         if limited.isEmpty {
             print("No feedback entries found")
-            if rule != nil {
-                print("(filtered by rule: \(rule!))")
+            if let ruleFilter = rule {
+                print("(filtered by rule: \(ruleFilter))")
             }
             return
         }

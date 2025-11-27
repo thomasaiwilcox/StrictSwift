@@ -164,8 +164,9 @@ private final class ForceUnwrapVisitor: SyntaxAnyVisitor {
         
         // Clean up and validate as identifier
         name = name.trimmingCharacters(in: .whitespaces)
-        if name.isEmpty || !name.first!.isLetter {
+        guard let firstChar = name.first, firstChar.isLetter else {
             name = "unwrappedValue"
+            return name
         }
         
         // Ensure it starts with lowercase
