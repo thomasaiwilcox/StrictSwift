@@ -38,52 +38,45 @@ private final class UnstructuredTaskVisitor: SyntaxAnyVisitor {
         super.init(viewMode: .sourceAccurate)
     }
 
-    public override func visitAny(_ node: Syntax) -> SyntaxVisitorContinueKind {
-        let nodeDescription = node.description
-
-        // Look for Task.init or standalone Task calls that indicate unstructured concurrency
-        if isUnstructuredTaskCreation(nodeDescription) {
-            let location = sourceFile.location(of: node)
-
-            let violation = ViolationBuilder(
-                ruleId: "unstructured_task",
-                category: .concurrency,
-                location: location
-            )
-            .message("Unstructured Task creation detected")
-            .suggestFix("Consider using structured concurrency with TaskGroup, async let, or proper task handling")
-            .severity(.warning)
-            .build()
-
-            violations.append(violation)
-            return .skipChildren
+    override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {
+        // Only check actual function call expressions
+        let calledExpr = node.calledExpression.trimmedDescription
+        
+        // Check if this is a Task call (not Task.detached, TaskGroup, etc.)
+        guard calledExpr == "Task" || calledExpr == "Task.init" else {
+            return .visitChildren
+        }
+        
+        // This is a standalone Task { } or Task.init() call
+        // Check if it's followed by .value (which makes it structured)
+        if let parent = node.parent, parent.description.contains("}.value") {
+            return .visitChildren
+        }
+        
+        // Check if this is inside a withTaskGroup (structured concurrency)
+        var ancestor = node.parent
+        while let current = ancestor {
+            let description = current.trimmedDescription
+            if description.hasPrefix("withTaskGroup") || 
+               description.hasPrefix("withThrowingTaskGroup") {
+                return .visitChildren
+            }
+            ancestor = current.parent
         }
 
-        return .visitChildren
-    }
+        let location = sourceFile.location(of: Syntax(node))
 
-    private func isUnstructuredTaskCreation(_ nodeDescription: String) -> Bool {
-        // Exclude structured concurrency patterns first (more comprehensive)
-        if nodeDescription.contains("TaskGroup") ||
-           nodeDescription.contains("withTaskGroup") ||
-           nodeDescription.contains("async let") ||
-           nodeDescription.contains("Task.detached") ||
-           nodeDescription.contains("await Task") ||
-           (nodeDescription.contains("Task {") && nodeDescription.contains("}.value")) {
-            return false
-        }
+        let violation = ViolationBuilder(
+            ruleId: "unstructured_task",
+            category: .concurrency,
+            location: location
+        )
+        .message("Unstructured Task creation detected")
+        .suggestFix("Consider using structured concurrency with TaskGroup, async let, or proper task handling")
+        .severity(.warning)
+        .build()
 
-        // Look for specific unstructured Task creation patterns
-        // Pattern 1: Task { ... } - standalone task creation
-        if nodeDescription.contains("Task {") && !nodeDescription.contains("Task.detached") {
-            return true
-        }
-
-        // Pattern 2: Task.init(...) - explicit task initialization
-        if nodeDescription.contains("Task.init") {
-            return true
-        }
-
-        return false
+        violations.append(violation)
+        return .skipChildren
     }
 }
