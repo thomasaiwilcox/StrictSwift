@@ -29,7 +29,9 @@ public final class LargeStructCopyRule: Rule, @unchecked Sendable {
         guard ruleConfig.enabled else { return [] }
 
         // Get configuration parameters
-        let maxStructSize = ruleConfig.parameter("maxStructSize", defaultValue: 64)
+        // Default threshold is 128 bytes - structs under this size are typically
+        // efficiently handled by the Swift compiler via registers or stack copies
+        let maxStructSize = ruleConfig.parameter("maxStructSize", defaultValue: 128)
         let checkLoopStructCopies = ruleConfig.parameter("checkLoopStructCopies", defaultValue: true)
         let checkParameterStructCopies = ruleConfig.parameter("checkParameterStructCopies", defaultValue: true)
         let checkReturnValueStructCopies = ruleConfig.parameter("checkReturnValueStructCopies", defaultValue: true)
@@ -365,9 +367,11 @@ private class StructCopyAnalyzer: SyntaxAnyVisitor {
     // MARK: - Analysis Helper Methods
 
     private func isLargeStruct(_ structInfo: StructInfo) -> Bool {
+        // Only flag truly large structs - over 128 bytes or with many properties
+        // Note: hasLargeProperties is NOT checked because String, Data, URL, Date
+        // are all copy-on-write types in Swift and are very cheap to copy
         return structInfo.estimatedSize > maxStructSize ||
-               structInfo.hasLargeProperties ||
-               structInfo.propertyCount > 8
+               structInfo.propertyCount > 15
     }
 
     private func estimateTypeSize(_ typeString: String) -> Int {
