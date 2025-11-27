@@ -408,7 +408,25 @@ private class ExclusiveAccessAnalyzer: SyntaxAnyVisitor {
     private func isMutableBinding(_ decl: VariableDeclSyntax) -> Bool {
         guard let bindings = decl.bindings.first else { return false }
         guard decl.bindingSpecifier.tokenKind == .keyword(.var) else { return false }
-        return bindings.pattern.as(IdentifierPatternSyntax.self) != nil
+        guard bindings.pattern.as(IdentifierPatternSyntax.self) != nil else { return false }
+        
+        // Check if this is a computed property with explicit accessors
+        // Computed properties don't store data themselves - they delegate to backing storage
+        // which should be analyzed separately for thread safety
+        if let accessor = bindings.accessorBlock {
+            // Check for explicit get/set accessors
+            if case .accessors(let accessorList) = accessor.accessors {
+                let hasGetter = accessorList.contains { $0.accessorSpecifier.tokenKind == .keyword(.get) }
+                let hasSetter = accessorList.contains { $0.accessorSpecifier.tokenKind == .keyword(.set) }
+                // If it has explicit get and set accessors, it's a computed property
+                // delegating to backing storage (which should be thread-safe separately)
+                if hasGetter && hasSetter {
+                    return false
+                }
+            }
+        }
+        
+        return true
     }
 }
 

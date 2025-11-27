@@ -387,11 +387,19 @@ public final class OwnershipGraph: @unchecked Sendable {
         return nil
     }
 
+    /// Determines if a reference represents a mutable (write) access to its TARGET.
+    /// Note: `.assignment` means the SOURCE is being written to, but the TARGET is being READ.
+    /// For exclusive access violations, we care about writes TO the target, not reads FROM it.
     private func isMutableReference(_ reference: Reference) -> Bool {
         switch reference.type {
-        case .assignment, .escaping, .strong:
+        // These types indicate the SOURCE is written/captured, but TARGET is only READ
+        case .assignment, .strong, .capture, .parameter, .returnValue:
+            return false
+        // Escaping references could potentially be mutated through the escaped reference
+        case .escaping:
             return true
-        case .weak, .unowned, .capture, .parameter, .returnValue, .nonEscaping:
+        // Weak/unowned are explicitly non-mutating
+        case .weak, .unowned, .nonEscaping:
             return false
         }
     }
