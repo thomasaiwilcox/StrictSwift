@@ -1,5 +1,5 @@
 {
-  "lastRunDate" : "2025-11-27T21:23:21Z",
+  "lastRunDate" : "2025-11-27T21:38:48Z",
   "version" : 1,
   "violations" : {
     "004a6e2514e5bed8" : {
@@ -11,7 +11,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "004a6e2514e5bed8",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0216e4d6565e062a" : {
       "category" : "architecture",
@@ -22,7 +22,7 @@
       "ruleId" : "dead-code",
       "severity" : "warning",
       "stableId" : "0216e4d6565e062a",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0241ed5659ee56b6" : {
       "category" : "architecture",
@@ -33,40 +33,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "0241ed5659ee56b6",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "02c998d97fce03e0" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
-      "line" : 200,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "02c998d97fce03e0",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "036d427b0cfbaa1b" : {
-      "category" : "architecture",
-      "column" : 6,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/CircularDependencyGraphRule.swift",
-      "line" : 79,
-      "message" : "Function 'isTypeSymbol' appears to be unused (high confidence)",
-      "ruleId" : "dead-code",
-      "severity" : "warning",
-      "stableId" : "036d427b0cfbaa1b",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "04f85f47e2f54e9d" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/ReferenceCollector.swift",
-      "line" : 10,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "04f85f47e2f54e9d",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0596ce75e98be831" : {
       "category" : "architecture",
@@ -77,7 +44,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "0596ce75e98be831",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "059c297db59a563a" : {
       "category" : "complexity",
@@ -88,7 +55,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "059c297db59a563a",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "077555162e25812e" : {
       "category" : "architecture",
@@ -99,7 +66,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "077555162e25812e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0775d114067a4f62" : {
       "category" : "architecture",
@@ -110,7 +77,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "0775d114067a4f62",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0a8a06e5c7c5955e" : {
       "category" : "complexity",
@@ -121,18 +88,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "0a8a06e5c7c5955e",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "0b76807d368ce1df" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/DataRaceRule.swift",
-      "line" : 25,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "0b76807d368ce1df",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0c31fcc92688c3dd" : {
       "category" : "architecture",
@@ -143,7 +99,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "0c31fcc92688c3dd",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0c3d5be09bb37b38" : {
       "category" : "architecture",
@@ -154,7 +110,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "0c3d5be09bb37b38",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0d003d8737616a32" : {
       "category" : "complexity",
@@ -165,7 +121,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "0d003d8737616a32",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0d0dbe4edd75a7f6" : {
       "category" : "architecture",
@@ -176,7 +132,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "0d0dbe4edd75a7f6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0d66d3d04da3750f" : {
       "category" : "architecture",
@@ -187,7 +143,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "0d66d3d04da3750f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0dd5bf3e85e47e24" : {
       "category" : "architecture",
@@ -198,7 +154,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "0dd5bf3e85e47e24",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "0fae28d45427c823" : {
       "category" : "architecture",
@@ -209,7 +165,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "0fae28d45427c823",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "1028c852aeff989c" : {
       "category" : "complexity",
@@ -220,7 +176,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "1028c852aeff989c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "12ff13e37c2b5b2b" : {
       "category" : "complexity",
@@ -231,7 +187,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "12ff13e37c2b5b2b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "1556463254d46486" : {
       "category" : "architecture",
@@ -242,7 +198,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "1556463254d46486",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "15c874e92a57a6cd" : {
       "category" : "architecture",
@@ -253,7 +209,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "15c874e92a57a6cd",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "17356ac97229481b" : {
       "category" : "architecture",
@@ -264,7 +220,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "17356ac97229481b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "176a5a9703d9dca6" : {
       "category" : "complexity",
@@ -275,7 +231,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "176a5a9703d9dca6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "179e3e8a14f92086" : {
       "category" : "complexity",
@@ -286,18 +242,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "179e3e8a14f92086",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "17c87201e90698fc" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
-      "line" : 246,
-      "message" : "Circular dependency detected: ConfigurationCondition → ConfigurationCondition",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "17c87201e90698fc",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "18831b8b5f81a4d6" : {
       "category" : "architecture",
@@ -308,7 +253,7 @@
       "ruleId" : "dead-code",
       "severity" : "warning",
       "stableId" : "18831b8b5f81a4d6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "19482130d5db72d0" : {
       "category" : "architecture",
@@ -319,7 +264,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "19482130d5db72d0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "1bbb7b072c0ba3f8" : {
       "category" : "concurrency",
@@ -330,7 +275,7 @@
       "ruleId" : "unstructured_task",
       "severity" : "warning",
       "stableId" : "1bbb7b072c0ba3f8",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "1cd1ce6a87bd0330" : {
       "category" : "complexity",
@@ -341,7 +286,18 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "1cd1ce6a87bd0330",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "1d0e0926d0377836" : {
+      "category" : "architecture",
+      "column" : 19,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SemanticTypeResolver.swift",
+      "line" : 2,
+      "message" : "Circular dependency detected: SemanticTypeResolver → ReferenceLocation → SemanticTypeResolver",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "1d0e0926d0377836",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "1ee487927d8c043b" : {
       "category" : "architecture",
@@ -352,7 +308,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "1ee487927d8c043b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "1f20a9668d0728a9" : {
       "category" : "complexity",
@@ -363,18 +319,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "1f20a9668d0728a9",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "1f3ba1f8939959d7" : {
-      "category" : "architecture",
-      "column" : 18,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/RuleEngine.swift",
-      "line" : 1,
-      "message" : "Circular dependency detected: RuleEngine → RuleEngine",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "1f3ba1f8939959d7",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "20ae98c35e804bd5" : {
       "category" : "complexity",
@@ -385,7 +330,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "20ae98c35e804bd5",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "235d0dd3a77dd664" : {
       "category" : "complexity",
@@ -396,7 +341,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "235d0dd3a77dd664",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "243dce80f24caba6" : {
       "category" : "complexity",
@@ -407,7 +352,7 @@
       "ruleId" : "nesting_depth",
       "severity" : "warning",
       "stableId" : "243dce80f24caba6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "247eb5641cdfdbba" : {
       "category" : "complexity",
@@ -418,29 +363,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "247eb5641cdfdbba",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "25df5dbdaee723db" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
-      "line" : 512,
-      "message" : "Circular dependency detected: OwnershipGraph → OwnershipGraph",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "25df5dbdaee723db",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "26a599f52b071a4b" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/AsyncTestTimeoutRule.swift",
-      "line" : 31,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "26a599f52b071a4b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "26f95a0851157bb2" : {
       "category" : "architecture",
@@ -451,7 +374,18 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "26f95a0851157bb2",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "2723e2ad2846c8c8" : {
+      "category" : "architecture",
+      "column" : 49,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "line" : 6,
+      "message" : "Circular dependency detected: OwnershipGraph → OwnershipStatistics → OwnershipGraph",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "2723e2ad2846c8c8",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "2748062390d8f030" : {
       "category" : "complexity",
@@ -462,18 +396,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "2748062390d8f030",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "276ac7a727a70c2e" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/LargeStructCopyRule.swift",
-      "line" : 63,
-      "message" : "Circular dependency detected: RuleSpecificConfiguration → RuleSpecificConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "276ac7a727a70c2e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "281693d81195928c" : {
       "category" : "performance",
@@ -484,7 +407,7 @@
       "ruleId" : "large_struct_copy",
       "severity" : "warning",
       "stableId" : "281693d81195928c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "2919ad7d28ffdedc" : {
       "category" : "architecture",
@@ -495,7 +418,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "2919ad7d28ffdedc",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "29438d74e6bf22cd" : {
       "category" : "complexity",
@@ -506,7 +429,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "29438d74e6bf22cd",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "296843851814454d" : {
       "category" : "architecture",
@@ -517,18 +440,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "296843851814454d",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "2a0f0f64c5586913" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/EnhancedLayeredDependenciesRule.swift",
-      "line" : 40,
-      "message" : "Circular dependency detected: EnhancedLayeredDependenciesRule → EnhancedLayeredDependenciesRule",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "2a0f0f64c5586913",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "2b2b4f257c35cabf" : {
       "category" : "complexity",
@@ -539,7 +451,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "2b2b4f257c35cabf",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "2b5ad7caf679f71e" : {
       "category" : "complexity",
@@ -550,7 +462,7 @@
       "ruleId" : "nesting_depth",
       "severity" : "warning",
       "stableId" : "2b5ad7caf679f71e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "2b71018ea626695c" : {
       "category" : "complexity",
@@ -561,7 +473,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "2b71018ea626695c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "2bb717e6c5185e4d" : {
       "category" : "architecture",
@@ -572,18 +484,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "2bb717e6c5185e4d",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "2d73d17514b6ed0c" : {
-      "category" : "architecture",
-      "column" : 10,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
-      "line" : 2,
-      "message" : "Circular dependency detected: LoggerState → LoggerState",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "2d73d17514b6ed0c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "2da06be75b45785c" : {
       "category" : "architecture",
@@ -594,7 +495,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "2da06be75b45785c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "2ebbdc06d16cfcac" : {
       "category" : "architecture",
@@ -605,7 +506,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "2ebbdc06d16cfcac",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "2f577d9dd427c15f" : {
       "category" : "architecture",
@@ -616,7 +517,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "2f577d9dd427c15f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "2f5cfb6a0be25ce7" : {
       "category" : "architecture",
@@ -627,7 +528,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "2f5cfb6a0be25ce7",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "304e54c732321984" : {
       "category" : "architecture",
@@ -638,7 +539,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "304e54c732321984",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "3073d28624b85767" : {
       "category" : "architecture",
@@ -649,7 +550,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "3073d28624b85767",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "30b4bc8e518427f3" : {
       "category" : "complexity",
@@ -660,18 +561,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "30b4bc8e518427f3",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "321ff661f2ae1dba" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitDAsync.swift",
-      "line" : 99,
-      "message" : "Circular dependency detected: SourceKitDVariantType → SourceKitDVariantType",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "321ff661f2ae1dba",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "32a73060d9057959" : {
       "category" : "architecture",
@@ -682,7 +572,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "32a73060d9057959",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "32beb910a5034bb2" : {
       "category" : "architecture",
@@ -693,18 +583,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "32beb910a5034bb2",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "34304ae147cd4300" : {
-      "category" : "architecture",
-      "column" : 6,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SemanticTypeResolver.swift",
-      "line" : 102,
-      "message" : "Circular dependency detected: ReferenceLocation → ReferenceLocation",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "34304ae147cd4300",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "3462e9be2e21479e" : {
       "category" : "architecture",
@@ -715,7 +594,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "3462e9be2e21479e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "34c25cd40a24df93" : {
       "category" : "complexity",
@@ -726,7 +605,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "34c25cd40a24df93",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "35bd90f9cf4f7bbf" : {
       "category" : "architecture",
@@ -737,7 +616,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "35bd90f9cf4f7bbf",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "35f79ec35d4813e3" : {
       "category" : "architecture",
@@ -748,7 +627,18 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "35f79ec35d4813e3",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "364d55253c817213" : {
+      "category" : "architecture",
+      "column" : 18,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/AnalysisRunner.swift",
+      "line" : 1,
+      "message" : "Circular dependency detected: Configuration → Profile → Configuration",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "364d55253c817213",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "37e0849217a99967" : {
       "category" : "complexity",
@@ -759,7 +649,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "37e0849217a99967",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "382b9b8005578ace" : {
       "category" : "architecture",
@@ -770,7 +660,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "382b9b8005578ace",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "38ce4f670b3a65ee" : {
       "category" : "complexity",
@@ -781,7 +671,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "38ce4f670b3a65ee",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "3942841792dcfd6c" : {
       "category" : "architecture",
@@ -792,7 +682,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "3942841792dcfd6c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "39c234af7e344fe6" : {
       "category" : "architecture",
@@ -803,7 +693,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "39c234af7e344fe6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "39e777d248e01bc1" : {
       "category" : "architecture",
@@ -814,7 +704,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "39e777d248e01bc1",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "3a0679fdd92409c6" : {
       "category" : "architecture",
@@ -825,7 +715,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "3a0679fdd92409c6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "3a53e475f36c1495" : {
       "category" : "architecture",
@@ -836,7 +726,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "3a53e475f36c1495",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "3a766d86607ae674" : {
       "category" : "architecture",
@@ -847,7 +737,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "3a766d86607ae674",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "3a80931dab0887b8" : {
       "category" : "architecture",
@@ -858,62 +748,18 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "3a80931dab0887b8",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
-    "3bd97c61210d5d4e" : {
+    "3f537d464dfdd147" : {
       "category" : "architecture",
       "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/EnhancedGodClassRule.swift",
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/Rule.swift",
       "line" : 40,
-      "message" : "Circular dependency detected: EnhancedGodClassRule → EnhancedGodClassRule",
+      "message" : "Circular dependency detected: SemanticTypeResolver → ReferenceLocation → SemanticTypeResolver",
       "ruleId" : "circular_dependency_graph",
       "severity" : "warning",
-      "stableId" : "3bd97c61210d5d4e",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "3d233139c424aea9" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/DeadCodeRule.swift",
-      "line" : 2,
-      "message" : "Circular dependency detected: DeadCodeConfiguration → DeadCodeConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "3d233139c424aea9",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "3e37fc1f5e7cbe5f" : {
-      "category" : "architecture",
-      "column" : 31,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitClient.swift",
-      "line" : 13,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "3e37fc1f5e7cbe5f",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "3e5bb62d9571a5f0" : {
-      "category" : "architecture",
-      "column" : 49,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
-      "line" : 6,
-      "message" : "Circular dependency detected: OwnershipGraph → OwnershipGraph",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "3e5bb62d9571a5f0",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "3e974d98e35dce7f" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitDAsync.swift",
-      "line" : 175,
-      "message" : "Circular dependency detected: SourceKitDKeys → SourceKitDKeys",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "3e974d98e35dce7f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "stableId" : "3f537d464dfdd147",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4088cf42db7ee8ed" : {
       "category" : "architecture",
@@ -924,7 +770,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "4088cf42db7ee8ed",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "40a57fc44c6d0e09" : {
       "category" : "architecture",
@@ -935,7 +781,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "40a57fc44c6d0e09",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "41ad77b304cb2a2e" : {
       "category" : "architecture",
@@ -946,7 +792,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "41ad77b304cb2a2e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "41eed894ffd9338b" : {
       "category" : "complexity",
@@ -957,7 +803,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "41eed894ffd9338b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "428060a51661ef0d" : {
       "category" : "architecture",
@@ -968,7 +814,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "428060a51661ef0d",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "43b87e01ae9fbf6b" : {
       "category" : "architecture",
@@ -979,7 +825,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "43b87e01ae9fbf6b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4475846e36ede917" : {
       "category" : "architecture",
@@ -990,7 +836,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "4475846e36ede917",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "45613f77a758194f" : {
       "category" : "architecture",
@@ -1001,7 +847,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "45613f77a758194f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "45a2244663a5ab26" : {
       "category" : "architecture",
@@ -1012,7 +858,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "45a2244663a5ab26",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "45ba2544b9e9e1b7" : {
       "category" : "architecture",
@@ -1023,51 +869,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "45ba2544b9e9e1b7",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "468f2ea7a444e8d5" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/ReferenceCollector.swift",
-      "line" : 2,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "468f2ea7a444e8d5",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "46924faeca5fc427" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/ARCChurnRule.swift",
-      "line" : 62,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "46924faeca5fc427",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "46b1beef3ca71ba1" : {
-      "category" : "architecture",
-      "column" : 119,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitDLoader.swift",
-      "line" : 146,
-      "message" : "Circular dependency detected: SourceKitDVariantType → SourceKitDVariantType",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "46b1beef3ca71ba1",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "46b55d2ede447692" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/ForceTryRule.swift",
-      "line" : 29,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "46b55d2ede447692",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "47ea6d310ed56060" : {
       "category" : "architecture",
@@ -1078,7 +880,7 @@
       "ruleId" : "dead-code",
       "severity" : "warning",
       "stableId" : "47ea6d310ed56060",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "48034cb03fed86eb" : {
       "category" : "architecture",
@@ -1089,7 +891,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "48034cb03fed86eb",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4808debc98f1466c" : {
       "category" : "complexity",
@@ -1100,7 +902,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "4808debc98f1466c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "48cd7d07e03078e9" : {
       "category" : "complexity",
@@ -1111,7 +913,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "48cd7d07e03078e9",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "498dcd657cc5278b" : {
       "category" : "architecture",
@@ -1122,7 +924,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "498dcd657cc5278b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "498ff2180212da57" : {
       "category" : "complexity",
@@ -1133,7 +935,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "498ff2180212da57",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "49b5a3e7cb1dba22" : {
       "category" : "architecture",
@@ -1144,7 +946,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "49b5a3e7cb1dba22",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4abf9021a3a0457f" : {
       "category" : "architecture",
@@ -1155,7 +957,18 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "4abf9021a3a0457f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "4b9cbd115d12c0a7" : {
+      "category" : "architecture",
+      "column" : 19,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "line" : 3,
+      "message" : "Circular dependency detected: OwnershipGraph → OwnershipStatistics → OwnershipGraph",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "4b9cbd115d12c0a7",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4c5321ced40f6a86" : {
       "category" : "architecture",
@@ -1166,7 +979,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "4c5321ced40f6a86",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4d6f9878f22071de" : {
       "category" : "complexity",
@@ -1177,7 +990,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "4d6f9878f22071de",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4d7f3f1c8633daea" : {
       "category" : "complexity",
@@ -1188,7 +1001,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "4d7f3f1c8633daea",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4e1f69607f4b7157" : {
       "category" : "complexity",
@@ -1199,7 +1012,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "4e1f69607f4b7157",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4e45f499c3bf9cd0" : {
       "category" : "architecture",
@@ -1210,18 +1023,29 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "4e45f499c3bf9cd0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
-    "4f79f50e8ec0e2c0" : {
+    "4ee2fc9b2ff99750" : {
       "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/InsecureCryptoRule.swift",
-      "line" : 37,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
+      "column" : 31,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitClient.swift",
+      "line" : 13,
+      "message" : "Circular dependency detected: CursorInfo → SourceKitClient → CursorInfo",
       "ruleId" : "circular_dependency_graph",
       "severity" : "warning",
-      "stableId" : "4f79f50e8ec0e2c0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "stableId" : "4ee2fc9b2ff99750",
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "4f413a7a41c65977" : {
+      "category" : "architecture",
+      "column" : 2,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "line" : 512,
+      "message" : "Circular dependency detected: OwnershipGraph → OwnershipStatistics → OwnershipGraph",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "4f413a7a41c65977",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4f8f4dc10ea4c63c" : {
       "category" : "architecture",
@@ -1232,7 +1056,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "4f8f4dc10ea4c63c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "4fa94de1b2a6edbd" : {
       "category" : "architecture",
@@ -1243,7 +1067,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "4fa94de1b2a6edbd",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "5010d2a77e05f05a" : {
       "category" : "architecture",
@@ -1254,7 +1078,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "5010d2a77e05f05a",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "51925d5b657ba5f6" : {
       "category" : "complexity",
@@ -1265,7 +1089,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "51925d5b657ba5f6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "520c0b03ed2f4be5" : {
       "category" : "complexity",
@@ -1276,51 +1100,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "520c0b03ed2f4be5",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "521b6077a22435c6" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/GlobalReferenceGraph.swift",
-      "line" : 11,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "521b6077a22435c6",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "524eb6f062743133" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
-      "line" : 2,
-      "message" : "Circular dependency detected: OwnershipGraph → OwnershipGraph",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "524eb6f062743133",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "534eefd247051b76" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/ModuleBoundaryRule.swift",
-      "line" : 3,
-      "message" : "Circular dependency detected: ModuleBoundaryRule → ModuleBoundaryRule",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "534eefd247051b76",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "5355a982a42091be" : {
-      "category" : "architecture",
-      "column" : 18,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/AnalysisRunner.swift",
-      "line" : 1,
-      "message" : "Circular dependency detected: RulesConfiguration → RulesConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "5355a982a42091be",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "543fbdedd2277321" : {
       "category" : "complexity",
@@ -1331,7 +1111,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "543fbdedd2277321",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "551246d80c4b5477" : {
       "category" : "complexity",
@@ -1342,7 +1122,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "551246d80c4b5477",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "556477ccbc5bf3b0" : {
       "category" : "complexity",
@@ -1353,7 +1133,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "556477ccbc5bf3b0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "55c8dc0a03d523d5" : {
       "category" : "architecture",
@@ -1364,7 +1144,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "55c8dc0a03d523d5",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "55feafdbe865cbf3" : {
       "category" : "architecture",
@@ -1375,7 +1155,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "55feafdbe865cbf3",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "564399d647d37660" : {
       "category" : "architecture",
@@ -1386,7 +1166,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "564399d647d37660",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "56502c70c6367fc7" : {
       "category" : "architecture",
@@ -1397,29 +1177,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "56502c70c6367fc7",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "57442147c2bbcd34" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitDLoader.swift",
-      "line" : 503,
-      "message" : "Circular dependency detected: SourceKitDErrorKind → SourceKitDErrorKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "57442147c2bbcd34",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "574733753828c1bb" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/ActorIsolationRule.swift",
-      "line" : 25,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "574733753828c1bb",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "5794d9cf2d6fe660" : {
       "category" : "complexity",
@@ -1430,18 +1188,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "5794d9cf2d6fe660",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "57a0666f7ceddf62" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
-      "line" : 100,
-      "message" : "Circular dependency detected: RuleSpecificConfiguration → RuleSpecificConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "57a0666f7ceddf62",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "58601cf0030cc38b" : {
       "category" : "architecture",
@@ -1452,7 +1199,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "58601cf0030cc38b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "59049c3ad20c4b9a" : {
       "category" : "architecture",
@@ -1463,7 +1210,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "59049c3ad20c4b9a",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "5b1e9ad5f0e214cd" : {
       "category" : "complexity",
@@ -1474,7 +1221,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "5b1e9ad5f0e214cd",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "5cc7d18ea905c0c1" : {
       "category" : "complexity",
@@ -1485,7 +1232,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "5cc7d18ea905c0c1",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "5dda3ec3e8d73536" : {
       "category" : "complexity",
@@ -1496,7 +1243,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "5dda3ec3e8d73536",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "5e2f3b73ef699d40" : {
       "category" : "architecture",
@@ -1507,7 +1254,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "5e2f3b73ef699d40",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "5f46180a89e7b004" : {
       "category" : "complexity",
@@ -1518,18 +1265,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "5f46180a89e7b004",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "60159c7c9f8ed201" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/DeadCodeAnalyzer.swift",
-      "line" : 288,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "60159c7c9f8ed201",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "610a6c115570f6a5" : {
       "category" : "architecture",
@@ -1540,18 +1276,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "610a6c115570f6a5",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "61cfe6c0e30b3ea8" : {
-      "category" : "architecture",
-      "column" : 21,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Configuration\/Configuration.swift",
-      "line" : 3,
-      "message" : "Circular dependency detected: RulesConfiguration → RulesConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "61cfe6c0e30b3ea8",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "62ae3dc51f34404c" : {
       "category" : "architecture",
@@ -1562,29 +1287,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "62ae3dc51f34404c",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "6367aff721322b18" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/AllocationTracker.swift",
-      "line" : 349,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "6367aff721322b18",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "642bf6c11b4463d6" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/StringConcatenationLoopRule.swift",
-      "line" : 28,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "642bf6c11b4463d6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "65891e7fa9c43e51" : {
       "category" : "complexity",
@@ -1595,7 +1298,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "65891e7fa9c43e51",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "659dee50be80a2f8" : {
       "category" : "architecture",
@@ -1606,7 +1309,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "659dee50be80a2f8",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "65b122ded91601a7" : {
       "category" : "architecture",
@@ -1617,7 +1320,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "65b122ded91601a7",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6796f75d949bc40e" : {
       "category" : "architecture",
@@ -1628,29 +1331,7 @@
       "ruleId" : "circular_dependency_graph",
       "severity" : "warning",
       "stableId" : "6796f75d949bc40e",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "679d0f9974d3e083" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/SymbolCollector.swift",
-      "line" : 2,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "679d0f9974d3e083",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "679eedda469bbae0" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/LayerValidator.swift",
-      "line" : 53,
-      "message" : "Circular dependency detected: LayerValidator → LayerValidator",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "679eedda469bbae0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6804c8b5fd562c47" : {
       "category" : "architecture",
@@ -1661,18 +1342,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "6804c8b5fd562c47",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "683fc532ba853670" : {
-      "category" : "architecture",
-      "column" : 18,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Reporting\/AgentReporter.swift",
-      "line" : 1,
-      "message" : "Circular dependency detected: AgentReporterOptions → AgentReporterOptions",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "683fc532ba853670",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6865b31d355d81f8" : {
       "category" : "complexity",
@@ -1683,18 +1353,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "6865b31d355d81f8",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "68eec369a2bcb3a7" : {
-      "category" : "architecture",
-      "column" : 26,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/FixApplier.swift",
-      "line" : 6,
-      "message" : "Circular dependency detected: Options → Options",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "68eec369a2bcb3a7",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "695a7875ead73137" : {
       "category" : "architecture",
@@ -1705,7 +1364,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "695a7875ead73137",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "69a4f5598a17fae2" : {
       "category" : "complexity",
@@ -1716,7 +1375,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "69a4f5598a17fae2",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "69b4f5cb4a5acdfa" : {
       "category" : "architecture",
@@ -1727,7 +1386,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "69b4f5cb4a5acdfa",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6a4d203b47cee596" : {
       "category" : "complexity",
@@ -1738,7 +1397,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "6a4d203b47cee596",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6a662e1fa4bf2abc" : {
       "category" : "complexity",
@@ -1749,7 +1408,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "6a662e1fa4bf2abc",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6c30f4579951fc4d" : {
       "category" : "architecture",
@@ -1760,7 +1419,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "6c30f4579951fc4d",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6c9b7dd7c6247e6f" : {
       "category" : "architecture",
@@ -1771,29 +1430,7 @@
       "ruleId" : "dead-code",
       "severity" : "warning",
       "stableId" : "6c9b7dd7c6247e6f",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "6caadd6be6e506b5" : {
-      "category" : "architecture",
-      "column" : 33,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SemanticModeResolver.swift",
-      "line" : 16,
-      "message" : "Circular dependency detected: ResolvedConfiguration → ResolvedConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "6caadd6be6e506b5",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "6d5239367f5e9af9" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/FlakyTestPatternRule.swift",
-      "line" : 31,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "6d5239367f5e9af9",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6d86cb28798628c0" : {
       "category" : "complexity",
@@ -1804,7 +1441,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "6d86cb28798628c0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6dc5c207346e3e33" : {
       "category" : "architecture",
@@ -1815,7 +1452,7 @@
       "ruleId" : "dead-code",
       "severity" : "warning",
       "stableId" : "6dc5c207346e3e33",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6e719c0b95e710dc" : {
       "category" : "architecture",
@@ -1826,7 +1463,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "6e719c0b95e710dc",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "6f93687eaa144db2" : {
       "category" : "complexity",
@@ -1837,18 +1474,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "6f93687eaa144db2",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "706bec28a695f33d" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/SensitiveLoggingRule.swift",
-      "line" : 29,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "706bec28a695f33d",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "70e8eea3ca2857c1" : {
       "category" : "complexity",
@@ -1859,18 +1485,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "70e8eea3ca2857c1",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "713d016cb64cd0be" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitDAsync.swift",
-      "line" : 13,
-      "message" : "Circular dependency detected: SourceKitDKeys → SourceKitDKeys",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "713d016cb64cd0be",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "72fd1e541b8d08af" : {
       "category" : "architecture",
@@ -1881,7 +1496,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "72fd1e541b8d08af",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "731071ce123f262f" : {
       "category" : "performance",
@@ -1892,18 +1507,7 @@
       "ruleId" : "repeated_allocation",
       "severity" : "warning",
       "stableId" : "731071ce123f262f",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "732ca8e63497291b" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/PrintInProductionRule.swift",
-      "line" : 38,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "732ca8e63497291b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "7351069903e7a321" : {
       "category" : "complexity",
@@ -1914,29 +1518,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "7351069903e7a321",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "737b9a80c01ffd3e" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/SQLInjectionPatternRule.swift",
-      "line" : 29,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "737b9a80c01ffd3e",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "73ffcafa09b6d6b1" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
-      "line" : 412,
-      "message" : "Circular dependency detected: OwnershipGraph → OwnershipGraph",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "73ffcafa09b6d6b1",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "743f2c2a48c048d0" : {
       "category" : "complexity",
@@ -1947,7 +1529,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "743f2c2a48c048d0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "751b8309fabfb06c" : {
       "category" : "complexity",
@@ -1958,7 +1540,18 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "751b8309fabfb06c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "761090dedd48954b" : {
+      "category" : "architecture",
+      "column" : 6,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SemanticTypeResolver.swift",
+      "line" : 102,
+      "message" : "Circular dependency detected: SemanticTypeResolver → ReferenceLocation → SemanticTypeResolver",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "761090dedd48954b",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "76d4d3d804ff52ab" : {
       "category" : "architecture",
@@ -1969,18 +1562,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "76d4d3d804ff52ab",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "7752cc5ac7517541" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitDAsync.swift",
-      "line" : 325,
-      "message" : "Circular dependency detected: CursorInfoResult → CursorInfoResult",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "7752cc5ac7517541",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "796dddad695ff86d" : {
       "category" : "architecture",
@@ -1991,7 +1573,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "796dddad695ff86d",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "79a5cd1bed270fa2" : {
       "category" : "complexity",
@@ -2002,7 +1584,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "79a5cd1bed270fa2",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "7b19251aa17c75f1" : {
       "category" : "architecture",
@@ -2013,7 +1595,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "7b19251aa17c75f1",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "7bc7b99b261648e2" : {
       "category" : "architecture",
@@ -2024,7 +1606,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "7bc7b99b261648e2",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "7bc7d1bd52c99568" : {
       "category" : "architecture",
@@ -2035,7 +1617,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "7bc7d1bd52c99568",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "7bf016b012db8592" : {
       "category" : "complexity",
@@ -2046,7 +1628,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "7bf016b012db8592",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "7c2ec694f912e63b" : {
       "category" : "concurrency",
@@ -2057,7 +1639,7 @@
       "ruleId" : "unstructured_task",
       "severity" : "warning",
       "stableId" : "7c2ec694f912e63b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "7cd256840eec3032" : {
       "category" : "complexity",
@@ -2068,18 +1650,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "7cd256840eec3032",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "7d4c4ff7e7034928" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
-      "line" : 362,
-      "message" : "Circular dependency detected: ScopeConfiguration → ScopeConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "7d4c4ff7e7034928",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "7e6411cc106da2fd" : {
       "category" : "complexity",
@@ -2090,7 +1661,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "7e6411cc106da2fd",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "7efa2ef4b9a23b5c" : {
       "category" : "architecture",
@@ -2101,18 +1672,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "7efa2ef4b9a23b5c",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "7f0087010ffffe5b" : {
-      "category" : "architecture",
-      "column" : 21,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/SourceFile.swift",
-      "line" : 4,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "7f0087010ffffe5b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "7f572f0533947989" : {
       "category" : "architecture",
@@ -2123,7 +1683,18 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "7f572f0533947989",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "7feaf011277a7258" : {
+      "category" : "architecture",
+      "column" : 19,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "line" : 2,
+      "message" : "Circular dependency detected: OwnershipGraph → OwnershipStatistics → OwnershipGraph",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "7feaf011277a7258",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "8023622d5c0685f8" : {
       "category" : "complexity",
@@ -2134,7 +1705,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "8023622d5c0685f8",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "825ce9ab5cb7bb64" : {
       "category" : "complexity",
@@ -2145,18 +1716,7 @@
       "ruleId" : "nesting_depth",
       "severity" : "warning",
       "stableId" : "825ce9ab5cb7bb64",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "82696f50f52e7707" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/RepeatedAllocationRule.swift",
-      "line" : 127,
-      "message" : "Circular dependency detected: RuleSpecificConfiguration → RuleSpecificConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "82696f50f52e7707",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "82b30b9f1ee5f6f0" : {
       "category" : "architecture",
@@ -2167,7 +1727,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "82b30b9f1ee5f6f0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "82bf0068b27810f5" : {
       "category" : "architecture",
@@ -2178,7 +1738,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "82bf0068b27810f5",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "857f631258b3e347" : {
       "category" : "architecture",
@@ -2189,29 +1749,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "857f631258b3e347",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "85bf05823c618c07" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/FatalErrorRule.swift",
-      "line" : 29,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "85bf05823c618c07",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "85c080d4ca9b93a1" : {
-      "category" : "architecture",
-      "column" : 6,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SemanticTypeResolver.swift",
-      "line" : 87,
-      "message" : "Circular dependency detected: ReferenceLocation → ReferenceLocation",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "85c080d4ca9b93a1",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "86a1257651b95cb1" : {
       "category" : "architecture",
@@ -2222,7 +1760,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "86a1257651b95cb1",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "86cba019af33a8ba" : {
       "category" : "complexity",
@@ -2233,7 +1771,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "86cba019af33a8ba",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "87fea753363abf89" : {
       "category" : "architecture",
@@ -2244,18 +1782,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "87fea753363abf89",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "88097271be30be01" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/ArchitecturalHealthRule.swift",
-      "line" : 64,
-      "message" : "Circular dependency detected: ArchitecturalHealthRule → ArchitecturalHealthRule",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "88097271be30be01",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "89f64bcb2694c645" : {
       "category" : "architecture",
@@ -2266,18 +1793,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "89f64bcb2694c645",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "8a2684032f2d30bb" : {
-      "category" : "architecture",
-      "column" : 18,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Configuration\/AdvancedConfiguration.swift",
-      "line" : 1,
-      "message" : "Circular dependency detected: RuleSpecificConfiguration → RuleSpecificConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "8a2684032f2d30bb",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "8b6013aef7491d6e" : {
       "category" : "complexity",
@@ -2288,7 +1804,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "8b6013aef7491d6e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "8c9890892f4c6c47" : {
       "category" : "complexity",
@@ -2299,7 +1815,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "8c9890892f4c6c47",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "8e67ad2d2e4a074b" : {
       "category" : "architecture",
@@ -2310,7 +1826,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "8e67ad2d2e4a074b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "8ecec9aba07da254" : {
       "category" : "complexity",
@@ -2321,7 +1837,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "8ecec9aba07da254",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "8fc7ec670ba739db" : {
       "category" : "architecture",
@@ -2332,18 +1848,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "8fc7ec670ba739db",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "9030afd12e50d0da" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/NestingDepthRule.swift",
-      "line" : 142,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "9030afd12e50d0da",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "90810513dc86e809" : {
       "category" : "complexity",
@@ -2354,18 +1859,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "90810513dc86e809",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "90dd930b3b68d559" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
-      "line" : 3,
-      "message" : "Circular dependency detected: OwnershipGraph → OwnershipGraph",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "90dd930b3b68d559",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "910cbf68ccc46466" : {
       "category" : "complexity",
@@ -2376,7 +1870,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "910cbf68ccc46466",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "911096ac4ba6ebc6" : {
       "category" : "architecture",
@@ -2387,7 +1881,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "911096ac4ba6ebc6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "91a29834fa821628" : {
       "category" : "architecture",
@@ -2398,7 +1892,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "91a29834fa821628",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9256c23b25f2affc" : {
       "category" : "architecture",
@@ -2409,7 +1903,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "9256c23b25f2affc",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "927a2798e74e4106" : {
       "category" : "architecture",
@@ -2420,7 +1914,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "927a2798e74e4106",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "942d590d8eb5186c" : {
       "category" : "complexity",
@@ -2431,7 +1925,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "942d590d8eb5186c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "943e69d643383ce5" : {
       "category" : "architecture",
@@ -2442,7 +1936,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "943e69d643383ce5",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "955a38451dba6042" : {
       "category" : "architecture",
@@ -2453,18 +1947,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "955a38451dba6042",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "96413cadfe08986f" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
-      "line" : 337,
-      "message" : "Circular dependency detected: RuleSpecificConfiguration → RuleSpecificConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "96413cadfe08986f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "96bfbda0e9dde5dc" : {
       "category" : "architecture",
@@ -2475,7 +1958,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "96bfbda0e9dde5dc",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9779e569b408f387" : {
       "category" : "architecture",
@@ -2486,62 +1969,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "9779e569b408f387",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "97902d8a69bca69b" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Learning\/ViolationCache.swift",
-      "line" : 38,
-      "message" : "Circular dependency detected: ViolationCache → ViolationCache",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "97902d8a69bca69b",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "97bc54a833f087d8" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/NonSendableCaptureRule.swift",
-      "line" : 241,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "97bc54a833f087d8",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "9839145a0e0d417f" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/CircularDependencyRule.swift",
-      "line" : 29,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "9839145a0e0d417f",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "9841731749890c53" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/EscapingReferenceRule.swift",
-      "line" : 100,
-      "message" : "Circular dependency detected: RuleSpecificConfiguration → RuleSpecificConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "9841731749890c53",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "99e2fe587f2f4a05" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/DeadCodeAnalyzer.swift",
-      "line" : 13,
-      "message" : "Circular dependency detected: DeadCodeConfiguration → DeadCodeConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "99e2fe587f2f4a05",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9a9acd4b911f4641" : {
       "category" : "architecture",
@@ -2552,18 +1980,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "9a9acd4b911f4641",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "9b7f393f733beaa6" : {
-      "category" : "architecture",
-      "column" : 18,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitDKeys.swift",
-      "line" : 1,
-      "message" : "Circular dependency detected: SourceKitDKeys → SourceKitDKeys",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "9b7f393f733beaa6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9b858f531444b5f2" : {
       "category" : "complexity",
@@ -2574,7 +1991,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "9b858f531444b5f2",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9c3c1b4f634ec118" : {
       "category" : "architecture",
@@ -2585,7 +2002,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "9c3c1b4f634ec118",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9c647b9821ea768c" : {
       "category" : "architecture",
@@ -2596,7 +2013,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "9c647b9821ea768c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9c651f9ba3847f3a" : {
       "category" : "architecture",
@@ -2607,7 +2024,18 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "9c651f9ba3847f3a",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "9c65ed290cb45cf4" : {
+      "category" : "architecture",
+      "column" : 6,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
+      "line" : 200,
+      "message" : "Circular dependency detected: OwnershipGraph → OwnershipStatistics → OwnershipGraph",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "9c65ed290cb45cf4",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9cd5be6aefc54985" : {
       "category" : "complexity",
@@ -2618,7 +2046,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "9cd5be6aefc54985",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9d3b5be4a1c319b2" : {
       "category" : "architecture",
@@ -2629,7 +2057,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "9d3b5be4a1c319b2",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9d7b7eb019ba06e0" : {
       "category" : "complexity",
@@ -2640,7 +2068,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "9d7b7eb019ba06e0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "9e7eb71f272dcdfb" : {
       "category" : "architecture",
@@ -2651,7 +2079,7 @@
       "ruleId" : "dead-code",
       "severity" : "warning",
       "stableId" : "9e7eb71f272dcdfb",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "a02a3b02c4099590" : {
       "category" : "architecture",
@@ -2662,7 +2090,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "a02a3b02c4099590",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "a049e2771e718be7" : {
       "category" : "complexity",
@@ -2673,7 +2101,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "a049e2771e718be7",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "a25044e5a10d6f0e" : {
       "category" : "architecture",
@@ -2684,29 +2112,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "a25044e5a10d6f0e",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "a333af61a95eb264" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/ImportDirectionRule.swift",
-      "line" : 155,
-      "message" : "Circular dependency detected: RuleSpecificConfiguration → RuleSpecificConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "a333af61a95eb264",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "a427eb1e86d7624f" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/GlobalReferenceGraph.swift",
-      "line" : 35,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "a427eb1e86d7624f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "a46fe9f24c70f0e6" : {
       "category" : "complexity",
@@ -2717,7 +2123,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "a46fe9f24c70f0e6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "a4dff58bda4d827c" : {
       "category" : "architecture",
@@ -2728,7 +2134,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "a4dff58bda4d827c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "a509e75d67a5164f" : {
       "category" : "architecture",
@@ -2739,29 +2145,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "a509e75d67a5164f",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "a577925de166d777" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/FunctionLengthRule.swift",
-      "line" : 136,
-      "message" : "Circular dependency detected: RuleSpecificConfiguration → RuleSpecificConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "a577925de166d777",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "a6556028c04b15e3" : {
-      "category" : "architecture",
-      "column" : 98,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitDLoader.swift",
-      "line" : 19,
-      "message" : "Circular dependency detected: SourceKitDErrorKind → SourceKitDErrorKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "a6556028c04b15e3",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "a6701596fb7f5109" : {
       "category" : "complexity",
@@ -2772,29 +2156,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "a6701596fb7f5109",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "a6745674415e9434" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/UnstructuredTaskRule.swift",
-      "line" : 29,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "a6745674415e9434",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "a86de64c08b78ef5" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitDLoader.swift",
-      "line" : 294,
-      "message" : "Circular dependency detected: SourceKitDLoader → SourceKitDLoader",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "a86de64c08b78ef5",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "a8cb5def2ed45a00" : {
       "category" : "architecture",
@@ -2805,18 +2167,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "a8cb5def2ed45a00",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "a9e1ecef9ba9c5f9" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/AssertionCoverageRule.swift",
-      "line" : 32,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "a9e1ecef9ba9c5f9",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "aadc7446f87bbcfa" : {
       "category" : "architecture",
@@ -2827,7 +2178,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "aadc7446f87bbcfa",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "aafc473eefd37de3" : {
       "category" : "complexity",
@@ -2838,7 +2189,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "aafc473eefd37de3",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "ac02f4f7df51533f" : {
       "category" : "architecture",
@@ -2849,7 +2200,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "ac02f4f7df51533f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "ac19eb6eb45cdf49" : {
       "category" : "complexity",
@@ -2860,7 +2211,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "ac19eb6eb45cdf49",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "ac4ca7de3ea25047" : {
       "category" : "architecture",
@@ -2871,7 +2222,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "ac4ca7de3ea25047",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "aef0269fadf7b26d" : {
       "category" : "complexity",
@@ -2882,7 +2233,18 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "aef0269fadf7b26d",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "b0ce3c2502a672a2" : {
+      "category" : "architecture",
+      "column" : 10,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/Logger.swift",
+      "line" : 2,
+      "message" : "Circular dependency detected: LoggerState → StrictSwiftLogger → LoggerState",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "b0ce3c2502a672a2",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b0e97f6356d6f3e6" : {
       "category" : "complexity",
@@ -2893,7 +2255,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "b0e97f6356d6f3e6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b1602b33d316e01f" : {
       "category" : "complexity",
@@ -2904,7 +2266,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "b1602b33d316e01f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b18fa2e0b0c15bbd" : {
       "category" : "architecture",
@@ -2915,7 +2277,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "b18fa2e0b0c15bbd",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b1da9f9254c8927d" : {
       "category" : "architecture",
@@ -2926,7 +2288,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "b1da9f9254c8927d",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b1f4eb02a949561c" : {
       "category" : "architecture",
@@ -2937,7 +2299,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "b1f4eb02a949561c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b27c01f4b8123979" : {
       "category" : "architecture",
@@ -2948,7 +2310,7 @@
       "ruleId" : "dead-code",
       "severity" : "warning",
       "stableId" : "b27c01f4b8123979",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b2a5faf3189848f7" : {
       "category" : "complexity",
@@ -2959,7 +2321,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "b2a5faf3189848f7",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b3096e6d56595abd" : {
       "category" : "architecture",
@@ -2970,18 +2332,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "b3096e6d56595abd",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "b396d0d141e0417d" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/SwallowedErrorRule.swift",
-      "line" : 20,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "b396d0d141e0417d",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b43ed9e0f399e79b" : {
       "category" : "architecture",
@@ -2992,7 +2343,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "b43ed9e0f399e79b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b4eece51f1ac5927" : {
       "category" : "concurrency",
@@ -3003,7 +2354,7 @@
       "ruleId" : "actor_isolation",
       "severity" : "warning",
       "stableId" : "b4eece51f1ac5927",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b56c0f339ceefd1d" : {
       "category" : "architecture",
@@ -3014,29 +2365,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "b56c0f339ceefd1d",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "b57a803110437087" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/DeadCodeAnalyzer.swift",
-      "line" : 231,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "b57a803110437087",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "b5d13cfadf2169b0" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/MutableStaticRule.swift",
-      "line" : 29,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "b5d13cfadf2169b0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b611f649f9db2fe5" : {
       "category" : "architecture",
@@ -3047,7 +2376,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "b611f649f9db2fe5",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b651eaa37cb0e442" : {
       "category" : "architecture",
@@ -3058,7 +2387,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "b651eaa37cb0e442",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b792c7b459aa6955" : {
       "category" : "architecture",
@@ -3069,7 +2398,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "b792c7b459aa6955",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b7e60f915029f41e" : {
       "category" : "complexity",
@@ -3080,29 +2409,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "b7e60f915029f41e",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "b823d2aa7a60b728" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/Symbol.swift",
-      "line" : 57,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "b823d2aa7a60b728",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "b8ca6cdb6ed810c6" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/ModuleBoundaryValidator.swift",
-      "line" : 289,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "b8ca6cdb6ed810c6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b92310fffc144cb3" : {
       "category" : "complexity",
@@ -3113,7 +2420,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "b92310fffc144cb3",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b986081cf3e172ad" : {
       "category" : "architecture",
@@ -3124,7 +2431,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "b986081cf3e172ad",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "b9c47a05ec00d69e" : {
       "category" : "architecture",
@@ -3135,7 +2442,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "b9c47a05ec00d69e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "badc46b99b73039e" : {
       "category" : "architecture",
@@ -3146,7 +2453,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "badc46b99b73039e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "bb294f57d60b43c7" : {
       "category" : "complexity",
@@ -3157,7 +2464,18 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "bb294f57d60b43c7",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "bbd177c5d521dea0" : {
+      "category" : "architecture",
+      "column" : 18,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitClient.swift",
+      "line" : 1,
+      "message" : "Circular dependency detected: SourceKitClient → CursorInfo → SourceKitClient",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "bbd177c5d521dea0",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "bbdae17bc1f69347" : {
       "category" : "architecture",
@@ -3168,7 +2486,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "bbdae17bc1f69347",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "bd5f933e1d403eea" : {
       "category" : "complexity",
@@ -3179,7 +2497,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "bd5f933e1d403eea",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "bfc1c76e5864fe30" : {
       "category" : "complexity",
@@ -3190,7 +2508,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "bfc1c76e5864fe30",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c00e3b3d93a0cef2" : {
       "category" : "architecture",
@@ -3201,7 +2519,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "c00e3b3d93a0cef2",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c0370577acc49e38" : {
       "category" : "architecture",
@@ -3212,7 +2530,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "c0370577acc49e38",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c04c9134fcffb814" : {
       "category" : "complexity",
@@ -3223,7 +2541,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "c04c9134fcffb814",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c11f7e41c3f33282" : {
       "category" : "architecture",
@@ -3234,7 +2552,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "c11f7e41c3f33282",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c21f5700d4e7a32d" : {
       "category" : "architecture",
@@ -3245,7 +2563,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "c21f5700d4e7a32d",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c2632f4c82a689f0" : {
       "category" : "complexity",
@@ -3256,7 +2574,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "c2632f4c82a689f0",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c3491c1d623ac4a3" : {
       "category" : "architecture",
@@ -3267,18 +2585,7 @@
       "ruleId" : "dead-code",
       "severity" : "warning",
       "stableId" : "c3491c1d623ac4a3",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "c3c3bee7968d3481" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SemanticTypeResolver.swift",
-      "line" : 2,
-      "message" : "Circular dependency detected: ReferenceLocation → ReferenceLocation",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "c3c3bee7968d3481",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c535444009251aad" : {
       "category" : "complexity",
@@ -3289,7 +2596,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "c535444009251aad",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c559f18bd00c739e" : {
       "category" : "architecture",
@@ -3300,7 +2607,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "c559f18bd00c739e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c58a216d27e32101" : {
       "category" : "complexity",
@@ -3311,7 +2618,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "c58a216d27e32101",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c7b43a9b77226584" : {
       "category" : "architecture",
@@ -3322,7 +2629,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "c7b43a9b77226584",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "c9076f94a1c6a5f7" : {
       "category" : "complexity",
@@ -3333,29 +2640,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "c9076f94a1c6a5f7",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "c944e97e4ec22198" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftLSP\/LSPServer.swift",
-      "line" : 17,
-      "message" : "Circular dependency detected: RulesConfiguration → RulesConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "c944e97e4ec22198",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "c9f2b0bc5c21cdb1" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/ComplexityAnalyzer.swift",
-      "line" : 397,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "c9f2b0bc5c21cdb1",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "ca7222bfed712f17" : {
       "category" : "architecture",
@@ -3366,18 +2651,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "ca7222bfed712f17",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "ca8a2f1ceec78b76" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Reporting\/AgentReporter.swift",
-      "line" : 23,
-      "message" : "Circular dependency detected: AgentReporterOptions → AgentReporterOptions",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "ca8a2f1ceec78b76",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "cac36bf0b6dbeb1e" : {
       "category" : "architecture",
@@ -3388,7 +2662,18 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "cac36bf0b6dbeb1e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "cb064a0d01c77c5d" : {
+      "category" : "architecture",
+      "column" : 21,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Configuration\/Configuration.swift",
+      "line" : 3,
+      "message" : "Circular dependency detected: Configuration → Profile → Configuration",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "cb064a0d01c77c5d",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "cc80a68c8c781091" : {
       "category" : "architecture",
@@ -3399,7 +2684,18 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "cc80a68c8c781091",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "ce78cc03eeb6510c" : {
+      "category" : "architecture",
+      "column" : 18,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
+      "line" : 1,
+      "message" : "Circular dependency detected: OwnershipGraph → OwnershipStatistics → OwnershipGraph",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "ce78cc03eeb6510c",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "ceef16fcaecc28f8" : {
       "category" : "complexity",
@@ -3410,7 +2706,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "ceef16fcaecc28f8",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d01b935ee022643f" : {
       "category" : "architecture",
@@ -3421,7 +2717,18 @@
       "ruleId" : "global_state",
       "severity" : "warning",
       "stableId" : "d01b935ee022643f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "d0ec3a26ffb92fba" : {
+      "category" : "architecture",
+      "column" : 2,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftLSP\/LSPServer.swift",
+      "line" : 17,
+      "message" : "Circular dependency detected: Configuration → Profile → Configuration",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "d0ec3a26ffb92fba",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d0f21396f1a6dabc" : {
       "category" : "architecture",
@@ -3432,7 +2739,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "d0f21396f1a6dabc",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d1905e4c83eacc22" : {
       "category" : "complexity",
@@ -3443,7 +2750,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "d1905e4c83eacc22",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d1fbc48a0af497ea" : {
       "category" : "architecture",
@@ -3454,7 +2761,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "d1fbc48a0af497ea",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d2996bc0f55477c8" : {
       "category" : "architecture",
@@ -3465,7 +2772,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "d2996bc0f55477c8",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d2ebd9ed082d1698" : {
       "category" : "architecture",
@@ -3476,18 +2783,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "d2ebd9ed082d1698",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "d4ae9056c3d76f36" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/SymbolCollector.swift",
-      "line" : 8,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "d4ae9056c3d76f36",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d4cd3e0b66531035" : {
       "category" : "complexity",
@@ -3498,7 +2794,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "d4cd3e0b66531035",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d54dae5285a02aad" : {
       "category" : "architecture",
@@ -3509,7 +2805,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "d54dae5285a02aad",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d5ddd31c3a330688" : {
       "category" : "architecture",
@@ -3520,7 +2816,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "d5ddd31c3a330688",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d6136ee678910499" : {
       "category" : "architecture",
@@ -3531,7 +2827,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "d6136ee678910499",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d61c08cd0ab2af7d" : {
       "category" : "complexity",
@@ -3542,40 +2838,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "d61c08cd0ab2af7d",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "d624413a9219248c" : {
-      "category" : "architecture",
-      "column" : 18,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraphVisualizer.swift",
-      "line" : 1,
-      "message" : "Circular dependency detected: Options → Options",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "d624413a9219248c",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "d62b7c8ce908119c" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/ForceUnwrapRule.swift",
-      "line" : 30,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "d62b7c8ce908119c",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "d6e0c5b7b81f0b06" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/GlobalStateRule.swift",
-      "line" : 29,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "d6e0c5b7b81f0b06",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d7ce785ae3c5a9ef" : {
       "category" : "complexity",
@@ -3586,7 +2849,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "d7ce785ae3c5a9ef",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d87461b00444f9de" : {
       "category" : "architecture",
@@ -3597,7 +2860,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "d87461b00444f9de",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d96754f9df5b0249" : {
       "category" : "architecture",
@@ -3608,7 +2871,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "d96754f9df5b0249",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d9a5936725bd7ac9" : {
       "category" : "complexity",
@@ -3619,7 +2882,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "d9a5936725bd7ac9",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d9c783d44bd64f19" : {
       "category" : "complexity",
@@ -3630,7 +2893,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "d9c783d44bd64f19",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "d9df17beef474e18" : {
       "category" : "complexity",
@@ -3641,7 +2904,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "d9df17beef474e18",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "da1ac1bacd182ce4" : {
       "category" : "architecture",
@@ -3652,18 +2915,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "da1ac1bacd182ce4",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "da96925f60431617" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/FixApplier.swift",
-      "line" : 3,
-      "message" : "Circular dependency detected: Options → Options",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "da96925f60431617",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "daa98f9c0e713e90" : {
       "category" : "complexity",
@@ -3674,7 +2926,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "daa98f9c0e713e90",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "dbbbb173853c56e3" : {
       "category" : "complexity",
@@ -3685,7 +2937,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "dbbbb173853c56e3",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "dbfcf495e8a8db46" : {
       "category" : "concurrency",
@@ -3696,7 +2948,7 @@
       "ruleId" : "unstructured_task",
       "severity" : "warning",
       "stableId" : "dbfcf495e8a8db46",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "dcb2378ae0f4ca34" : {
       "category" : "architecture",
@@ -3707,18 +2959,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "dcb2378ae0f4ca34",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "df28696f595db5f3" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/DeadCodeAnalyzer.swift",
-      "line" : 242,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "df28696f595db5f3",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "df350ab6da319f84" : {
       "category" : "complexity",
@@ -3729,7 +2970,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "df350ab6da319f84",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "df46b94aa18e2d93" : {
       "category" : "architecture",
@@ -3740,7 +2981,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "df46b94aa18e2d93",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e4b8f29a91378ecd" : {
       "category" : "architecture",
@@ -3751,7 +2992,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "e4b8f29a91378ecd",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e4e9e3ecc8f64981" : {
       "category" : "complexity",
@@ -3762,7 +3003,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "e4e9e3ecc8f64981",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e506d2394b4f779e" : {
       "category" : "complexity",
@@ -3773,7 +3014,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "e506d2394b4f779e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e536f5825aea0f43" : {
       "category" : "architecture",
@@ -3784,18 +3025,18 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "e536f5825aea0f43",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
-    "e5c9459c62e89f68" : {
+    "e598ebbb76c0f722" : {
       "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/RegexCompilationInLoopRule.swift",
-      "line" : 20,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
+      "column" : 6,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SemanticTypeResolver.swift",
+      "line" : 87,
+      "message" : "Circular dependency detected: ReferenceLocation → SemanticTypeResolver → ReferenceLocation",
       "ruleId" : "circular_dependency_graph",
       "severity" : "warning",
-      "stableId" : "e5c9459c62e89f68",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "stableId" : "e598ebbb76c0f722",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e5ff5277085c2123" : {
       "category" : "complexity",
@@ -3806,7 +3047,18 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "e5ff5277085c2123",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
+    },
+    "e61c72bd6dbe98b6" : {
+      "category" : "architecture",
+      "column" : 2,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "line" : 412,
+      "message" : "Circular dependency detected: OwnershipStatistics → OwnershipGraph → OwnershipStatistics",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "e61c72bd6dbe98b6",
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e62d22277be0e690" : {
       "category" : "architecture",
@@ -3817,7 +3069,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "e62d22277be0e690",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e74ba5a871eaface" : {
       "category" : "architecture",
@@ -3828,7 +3080,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "e74ba5a871eaface",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e7d5f708bf89f74e" : {
       "category" : "architecture",
@@ -3839,7 +3091,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "e7d5f708bf89f74e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e8fbde1201d1ca29" : {
       "category" : "complexity",
@@ -3850,7 +3102,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "e8fbde1201d1ca29",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e979669c152c55b6" : {
       "category" : "architecture",
@@ -3861,7 +3113,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "e979669c152c55b6",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e99bc64d32520795" : {
       "category" : "complexity",
@@ -3872,7 +3124,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "e99bc64d32520795",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "e9d27fecb9d7e2cd" : {
       "category" : "complexity",
@@ -3883,18 +3135,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "e9d27fecb9d7e2cd",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "ea810e0cd7fda434" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Utilities\/HotPathAnnotation.swift",
-      "line" : 207,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "ea810e0cd7fda434",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "eabfa813a4797d64" : {
       "category" : "architecture",
@@ -3905,7 +3146,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "eabfa813a4797d64",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "eb5ef9bff4ed1605" : {
       "category" : "complexity",
@@ -3916,7 +3157,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "eb5ef9bff4ed1605",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "eb68a93ab1c35f79" : {
       "category" : "architecture",
@@ -3927,7 +3168,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "eb68a93ab1c35f79",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "eb822b1da6029a91" : {
       "category" : "complexity",
@@ -3938,7 +3179,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "eb822b1da6029a91",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "ec0a9bea4316132e" : {
       "category" : "complexity",
@@ -3949,18 +3190,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "ec0a9bea4316132e",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "ed8a247d7654785b" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/HardcodedSecretsRule.swift",
-      "line" : 47,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "ed8a247d7654785b",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "edbb888b70cc454c" : {
       "category" : "architecture",
@@ -3971,18 +3201,7 @@
       "ruleId" : "dead-code",
       "severity" : "warning",
       "stableId" : "edbb888b70cc454c",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "ef5c94e758f9bbe5" : {
-      "category" : "architecture",
-      "column" : 18,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitClient.swift",
-      "line" : 1,
-      "message" : "Circular dependency detected: SourceKitDKeys → SourceKitDKeys",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "ef5c94e758f9bbe5",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "ef5fcb0ebecae4c2" : {
       "category" : "architecture",
@@ -3993,7 +3212,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "ef5fcb0ebecae4c2",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "ef6705b6deca83fc" : {
       "category" : "complexity",
@@ -4004,7 +3223,7 @@
       "ruleId" : "nesting_depth",
       "severity" : "warning",
       "stableId" : "ef6705b6deca83fc",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "f0644399ff073710" : {
       "category" : "architecture",
@@ -4015,7 +3234,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "f0644399ff073710",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "f171b1f6434eb5d1" : {
       "category" : "architecture",
@@ -4026,7 +3245,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "f171b1f6434eb5d1",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "f1efaea6b5ef9223" : {
       "category" : "architecture",
@@ -4037,7 +3256,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "f1efaea6b5ef9223",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "f21dbdb61625f7c7" : {
       "category" : "architecture",
@@ -4048,7 +3267,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "f21dbdb61625f7c7",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "f26d8e3ca80d38e2" : {
       "category" : "complexity",
@@ -4059,18 +3278,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "f26d8e3ca80d38e2",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "f29f280383266b6a" : {
-      "category" : "architecture",
-      "column" : 18,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Reporting\/Reporter.swift",
-      "line" : 1,
-      "message" : "Circular dependency detected: AnalysisMetadata → AnalysisMetadata",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "f29f280383266b6a",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "f2b2d36dff2e236f" : {
       "category" : "architecture",
@@ -4081,29 +3289,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "f2b2d36dff2e236f",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "f32e33a836fc9cfa" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Configuration\/RuleConfiguration.swift",
-      "line" : 84,
-      "message" : "Circular dependency detected: RulesConfiguration → RulesConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "f32e33a836fc9cfa",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "f3a7d5b8b6876889" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/ResourceLeakRule.swift",
-      "line" : 20,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "f3a7d5b8b6876889",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "f489d615d6a80c49" : {
       "category" : "architecture",
@@ -4114,18 +3300,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "f489d615d6a80c49",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "f4b04e117eac16d1" : {
-      "category" : "architecture",
-      "column" : 6,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipAnalyzer.swift",
-      "line" : 200,
-      "message" : "Circular dependency detected: OwnershipGraph → OwnershipGraph",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "f4b04e117eac16d1",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "f633645a169b17c9" : {
       "category" : "complexity",
@@ -4136,7 +3311,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "f633645a169b17c9",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "f6d1f1b9049cbecc" : {
       "category" : "architecture",
@@ -4147,7 +3322,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "f6d1f1b9049cbecc",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "f86049a48b8ac534" : {
       "category" : "complexity",
@@ -4158,18 +3333,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "f86049a48b8ac534",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "f9ca34fd44d10b2f" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/Symbol.swift",
-      "line" : 2,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "f9ca34fd44d10b2f",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "fa2a658ef5342a90" : {
       "category" : "complexity",
@@ -4180,40 +3344,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "fa2a658ef5342a90",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "fa6e070011445cb0" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/LayeredDependenciesRule.swift",
-      "line" : 29,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "fa6e070011445cb0",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "fa6f40b7b69ae530" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/TestIsolationRule.swift",
-      "line" : 31,
-      "message" : "Circular dependency detected: SymbolKind → SymbolKind",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "fa6f40b7b69ae530",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "fb00ab1d9cd05ab5" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/ExclusiveAccessRule.swift",
-      "line" : 99,
-      "message" : "Circular dependency detected: RuleSpecificConfiguration → RuleSpecificConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "fb00ab1d9cd05ab5",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "fb011dc98e385104" : {
       "category" : "architecture",
@@ -4224,7 +3355,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "fb011dc98e385104",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "fb02b57946590b36" : {
       "category" : "architecture",
@@ -4235,7 +3366,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "fb02b57946590b36",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "fb9bc760050eeec5" : {
       "category" : "architecture",
@@ -4246,7 +3377,7 @@
       "ruleId" : "coupling_metrics",
       "severity" : "warning",
       "stableId" : "fb9bc760050eeec5",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "fbc17414761e93c1" : {
       "category" : "architecture",
@@ -4257,18 +3388,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "fbc17414761e93c1",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "fc3c4fbaded0137e" : {
-      "category" : "architecture",
-      "column" : 2,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/Rule.swift",
-      "line" : 40,
-      "message" : "Circular dependency detected: ResolvedConfiguration → ResolvedConfiguration",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "fc3c4fbaded0137e",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "fd3980d2861c0cab" : {
       "category" : "architecture",
@@ -4279,7 +3399,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "fd3980d2861c0cab",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "fd4344b943720a0c" : {
       "category" : "architecture",
@@ -4290,7 +3410,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "fd4344b943720a0c",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "fe49d87b5ef49524" : {
       "category" : "architecture",
@@ -4301,7 +3421,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "fe49d87b5ef49524",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "fea0d317e9608916" : {
       "category" : "architecture",
@@ -4312,18 +3432,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "fea0d317e9608916",
-      "timestamp" : "2025-11-27T21:23:21Z"
-    },
-    "ff74701d068b5a8d" : {
-      "category" : "architecture",
-      "column" : 21,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Analyzer.swift",
-      "line" : 2,
-      "message" : "Circular dependency detected: RuleEngine → RuleEngine",
-      "ruleId" : "circular_dependency_graph",
-      "severity" : "warning",
-      "stableId" : "ff74701d068b5a8d",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     },
     "ffe67cf8db177608" : {
       "category" : "architecture",
@@ -4334,7 +3443,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "ffe67cf8db177608",
-      "timestamp" : "2025-11-27T21:23:21Z"
+      "timestamp" : "2025-11-27T21:38:48Z"
     }
   }
 }
