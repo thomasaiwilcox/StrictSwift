@@ -1,4 +1,33 @@
 import Foundation
+import os
+
+/// Thread-safe storage for log level using os_unfair_lock
+private final class LoggerState: @unchecked Sendable {
+    /// Using os_unfair_lock for efficient thread synchronization
+    private var lock = os_unfair_lock()
+    
+    /// Backing storage for log level (can be changed at runtime)
+    private var _minLevel: StrictSwiftLogger.Level?
+    
+    /// The shared instance - this is immutable after initialization
+    static let shared = LoggerState()
+    
+    private init() {}
+    
+    /// Get or set the current minimum level
+    var minLevel: StrictSwiftLogger.Level? {
+        get {
+            os_unfair_lock_lock(&lock)
+            defer { os_unfair_lock_unlock(&lock) }
+            return _minLevel
+        }
+        set {
+            os_unfair_lock_lock(&lock)
+            defer { os_unfair_lock_unlock(&lock) }
+            _minLevel = newValue
+        }
+    }
+}
 
 /// Simple logging utility for StrictSwift
 public enum StrictSwiftLogger: Sendable {
@@ -13,13 +42,6 @@ public enum StrictSwiftLogger: Sendable {
             lhs.rawValue < rhs.rawValue
         }
     }
-
-    /// Lock for thread-safe access to mutable state
-    private static let lock = NSLock()
-    
-    /// Backing storage for log level (can be changed at runtime)
-    /// Thread-safety is ensured via lock - marked nonisolated(unsafe) to suppress warning
-    nonisolated(unsafe) private static var _minLevel: Level?
     
     /// Current minimum log level
     /// Can be set via:
@@ -28,15 +50,11 @@ public enum StrictSwiftLogger: Sendable {
     /// 3. Default: .warning
     public static var minLevel: Level {
         get {
-            lock.lock()
-            defer { lock.unlock() }
-            if let level = _minLevel { return level }
+            if let level = LoggerState.shared.minLevel { return level }
             return levelFromEnvironment()
         }
         set {
-            lock.lock()
-            defer { lock.unlock() }
-            _minLevel = newValue
+            LoggerState.shared.minLevel = newValue
         }
     }
     
