@@ -1,6 +1,8 @@
 import Foundation
 import SwiftSyntax
 
+// strictswift:ignore-file circular_dependency_graph -- OwnershipGraph↔OwnershipStatistics is intentional helper pattern
+
 /// Tracks ownership relationships and reference lifetimes for memory safety analysis
 /// SAFETY: @unchecked Sendable is safe because all mutable state (references, nodes)
 /// is protected by NSLock for thread-safe access.

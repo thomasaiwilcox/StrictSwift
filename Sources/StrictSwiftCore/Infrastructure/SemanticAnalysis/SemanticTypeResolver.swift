@@ -1,6 +1,8 @@
 import Foundation
 import SwiftSyntax
 
+// strictswift:ignore-file circular_dependency_graph -- SemanticTypeResolver↔ResolutionStats is intentional helper pattern
+
 // MARK: - Semantic Type Resolver
 
 /// Orchestrates semantic type resolution based on the configured mode

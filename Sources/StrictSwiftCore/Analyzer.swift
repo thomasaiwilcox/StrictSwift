@@ -1,6 +1,8 @@
 import Foundation
 import SystemPackage
 
+// strictswift:ignore-file circular_dependency_graph -- Configuration↔Profile is intentional
+
 /// Thread-safe holder for cached RuleEngine
 private actor RuleEngineCache {
     private var engine: RuleEngine?
