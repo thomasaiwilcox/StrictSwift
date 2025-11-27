@@ -67,7 +67,19 @@ struct CheckCommand: AsyncParsableCommand {
         }
         // Load configuration
         let profileEnum = Profile(rawValue: profile) ?? .criticalCore
-        let configURL = config.map { URL(fileURLWithPath: $0) }
+        
+        // Use explicit config path if provided, otherwise auto-discover from workspace
+        let configURL: URL?
+        if let configPath = config {
+            configURL = URL(fileURLWithPath: configPath)
+        } else {
+            // Auto-discover config from current directory (project root)
+            let currentDir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+            configURL = Configuration.discover(in: currentDir)
+            if let url = configURL {
+                StrictSwiftLogger.info("Using configuration from \(url.path)")
+            }
+        }
         let baselineURL = baseline.map { URL(fileURLWithPath: $0) }
 
         // Apply any config file overrides and include baseline

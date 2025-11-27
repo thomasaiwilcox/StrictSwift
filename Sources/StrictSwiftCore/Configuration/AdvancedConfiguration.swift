@@ -320,7 +320,7 @@ public struct ThresholdConfiguration: Codable, Equatable, Sendable {
         maxCyclomaticComplexity: Int = 10,
         maxMethodLength: Int = 50,
         maxTypeComplexity: Int = 100,
-        maxNestingDepth: Int = 4,
+        maxNestingDepth: Int = 5,
         maxParameterCount: Int = 5,
         maxPropertyCount: Int = 20,
         maxFileLength: Int = 400
