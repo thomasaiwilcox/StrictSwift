@@ -70,8 +70,13 @@ advanced:
       severity: warning
       parameters:
         maxComplexity: 15
+        maxCognitiveComplexity: 20
         maxNestingDepth: 7
         maxFunctionLength: 100
+        # File-level thresholds - relaxed for analyzer codebase
+        maxFunctionsPerFile: 35
+        maxAverageComplexity: 12.0
+        maxFileComplexity: 40
     
     # Function length: relaxed for analysis code
     function_length:
