@@ -117,7 +117,7 @@ public final class SourceFile: @unchecked Sendable {
 
     /// Find the location of a function by name
     public func locationOfFunction(named functionName: String) -> Location? {
-        class FunctionFinder: SyntaxAnyVisitor {
+        class FunctionFinder: SyntaxVisitor {
             let targetName: String
             var foundPosition: AbsolutePosition?
 
