@@ -53,6 +53,9 @@ struct CheckCommand: AsyncParsableCommand {
     @Flag(name: .long, help: "Enable learning system to improve accuracy based on feedback")
     var learning: Bool = false
     
+    @Flag(name: .long, help: "Disable violation cache (.strictswift-last-run.json). Use for privacy or to avoid storing file paths/messages.")
+    var noViolationCache: Bool = false
+    
     // Debug options
     @Flag(name: .long, help: "Enable verbose logging including SourceKit debug info")
     var verbose: Bool = false
@@ -141,6 +144,10 @@ struct CheckCommand: AsyncParsableCommand {
                 cachedFileCount = cacheResult.cachedFiles
                 analyzedFileCount = cacheResult.analyzedFiles
             }
+            // Note: AnalysisRunner stores to ViolationCache internally; clear if disabled
+            if noViolationCache {
+                await ViolationCache.shared.clear()
+            }
         } else {
             // Standard analysis without learning
             let analyzer = Analyzer(configuration: configurationWithBaseline, cache: analysisCache)
@@ -156,7 +163,9 @@ struct CheckCommand: AsyncParsableCommand {
             }
             
             // Cache violations for feedback lookup even without learning mode
-            await ViolationCache.shared.storeViolations(violations)
+            if !noViolationCache {
+                await ViolationCache.shared.storeViolations(violations)
+            }
         }
 
         // Parse minimum severity filter

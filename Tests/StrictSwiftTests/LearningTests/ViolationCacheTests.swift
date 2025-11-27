@@ -263,4 +263,86 @@ final class ViolationCacheTests: XCTestCase {
         XCTAssertEqual(cached?.line, 99)
         XCTAssertEqual(cached?.column, 15)
     }
+    
+    // MARK: - Cache Size Limit Tests
+    
+    func testCacheMaxEntriesLimit() async throws {
+        let cache = ViolationCache.shared
+        await cache.clear()
+        
+        // Create more violations than the limit
+        let maxEntries = 10
+        var violations: [Violation] = []
+        for i in 0..<20 {
+            violations.append(Violation(
+                ruleId: "rule_\(i)",
+                category: .safety,
+                severity: .warning,
+                message: "Violation \(i)",
+                location: Location(file: URL(fileURLWithPath: "/test/File\(i).swift"), line: i, column: 1)
+            ))
+        }
+        
+        await cache.storeViolations(violations, maxEntries: maxEntries)
+        
+        let count = await cache.count()
+        XCTAssertEqual(count, maxEntries, "Cache should respect maxEntries limit")
+    }
+    
+    func testCacheKeepsRecentViolationsWhenTruncating() async throws {
+        let cache = ViolationCache.shared
+        await cache.clear()
+        
+        // Create violations with identifiable messages
+        var violations: [Violation] = []
+        for i in 0..<10 {
+            violations.append(Violation(
+                ruleId: "rule",
+                category: .safety,
+                severity: .warning,
+                message: "Violation number \(i)",
+                location: Location(file: URL(fileURLWithPath: "/test/File\(i).swift"), line: i, column: 1)
+            ))
+        }
+        
+        // Store with limit of 5
+        await cache.storeViolations(violations, maxEntries: 5)
+        
+        // Should have the last 5 violations (indices 5-9)
+        let allViolations = await cache.allViolations()
+        XCTAssertEqual(allViolations.count, 5)
+        
+        // Verify the last violation is included
+        let lastViolation = violations.last!
+        let retrieved = await cache.lookup(lastViolation.stableId)
+        XCTAssertNotNil(retrieved, "Should keep recent violations")
+    }
+    
+    func testCacheDefaultMaxEntries() async throws {
+        // Just verify the constant exists and has a reasonable value
+        XCTAssertEqual(ViolationCache.defaultMaxEntries, 5000)
+    }
+    
+    func testCacheWithUnlimitedEntries() async throws {
+        let cache = ViolationCache.shared
+        await cache.clear()
+        
+        // Create a reasonable number of violations
+        var violations: [Violation] = []
+        for i in 0..<100 {
+            violations.append(Violation(
+                ruleId: "rule_\(i)",
+                category: .safety,
+                severity: .warning,
+                message: "Violation \(i)",
+                location: Location(file: URL(fileURLWithPath: "/test/File\(i).swift"), line: i, column: 1)
+            ))
+        }
+        
+        // Store with very high limit (effectively unlimited for this test)
+        await cache.storeViolations(violations, maxEntries: 100000)
+        
+        let count = await cache.count()
+        XCTAssertEqual(count, 100, "All violations should be stored when under limit")
+    }
 }

@@ -197,6 +197,64 @@ final class LearningSystemTests: XCTestCase {
     
     // MARK: - LearningSystem Integration Tests
     
+    func testLearningStatisticsSummaryAllFields() async throws {
+        // Test all 7 fields of LearningStatisticsSummary
+        let corrections = LearnedCorrections(projectRoot: tempDir)
+        let statistics = PatternStatistics(projectRoot: tempDir)
+        let learning = LearningSystem(corrections: corrections, statistics: statistics)
+        
+        // 1. Record feedback entries (2 rules, 5 entries)
+        let violation1 = createTestViolation(ruleId: "force_unwrap", line: 1)
+        let violation2 = createTestViolation(ruleId: "data_race", line: 2)
+        
+        await learning.recordFeedback(for: violation1, feedback: .used)
+        await learning.recordFeedback(for: violation1, feedback: .used)
+        await learning.recordFeedback(for: violation1, feedback: .unused) // false positive
+        await learning.recordFeedback(for: violation2, feedback: .fixApplied)
+        await learning.recordFeedback(for: violation2, feedback: .used)
+        
+        // 2. Record violations reported (for tracking)
+        await learning.recordViolationsReported([violation1, violation2, violation1])
+        
+        // 3. Record pattern feedback to create suppressed patterns
+        let badPatternHash = "suppressed-pattern"
+        for _ in 0..<5 {
+            await statistics.recordFeedback(ruleId: "bad_rule", patternHash: badPatternHash, isPositive: false)
+        }
+        
+        // 4. Create low accuracy rule
+        for _ in 0..<10 {
+            await statistics.recordFeedback(ruleId: "low_accuracy_rule", patternHash: nil, isPositive: false)
+        }
+        await statistics.recordFeedback(ruleId: "low_accuracy_rule", patternHash: nil, isPositive: true)
+        
+        // Get the summary and verify all fields
+        let summary = await learning.overallStatistics()
+        
+        // Field 1: totalFeedbackEntries - should be 5 (from corrections)
+        XCTAssertEqual(summary.totalFeedbackEntries, 5, "Should have 5 feedback entries")
+        
+        // Field 2: totalViolationsTracked - should be 3 (from recordViolationsReported)
+        XCTAssertEqual(summary.totalViolationsTracked, 3, "Should track 3 violations reported")
+        
+        // Field 3: overallAccuracy - calculated from statistics
+        XCTAssertGreaterThanOrEqual(summary.overallAccuracy, 0.0)
+        XCTAssertLessThanOrEqual(summary.overallAccuracy, 1.0)
+        
+        // Field 4: rulesWithFeedback - should be 2 (force_unwrap, data_race)
+        XCTAssertEqual(summary.rulesWithFeedback, 2, "Should have 2 rules with feedback")
+        
+        // Field 5: patternsTracked - should be >= 1
+        XCTAssertGreaterThanOrEqual(summary.patternsTracked, 1, "Should track at least 1 pattern")
+        
+        // Field 6: suppressedPatterns - should be >= 1 (the bad pattern)
+        XCTAssertGreaterThanOrEqual(summary.suppressedPatterns, 1, "Should have at least 1 suppressed pattern")
+        
+        // Field 7: lowAccuracyRules - should contain "low_accuracy_rule"
+        XCTAssertTrue(summary.lowAccuracyRules.contains("low_accuracy_rule"), 
+                      "Should identify low accuracy rule")
+    }
+    
     func testLearningSystemRecordsFeedback() async throws {
         let learning = LearningSystem(projectRoot: tempDir)
         try await learning.load()

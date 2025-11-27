@@ -43,6 +43,9 @@ public actor ViolationCache {
     /// Shared instance for the current process
     public static let shared = ViolationCache()
     
+    /// Default maximum number of violations to cache (prevents unbounded growth)
+    public static let defaultMaxEntries = 5000
+    
     private var data: ViolationCacheData
     private var cacheDirectory: String
     private let cacheFileName = ".strictswift-last-run.json"
@@ -63,11 +66,19 @@ public actor ViolationCache {
     }
     
     /// Store violations from an analysis run
-    public func storeViolations(_ violations: [Violation]) {
+    /// - Parameters:
+    ///   - violations: Array of violations to cache
+    ///   - maxEntries: Maximum entries to store (default: 5000). Oldest entries are dropped when exceeded.
+    public func storeViolations(_ violations: [Violation], maxEntries: Int = ViolationCache.defaultMaxEntries) {
         data = ViolationCacheData()
         data.lastRunDate = Date()
         
-        for violation in violations {
+        // Take only the most recent violations if over limit
+        let violationsToStore = violations.count > maxEntries 
+            ? Array(violations.suffix(maxEntries)) 
+            : violations
+        
+        for violation in violationsToStore {
             let cached = CachedViolation(from: violation)
             data.violations[cached.stableId] = cached
         }
