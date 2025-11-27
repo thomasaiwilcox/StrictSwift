@@ -466,7 +466,7 @@ actor LSPServer {
         
         openDocuments.removeValue(forKey: uri)
         
-        // Clear diagnostics for closed document
+        // Fire-and-forget: Clear diagnostics for closed document (non-blocking)
         Task {
             try? await publishDiagnostics(uri: uri, diagnostics: [])
         }

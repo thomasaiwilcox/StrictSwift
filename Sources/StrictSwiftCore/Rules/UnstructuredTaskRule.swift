@@ -63,6 +63,19 @@ private final class UnstructuredTaskVisitor: SyntaxAnyVisitor {
             }
             ancestor = current.parent
         }
+        
+        // Check for justification comments that explain why unstructured Task is intentional
+        // Common patterns: fire-and-forget, deprecated bridging, intentional detachment
+        let leadingTrivia = node.leadingTrivia.description.lowercased()
+        let justificationPatterns = [
+            "fire-and-forget", "fire and forget",
+            "intentional", "deprecated",
+            "task:", "// ok", "// ok:",
+            "bridging", "legacy"
+        ]
+        if justificationPatterns.contains(where: { leadingTrivia.contains($0) }) {
+            return .visitChildren
+        }
 
         let location = sourceFile.location(of: Syntax(node))
 

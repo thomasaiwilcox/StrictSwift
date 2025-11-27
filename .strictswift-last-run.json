@@ -1,5 +1,5 @@
 {
-  "lastRunDate" : "2025-11-27T22:35:49Z",
+  "lastRunDate" : "2025-11-27T23:02:23Z",
   "version" : 1,
   "violations" : {
     "004a6e2514e5bed8" : {
@@ -11,7 +11,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "004a6e2514e5bed8",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "0071adf379e30ff9" : {
       "category" : "architecture",
@@ -22,7 +22,7 @@
       "ruleId" : "dead-code",
       "severity" : "warning",
       "stableId" : "0071adf379e30ff9",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "0241ed5659ee56b6" : {
       "category" : "architecture",
@@ -33,7 +33,18 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "0241ed5659ee56b6",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
+    },
+    "04cfc487fd4bf6d9" : {
+      "category" : "architecture",
+      "column" : 19,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "line" : 2,
+      "message" : "class 'OwnershipGraph' has too many responsibilities: methods: 19, efferent: 14",
+      "ruleId" : "god_class_enhanced",
+      "severity" : "warning",
+      "stableId" : "04cfc487fd4bf6d9",
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "0596ce75e98be831" : {
       "category" : "architecture",
@@ -44,7 +55,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "0596ce75e98be831",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "059c297db59a563a" : {
       "category" : "complexity",
@@ -55,7 +66,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "059c297db59a563a",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "077555162e25812e" : {
       "category" : "architecture",
@@ -66,7 +77,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "077555162e25812e",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "0775d114067a4f62" : {
       "category" : "architecture",
@@ -77,7 +88,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "0775d114067a4f62",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "0a8a06e5c7c5955e" : {
       "category" : "complexity",
@@ -88,7 +99,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "0a8a06e5c7c5955e",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "0bf98f8c1c591416" : {
       "category" : "complexity",
@@ -99,7 +110,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "0bf98f8c1c591416",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "0c3d5be09bb37b38" : {
       "category" : "architecture",
@@ -110,7 +121,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "0c3d5be09bb37b38",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "0d0dbe4edd75a7f6" : {
       "category" : "architecture",
@@ -121,7 +132,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "0d0dbe4edd75a7f6",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "0d192ac6e4062715" : {
       "category" : "architecture",
@@ -132,7 +143,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "0d192ac6e4062715",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "0dd5bf3e85e47e24" : {
       "category" : "architecture",
@@ -143,18 +154,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "0dd5bf3e85e47e24",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "0fae28d45427c823" : {
-      "category" : "architecture",
-      "column" : 33,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SemanticModeResolver.swift",
-      "line" : 16,
-      "message" : "struct 'ResolvedConfiguration' has too many responsibilities: afferent: 14, efferent: 25, coupling: 39",
-      "ruleId" : "god_class_enhanced",
-      "severity" : "warning",
-      "stableId" : "0fae28d45427c823",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "1028c852aeff989c" : {
       "category" : "complexity",
@@ -165,7 +165,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "1028c852aeff989c",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "10ea3e23182258f3" : {
       "category" : "complexity",
@@ -176,7 +176,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "10ea3e23182258f3",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "12ff13e37c2b5b2b" : {
       "category" : "complexity",
@@ -187,7 +187,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "12ff13e37c2b5b2b",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "1394962d0388be74" : {
       "category" : "architecture",
@@ -198,7 +198,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "1394962d0388be74",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "17356ac97229481b" : {
       "category" : "architecture",
@@ -209,7 +209,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "17356ac97229481b",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "176a5a9703d9dca6" : {
       "category" : "complexity",
@@ -220,7 +220,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "176a5a9703d9dca6",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "179e3e8a14f92086" : {
       "category" : "complexity",
@@ -231,7 +231,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "179e3e8a14f92086",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "1aa099abcb96ffa7" : {
       "category" : "complexity",
@@ -242,7 +242,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "1aa099abcb96ffa7",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "1cd1ce6a87bd0330" : {
       "category" : "complexity",
@@ -253,7 +253,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "1cd1ce6a87bd0330",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "1ee487927d8c043b" : {
       "category" : "architecture",
@@ -264,7 +264,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "1ee487927d8c043b",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "1f20a9668d0728a9" : {
       "category" : "complexity",
@@ -275,7 +275,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "1f20a9668d0728a9",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "20ae98c35e804bd5" : {
       "category" : "complexity",
@@ -286,7 +286,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "20ae98c35e804bd5",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "235d0dd3a77dd664" : {
       "category" : "complexity",
@@ -297,7 +297,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "235d0dd3a77dd664",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "2748062390d8f030" : {
       "category" : "complexity",
@@ -308,7 +308,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "2748062390d8f030",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "281693d81195928c" : {
       "category" : "performance",
@@ -319,7 +319,7 @@
       "ruleId" : "large_struct_copy",
       "severity" : "warning",
       "stableId" : "281693d81195928c",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "296843851814454d" : {
       "category" : "architecture",
@@ -330,7 +330,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "296843851814454d",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "2b2b4f257c35cabf" : {
       "category" : "complexity",
@@ -341,7 +341,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "2b2b4f257c35cabf",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "2b761f1cbeee25c5" : {
       "category" : "architecture",
@@ -352,7 +352,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "2b761f1cbeee25c5",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "2bb717e6c5185e4d" : {
       "category" : "architecture",
@@ -363,18 +363,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "2bb717e6c5185e4d",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "2da06be75b45785c" : {
-      "category" : "architecture",
-      "column" : 31,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitClient.swift",
-      "line" : 13,
-      "message" : "struct 'CursorInfo' has too many responsibilities: efferent: 42, coupling: 49",
-      "ruleId" : "god_class_enhanced",
-      "severity" : "warning",
-      "stableId" : "2da06be75b45785c",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "2f31f3ad23a549a6" : {
       "category" : "architecture",
@@ -385,7 +374,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "2f31f3ad23a549a6",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "2f577d9dd427c15f" : {
       "category" : "architecture",
@@ -396,7 +385,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "2f577d9dd427c15f",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "2f5cfb6a0be25ce7" : {
       "category" : "architecture",
@@ -407,18 +396,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "2f5cfb6a0be25ce7",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "304e54c732321984" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/Symbol.swift",
-      "line" : 2,
-      "message" : "struct 'SymbolID' has too many responsibilities: afferent: 38, efferent: 83, coupling: 121",
-      "ruleId" : "god_class_enhanced",
-      "severity" : "warning",
-      "stableId" : "304e54c732321984",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "30b4bc8e518427f3" : {
       "category" : "complexity",
@@ -429,7 +407,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "30b4bc8e518427f3",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "32a73060d9057959" : {
       "category" : "architecture",
@@ -440,7 +418,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "32a73060d9057959",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "32beb910a5034bb2" : {
       "category" : "architecture",
@@ -451,7 +429,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "32beb910a5034bb2",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "35bd90f9cf4f7bbf" : {
       "category" : "architecture",
@@ -462,7 +440,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "35bd90f9cf4f7bbf",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "37e0849217a99967" : {
       "category" : "complexity",
@@ -473,7 +451,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "37e0849217a99967",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "39c234af7e344fe6" : {
       "category" : "architecture",
@@ -484,18 +462,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "39c234af7e344fe6",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "39e777d248e01bc1" : {
-      "category" : "architecture",
-      "column" : 21,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/SourceFile.swift",
-      "line" : 4,
-      "message" : "Type 'SourceFile' has excessive dependencies (complexity: 42)",
-      "ruleId" : "enhanced_layered_dependencies",
-      "severity" : "warning",
-      "stableId" : "39e777d248e01bc1",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "3a0679fdd92409c6" : {
       "category" : "architecture",
@@ -506,7 +473,18 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "3a0679fdd92409c6",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
+    },
+    "3bd9e8022fa25333" : {
+      "category" : "architecture",
+      "column" : 7,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/Violation.swift",
+      "line" : 4,
+      "message" : "struct 'Violation' has too many responsibilities: properties: 13, afferent: 165, efferent: 95, coupling: 260",
+      "ruleId" : "god_class_enhanced",
+      "severity" : "warning",
+      "stableId" : "3bd9e8022fa25333",
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "3d535eddf408e49d" : {
       "category" : "complexity",
@@ -517,7 +495,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "3d535eddf408e49d",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "4088cf42db7ee8ed" : {
       "category" : "architecture",
@@ -528,7 +506,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "4088cf42db7ee8ed",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "40a57fc44c6d0e09" : {
       "category" : "architecture",
@@ -539,7 +517,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "40a57fc44c6d0e09",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "429669f9b4924af5" : {
       "category" : "complexity",
@@ -550,7 +528,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "429669f9b4924af5",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "43b87e01ae9fbf6b" : {
       "category" : "architecture",
@@ -561,7 +539,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "43b87e01ae9fbf6b",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "4475846e36ede917" : {
       "category" : "architecture",
@@ -572,7 +550,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "4475846e36ede917",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "45613f77a758194f" : {
       "category" : "architecture",
@@ -583,7 +561,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "45613f77a758194f",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "45ba2544b9e9e1b7" : {
       "category" : "architecture",
@@ -594,7 +572,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "45ba2544b9e9e1b7",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "48034cb03fed86eb" : {
       "category" : "architecture",
@@ -605,7 +583,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "48034cb03fed86eb",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "4808debc98f1466c" : {
       "category" : "complexity",
@@ -616,7 +594,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "4808debc98f1466c",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "48cd7d07e03078e9" : {
       "category" : "complexity",
@@ -627,7 +605,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "48cd7d07e03078e9",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "498dcd657cc5278b" : {
       "category" : "architecture",
@@ -638,7 +616,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "498dcd657cc5278b",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "498ff2180212da57" : {
       "category" : "complexity",
@@ -649,7 +627,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "498ff2180212da57",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "49b5a3e7cb1dba22" : {
       "category" : "architecture",
@@ -660,7 +638,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "49b5a3e7cb1dba22",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "4abf9021a3a0457f" : {
       "category" : "architecture",
@@ -671,7 +649,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "4abf9021a3a0457f",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "4c5321ced40f6a86" : {
       "category" : "architecture",
@@ -682,7 +660,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "4c5321ced40f6a86",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "4e1f69607f4b7157" : {
       "category" : "complexity",
@@ -693,7 +671,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "4e1f69607f4b7157",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "4e45f499c3bf9cd0" : {
       "category" : "architecture",
@@ -704,7 +682,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "4e45f499c3bf9cd0",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "4fa94de1b2a6edbd" : {
       "category" : "architecture",
@@ -715,7 +693,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "4fa94de1b2a6edbd",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "5010d2a77e05f05a" : {
       "category" : "architecture",
@@ -726,7 +704,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "5010d2a77e05f05a",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "520c0b03ed2f4be5" : {
       "category" : "complexity",
@@ -737,7 +715,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "520c0b03ed2f4be5",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "551246d80c4b5477" : {
       "category" : "complexity",
@@ -748,7 +726,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "551246d80c4b5477",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "55c8dc0a03d523d5" : {
       "category" : "architecture",
@@ -759,7 +737,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "55c8dc0a03d523d5",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "564399d647d37660" : {
       "category" : "architecture",
@@ -770,7 +748,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "564399d647d37660",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "56502c70c6367fc7" : {
       "category" : "architecture",
@@ -781,18 +759,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "56502c70c6367fc7",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "574631583ba57208" : {
-      "category" : "concurrency",
-      "column" : 9,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftLSP\/LSPServer.swift",
-      "line" : 470,
-      "message" : "Unstructured Task creation detected",
-      "ruleId" : "unstructured_task",
-      "severity" : "warning",
-      "stableId" : "574631583ba57208",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "5794d9cf2d6fe660" : {
       "category" : "complexity",
@@ -803,7 +770,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "5794d9cf2d6fe660",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "58601cf0030cc38b" : {
       "category" : "architecture",
@@ -814,7 +781,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "58601cf0030cc38b",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "58a20bec6c68f2c9" : {
       "category" : "complexity",
@@ -825,7 +792,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "58a20bec6c68f2c9",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "59049c3ad20c4b9a" : {
       "category" : "architecture",
@@ -836,7 +803,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "59049c3ad20c4b9a",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "5b1e9ad5f0e214cd" : {
       "category" : "complexity",
@@ -847,7 +814,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "5b1e9ad5f0e214cd",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "5cc7d18ea905c0c1" : {
       "category" : "complexity",
@@ -858,7 +825,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "5cc7d18ea905c0c1",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "5dda3ec3e8d73536" : {
       "category" : "complexity",
@@ -869,7 +836,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "5dda3ec3e8d73536",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "5e2f3b73ef699d40" : {
       "category" : "architecture",
@@ -880,7 +847,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "5e2f3b73ef699d40",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "610a6c115570f6a5" : {
       "category" : "architecture",
@@ -891,7 +858,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "610a6c115570f6a5",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "65b122ded91601a7" : {
       "category" : "architecture",
@@ -902,7 +869,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "65b122ded91601a7",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "6796f75d949bc40e" : {
       "category" : "architecture",
@@ -913,7 +880,7 @@
       "ruleId" : "circular_dependency_graph",
       "severity" : "warning",
       "stableId" : "6796f75d949bc40e",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "6804c8b5fd562c47" : {
       "category" : "architecture",
@@ -924,7 +891,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "6804c8b5fd562c47",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "695a7875ead73137" : {
       "category" : "architecture",
@@ -935,7 +902,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "695a7875ead73137",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "69a4f5598a17fae2" : {
       "category" : "complexity",
@@ -946,7 +913,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "69a4f5598a17fae2",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "69b4f5cb4a5acdfa" : {
       "category" : "architecture",
@@ -957,7 +924,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "69b4f5cb4a5acdfa",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "6a662e1fa4bf2abc" : {
       "category" : "complexity",
@@ -968,7 +935,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "6a662e1fa4bf2abc",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "6b2867a7853aeb37" : {
       "category" : "complexity",
@@ -979,7 +946,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "6b2867a7853aeb37",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "6c30f4579951fc4d" : {
       "category" : "architecture",
@@ -990,7 +957,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "6c30f4579951fc4d",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "6d86cb28798628c0" : {
       "category" : "complexity",
@@ -1001,7 +968,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "6d86cb28798628c0",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "6e719c0b95e710dc" : {
       "category" : "architecture",
@@ -1012,7 +979,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "6e719c0b95e710dc",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "6f93687eaa144db2" : {
       "category" : "complexity",
@@ -1023,7 +990,18 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "6f93687eaa144db2",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
+    },
+    "706ba365b580abfa" : {
+      "category" : "architecture",
+      "column" : 31,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SourceKitClient.swift",
+      "line" : 13,
+      "message" : "struct 'CursorInfo' has too many responsibilities: efferent: 43, coupling: 50",
+      "ruleId" : "god_class_enhanced",
+      "severity" : "warning",
+      "stableId" : "706ba365b580abfa",
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "70e8eea3ca2857c1" : {
       "category" : "complexity",
@@ -1034,7 +1012,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "70e8eea3ca2857c1",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "72fd1e541b8d08af" : {
       "category" : "architecture",
@@ -1045,7 +1023,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "72fd1e541b8d08af",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "731071ce123f262f" : {
       "category" : "performance",
@@ -1056,7 +1034,7 @@
       "ruleId" : "repeated_allocation",
       "severity" : "warning",
       "stableId" : "731071ce123f262f",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "743f2c2a48c048d0" : {
       "category" : "complexity",
@@ -1067,7 +1045,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "743f2c2a48c048d0",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "751b8309fabfb06c" : {
       "category" : "complexity",
@@ -1078,7 +1056,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "751b8309fabfb06c",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "76d4d3d804ff52ab" : {
       "category" : "architecture",
@@ -1089,7 +1067,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "76d4d3d804ff52ab",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "796dddad695ff86d" : {
       "category" : "architecture",
@@ -1100,7 +1078,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "796dddad695ff86d",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "7a7a3b5c0be2abd8" : {
       "category" : "complexity",
@@ -1111,7 +1089,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "7a7a3b5c0be2abd8",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "7bf016b012db8592" : {
       "category" : "complexity",
@@ -1122,18 +1100,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "7bf016b012db8592",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "7c2ec694f912e63b" : {
-      "category" : "concurrency",
-      "column" : 9,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
-      "line" : 129,
-      "message" : "Unstructured Task creation detected",
-      "ruleId" : "unstructured_task",
-      "severity" : "warning",
-      "stableId" : "7c2ec694f912e63b",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "7cd256840eec3032" : {
       "category" : "complexity",
@@ -1144,7 +1111,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "7cd256840eec3032",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "7e6411cc106da2fd" : {
       "category" : "complexity",
@@ -1155,7 +1122,18 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "7e6411cc106da2fd",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
+    },
+    "7feaf011277a7258" : {
+      "category" : "architecture",
+      "column" : 19,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
+      "line" : 2,
+      "message" : "Circular dependency detected: OwnershipGraph → OwnershipStatistics → OwnershipGraph",
+      "ruleId" : "circular_dependency_graph",
+      "severity" : "warning",
+      "stableId" : "7feaf011277a7258",
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "836c25e280714424" : {
       "category" : "complexity",
@@ -1166,7 +1144,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "836c25e280714424",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "857f631258b3e347" : {
       "category" : "architecture",
@@ -1177,7 +1155,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "857f631258b3e347",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "86a1257651b95cb1" : {
       "category" : "architecture",
@@ -1188,7 +1166,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "86a1257651b95cb1",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "87fea753363abf89" : {
       "category" : "architecture",
@@ -1199,7 +1177,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "87fea753363abf89",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "88aa7be2bdc6d8ad" : {
       "category" : "complexity",
@@ -1210,7 +1188,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "88aa7be2bdc6d8ad",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "89f64bcb2694c645" : {
       "category" : "architecture",
@@ -1221,7 +1199,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "89f64bcb2694c645",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "8e67ad2d2e4a074b" : {
       "category" : "architecture",
@@ -1232,7 +1210,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "8e67ad2d2e4a074b",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "8ecec9aba07da254" : {
       "category" : "complexity",
@@ -1243,7 +1221,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "8ecec9aba07da254",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "90810513dc86e809" : {
       "category" : "complexity",
@@ -1254,7 +1232,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "90810513dc86e809",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "910cbf68ccc46466" : {
       "category" : "complexity",
@@ -1265,7 +1243,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "910cbf68ccc46466",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "933f765e4694ae56" : {
       "category" : "complexity",
@@ -1276,7 +1254,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "933f765e4694ae56",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "942d590d8eb5186c" : {
       "category" : "complexity",
@@ -1287,7 +1265,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "942d590d8eb5186c",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "955a38451dba6042" : {
       "category" : "architecture",
@@ -1298,7 +1276,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "955a38451dba6042",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "96bfbda0e9dde5dc" : {
       "category" : "architecture",
@@ -1309,7 +1287,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "96bfbda0e9dde5dc",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "9779e569b408f387" : {
       "category" : "architecture",
@@ -1320,7 +1298,18 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "9779e569b408f387",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
+    },
+    "994ff39a7daff1f4" : {
+      "category" : "architecture",
+      "column" : 33,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/SemanticAnalysis\/SemanticModeResolver.swift",
+      "line" : 16,
+      "message" : "struct 'ResolvedConfiguration' has too many responsibilities: afferent: 14, efferent: 26, coupling: 40",
+      "ruleId" : "god_class_enhanced",
+      "severity" : "warning",
+      "stableId" : "994ff39a7daff1f4",
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "9a9acd4b911f4641" : {
       "category" : "architecture",
@@ -1331,7 +1320,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "9a9acd4b911f4641",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "9b858f531444b5f2" : {
       "category" : "complexity",
@@ -1342,7 +1331,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "9b858f531444b5f2",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "9c3c1b4f634ec118" : {
       "category" : "architecture",
@@ -1353,7 +1342,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "9c3c1b4f634ec118",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "9cd5be6aefc54985" : {
       "category" : "complexity",
@@ -1364,7 +1353,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "9cd5be6aefc54985",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "9d3b5be4a1c319b2" : {
       "category" : "architecture",
@@ -1375,7 +1364,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "9d3b5be4a1c319b2",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "9d7b7eb019ba06e0" : {
       "category" : "complexity",
@@ -1386,7 +1375,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "9d7b7eb019ba06e0",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "9e9d62d09db94cdf" : {
       "category" : "architecture",
@@ -1397,7 +1386,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "9e9d62d09db94cdf",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "a049e2771e718be7" : {
       "category" : "complexity",
@@ -1408,7 +1397,18 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "a049e2771e718be7",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
+    },
+    "a23c81320d3af1a3" : {
+      "category" : "architecture",
+      "column" : 21,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/SourceFile.swift",
+      "line" : 4,
+      "message" : "class 'SourceFile' has too many responsibilities: properties: 12, afferent: 248, coupling: 260",
+      "ruleId" : "god_class_enhanced",
+      "severity" : "warning",
+      "stableId" : "a23c81320d3af1a3",
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "a25044e5a10d6f0e" : {
       "category" : "architecture",
@@ -1419,18 +1419,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "a25044e5a10d6f0e",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "a4dff58bda4d827c" : {
-      "category" : "architecture",
-      "column" : 19,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
-      "line" : 2,
-      "message" : "class 'OwnershipGraph' has too many responsibilities: methods: 19, afferent: 32, efferent: 27, coupling: 59",
-      "ruleId" : "god_class_enhanced",
-      "severity" : "warning",
-      "stableId" : "a4dff58bda4d827c",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "a5f9c541a7002c14" : {
       "category" : "architecture",
@@ -1441,7 +1430,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "a5f9c541a7002c14",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "a65f9fc274e8f1d1" : {
       "category" : "complexity",
@@ -1452,7 +1441,18 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "a65f9fc274e8f1d1",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
+    },
+    "a86cb89987272431" : {
+      "category" : "architecture",
+      "column" : 19,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/Symbol.swift",
+      "line" : 2,
+      "message" : "struct 'SymbolID' has too many responsibilities: afferent: 38, efferent: 84, coupling: 122",
+      "ruleId" : "god_class_enhanced",
+      "severity" : "warning",
+      "stableId" : "a86cb89987272431",
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "a8cb5def2ed45a00" : {
       "category" : "architecture",
@@ -1463,7 +1463,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "a8cb5def2ed45a00",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b0ce3c2502a672a2" : {
       "category" : "architecture",
@@ -1474,7 +1474,7 @@
       "ruleId" : "circular_dependency_graph",
       "severity" : "warning",
       "stableId" : "b0ce3c2502a672a2",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b104d3e2a8990025" : {
       "category" : "complexity",
@@ -1485,7 +1485,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "b104d3e2a8990025",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b18fa2e0b0c15bbd" : {
       "category" : "architecture",
@@ -1496,7 +1496,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "b18fa2e0b0c15bbd",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b2a5faf3189848f7" : {
       "category" : "complexity",
@@ -1507,7 +1507,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "b2a5faf3189848f7",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b3096e6d56595abd" : {
       "category" : "architecture",
@@ -1518,7 +1518,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "b3096e6d56595abd",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b43ed9e0f399e79b" : {
       "category" : "architecture",
@@ -1529,7 +1529,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "b43ed9e0f399e79b",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b4eece51f1ac5927" : {
       "category" : "concurrency",
@@ -1540,7 +1540,7 @@
       "ruleId" : "actor_isolation",
       "severity" : "warning",
       "stableId" : "b4eece51f1ac5927",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b611f649f9db2fe5" : {
       "category" : "architecture",
@@ -1551,7 +1551,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "b611f649f9db2fe5",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b651eaa37cb0e442" : {
       "category" : "architecture",
@@ -1562,7 +1562,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "b651eaa37cb0e442",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b7e60f915029f41e" : {
       "category" : "complexity",
@@ -1573,7 +1573,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "b7e60f915029f41e",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b8a39ed4c20dc540" : {
       "category" : "architecture",
@@ -1584,7 +1584,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "b8a39ed4c20dc540",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b92fb33cc36e7e28" : {
       "category" : "complexity",
@@ -1595,7 +1595,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "b92fb33cc36e7e28",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b986081cf3e172ad" : {
       "category" : "architecture",
@@ -1606,7 +1606,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "b986081cf3e172ad",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b99c777f7535c16f" : {
       "category" : "architecture",
@@ -1617,7 +1617,7 @@
       "ruleId" : "circular_dependency_graph",
       "severity" : "warning",
       "stableId" : "b99c777f7535c16f",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "b9c47a05ec00d69e" : {
       "category" : "architecture",
@@ -1628,7 +1628,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "b9c47a05ec00d69e",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "bb294f57d60b43c7" : {
       "category" : "complexity",
@@ -1639,7 +1639,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "bb294f57d60b43c7",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "bbdae17bc1f69347" : {
       "category" : "architecture",
@@ -1650,7 +1650,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "bbdae17bc1f69347",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "bd944ad875cafd7f" : {
       "category" : "architecture",
@@ -1661,7 +1661,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "bd944ad875cafd7f",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "c00e3b3d93a0cef2" : {
       "category" : "architecture",
@@ -1672,7 +1672,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "c00e3b3d93a0cef2",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "c01ba7d03428a7fc" : {
       "category" : "complexity",
@@ -1683,7 +1683,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "c01ba7d03428a7fc",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "c11f7e41c3f33282" : {
       "category" : "architecture",
@@ -1694,7 +1694,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "c11f7e41c3f33282",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "c2632f4c82a689f0" : {
       "category" : "complexity",
@@ -1705,7 +1705,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "c2632f4c82a689f0",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "c535444009251aad" : {
       "category" : "complexity",
@@ -1716,7 +1716,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "c535444009251aad",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "c58a216d27e32101" : {
       "category" : "complexity",
@@ -1727,7 +1727,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "c58a216d27e32101",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "c7b43a9b77226584" : {
       "category" : "architecture",
@@ -1738,7 +1738,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "c7b43a9b77226584",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "ca7222bfed712f17" : {
       "category" : "architecture",
@@ -1749,7 +1749,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "ca7222bfed712f17",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "cac36bf0b6dbeb1e" : {
       "category" : "architecture",
@@ -1760,7 +1760,18 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "cac36bf0b6dbeb1e",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
+    },
+    "cc7757b6b67dab80" : {
+      "category" : "architecture",
+      "column" : 21,
+      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/SourceFile.swift",
+      "line" : 4,
+      "message" : "Type 'SourceFile' has excessive dependencies (complexity: 45)",
+      "ruleId" : "enhanced_layered_dependencies",
+      "severity" : "warning",
+      "stableId" : "cc7757b6b67dab80",
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "cc80a68c8c781091" : {
       "category" : "architecture",
@@ -1771,7 +1782,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "cc80a68c8c781091",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "ce78cc03eeb6510c" : {
       "category" : "architecture",
@@ -1782,7 +1793,7 @@
       "ruleId" : "circular_dependency_graph",
       "severity" : "warning",
       "stableId" : "ce78cc03eeb6510c",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "ceef16fcaecc28f8" : {
       "category" : "complexity",
@@ -1793,7 +1804,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "ceef16fcaecc28f8",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "d01b935ee022643f" : {
       "category" : "architecture",
@@ -1804,7 +1815,7 @@
       "ruleId" : "global_state",
       "severity" : "warning",
       "stableId" : "d01b935ee022643f",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "d0f21396f1a6dabc" : {
       "category" : "architecture",
@@ -1815,7 +1826,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "d0f21396f1a6dabc",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "d1fbc48a0af497ea" : {
       "category" : "architecture",
@@ -1826,7 +1837,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "d1fbc48a0af497ea",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "d283f9020acef9dd" : {
       "category" : "complexity",
@@ -1837,18 +1848,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "d283f9020acef9dd",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "d2996bc0f55477c8" : {
-      "category" : "architecture",
-      "column" : 21,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/AST\/SourceFile.swift",
-      "line" : 4,
-      "message" : "class 'SourceFile' has too many responsibilities: properties: 11, afferent: 248, coupling: 259",
-      "ruleId" : "god_class_enhanced",
-      "severity" : "warning",
-      "stableId" : "d2996bc0f55477c8",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "d54dae5285a02aad" : {
       "category" : "architecture",
@@ -1859,7 +1859,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "d54dae5285a02aad",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "d6136ee678910499" : {
       "category" : "architecture",
@@ -1870,7 +1870,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "d6136ee678910499",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "d61c08cd0ab2af7d" : {
       "category" : "complexity",
@@ -1881,7 +1881,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "d61c08cd0ab2af7d",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "d7ce785ae3c5a9ef" : {
       "category" : "complexity",
@@ -1892,18 +1892,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "d7ce785ae3c5a9ef",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "d96754f9df5b0249" : {
-      "category" : "architecture",
-      "column" : 7,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Rules\/Violation.swift",
-      "line" : 4,
-      "message" : "struct 'Violation' has too many responsibilities: properties: 13, afferent: 165, efferent: 93, coupling: 258",
-      "ruleId" : "god_class_enhanced",
-      "severity" : "warning",
-      "stableId" : "d96754f9df5b0249",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "d9df17beef474e18" : {
       "category" : "complexity",
@@ -1914,7 +1903,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "d9df17beef474e18",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "daa98f9c0e713e90" : {
       "category" : "complexity",
@@ -1925,18 +1914,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "daa98f9c0e713e90",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "dbfcf495e8a8db46" : {
-      "category" : "concurrency",
-      "column" : 9,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
-      "line" : 116,
-      "message" : "Unstructured Task creation detected",
-      "ruleId" : "unstructured_task",
-      "severity" : "warning",
-      "stableId" : "dbfcf495e8a8db46",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "dcb2378ae0f4ca34" : {
       "category" : "architecture",
@@ -1947,7 +1925,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "dcb2378ae0f4ca34",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "df104002beaaaa2c" : {
       "category" : "architecture",
@@ -1958,7 +1936,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "df104002beaaaa2c",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "df350ab6da319f84" : {
       "category" : "complexity",
@@ -1969,7 +1947,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "df350ab6da319f84",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "df46b94aa18e2d93" : {
       "category" : "architecture",
@@ -1980,7 +1958,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "df46b94aa18e2d93",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "dfd8426cef07184d" : {
       "category" : "architecture",
@@ -1991,7 +1969,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "dfd8426cef07184d",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "e03cfa65c5fc38fb" : {
       "category" : "architecture",
@@ -2002,7 +1980,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "e03cfa65c5fc38fb",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "e0b4e707336c1201" : {
       "category" : "architecture",
@@ -2013,7 +1991,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "e0b4e707336c1201",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "e4b8f29a91378ecd" : {
       "category" : "architecture",
@@ -2024,7 +2002,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "e4b8f29a91378ecd",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "e506d2394b4f779e" : {
       "category" : "complexity",
@@ -2035,7 +2013,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "e506d2394b4f779e",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "e536f5825aea0f43" : {
       "category" : "architecture",
@@ -2046,7 +2024,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "e536f5825aea0f43",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "e56bf38a067269d8" : {
       "category" : "complexity",
@@ -2057,7 +2035,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "e56bf38a067269d8",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "e74ba5a871eaface" : {
       "category" : "architecture",
@@ -2068,7 +2046,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "e74ba5a871eaface",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "e8fbde1201d1ca29" : {
       "category" : "complexity",
@@ -2079,7 +2057,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "e8fbde1201d1ca29",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "e979669c152c55b6" : {
       "category" : "architecture",
@@ -2090,7 +2068,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "e979669c152c55b6",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "e99bc64d32520795" : {
       "category" : "complexity",
@@ -2101,7 +2079,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "e99bc64d32520795",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "eabfa813a4797d64" : {
       "category" : "architecture",
@@ -2112,7 +2090,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "eabfa813a4797d64",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "eb68a93ab1c35f79" : {
       "category" : "architecture",
@@ -2123,7 +2101,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "eb68a93ab1c35f79",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "eb822b1da6029a91" : {
       "category" : "complexity",
@@ -2134,7 +2112,7 @@
       "ruleId" : "function_length",
       "severity" : "warning",
       "stableId" : "eb822b1da6029a91",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "ec0a9bea4316132e" : {
       "category" : "complexity",
@@ -2145,7 +2123,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "ec0a9bea4316132e",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "ef5fcb0ebecae4c2" : {
       "category" : "architecture",
@@ -2156,7 +2134,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "ef5fcb0ebecae4c2",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "f0644399ff073710" : {
       "category" : "architecture",
@@ -2167,7 +2145,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "f0644399ff073710",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "f171b1f6434eb5d1" : {
       "category" : "architecture",
@@ -2178,7 +2156,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "f171b1f6434eb5d1",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "f2b2d36dff2e236f" : {
       "category" : "architecture",
@@ -2189,7 +2167,7 @@
       "ruleId" : "enhanced_god_class",
       "severity" : "warning",
       "stableId" : "f2b2d36dff2e236f",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "f489d615d6a80c49" : {
       "category" : "architecture",
@@ -2200,7 +2178,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "f489d615d6a80c49",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "f633645a169b17c9" : {
       "category" : "complexity",
@@ -2211,7 +2189,7 @@
       "ruleId" : "cyclomatic_complexity",
       "severity" : "warning",
       "stableId" : "f633645a169b17c9",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "f6d1f1b9049cbecc" : {
       "category" : "architecture",
@@ -2222,7 +2200,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "f6d1f1b9049cbecc",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "fb011dc98e385104" : {
       "category" : "architecture",
@@ -2233,7 +2211,7 @@
       "ruleId" : "god_class_enhanced",
       "severity" : "warning",
       "stableId" : "fb011dc98e385104",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "fb02b57946590b36" : {
       "category" : "architecture",
@@ -2244,7 +2222,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "fb02b57946590b36",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "fbc17414761e93c1" : {
       "category" : "architecture",
@@ -2255,7 +2233,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "fbc17414761e93c1",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "fd3980d2861c0cab" : {
       "category" : "architecture",
@@ -2266,7 +2244,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "fd3980d2861c0cab",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "fd4344b943720a0c" : {
       "category" : "architecture",
@@ -2277,18 +2255,7 @@
       "ruleId" : "enhanced_layered_dependencies",
       "severity" : "warning",
       "stableId" : "fd4344b943720a0c",
-      "timestamp" : "2025-11-27T22:35:49Z"
-    },
-    "fe49d87b5ef49524" : {
-      "category" : "architecture",
-      "column" : 57,
-      "filePath" : "\/Users\/thomas\/Projects\/StrictSwift\/Sources\/StrictSwiftCore\/Infrastructure\/OwnershipGraph.swift",
-      "line" : 7,
-      "message" : "struct 'Reference' has too many responsibilities: afferent: 31, coupling: 34",
-      "ruleId" : "god_class_enhanced",
-      "severity" : "warning",
-      "stableId" : "fe49d87b5ef49524",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "fea0d317e9608916" : {
       "category" : "architecture",
@@ -2299,7 +2266,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "fea0d317e9608916",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     },
     "ffe67cf8db177608" : {
       "category" : "architecture",
@@ -2310,7 +2277,7 @@
       "ruleId" : "architectural_health",
       "severity" : "warning",
       "stableId" : "ffe67cf8db177608",
-      "timestamp" : "2025-11-27T22:35:49Z"
+      "timestamp" : "2025-11-27T23:02:23Z"
     }
   }
 }

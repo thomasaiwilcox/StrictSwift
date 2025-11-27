@@ -113,6 +113,7 @@ public final class OwnershipGraph: @unchecked Sendable {
         // Fire-and-forget pattern removed - now synchronously adds
         // Using synchronous dispatch to ensure data is not lost
         let semaphore = DispatchSemaphore(value: 0)
+        // strictswift:ignore unstructured_task - Intentional sync-async bridge for deprecated API
         Task {
             await graphState.addNode(node)
             semaphore.signal()
@@ -126,6 +127,7 @@ public final class OwnershipGraph: @unchecked Sendable {
     public func addReference(_ reference: Reference) {
         // Fire-and-forget pattern removed - now synchronously adds
         let semaphore = DispatchSemaphore(value: 0)
+        // strictswift:ignore unstructured_task - Intentional sync-async bridge for deprecated API
         Task {
             await graphState.addReference(reference)
             semaphore.signal()

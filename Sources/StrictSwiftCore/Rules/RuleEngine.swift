@@ -110,7 +110,11 @@ public actor RuleEngine: Sendable {
             for await violations in group {
                 allViolations.append(contentsOf: violations)
             }
-            return allViolations
+            
+            // Filter out suppressed violations
+            return allViolations.filter { violation in
+                !sourceFile.suppressionTracker.isSuppressed(ruleId: violation.ruleId, line: violation.location.line)
+            }
         }
     }
 
