@@ -86,12 +86,13 @@ advanced:
         maxFunctionLength: 100
         maxAccessorLength: 50
     
-    # Nesting depth: relaxed
+    # Nesting depth: relaxed for AST traversal code
+    # Syntax visitors naturally have deep nesting due to node hierarchies
     nesting_depth:
       enabled: true
       severity: warning
       parameters:
-        maxNestingDepth: 7
+        maxNestingDepth: 8
     
     # God class: relaxed thresholds
     enhanced_god_class:
