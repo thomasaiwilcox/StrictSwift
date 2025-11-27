@@ -287,7 +287,8 @@ public final class SemanticModeResolver: Sendable {
                 }
             }
         } catch {
-            // Silently fail - VS Code settings are optional
+            // VS Code settings are optional, log for debugging
+            StrictSwiftLogger.debug("Failed to parse VS Code settings: \(error)")
         }
         
         return nil

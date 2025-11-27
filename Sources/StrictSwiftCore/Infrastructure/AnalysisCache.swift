@@ -204,7 +204,8 @@ public actor AnalysisCache {
                 return cached
             }
         } catch {
-            // File may have been deleted or is unreadable
+            // File may have been deleted or is unreadable - treat as cache miss
+            StrictSwiftLogger.debug("Cache fingerprint check failed for \(url.path): \(error)")
         }
         
         // Fingerprint doesn't match, remove stale cache

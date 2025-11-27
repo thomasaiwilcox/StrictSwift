@@ -1,4 +1,5 @@
 import Foundation
+import StrictSwiftCore
 #if canImport(Darwin)
 import CoreFoundation
 #endif
@@ -323,7 +324,8 @@ actor JSONRPCTransport {
             try output.write(contentsOf: headerData)
             try output.write(contentsOf: body)
         } catch {
-            // Stream might be closed - this is okay during shutdown
+            // Stream might be closed during shutdown, log for debugging
+            StrictSwiftLogger.debug("Write failed (possibly during shutdown): \(error)")
         }
     }
 }

@@ -717,7 +717,8 @@ actor LSPServer {
             
             try await publishDiagnostics(uri: document.uri, diagnostics: diagnostics)
         } catch {
-            // Analysis error
+            // Analysis error - log for debugging
+            log("Document analysis failed for \(document.uri): \(error)")
         }
     }
     

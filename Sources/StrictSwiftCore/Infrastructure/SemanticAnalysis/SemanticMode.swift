@@ -306,7 +306,8 @@ public struct SemanticCapabilityDetector: Sendable {
                 return String(data: data, encoding: .utf8)
             }
         } catch {
-            // Silently fail - command not available
+            // Command not available or failed - log for debugging
+            StrictSwiftLogger.debug("Failed to run command '\(command)': \(error)")
         }
         
         return nil

@@ -118,14 +118,12 @@ public enum StrictSwiftLogger: Sendable {
         let fileName = (file as NSString).lastPathComponent
         let location = includeSourceLocation ? " [\(fileName):\(line)]" : ""
 
-        // Use FileHandle for thread-safe stderr access
+        // Use FileHandle for thread-safe stderr access for all log levels
         let output = "\(prefix)\(location): \(message)\n"
-        if level >= .warning {
-            if let data = output.data(using: .utf8) {
-                FileHandle.standardError.write(data)
-            }
-        } else {
-            print("\(prefix)\(location): \(message)")
+        if let data = output.data(using: .utf8) {
+            // Debug/info go to stdout, warnings/errors go to stderr
+            let handle = level >= .warning ? FileHandle.standardError : FileHandle.standardOutput
+            handle.write(data)
         }
     }
 }
