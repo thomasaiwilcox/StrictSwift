@@ -266,21 +266,30 @@ private class AllocationPatternAnalyzer: SyntaxAnyVisitor {
 
     override func visit(_ node: ClosureExprSyntax) -> SyntaxVisitorContinueKind {
         if checkClosureAllocation {
-            trackAllocation(location: node.position)
+            // Only track heavy closures (with capture lists that might have reference cycles)
+            // Most closures in loops are optimized by the compiler (inlined, stack-allocated)
+            // Don't flag every closure - that creates too many false positives
+            if let captureList = node.signature?.capture {
+                // Check if capture list has items that could cause heap allocation
+                if !captureList.items.isEmpty {
+                    trackAllocation(location: node.position)
+                    
+                    // Only flag closures with explicit captures in loops as potentially problematic
+                    if inLoop {
+                        let locationInfo = sourceFile.location(of: node)
+                        let violation = ViolationBuilder(
+                            ruleId: "repeated_allocation",
+                            category: .performance,
+                            location: locationInfo
+                        )
+                        .message("Closure with capture list inside loop may cause performance issues")
+                        .suggestFix("Move closure outside loop or use capture lists effectively")
+                        .severity(.info)
+                        .build()
 
-            if inLoop {
-                let locationInfo = sourceFile.location(of: node)
-                let violation = ViolationBuilder(
-                    ruleId: "repeated_allocation",
-                    category: .performance,
-                    location: locationInfo
-                )
-                .message("Closure allocation inside loop may cause performance issues")
-                .suggestFix("Move closure outside loop or use capture lists effectively")
-                .severity(.warning)
-                .build()
-
-                violations.append(violation)
+                        violations.append(violation)
+                    }
+                }
             }
         }
 
@@ -341,9 +350,13 @@ private class AllocationPatternAnalyzer: SyntaxAnyVisitor {
     }
 
     private func analyzeAllocation(_ expression: ExprSyntax, location: AbsolutePosition) {
+        // Only report expensive allocations when they're inside loops
+        // Non-loop allocations are generally fine for one-time operations
+        guard inLoop else { return }
+        
         let expressionString = expression.trimmedDescription
 
-        // Check for expensive allocations
+        // Check for expensive allocations (only flagged in loops)
         if isExpensiveAllocation(expressionString) {
             let locationInfo = sourceFile.location(for: location)
             let violation = ViolationBuilder(
@@ -351,9 +364,9 @@ private class AllocationPatternAnalyzer: SyntaxAnyVisitor {
                 category: .performance,
                 location: locationInfo
             )
-            .message("Expensive allocation detected: '\(expressionString)'")
+            .message("Expensive allocation '\(expressionString)' inside loop")
             .suggestFix("Consider caching, pooling, or lazy initialization")
-            .severity(.info)
+            .severity(.warning)
             .build()
 
             violations.append(violation)
