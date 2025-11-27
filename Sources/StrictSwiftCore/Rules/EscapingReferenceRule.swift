@@ -262,7 +262,9 @@ private class EscapingReferenceAnalyzer: SyntaxAnyVisitor {
         let closureBody = closure.statements.description
         let usesImplicitSelf = closureBody.contains("self.") || closureBody.contains("self,") || closureBody.contains("self)")
         
-        if !hasCaptureList && usesImplicitSelf && !allowCapturingSelf {
+        // Only flag implicit self capture if the closure is likely escaping
+        // Non-escaping closures (the default) can't cause retain cycles
+        if !hasCaptureList && usesImplicitSelf && !allowCapturingSelf && isLikelyEscapingClosure(closure) {
             let location = sourceFile.location(for: closure.position)
             violations.append(ViolationBuilder(
                 ruleId: "escaping_reference",
@@ -438,6 +440,87 @@ private class EscapingReferenceAnalyzer: SyntaxAnyVisitor {
             }
         }
 
+        return false
+    }
+    
+    /// Determines if a closure is likely to be escaping based on its context.
+    /// Without full semantic analysis, we use heuristics:
+    /// - Closures assigned to stored properties are likely escaping
+    /// - Closures stored in collections are likely escaping  
+    /// - Closures passed to known escaping APIs are likely escaping
+    /// - Closures passed as trailing closures to regular functions are usually non-escaping
+    private func isLikelyEscapingClosure(_ closure: ClosureExprSyntax) -> Bool {
+        // Walk up the parent chain looking for escaping patterns
+        var current: Syntax? = Syntax(closure)
+        
+        while let node = current?.parent {
+            // If the closure is on the RHS of an assignment, it's likely escaping
+            // e.g., callback = { ... } or self.completion = { ... }
+            if let infix = node.as(InfixOperatorExprSyntax.self) {
+                if infix.operator.as(AssignmentExprSyntax.self) != nil {
+                    // Make sure the closure is the RHS of the assignment, not inside a function call
+                    let rhsText = infix.rightOperand.trimmedDescription
+                    if rhsText.hasPrefix("{") {
+                        return true
+                    }
+                }
+            }
+            
+            // Also check for SequenceExprSyntax which wraps assignments in SwiftSyntax 600.0.0
+            // SequenceExprSyntax contains: [target, assignmentExpr, closureExpr]
+            if let seq = node.as(SequenceExprSyntax.self) {
+                // Check if the sequence is a direct assignment where closure is the value
+                // i.e., the sequence elements are: [identifier, =, closure]
+                let elements = Array(seq.elements)
+                if elements.count >= 3 {
+                    let hasAssignment = elements.contains { $0.as(AssignmentExprSyntax.self) != nil }
+                    if hasAssignment {
+                        // Check if the last element is the closure (or contains it directly)
+                        if let lastElement = elements.last,
+                           lastElement.as(ClosureExprSyntax.self) != nil {
+                            return true
+                        }
+                    }
+                }
+            }
+            
+            // If the closure is assigned in a variable declaration at class/struct level
+            if node.as(VariableDeclSyntax.self) != nil {
+                // Stored properties (class/struct level vars) are typically escaping
+                if currentFunction == nil {
+                    return true
+                }
+                break
+            }
+            
+            // Check if stored in an array or dictionary literal
+            if node.as(ArrayElementSyntax.self) != nil || node.as(DictionaryElementSyntax.self) != nil {
+                return true
+            }
+            
+            // Closures passed to function arguments - check for known escaping patterns
+            if let arg = node.as(LabeledExprSyntax.self) {
+                let label = arg.label?.text ?? ""
+                // Common escaping completion handler patterns
+                let escapingPatterns = ["completion", "handler", "callback", "onComplete", "then", "success", "failure"]
+                for pattern in escapingPatterns {
+                    if label.lowercased().contains(pattern) {
+                        return true
+                    }
+                }
+            }
+            
+            // Stop at function/class boundaries
+            if node.as(FunctionDeclSyntax.self) != nil || 
+               node.as(ClassDeclSyntax.self) != nil ||
+               node.as(StructDeclSyntax.self) != nil {
+                break
+            }
+            
+            current = node
+        }
+        
+        // Default: assume non-escaping (the Swift default)
         return false
     }
 
