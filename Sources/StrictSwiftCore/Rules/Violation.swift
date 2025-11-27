@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(CryptoKit)
 import CryptoKit
+#endif
 
 /// A rule violation found during analysis
 public struct Violation: Codable, Hashable, Sendable {
@@ -61,15 +63,25 @@ public struct Violation: Codable, Hashable, Sendable {
     
     /// Stable identifier for this violation that persists across runs.
     /// Used for tracking feedback and correlating violations over time.
-    /// Format: 16-character hex string derived from SHA256 hash of key properties.
+    /// Format: 16-character hex string derived from hash of key properties.
     public var stableId: String {
         // Hash: ruleId + normalized file path + line + message
         // We use the file name (not full path) to be portable across machines
         let fileName = location.file.lastPathComponent
         let input = "\(ruleId)|\(fileName)|\(location.line)|\(message)"
+        #if canImport(CryptoKit)
         let hash = SHA256.hash(data: Data(input.utf8))
         // Take first 8 bytes (16 hex chars) for a human-friendly ID
         return hash.prefix(8).map { String(format: "%02x", $0) }.joined()
+        #else
+        // Fallback: Use a simple DJB2-style hash for Linux
+        // This is deterministic and produces consistent results
+        var hashValue: UInt64 = 5381
+        for byte in input.utf8 {
+            hashValue = ((hashValue << 5) &+ hashValue) &+ UInt64(byte)
+        }
+        return String(format: "%016llx", hashValue)
+        #endif
     }
 }
 
