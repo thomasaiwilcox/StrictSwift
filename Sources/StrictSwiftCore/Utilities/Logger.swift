@@ -1,6 +1,8 @@
 import Foundation
 import os
 
+// strictswift:ignore-file circular_dependency_graph -- LoggerState↔StrictSwiftLogger is intentional encapsulation
+
 /// Thread-safe storage for log level using os_unfair_lock
 /// SAFETY: @unchecked Sendable is safe because all mutable state (_minLevel) is
 /// protected by os_unfair_lock, ensuring thread-safe access from any context.
@@ -50,6 +52,7 @@ public enum StrictSwiftLogger: Sendable {
     /// 1. setMinLevel() at runtime (highest priority)
     /// 2. STRICTSWIFT_LOG_LEVEL environment variable
     /// 3. Default: .warning
+    // strictswift:ignore global_state -- Intentional: logger level must be globally accessible
     public static var minLevel: Level {
         get {
             if let level = LoggerState.shared.minLevel { return level }

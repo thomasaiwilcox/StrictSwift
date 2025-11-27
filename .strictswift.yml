@@ -63,6 +63,9 @@ advanced:
       severity: warning
       parameters:
         minimumConfidence: "high"
+        # Functions used in closures may not be detected as used
+        ignoredPatterns:
+          - "isTypeSymbol"  # Used in closure filter, false positive
     
     # Cyclomatic complexity: relaxed for complex analysis code
     cyclomatic_complexity:

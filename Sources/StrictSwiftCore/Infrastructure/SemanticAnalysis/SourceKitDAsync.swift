@@ -222,6 +222,7 @@ public actor SourceKitDService {
         // the pointer value is just an address that remains valid for the duration
         let requestBits = Int(bitPattern: request)
         return try await withCheckedThrowingContinuation { continuation in
+            // strictswift:ignore actor_isolation -- Intentional: bridging sync SourceKit API to async
             DispatchQueue.global(qos: .userInitiated).async {
                 guard let requestPtr = UnsafeMutableRawPointer(bitPattern: requestBits) else {
                     continuation.resume(throwing: SourceKitError.invalidResponse)
