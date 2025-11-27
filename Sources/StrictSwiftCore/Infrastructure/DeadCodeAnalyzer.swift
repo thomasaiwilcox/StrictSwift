@@ -296,7 +296,7 @@ public final class DeadCodeAnalyzer: Sendable {
     
     /// Perform dead code analysis
     public func analyze() -> DeadCodeResult {
-        let startTime = CFAbsoluteTimeGetCurrent()
+        let startTime = Date()
         
         let allSymbols = graph.allSymbols()
         
@@ -358,7 +358,7 @@ public final class DeadCodeAnalyzer: Sendable {
             DeadSymbolInfo(symbol: symbol, confidence: calculateConfidence(for: symbol))
         }
         
-        let elapsed = (CFAbsoluteTimeGetCurrent() - startTime) * 1000
+        let elapsed = Date().timeIntervalSince(startTime) * 1000
         
         // Calculate statistics with confidence breakdown
         let confidenceBreakdown = DeadCodeResult.AnalysisStatistics.ConfidenceBreakdown(

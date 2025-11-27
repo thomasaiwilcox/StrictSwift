@@ -211,15 +211,20 @@ public actor SourceKitDService {
         guard let api = api else { throw SourceKitError.notLoaded }
         
         // Run sync request on background thread to not block actor
+        // Note: sourcekitd_request_t is a type alias for UnsafeMutableRawPointer
+        // We convert to Int and back to avoid Sendable issues - this is safe because
+        // the pointer value is just an address that remains valid for the duration
+        let requestBits = Int(bitPattern: request)
         return try await withCheckedThrowingContinuation { continuation in
             DispatchQueue.global(qos: .userInitiated).async {
-                guard let responsePtr = api.send_request_sync(request) else {
+                let requestPtr = UnsafeMutableRawPointer(bitPattern: requestBits)!
+                guard let responsePtr = api.send_request_sync(requestPtr) else {
                     continuation.resume(throwing: SourceKitError.invalidResponse)
                     return
                 }
                 
                 // Release the request now that we're done with it
-                api.request_release(request)
+                api.request_release(requestPtr)
                 
                 let response = SKDResponse(raw: responsePtr, api: api)
                 
