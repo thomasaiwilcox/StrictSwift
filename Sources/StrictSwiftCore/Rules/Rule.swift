@@ -60,6 +60,11 @@ public final class AnalysisContext: @unchecked Sendable {
     private var _semanticResolver: SemanticTypeResolver?
     private var _semanticModeResolved: SemanticModeResolver.ResolvedConfiguration?
     private let semanticLock = NSLock()
+    
+    /// Track reported cycles to avoid duplicate violations across files
+    /// Key is a set of type names (order-independent) representing the cycle
+    private var _reportedCycles: Set<Set<String>> = []
+    private let cycleLock = NSLock()
 
     public init(configuration: Configuration, projectRoot: URL) {
         self.configuration = configuration
@@ -109,6 +114,22 @@ public final class AnalysisContext: @unchecked Sendable {
         graph.build(from: files)
         _globalGraph = graph
         return graph
+    }
+    
+    // MARK: - Cycle Tracking
+    
+    /// Check if a cycle has already been reported and register it if not.
+    /// Returns true if this is a new cycle that should be reported.
+    /// Thread-safe for concurrent analysis.
+    public func shouldReportCycle(withTypes types: Set<String>) -> Bool {
+        cycleLock.lock()
+        defer { cycleLock.unlock() }
+        
+        if _reportedCycles.contains(types) {
+            return false
+        }
+        _reportedCycles.insert(types)
+        return true
     }
     
     // MARK: - Semantic Analysis

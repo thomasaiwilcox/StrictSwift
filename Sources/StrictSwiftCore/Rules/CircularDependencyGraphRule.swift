@@ -21,7 +21,6 @@ public final class CircularDependencyGraphRule: Rule {
         guard context.configuration.useEnhancedRules else { return [] }
 
         var violations: [Violation] = []
-        var reportedCycles = Set<Set<String>>() // Track cycles by their members (order-independent)
         let graph = context.globalGraph()
 
         // Check each type in this file for cycles
@@ -30,11 +29,10 @@ public final class CircularDependencyGraphRule: Rule {
                 // Create a set of type names (without the last element which duplicates the first)
                 let cycleTypes = Set(cycle.dropLast().map { $0.qualifiedName })
                 
-                // Skip if we've already reported this cycle (regardless of starting point)
-                if reportedCycles.contains(cycleTypes) {
+                // Use context-level deduplication to avoid reporting same cycle from multiple files
+                guard context.shouldReportCycle(withTypes: cycleTypes) else {
                     continue
                 }
-                reportedCycles.insert(cycleTypes)
                 
                 let cycleDescription = formatCycle(cycle)
                 
