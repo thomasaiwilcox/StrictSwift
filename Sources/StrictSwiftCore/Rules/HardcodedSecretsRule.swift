@@ -34,16 +34,14 @@ private struct SecretPattern {
     let regex: NSRegularExpression
     let message: String
     
-    init(name: String, pattern: String, message: String) {
+    /// Create a SecretPattern. Returns nil if the regex pattern is invalid.
+    init?(name: String, pattern: String, message: String) {
         self.name = name
-        // Pattern is a compile-time constant, so this should never fail
-        // Using do-catch to satisfy safety requirements
-        do {
-            self.regex = try NSRegularExpression(pattern: pattern, options: [])
-        } catch {
-            // This indicates a programmer error in the pattern constant
-            fatalError("Invalid regex pattern '\(pattern)': \(error)")
+        // Pattern validation - returns nil if invalid
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else {
+            return nil
         }
+        self.regex = regex
         self.message = message
     }
 }
@@ -74,7 +72,7 @@ private final class HardcodedSecretsVisitor: SyntaxVisitor {
         SecretPattern(name: "Square Token", pattern: #"sq0atp-[0-9A-Za-z\-_]{22}"#, message: "Hardcoded Square access token detected"),
         SecretPattern(name: "Square OAuth", pattern: #"sq0csp-[0-9A-Za-z\-_]{43}"#, message: "Hardcoded Square OAuth secret detected"),
         SecretPattern(name: "Telegram Token", pattern: #"[0-9]{8,10}:[A-Za-z0-9_-]{35}"#, message: "Hardcoded Telegram bot token detected"),
-    ]
+    ].compactMap { $0 }
     
     /// Variable names that suggest password/secret storage
     private static let sensitiveVariablePatterns: [String] = [

@@ -21,14 +21,15 @@ public final class SourceKitRequestBuilder: @unchecked Sendable {
     private let request: sourcekitd_request_t
     
     /// Create a new request builder
-    public init(api: SourceKitDAPI, keys: SourceKitDKeys, requestType: sourcekitd_uid_t) {
+    /// Returns nil if the SourceKit request could not be created
+    public init?(api: SourceKitDAPI, keys: SourceKitDKeys, requestType: sourcekitd_uid_t) {
         self.api = api
         self.keys = keys
         
         // Create request with the request type set
         guard let keyRequest = keys.keyRequest,
               let req = api.request_dictionary_create(nil, nil, 0) else {
-            fatalError("Failed to create SourceKit request")
+            return nil
         }
         
         api.request_dictionary_set_uid(req, keyRequest, requestType)
@@ -203,7 +204,10 @@ public actor SourceKitDService {
         guard let requestType = keys.requestCursorInfo else {
             throw SourceKitError.missingRequiredKey("source.request.cursorinfo")
         }
-        return SourceKitRequestBuilder(api: api, keys: keys, requestType: requestType)
+        guard let builder = SourceKitRequestBuilder(api: api, keys: keys, requestType: requestType) else {
+            throw SourceKitError.requestFailed(kind: .invalid, description: "Failed to create SourceKit request")
+        }
+        return builder
     }
     
     /// Send a synchronous request (runs on background thread)
