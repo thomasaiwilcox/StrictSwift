@@ -164,6 +164,8 @@ public struct SourceKitDVariantType: RawRepresentable, Equatable, Sendable {
 // MARK: - SourceKitD API Container
 
 /// Container holding all loaded SourceKit function pointers
+/// SAFETY: @unchecked Sendable is safe because all function pointers are immutable
+/// after initialization - they point to C functions loaded from the SourceKit dylib.
 public final class SourceKitDAPI: @unchecked Sendable {
     // Lifecycle
     let initialize: sourcekitd_initialize_func
@@ -484,6 +486,8 @@ public actor SourceKitDLoader {
 
 /// RAII wrapper for SourceKit request objects
 /// Automatically releases the request when deallocated
+/// SAFETY: @unchecked Sendable is safe because raw is a C pointer that is immutable
+/// after initialization and is only used for cleanup in deinit.
 public final class SKDRequest: @unchecked Sendable {
     public let raw: sourcekitd_request_t
     private let api: SourceKitDAPI
@@ -500,6 +504,8 @@ public final class SKDRequest: @unchecked Sendable {
 
 /// RAII wrapper for SourceKit response objects
 /// Automatically disposes the response when deallocated
+/// SAFETY: @unchecked Sendable is safe because raw is a C pointer that is immutable
+/// after initialization and is only used for reading and cleanup in deinit.
 public final class SKDResponse: @unchecked Sendable {
     public let raw: sourcekitd_response_t
     private let api: SourceKitDAPI

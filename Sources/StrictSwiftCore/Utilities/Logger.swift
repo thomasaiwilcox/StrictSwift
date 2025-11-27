@@ -2,6 +2,8 @@ import Foundation
 import os
 
 /// Thread-safe storage for log level using os_unfair_lock
+/// SAFETY: @unchecked Sendable is safe because all mutable state (_minLevel) is
+/// protected by os_unfair_lock, ensuring thread-safe access from any context.
 private final class LoggerState: @unchecked Sendable {
     /// Using os_unfair_lock for efficient thread synchronization
     private var lock = os_unfair_lock()

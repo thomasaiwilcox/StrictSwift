@@ -15,6 +15,8 @@ public enum SourceKitError: Error, Sendable {
 // MARK: - Request Builder
 
 /// Builder for constructing SourceKit request dictionaries
+/// SAFETY: @unchecked Sendable is safe because the request is a C pointer that
+/// is only mutated during construction and becomes immutable after build().
 public final class SourceKitRequestBuilder: @unchecked Sendable {
     private let api: SourceKitDAPI
     private let keys: SourceKitDKeys
@@ -325,7 +327,8 @@ extension CursorInfoResult {
 // MARK: - Result Types
 
 /// Result of a cursor info request
-/// Note: @unchecked Sendable because kindUID pointer is safe - it points to process-lifetime interned strings
+/// SAFETY: @unchecked Sendable is safe because kindUID pointer points to process-lifetime
+/// interned strings in SourceKit that are immutable and never deallocated.
 public struct CursorInfoResult: @unchecked Sendable {
     public var name: String?
     public var usr: String?
