@@ -70,7 +70,12 @@ final class StringConcatenationFixTests: XCTestCase {
     
     private func createAnalysisContext(sourceFile: SourceFile) -> AnalysisContext {
         let projectRoot = sourceFile.url.deletingLastPathComponent()
-        let configuration = Configuration.loadCriticalCore()
+        // Use Configuration with empty include list so temp files aren't filtered out
+        let configuration = Configuration(
+            profile: .criticalCore,
+            include: [],  // Empty means no filtering
+            exclude: []
+        )
         return AnalysisContext(configuration: configuration, projectRoot: projectRoot)
     }
 }
