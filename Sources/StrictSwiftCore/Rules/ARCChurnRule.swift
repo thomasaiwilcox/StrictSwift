@@ -24,12 +24,15 @@ public final class ARCChurnRule: Rule, @unchecked Sendable {
         guard ruleConfig.enabled else { return [] }
 
         // Get configuration parameters
-        let maxRetainsInLoop = ruleConfig.parameter("maxRetainsInLoop", defaultValue: 3)
-        let checkClosureCaptures = ruleConfig.parameter("checkClosureCaptures", defaultValue: true)
+        let maxRetainsInLoop = ruleConfig.parameter("maxRetainsInLoop", defaultValue: 10)
+        // Closure capture checks produce false positives with structured concurrency - disabled by default
+        let checkClosureCaptures = ruleConfig.parameter("checkClosureCaptures", defaultValue: false)
         let checkPropertyAccess = ruleConfig.parameter("checkPropertyAccess", defaultValue: true)
         let checkArrayOperations = ruleConfig.parameter("checkArrayOperations", defaultValue: true)
         let checkOptionalChaining = ruleConfig.parameter("checkOptionalChaining", defaultValue: true)
         let checkHotPaths = ruleConfig.parameter("checkHotPaths", defaultValue: true)
+        // Higher-order functions in loops are common and often acceptable - disabled by default
+        let checkHigherOrderFunctions = ruleConfig.parameter("checkHigherOrderFunctions", defaultValue: false)
 
         // Parse source and analyze
         let source = sourceFile.source()
@@ -43,7 +46,8 @@ public final class ARCChurnRule: Rule, @unchecked Sendable {
             checkPropertyAccess: checkPropertyAccess,
             checkArrayOperations: checkArrayOperations,
             checkOptionalChaining: checkOptionalChaining,
-            checkHotPaths: checkHotPaths
+            checkHotPaths: checkHotPaths,
+            checkHigherOrderFunctions: checkHigherOrderFunctions
         )
         analyzer.walk(tree)
 
@@ -67,6 +71,7 @@ private class ARCChurnAnalyzer: SyntaxAnyVisitor {
     private let checkArrayOperations: Bool
     private let checkOptionalChaining: Bool
     private let checkHotPaths: Bool
+    private let checkHigherOrderFunctions: Bool
 
     var violations: [Violation] = []
 
@@ -98,7 +103,8 @@ private class ARCChurnAnalyzer: SyntaxAnyVisitor {
         checkPropertyAccess: Bool,
         checkArrayOperations: Bool,
         checkOptionalChaining: Bool,
-        checkHotPaths: Bool
+        checkHotPaths: Bool,
+        checkHigherOrderFunctions: Bool
     ) {
         self.sourceFile = sourceFile
         self.ruleConfig = ruleConfig
@@ -108,6 +114,7 @@ private class ARCChurnAnalyzer: SyntaxAnyVisitor {
         self.checkArrayOperations = checkArrayOperations
         self.checkOptionalChaining = checkOptionalChaining
         self.checkHotPaths = checkHotPaths
+        self.checkHigherOrderFunctions = checkHigherOrderFunctions
         super.init(viewMode: .sourceAccurate)
     }
 
@@ -251,8 +258,9 @@ private class ARCChurnAnalyzer: SyntaxAnyVisitor {
                     let key = "arrayOp.\(methodName)"
                     referenceAccessesInLoop[key, default: 0] += 1
 
-                    // Higher-order functions with closures are especially expensive
-                    if ["map", "filter", "compactMap", "flatMap", "reduce", "sorted"].contains(methodName) {
+                    // Higher-order functions are only flagged when explicitly enabled
+                    // (they're common patterns that are often acceptable)
+                    if checkHigherOrderFunctions && ["map", "filter", "compactMap", "flatMap", "reduce", "sorted"].contains(methodName) {
                         checkHigherOrderFunctionInLoop(node, methodName: methodName)
                     }
                 }
