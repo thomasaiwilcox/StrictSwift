@@ -34,6 +34,7 @@ codecov/
 
 # Baselines
 .strictswift-baseline*.json
+.strictswift-last-run.json
 strictswift-audit/
 
 # Logs
