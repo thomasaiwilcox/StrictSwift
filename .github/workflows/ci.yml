@@ -85,7 +85,7 @@ jobs:
         run: |
           # Test performance on the package itself
           echo "Testing performance on StrictSwift source code..."
-          time swift run swift-strict check Sources/
+          time swift run strictswift check Sources/
 
           # Create a simple test file for benchmarking
           cat > test.swift << 'EOF'
@@ -133,7 +133,7 @@ jobs:
           EOF
 
           echo "Analyzing test file..."
-          time swift run swift-strict check test.swift
+          time swift run strictswift check test.swift
           rm test.swift
 
   integration-test:
@@ -154,16 +154,16 @@ jobs:
       - name: Test CLI commands
         run: |
           # Test help command
-          swift run swift-strict --help
+          swift run strictswift --help
 
           # Test baseline command
-          swift run swift-strict baseline --help
+          swift run strictswift baseline --help
 
           # Test CI command
-          swift run swift-strict ci --help
+          swift run strictswift ci --help
 
           # Test explain command
-          swift run swift-strict explain --help
+          swift run strictswift explain --help
 
   build-release:
     runs-on: ubuntu-latest
@@ -183,11 +183,11 @@ jobs:
       - name: Archive Release Binary
         run: |
           mkdir -p artifacts
-          tar -czf artifacts/swift-strict-ubuntu-x86_64.tar.gz -C .build/release swift-strict
+          tar -czf artifacts/strictswift-ubuntu-x86_64.tar.gz -C .build/release strictswift
 
       - name: Upload Release Binary
         uses: actions/upload-artifact@v4
         with:
-          name: swift-strict-ubuntu-x86_64
-          path: artifacts/swift-strict-ubuntu-x86_64.tar.gz
+          name: strictswift-ubuntu-x86_64
+          path: artifacts/strictswift-ubuntu-x86_64.tar.gz
           retention-days: 30
