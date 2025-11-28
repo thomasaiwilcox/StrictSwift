@@ -1,14 +1,21 @@
 import Foundation
+#if canImport(os)
 import os
+#endif
 
 // strictswift:ignore-file circular_dependency_graph -- LoggerState↔StrictSwiftLogger is intentional encapsulation
 
-/// Thread-safe storage for log level using os_unfair_lock
+/// Thread-safe storage for log level using os_unfair_lock (or NSLock on Linux)
 /// SAFETY: @unchecked Sendable is safe because all mutable state (_minLevel) is
-/// protected by os_unfair_lock, ensuring thread-safe access from any context.
+/// protected by the lock, ensuring thread-safe access from any context.
 private final class LoggerState: @unchecked Sendable {
+    #if canImport(os)
     /// Using os_unfair_lock for efficient thread synchronization
     private var lock = os_unfair_lock()
+    #else
+    /// Using NSLock for Linux compatibility
+    private let lock = NSLock()
+    #endif
     
     /// Backing storage for log level (can be changed at runtime)
     private var _minLevel: StrictSwiftLogger.Level?
@@ -21,13 +28,23 @@ private final class LoggerState: @unchecked Sendable {
     /// Get or set the current minimum level
     var minLevel: StrictSwiftLogger.Level? {
         get {
+            #if canImport(os)
             os_unfair_lock_lock(&lock)
             defer { os_unfair_lock_unlock(&lock) }
+            #else
+            lock.lock()
+            defer { lock.unlock() }
+            #endif
             return _minLevel
         }
         set {
+            #if canImport(os)
             os_unfair_lock_lock(&lock)
             defer { os_unfair_lock_unlock(&lock) }
+            #else
+            lock.lock()
+            defer { lock.unlock() }
+            #endif
             _minLevel = newValue
         }
     }
