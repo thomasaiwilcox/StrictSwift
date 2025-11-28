@@ -12,7 +12,11 @@ struct ExplainCommand: AsyncParsableCommand {
     var ruleId: String
 
     func run() async throws {
-        guard let explanation = ruleExplanations[ruleId] else {
+        // Normalize rule ID: accept both underscore and hyphen formats
+        // Rule IDs in analysis use underscores (force_unwrap), but explanations use hyphens (force-unwrap)
+        let normalizedRuleId = ruleId.replacingOccurrences(of: "_", with: "-")
+        
+        guard let explanation = ruleExplanations[normalizedRuleId] else {
             print("Unknown rule: \(ruleId)")
             print("\nAvailable rules:")
             for ruleId in ruleExplanations.keys.sorted() {

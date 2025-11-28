@@ -27,8 +27,8 @@ public final class NonSendableCaptureRule: Rule {
             return []
         }
         
-        // Try semantic resolution if available
-        if let resolver = context.semanticResolver, context.hasSemanticAnalysis {
+        // Try semantic resolution if available for THIS rule (respects per-rule overrides)
+        if let resolver = context.semanticResolver, context.hasSemanticAnalysis(forRule: id) {
             return await analyzeWithSemantics(
                 captures: collector.potentialCaptures,
                 sourceFile: sourceFile,
