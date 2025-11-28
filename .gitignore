@@ -5,6 +5,7 @@
 
 # Swift Package Manager
 .build/
+.build-fresh/
 .swiftpm/
 Package.resolved
 
