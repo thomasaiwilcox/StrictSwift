@@ -40,7 +40,8 @@ public actor RuleEngine: Sendable {
         switch ruleId {
         case "force_unwrap", "force_try", "fatal_error", "mutable_static":
             return .safety
-        case "non_sendable_capture", "unstructured_task", "actor_isolation", "data_race":
+        case "non_sendable_capture", "unstructured_task", "actor_isolation", "data_race",
+             "unowned_async", "mainactor_blocking":
             return .concurrency
         case "layered_dependencies", "circular_dependency", "god_class", "global_state":
             return .architecture
@@ -54,7 +55,8 @@ public actor RuleEngine: Sendable {
             return .architecture
         case "architectural_health":
             return .architecture
-        case "escaping_reference", "exclusive_access", "memory_leak", "retain_cycle":
+        case "escaping_reference", "exclusive_access", "memory_leak", "retain_cycle",
+             "combine_retain_cycle", "notification_observer", "weak_delegate":
             return .memory
         case "cyclomatic_complexity", "nesting_depth", "function_length":
             return .complexity
@@ -247,5 +249,14 @@ extension RuleEngine {
         register(AsyncTestTimeoutRule())
         register(TestIsolationRule())
         register(FlakyTestPatternRule())
+        
+        // Phase 6 Memory Rules (Community Feedback)
+        register(CombineRetainCycleRule())
+        register(NotificationObserverRule())
+        register(WeakDelegateRule())
+        
+        // Phase 6 Concurrency Rules (Community Feedback)
+        register(UnownedAsyncRule())
+        register(MainActorBlockingRule())
     }
 }

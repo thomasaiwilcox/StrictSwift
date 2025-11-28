@@ -9,14 +9,19 @@ public struct JSONReporter: Reporter {
     }
 
     public func generateReport(_ violations: [Violation]) throws -> String {
-        return try generateReport(violations, metadata: nil)
+        return try generateReport(violations, metadata: nil, analysisWarnings: [])
     }
     
     public func generateReport(_ violations: [Violation], metadata: AnalysisMetadata?) throws -> String {
+        return try generateReport(violations, metadata: metadata, analysisWarnings: [])
+    }
+    
+    public func generateReport(_ violations: [Violation], metadata: AnalysisMetadata?, analysisWarnings: [String]) throws -> String {
         let report = JSONReport(
             version: 2,
             timestamp: ISO8601DateFormatter().string(from: Date()),
             analysisMode: metadata.map { JSONAnalysisMode(from: $0) },
+            analysisWarnings: analysisWarnings.isEmpty ? nil : analysisWarnings,
             summary: Summary(
                 total: violations.count,
                 errors: violations.filter { $0.severity == .error }.count,
@@ -65,6 +70,7 @@ public struct JSONReporter: Reporter {
         let version: Int
         let timestamp: String
         let analysisMode: JSONAnalysisMode?
+        let analysisWarnings: [String]?
         let summary: Summary
         let violations: [JSONViolation]
     }

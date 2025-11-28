@@ -17,7 +17,7 @@ struct CheckCommand: AsyncParsableCommand {
     @Option(name: .long, help: "Path to configuration file")
     var config: String?
 
-    @Option(name: .long, help: "Output format (human|json|agent)")
+    @Option(name: .long, help: "Output format (human|json|agent|sarif|xcode)")
     var format: String = "human"
 
     @Option(name: .long, help: "Path to baseline file")
@@ -59,6 +59,13 @@ struct CheckCommand: AsyncParsableCommand {
     // Debug options
     @Flag(name: .long, help: "Enable verbose logging including SourceKit debug info")
     var verbose: Bool = false
+    
+    // Git-aware incremental analysis
+    @Flag(name: .long, help: "Only analyze files changed in git (relative to --base)")
+    var onlyChanged: Bool = false
+    
+    @Option(name: .long, help: "Base git ref for --only-changed (default: origin/main)")
+    var base: String = "origin/main"
 
     func run() async throws {
         // Enable verbose logging if requested
@@ -131,6 +138,51 @@ struct CheckCommand: AsyncParsableCommand {
                 print("🗑️  Cache cleared")
             }
         }
+        
+        // Filter to only changed files if requested
+        // Track any analysis warnings for structured output
+        var analysisWarnings: [String] = []
+        var effectivePaths = paths
+        if onlyChanged {
+            switch try getChangedSwiftFiles(base: base) {
+            case .success(let changedFiles):
+                if changedFiles.isEmpty {
+                    // No changed files - output valid empty result in requested format
+                    let emptyViolations: [Violation] = []
+                    let emptyReport: String
+                    switch format.lowercased() {
+                    case "json":
+                        emptyReport = try JSONReporter().generateReport(emptyViolations)
+                    case "agent":
+                        let options = AgentReporterOptions(contextLines: contextLines, includeFixes: true, minSeverity: nil)
+                        emptyReport = try AgentReporter(options: options).generateReport(emptyViolations)
+                    case "sarif":
+                        emptyReport = try SARIFReporter().generateReport(emptyViolations)
+                    case "xcode":
+                        // Xcode format: output a newline so the build system knows the tool completed
+                        // Empty stdout can cause "Broken pipe" errors
+                        emptyReport = "\n"
+                    default:
+                        print("✅ No Swift files changed since \(base)")
+                        return
+                    }
+                    print(emptyReport, terminator: "")
+                    return
+                }
+                effectivePaths = changedFiles
+                if format.lowercased() == "human" {
+                    print("📝 Analyzing \(changedFiles.count) changed file(s) since \(base)")
+                }
+            case .failure(let error):
+                // Git diff failed - fall back to analyzing all requested paths
+                let warningMessage = "--only-changed ignored: \(error). Analyzing all paths."
+                // Always print warning to stderr so it's visible in CI logs regardless of output format
+                FileHandle.standardError.write("warning: \(warningMessage)\n".data(using: .utf8)!)
+                // Track warning for structured output (JSON/SARIF/agent formats)
+                analysisWarnings.append(warningMessage)
+                // effectivePaths remains unchanged (all requested paths)
+            }
+        }
 
         // Analyze files using either AnalysisRunner (learning mode) or Analyzer (standard)
         let violations: [Violation]
@@ -147,7 +199,7 @@ struct CheckCommand: AsyncParsableCommand {
                 cache: analysisCache,
                 learning: LearningSystem(projectRoot: projectRoot)
             )
-            let result = try await runner.analyze(paths: paths)
+            let result = try await runner.analyze(paths: effectivePaths)
             violations = result.violations
             learningStats = result.learningStats
             suppressedCount = result.suppressedCount
@@ -165,13 +217,13 @@ struct CheckCommand: AsyncParsableCommand {
             let analyzer = Analyzer(configuration: configurationWithBaseline, cache: analysisCache)
             
             if !noCache {
-                let result = try await analyzer.analyzeIncremental(paths: paths)
+                let result = try await analyzer.analyzeIncremental(paths: effectivePaths)
                 violations = result.violations
                 cacheHitRate = result.cacheHitRate
                 cachedFileCount = result.cachedFileCount
                 analyzedFileCount = result.analyzedFileCount
             } else {
-                violations = try await analyzer.analyze(paths: paths)
+                violations = try await analyzer.analyze(paths: effectivePaths)
             }
             
             // Cache violations for feedback lookup even without learning mode
@@ -204,6 +256,10 @@ struct CheckCommand: AsyncParsableCommand {
                 minSeverity: severityFilter
             )
             reporter = AgentReporter(options: options)
+        case "sarif":
+            reporter = SARIFReporter()
+        case "xcode":
+            reporter = XcodeReporter()
         default:
             reporter = HumanReporter()
         }
@@ -216,7 +272,16 @@ struct CheckCommand: AsyncParsableCommand {
             violationsToReport = violations.filter { severityRank($0.severity) >= severityRank(minSev) }
         }
 
-        let report = try reporter.generateReport(violationsToReport)
+        // Generate report - pass analysis warnings to formats that support it
+        let report: String
+        switch format.lowercased() {
+        case "json":
+            report = try JSONReporter().generateReport(violationsToReport, metadata: nil, analysisWarnings: analysisWarnings)
+        case "sarif":
+            report = try SARIFReporter().generateReport(violationsToReport, metadata: nil, analysisWarnings: analysisWarnings)
+        default:
+            report = try reporter.generateReport(violationsToReport)
+        }
         print(report, terminator: "")
         
         // Show cache statistics if requested (skip for agent format)
@@ -268,5 +333,70 @@ struct CheckCommand: AsyncParsableCommand {
         case .info: return 2
         case .hint: return 1
         }
+    }
+    
+    /// Error type for git operations
+    enum GitError: Error, CustomStringConvertible {
+        case notAGitRepository
+        case baseRefNotFound(String)
+        case commandFailed(Int32, String)
+        
+        var description: String {
+            switch self {
+            case .notAGitRepository:
+                return "not a git repository"
+            case .baseRefNotFound(let ref):
+                return "base ref '\(ref)' not found - try 'git fetch origin \(ref)'"
+            case .commandFailed(let code, let message):
+                return "git failed with exit code \(code): \(message)"
+            }
+        }
+    }
+    
+    /// Result type for git operations that can fail gracefully
+    enum GitResult<T> {
+        case success(T)
+        case failure(GitError)
+    }
+    
+    /// Get Swift files that have changed since the base git ref
+    private func getChangedSwiftFiles(base: String) throws -> GitResult<[String]> {
+        let process = Process()
+        let stdoutPipe = Pipe()
+        let stderrPipe = Pipe()
+        
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/git")
+        process.arguments = ["diff", "--name-only", "--diff-filter=ACMR", base]
+        process.standardOutput = stdoutPipe
+        process.standardError = stderrPipe
+        
+        try process.run()
+        process.waitUntilExit()
+        
+        if process.terminationStatus != 0 {
+            let stderrData = stderrPipe.fileHandleForReading.readDataToEndOfFile()
+            let stderrOutput = String(data: stderrData, encoding: .utf8) ?? ""
+            
+            // Provide specific error messages for common failure cases
+            if stderrOutput.contains("not a git repository") {
+                return .failure(.notAGitRepository)
+            } else if stderrOutput.contains("unknown revision") || stderrOutput.contains("bad revision") {
+                return .failure(.baseRefNotFound(base))
+            } else {
+                return .failure(.commandFailed(process.terminationStatus, stderrOutput.trimmingCharacters(in: .whitespacesAndNewlines)))
+            }
+        }
+        
+        let data = stdoutPipe.fileHandleForReading.readDataToEndOfFile()
+        guard let output = String(data: data, encoding: .utf8) else {
+            return .success([])
+        }
+        
+        let files = output
+            .split(separator: "\n")
+            .map { String($0) }
+            .filter { $0.hasSuffix(".swift") }
+        
+        return .success(files)
     }
 }

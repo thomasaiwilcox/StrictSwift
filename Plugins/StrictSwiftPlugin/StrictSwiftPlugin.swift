@@ -26,7 +26,6 @@ struct StrictSwiftPlugin: BuildToolPlugin {
         
         // Create output directory for reports
         let outputDir = context.pluginWorkDirectoryURL.appendingPathComponent("strictswift-reports")
-        let reportPath = outputDir.appendingPathComponent("\(target.name)-report.json")
         
         // Build the command arguments
         var arguments: [String] = ["check"]
@@ -37,13 +36,13 @@ struct StrictSwiftPlugin: BuildToolPlugin {
             arguments.append(config.path)
         }
         
-        // Add output format
+        // Use xcode format for inline warnings in Xcode/SwiftPM
         arguments.append("--format")
-        arguments.append("json")
+        arguments.append("xcode")
         
-        // Add output file
-        arguments.append("--output")
-        arguments.append(reportPath.path)
+        // Don't fail on errors during build - just emit warnings
+        arguments.append("--fail-on-error")
+        arguments.append("false")
         
         // Add all Swift source files for analysis
         for file in swiftFiles {
@@ -104,7 +103,6 @@ extension StrictSwiftPlugin: XcodeBuildToolPlugin {
         
         // Create output directory for reports
         let outputDir = context.pluginWorkDirectoryURL.appendingPathComponent("strictswift-reports")
-        let reportPath = outputDir.appendingPathComponent("\(target.displayName)-report.json")
         
         // Build the command arguments
         var arguments: [String] = ["check"]
@@ -115,13 +113,13 @@ extension StrictSwiftPlugin: XcodeBuildToolPlugin {
             arguments.append(config.path)
         }
         
-        // Add output format
+        // Use xcode format for inline warnings in Xcode
         arguments.append("--format")
-        arguments.append("json")
+        arguments.append("xcode")
         
-        // Add output file
-        arguments.append("--output")
-        arguments.append(reportPath.path)
+        // Don't fail on errors during build - just emit warnings
+        arguments.append("--fail-on-error")
+        arguments.append("false")
         
         // Add all Swift files
         for file in swiftFiles {
