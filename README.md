@@ -33,13 +33,13 @@ StrictSwift analyzes your Swift code for:
 - **Incremental Caching** - Only re-analyzes changed files (enabled by default)
 - **AI Agent Mode** - Structured JSON output for Copilot, Cursor, Claude, etc.
 - **Automatic Fixes** - Safe fixes with backup and undo support
-- **Comment Suppressions** - \`// strictswift:ignore <rule>\` to suppress specific violations
+- **Comment Suppressions** - `// strictswift:ignore <rule>` to suppress specific violations
 - **Learning System** - Improves accuracy based on your feedback over time
 - **Baseline Support** - Adopt gradually on existing codebases
 
 ## Quick Start
 
-\`\`\`bash
+```bash
 # Clone and build
 git clone https://github.com/thomasaiwilcox/StrictSwift.git
 cd StrictSwift
@@ -56,13 +56,13 @@ swift-strict fix Sources/ --dry-run
 
 # Apply fixes
 swift-strict fix Sources/
-\`\`\`
+```
 
 ## Configuration
 
-Create \`.strictswift.yml\` in your project root:
+Create `.strictswift.yml` in your project root:
 
-\`\`\`yaml
+```yaml
 # Profile: critical-core, server-default, library-strict, app-relaxed
 profile: server-default
 
@@ -89,13 +89,13 @@ advanced:
     maxCyclomaticComplexity: 10
     maxMethodLength: 50
     maxNestingDepth: 4
-\`\`\`
+```
 
 ## Suppressing Violations
 
 Use comments to suppress specific violations:
 
-\`\`\`swift
+```swift
 // Suppress on next line
 // strictswift:ignore force_unwrap
 let value = optional!
@@ -114,13 +114,13 @@ let b = y!
 
 // Suppress entire file
 // strictswift:ignore-file dead-code
-\`\`\`
+```
 
 ## CLI Commands
 
 ### check - Analyze files
 
-\`\`\`bash
+```bash
 swift-strict check <path> [options]
 
 Options:
@@ -131,11 +131,11 @@ Options:
   --min-severity <level>  Filter: error, warning, info, hint
   --learning              Enable learning system
   --verbose               Show debug output
-\`\`\`
+```
 
 ### fix - Apply automatic fixes
 
-\`\`\`bash
+```bash
 swift-strict fix <path> [options]
 
 Options:
@@ -143,34 +143,34 @@ Options:
   --safe-only             Only apply high-confidence fixes
   --diff                  Show unified diff
   --undo                  Restore from backup
-\`\`\`
+```
 
 ### Other commands
 
-\`\`\`bash
+```bash
 swift-strict baseline <path>     # Create baseline for existing violations
 swift-strict explain <rule-id>   # Get detailed rule explanation
 swift-strict feedback <id> used  # Report a true positive (improves accuracy)
 swift-strict feedback <id> unused # Report a false positive
-\`\`\`
+```
 
 ## Rule Categories
 
 | Category | Count | Examples |
 |----------|-------|----------|
-| Safety | 8 | \`force_unwrap\`, \`force_try\`, \`swallowed_error\`, \`fatal_error\` |
-| Concurrency | 7 | \`data_race\`, \`actor_isolation\`, \`non_sendable_capture\` |
-| Memory | 4 | \`retain_cycle\`, \`escaping_reference\`, \`resource_leak\` |
-| Architecture | 10 | \`god_class\`, \`circular_dependency\`, \`layered_dependencies\` |
-| Complexity | 5 | \`function_length\`, \`cyclomatic_complexity\`, \`nesting_depth\` |
-| Performance | 6 | \`arc_churn\`, \`large_struct_copy\`, \`string_concatenation_loop\` |
-| Security | 4 | \`hardcoded_secrets\`, \`sql_injection_pattern\`, \`insecure_crypto\` |
+| Safety | 8 | `force_unwrap`, `force_try`, `swallowed_error`, `fatal_error` |
+| Concurrency | 7 | `data_race`, `actor_isolation`, `non_sendable_capture` |
+| Memory | 4 | `retain_cycle`, `escaping_reference`, `resource_leak` |
+| Architecture | 10 | `god_class`, `circular_dependency`, `layered_dependencies` |
+| Complexity | 5 | `function_length`, `cyclomatic_complexity`, `nesting_depth` |
+| Performance | 6 | `arc_churn`, `large_struct_copy`, `string_concatenation_loop` |
+| Security | 4 | `hardcoded_secrets`, `sql_injection_pattern`, `insecure_crypto` |
 
-Use \`swift-strict explain <rule-id>\` for details on any rule.
+Use `swift-strict explain <rule-id>` for details on any rule.
 
 ## Cross-File Analysis
 
-Enable with \`useEnhancedRules: true\` for:
+Enable with `useEnhancedRules: true` for:
 
 - **Dead code detection** - Finds unused functions, types, and variables across files
 - **Circular dependency detection** - DFS-based cycle detection in type graph
@@ -188,28 +188,28 @@ Always verify suggestions before deleting code.
 
 StrictSwift outputs structured JSON for AI coding assistants:
 
-\`\`\`bash
+```bash
 swift-strict check Sources/ --format agent --context-lines 3
-\`\`\`
+```
 
 Output includes file paths, line numbers, fix suggestions with edit coordinates, and source context - everything an AI needs to understand and fix issues.
 
-See [\`.github/copilot-instructions.md\`](.github/copilot-instructions.md) for recommended system prompts.
+See [`.github/copilot-instructions.md`](.github/copilot-instructions.md) for recommended system prompts.
 
 ## VS Code Extension
 
 Real-time diagnostics via LSP:
 
-\`\`\`bash
+```bash
 swift build -c release --product strictswift-lsp
 sudo cp .build/release/strictswift-lsp /usr/local/bin/
-\`\`\`
+```
 
-Then install the extension from [\`Editors/vscode\`](Editors/vscode).
+Then install the extension from [`Editors/vscode`](Editors/vscode).
 
 ## SwiftPM Plugin
 
-\`\`\`swift
+```swift
 // Package.swift
 dependencies: [
     .package(url: "https://github.com/thomasaiwilcox/StrictSwift.git", from: "0.1.0"),
@@ -220,7 +220,7 @@ targets: [
         plugins: [.plugin(name: "StrictSwiftPlugin", package: "StrictSwift")]
     ),
 ]
-\`\`\`
+```
 
 ## Profiles
 
@@ -234,57 +234,57 @@ targets: [
 ## Limitations
 
 - **Semantic analysis requires SourceKit** - On macOS, requires Xcode. On Linux, requires Swift toolchain with SourceKit.
-- **Cross-file analysis uses memory** - Large codebases may need more RAM with \`useEnhancedRules: true\`.
+- **Cross-file analysis uses memory** - Large codebases may need more RAM with `useEnhancedRules: true`.
 - **Some rules have false positives** - Use the learning system or comment suppressions to handle them.
 - **Fix command is conservative** - Not all violations have automatic fixes.
 
 ## Troubleshooting
 
 **Semantic analysis not working:**
-\`\`\`bash
+```bash
 swift-strict check Sources/ --verbose  # Check SourceKit status
 xcode-select --install                 # Ensure Xcode CLI tools
-\`\`\`
+```
 
 **Cache issues:**
-\`\`\`bash
+```bash
 swift-strict check Sources/ --clear-cache
-\`\`\`
+```
 
 **Fix broke something:**
-\`\`\`bash
+```bash
 swift-strict fix --undo  # Restore from backup
 git checkout .           # Or restore from git
-\`\`\`
+```
 
 ## Files Created
 
 | File | Purpose | Commit? |
 |------|---------|---------|
-| \`.strictswift.yml\` | Configuration | Yes |
-| \`.strictswift-baseline.json\` | Known violations baseline | Yes |
-| \`.strictswift-cache/\` | Analysis cache | No |
-| \`.strictswift-backup/\` | Pre-fix backups | No |
-| \`.strictswift-learned.json\` | Learning system data | Optional |
+| `.strictswift.yml` | Configuration | Yes |
+| `.strictswift-baseline.json` | Known violations baseline | Yes |
+| `.strictswift-cache/` | Analysis cache | No |
+| `.strictswift-backup/` | Pre-fix backups | No |
+| `.strictswift-learned.json` | Learning system data | Optional |
 
-Add to \`.gitignore\`:
-\`\`\`gitignore
+Add to `.gitignore`:
+```gitignore
 .strictswift-cache/
 .strictswift-backup/
 .strictswift-last-run.json
-\`\`\`
+```
 
 ## Development
 
-\`\`\`bash
+```bash
 swift test                              # Run tests (590+)
 swift build -c release                  # Release build
 .build/debug/swift-strict check Sources/ # Dogfood
-\`\`\`
+```
 
 ## Contributing
 
-See [\`CONTRIBUTING.md\`](CONTRIBUTING.md).
+See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## License
 
