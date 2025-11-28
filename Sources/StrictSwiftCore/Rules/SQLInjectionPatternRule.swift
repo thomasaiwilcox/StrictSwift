@@ -44,6 +44,18 @@ private final class SQLInjectionVisitor: SyntaxVisitor {
         "WHERE", "AND", "OR", "SET", "VALUES", "INTO", "FROM", "JOIN",
         "ORDER BY", "GROUP BY", "HAVING", "LIMIT", "OFFSET"
     ]
+    
+    /// Pre-compiled regex patterns for SQL keywords - compiled once on init
+    private static let sqlKeywordRegexes: [NSRegularExpression] = buildRegexes(for: sqlKeywords)
+    private static let sqlClauseRegexes: [NSRegularExpression] = buildRegexes(for: sqlClauseKeywords)
+    
+    private static func buildRegexes(for keywords: [String]) -> [NSRegularExpression] {
+        keywords.compactMap { keyword in
+            let escapedKeyword = NSRegularExpression.escapedPattern(for: keyword)
+            let pattern = "(?:^|[\\s\"'(,])(\(escapedKeyword))(?:[\\s\"'),;]|$)"
+            return try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive])
+        }
+    }
 
     init(sourceFile: SourceFile) {
         self.sourceFile = sourceFile
@@ -165,31 +177,22 @@ private final class SQLInjectionVisitor: SyntaxVisitor {
     private func containsSQLKeywords(_ stringLiteral: StringLiteralExprSyntax) -> Bool {
         let content = extractStringContent(from: stringLiteral)
         
-        // Check for main SQL keyword at word boundary
-        guard hasSQLKeywordAtWordBoundary(content, keywords: Self.sqlKeywords) else {
+        // Check for main SQL keyword at word boundary (use pre-compiled regexes)
+        guard matchesAnyRegex(content, regexes: Self.sqlKeywordRegexes) else {
             return false
         }
         
         // Also require a clause keyword to confirm SQL structure
         // This prevents false positives on strings that happen to contain "UPDATE" or "UNION"
-        return hasSQLKeywordAtWordBoundary(content, keywords: Self.sqlClauseKeywords)
+        return matchesAnyRegex(content, regexes: Self.sqlClauseRegexes)
     }
     
-    /// Checks if any of the keywords appear at word boundaries in the content
-    private func hasSQLKeywordAtWordBoundary(_ content: String, keywords: [String]) -> Bool {
+    /// Checks if content matches any of the pre-compiled regexes
+    private func matchesAnyRegex(_ content: String, regexes: [NSRegularExpression]) -> Bool {
         let uppercased = content.uppercased()
+        let range = NSRange(uppercased.startIndex..., in: uppercased)
         
-        for keyword in keywords {
-            // Build a pattern that requires word boundaries
-            // Word boundary = start of string, whitespace, quote, paren, or comma
-            let escapedKeyword = NSRegularExpression.escapedPattern(for: keyword)
-            let pattern = "(?:^|[\\s\"'(,])(\(escapedKeyword))(?:[\\s\"'),;]|$)"
-            
-            guard let regex = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else {
-                continue
-            }
-            
-            let range = NSRange(uppercased.startIndex..., in: uppercased)
+        for regex in regexes {
             if regex.firstMatch(in: uppercased, options: [], range: range) != nil {
                 return true
             }

@@ -81,11 +81,11 @@ StrictSwift is not:
 	•	Execution surfaces: CLI, SwiftPM build plugin, SourceKit-LSP service.
 
 6.2 Workflow Snapshot
-	1. `swift-strict baseline --profile critical-core` captures existing violations.
-	2. Developers run `swift-strict check` locally for fast feedback (human output).
-	3. CI runs `swift-strict ci --format json-detailed --fail-on error` using baselines.
-	4. `swift-strict fix` provides safe automated rewrites for confined patterns.
-	5. Teams review `swift-strict audit` reports before release to prove safety posture.
+	1. `strictswift baseline --profile critical-core` captures existing violations.
+	2. Developers run `strictswift check` locally for fast feedback (human output).
+	3. CI runs `strictswift ci --format json-detailed --fail-on error` using baselines.
+	4. `strictswift fix` provides safe automated rewrites for confined patterns.
+	5. Teams review `strictswift audit` reports before release to prove safety posture.
 
 ⸻
 
@@ -195,10 +195,10 @@ baseline: .strictswift-baseline.json
 9. Adoption & Migration
 
 	•	Baseline files record known violations so legacy code can adopt StrictSwift without blocking merges.
-	•	`swift-strict migrate --from server-default --to critical-core` emits a step-by-step checklist (rules newly enforced, suggested refactors).
+	•	`strictswift migrate --from server-default --to critical-core` emits a step-by-step checklist (rules newly enforced, suggested refactors).
 	•	Severity overrides can be scoped per-target or per-path to support carve-outs.
 	•	Telemetry (opt-in) captures most common violations to inform default tuning.
-	•	`swift-strict explain <rule>` links diagnostics to documentation, rationale, and remediation examples.
+	•	`strictswift explain <rule>` links diagnostics to documentation, rationale, and remediation examples.
 
 ⸻
 
@@ -250,15 +250,15 @@ Structured JSON for CI, AI assistants, and auditing:
 
 11. CLI & Automation
 
-	•	`swift-strict check [path]` — local analysis with smart defaults.
-	•	`swift-strict ci` — deterministic CI mode (non-interactive, JSON by default).
-	•	`swift-strict baseline` — create/update baseline file with optional expiry.
-	•	`swift-strict fix` — safe autofixes (capture lists, annotation insertion, import trimming).
-	•	`swift-strict audit` — generate HTML/PDF summary of safety posture.
-	•	`swift-strict unsafe-scan` — list unsafe blocks + owners.
-	•	`swift-strict dependency-graph` — emit DOT/JSON graphs for viz tooling.
-	•	`swift-strict profile-tune` — suggest rule thresholds from telemetry.
-	•	`swift-strict benchmark` — run verification suite against sample packages.
+	•	`strictswift check [path]` — local analysis with smart defaults.
+	•	`strictswift ci` — deterministic CI mode (non-interactive, JSON by default).
+	•	`strictswift baseline` — create/update baseline file with optional expiry.
+	•	`strictswift fix` — safe autofixes (capture lists, annotation insertion, import trimming).
+	•	`strictswift audit` — generate HTML/PDF summary of safety posture.
+	•	`strictswift unsafe-scan` — list unsafe blocks + owners.
+	•	`strictswift dependency-graph` — emit DOT/JSON graphs for viz tooling.
+	•	`strictswift profile-tune` — suggest rule thresholds from telemetry.
+	•	`strictswift benchmark` — run verification suite against sample packages.
 
 ⸻
 
@@ -276,7 +276,7 @@ Structured JSON for CI, AI assistants, and auditing:
 	•	Open-source harness runs StrictSwift against representative Swift packages (Vapor, AsyncHTTPClient, SwiftNIO samples, internal microservices).
 	•	Each release must publish performance numbers (wall time, memory) and accuracy deltas (precision/recall for seeded violations).
 	•	"Rust-inspired" profile graduates from beta only after passing the harness cases covering concurrency, ownership, and unsafe boundaries.
-	•	Benchmarks execute nightly to catch regressions; results feed `swift-strict benchmark`.
+	•	Benchmarks execute nightly to catch regressions; results feed `strictswift benchmark`.
 
 ⸻
 
@@ -370,7 +370,7 @@ StrictSwift v1 is successful when:
 	3. The verification harness shows ≤5% false positives and ≥95% detection on seeded issues.
 	4. IDE (SourceKit-LSP) users receive the same diagnostics as CLI/CI runs.
 	5. Third-party rule authors begin publishing vetted bundles, demonstrating extensibility.
-	6. Security/compliance stakeholders can reference `swift-strict audit` outputs during reviews.
+	6. Security/compliance stakeholders can reference `strictswift audit` outputs during reviews.
 
 ⸻
 

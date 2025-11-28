@@ -5,7 +5,7 @@ let package = Package(
     name: "StrictSwift",
     platforms: [.macOS(.v15)],
     products: [
-        .executable(name: "swift-strict", targets: ["StrictSwiftCLI"]),
+        .executable(name: "strictswift", targets: ["StrictSwiftCLI"]),
         .executable(name: "strictswift-lsp", targets: ["StrictSwiftLSP"]),
         .library(name: "StrictSwiftCore", targets: ["StrictSwiftCore"]),
         .plugin(name: "StrictSwiftPlugin", targets: ["StrictSwiftPlugin"]),

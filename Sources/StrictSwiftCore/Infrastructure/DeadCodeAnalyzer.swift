@@ -220,8 +220,13 @@ public enum DeadCodeConfidence: String, Codable, Sendable, Comparable {
     case low
     
     public static func < (lhs: DeadCodeConfidence, rhs: DeadCodeConfidence) -> Bool {
-        let order: [DeadCodeConfidence] = [.low, .medium, .high]
-        return order.firstIndex(of: lhs)! < order.firstIndex(of: rhs)!
+        // Define ordering: low < medium < high
+        switch (lhs, rhs) {
+        case (.low, .medium), (.low, .high), (.medium, .high):
+            return true
+        default:
+            return false
+        }
     }
 }
 
@@ -289,6 +294,7 @@ public final class DeadCodeAnalyzer: Sendable {
     private let graph: GlobalReferenceGraph
     private let configuration: DeadCodeConfiguration
     
+    // strictswift:ignore large_struct_copy -- Config only passed at initialization, not in hot path
     public init(graph: GlobalReferenceGraph, configuration: DeadCodeConfiguration = .libraryDefault) {
         self.graph = graph
         self.configuration = configuration

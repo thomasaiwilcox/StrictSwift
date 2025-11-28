@@ -197,11 +197,8 @@ private final class InsecureCryptoVisitor: SyntaxVisitor {
     }
     
     override func visit(_ node: MemberAccessExprSyntax) -> SyntaxVisitorContinueKind {
-        // Check the full member access chain
-        let fullAccess = node.description.trimmingCharacters(in: .whitespaces)
-        checkForInsecureCrypto(identifier: fullAccess, node: Syntax(node))
-        
-        // Also check just the member name
+        // Only check the member name, not the full description which includes child nodes
+        // This prevents false positives when string literals are arguments
         let memberName = node.declName.baseName.text
         checkForInsecureCrypto(identifier: memberName, node: Syntax(node))
         
@@ -209,12 +206,17 @@ private final class InsecureCryptoVisitor: SyntaxVisitor {
     }
     
     override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {
-        // Get the function name being called
-        let functionName = node.calledExpression.description.trimmingCharacters(in: .whitespaces)
-        checkForInsecureCrypto(identifier: functionName, node: Syntax(node))
+        // Get just the function name being called, not the full description with arguments
+        // node.calledExpression.description would include arguments which may contain
+        // string literals like "MD5" in pattern definitions
+        if let declRef = node.calledExpression.as(DeclReferenceExprSyntax.self) {
+            checkForInsecureCrypto(identifier: declRef.baseName.text, node: Syntax(node))
+        } else if let memberAccess = node.calledExpression.as(MemberAccessExprSyntax.self) {
+            checkForInsecureCrypto(identifier: memberAccess.declName.baseName.text, node: Syntax(node))
+        }
         return .visitChildren
     }
-    
+
     override func visit(_ node: PatternBindingSyntax) -> SyntaxVisitorContinueKind {
         // Check for static IV patterns
         guard let identifier = node.pattern.as(IdentifierPatternSyntax.self) else {
@@ -223,8 +225,22 @@ private final class InsecureCryptoVisitor: SyntaxVisitor {
         
         let varName = identifier.identifier.text.lowercased()
         
-        // Check for hardcoded IV
-        if (varName.contains("iv") || varName == "initializationvector") {
+        // Check for hardcoded IV - must be a crypto-specific IV variable
+        // Match: iv, ivData, iv_data, initializationVector, initialIv, cryptoIv
+        // Don't match: sensitive, private, primitiveValue, derivedValue
+        let isIvVariable = varName == "iv" ||
+                           varName.hasPrefix("iv_") ||
+                           varName.hasPrefix("iv.") ||
+                           varName.hasSuffix("_iv") ||
+                           varName.hasSuffix("iv") && varName.contains("crypto") ||
+                           varName.hasSuffix("iv") && varName.contains("cipher") ||
+                           varName.hasSuffix("iv") && varName.contains("encrypt") ||
+                           varName == "ivdata" ||
+                           varName == "ivbytes" ||
+                           varName == "initializationvector" ||
+                           varName == "initialiv"
+        
+        if isIvVariable {
             // Check if it's a static/constant with a literal value
             if let initializer = node.initializer,
                isDataOrArrayLiteral(initializer.value) {
@@ -248,6 +264,12 @@ private final class InsecureCryptoVisitor: SyntaxVisitor {
     }
     
     private func checkForInsecureCrypto(identifier: String, node: Syntax) {
+        // Skip string literals and arguments to pattern definitions
+        // This prevents the rule from flagging its own pattern definitions
+        if identifier.contains("\"") || identifier.contains("'") {
+            return
+        }
+        
         for pattern in Self.insecurePatterns {
             // Use case-sensitive matching for most patterns
             if identifier.contains(pattern.pattern) ||

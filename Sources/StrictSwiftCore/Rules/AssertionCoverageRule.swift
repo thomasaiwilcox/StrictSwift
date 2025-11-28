@@ -49,12 +49,6 @@ private final class AssertionCoverageVisitor: SyntaxVisitor {
         "XCTUnwrap", "XCTExpectFailure"
     ]
     
-    /// Swift Testing macros
-    private static let swiftTestingAssertions: Set<String> = [
-        "#expect", "#require", "expect", "require",
-        "Issue.record", "withKnownIssue"
-    ]
-    
     /// Track if we're in a test class
     private var inTestClass = false
     private var testClassStack: [Bool] = []

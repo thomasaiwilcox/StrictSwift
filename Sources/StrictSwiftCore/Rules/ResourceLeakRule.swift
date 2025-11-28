@@ -116,6 +116,14 @@ private final class ResourceLeakVisitor: SyntaxVisitor {
     /// Returns (resourceType, cleanupMethod) if tracked, nil if not tracked
     /// Only returns matches for well-known Swift types where cleanup is unambiguous
     private func getTrackedResourceInfo(_ initExpr: String, typeAnnotation: TypeAnnotationSyntax?) -> (String, String)? {
+        // Skip standard file handles - these are singletons that don't need cleanup
+        if initExpr.contains(".standardInput") ||
+           initExpr.contains(".standardOutput") ||
+           initExpr.contains(".standardError") ||
+           initExpr.contains(".nullDevice") {
+            return nil
+        }
+        
         // Check explicit type annotation first (most reliable)
         if let typeName = typeAnnotation?.type.trimmedDescription {
             for (resourceType, cleanup) in trackedResources {
@@ -130,10 +138,7 @@ private final class ResourceLeakVisitor: SyntaxVisitor {
         for (resourceType, cleanup) in trackedResources {
             // Match Type( or Type.init( patterns
             if initExpr.contains(resourceType + "(") || 
-               initExpr.contains(resourceType + ".init(") ||
-               initExpr.contains(resourceType + ".standardInput") ||
-               initExpr.contains(resourceType + ".standardOutput") ||
-               initExpr.contains(resourceType + ".standardError") {
+               initExpr.contains(resourceType + ".init(") {
                 return (resourceType, cleanup)
             }
         }

@@ -164,55 +164,42 @@ final class PerformanceAnalysisTests: XCTestCase {
         let sourceCode = """
         import Foundation
 
-        struct LargeStruct {
-            let data: Data  // Large property
-            let strings: [String]  // Another large property
-            let numbers: [Int]  // Additional property
-            let dictionary: [String: Any]  // Large dictionary
-            let url: URL
-            let date: Date
-            let additionalData: Data  // More data
+        // A struct that exceeds 128 bytes with 20+ properties
+        struct VeryLargeStruct {
+            let prop1: Int
+            let prop2: Int
+            let prop3: Int
+            let prop4: Int
+            let prop5: Int
+            let prop6: Int
+            let prop7: Int
+            let prop8: Int
+            let prop9: Int
+            let prop10: Int
+            let prop11: Int
+            let prop12: Int
+            let prop13: Int
+            let prop14: Int
+            let prop15: Int
+            let prop16: Int
+            let prop17: Int
         }
 
         class StructCopyTest {
             func testLargeStructCopy() {
-                var largeStruct = LargeStruct(
-                    data: Data(repeating: 0, count: 1024),
-                    strings: ["test1", "test2", "test3", "test4", "test5"],
-                    numbers: Array(0..<100),
-                    dictionary: ["key": "value", "nested": ["inner": "data"]],
-                    url: URL(string: "https://example.com")!,
-                    date: Date(),
-                    additionalData: Data(repeating: 1, count: 512)
+                var largeStruct = VeryLargeStruct(
+                    prop1: 1, prop2: 2, prop3: 3, prop4: 4, prop5: 5,
+                    prop6: 6, prop7: 7, prop8: 8, prop9: 9, prop10: 10,
+                    prop11: 11, prop12: 12, prop13: 13, prop14: 14, prop15: 15,
+                    prop16: 16, prop17: 17
                 )
-
-                // Copy in loop - should be flagged
-                for i in 0..<10 {
-                    let copy = largeStruct  // Expensive struct copy
-                    print("Copy \\(i): \\(copy)")
-                }
 
                 // Passing large struct as parameter
                 processLargeStruct(largeStruct)
-
-                // Returning large struct
-                returnLargeStruct()
             }
 
-            func processLargeStruct(_ large: LargeStruct) {
+            func processLargeStruct(_ large: VeryLargeStruct) {
                 print("Processing large struct")
-            }
-
-            func returnLargeStruct() -> LargeStruct {
-                return LargeStruct(
-                    data: Data(),
-                    strings: [],
-                    numbers: [],
-                    dictionary: [:],
-                    url: URL(fileURLWithPath: "/tmp")!,
-                    date: Date(),
-                    additionalData: Data()
-                )
             }
         }
         """

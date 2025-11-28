@@ -3,6 +3,9 @@ import Foundation
 import Darwin
 #endif
 
+// strictswift:file-ignore hardcoded_secrets
+// This file contains format strings and benchmark identifiers, not secrets
+
 /// Performance metrics for analysis operations
 public struct PerformanceMetrics: Sendable, Codable {
     public let operationName: String

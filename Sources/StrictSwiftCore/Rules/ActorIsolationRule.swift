@@ -35,9 +35,13 @@ private final class ActorIsolationVisitor: SyntaxVisitor {
     private var currentActorName: String?
 
     // Risky APIs that should be used carefully in actor contexts
+    // Note: FileManager is NOT included because:
+    // 1. FileManager.default is the standard way to do file operations
+    // 2. It's commonly used in async contexts without issues
+    // 3. File operations are inherently synchronous and blocking
     private let riskyAPIs: Set<String> = [
         "DispatchQueue", "NotificationCenter", "UserDefaults",
-        "FileManager", "Timer", "RunLoop"
+        "Timer", "RunLoop"
     ]
 
     init(sourceFile: SourceFile) {

@@ -21,6 +21,9 @@ public final class SourceFile: @unchecked Sendable {
     public let modificationDate: Date
     /// File size in bytes
     public let fileSize: Int64
+    
+    /// Suppression tracker for inline comment-based suppression
+    public let suppressionTracker: SuppressionTracker
 
     private let _lock = NSLock()
 
@@ -35,6 +38,9 @@ public final class SourceFile: @unchecked Sendable {
         let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
         self.modificationDate = attributes[.modificationDate] as? Date ?? Date()
         self.fileSize = attributes[.size] as? Int64 ?? Int64(source.utf8.count)
+        
+        // Parse suppression comments
+        self.suppressionTracker = SuppressionTracker(source: source)
 
         let symbolCollector = SymbolCollector(fileURL: url, tree: tree, moduleName: moduleName)
         symbolCollector.walk(tree)
@@ -55,6 +61,9 @@ public final class SourceFile: @unchecked Sendable {
         self.contentHash = FileFingerprint.fnv1aHash(source)
         self.modificationDate = Date()
         self.fileSize = Int64(source.utf8.count)
+        
+        // Parse suppression comments
+        self.suppressionTracker = SuppressionTracker(source: source)
 
         let symbolCollector = SymbolCollector(fileURL: url, tree: tree, moduleName: moduleName)
         symbolCollector.walk(tree)
@@ -117,7 +126,7 @@ public final class SourceFile: @unchecked Sendable {
 
     /// Find the location of a function by name
     public func locationOfFunction(named functionName: String) -> Location? {
-        class FunctionFinder: SyntaxAnyVisitor {
+        class FunctionFinder: SyntaxVisitor {
             let targetName: String
             var foundPosition: AbsolutePosition?
 

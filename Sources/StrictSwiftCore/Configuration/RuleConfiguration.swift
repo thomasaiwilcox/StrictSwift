@@ -132,6 +132,27 @@ public struct RulesConfiguration: Codable, Equatable, Sendable {
         self.security = security
         self.testing = testing
     }
+    
+    // Custom Codable implementation to use defaults for missing keys
+    private enum CodingKeys: String, CodingKey {
+        case memory, concurrency, architecture, safety, performance, complexity, monolith, dependency, security, testing
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultConfig = RuleConfiguration()
+        
+        self.memory = try container.decodeIfPresent(RuleConfiguration.self, forKey: .memory) ?? defaultConfig
+        self.concurrency = try container.decodeIfPresent(RuleConfiguration.self, forKey: .concurrency) ?? defaultConfig
+        self.architecture = try container.decodeIfPresent(RuleConfiguration.self, forKey: .architecture) ?? defaultConfig
+        self.safety = try container.decodeIfPresent(RuleConfiguration.self, forKey: .safety) ?? defaultConfig
+        self.performance = try container.decodeIfPresent(RuleConfiguration.self, forKey: .performance) ?? defaultConfig
+        self.complexity = try container.decodeIfPresent(RuleConfiguration.self, forKey: .complexity) ?? defaultConfig
+        self.monolith = try container.decodeIfPresent(RuleConfiguration.self, forKey: .monolith) ?? defaultConfig
+        self.dependency = try container.decodeIfPresent(RuleConfiguration.self, forKey: .dependency) ?? defaultConfig
+        self.security = try container.decodeIfPresent(RuleConfiguration.self, forKey: .security) ?? defaultConfig
+        self.testing = try container.decodeIfPresent(RuleConfiguration.self, forKey: .testing) ?? defaultConfig
+    }
 
     /// Get configuration for a specific rule category
     public func configuration(for category: RuleCategory) -> RuleConfiguration {

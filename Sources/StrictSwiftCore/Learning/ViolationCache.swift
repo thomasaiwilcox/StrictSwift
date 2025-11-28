@@ -62,7 +62,7 @@ public actor ViolationCache {
     
     /// Get the path to the cache file
     private var cacheFilePath: String {
-        return (cacheDirectory as NSString).appendingPathComponent(cacheFileName)
+        return URL(fileURLWithPath: cacheDirectory).appendingPathComponent(cacheFileName).path
     }
     
     /// Store violations from an analysis run
@@ -143,7 +143,8 @@ public actor ViolationCache {
             let jsonData = try encoder.encode(data)
             try jsonData.write(to: URL(fileURLWithPath: cacheFilePath))
         } catch {
-            // Silently fail - cache is best-effort
+            // Cache is best-effort, log for debugging
+            StrictSwiftLogger.debug("Failed to save violation cache: \(error)")
         }
     }
     
@@ -157,7 +158,8 @@ public actor ViolationCache {
             decoder.dateDecodingStrategy = .iso8601
             data = try decoder.decode(ViolationCacheData.self, from: jsonData)
         } catch {
-            // Silently fail - start with empty cache
+            // Cache is best-effort, log for debugging and start with empty cache
+            StrictSwiftLogger.debug("Failed to load violation cache: \(error)")
             data = ViolationCacheData()
         }
     }

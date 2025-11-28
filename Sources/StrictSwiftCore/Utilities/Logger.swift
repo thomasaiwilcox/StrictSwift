@@ -1,4 +1,54 @@
 import Foundation
+#if canImport(os)
+import os
+#endif
+
+// strictswift:ignore-file circular_dependency_graph -- LoggerState↔StrictSwiftLogger is intentional encapsulation
+
+/// Thread-safe storage for log level using os_unfair_lock (or NSLock on Linux)
+/// SAFETY: @unchecked Sendable is safe because all mutable state (_minLevel) is
+/// protected by the lock, ensuring thread-safe access from any context.
+private final class LoggerState: @unchecked Sendable {
+    #if canImport(os)
+    /// Using os_unfair_lock for efficient thread synchronization
+    private var lock = os_unfair_lock()
+    #else
+    /// Using NSLock for Linux compatibility
+    private let lock = NSLock()
+    #endif
+    
+    /// Backing storage for log level (can be changed at runtime)
+    private var _minLevel: StrictSwiftLogger.Level?
+    
+    /// The shared instance - this is immutable after initialization
+    static let shared = LoggerState()
+    
+    private init() {}
+    
+    /// Get or set the current minimum level
+    var minLevel: StrictSwiftLogger.Level? {
+        get {
+            #if canImport(os)
+            os_unfair_lock_lock(&lock)
+            defer { os_unfair_lock_unlock(&lock) }
+            #else
+            lock.lock()
+            defer { lock.unlock() }
+            #endif
+            return _minLevel
+        }
+        set {
+            #if canImport(os)
+            os_unfair_lock_lock(&lock)
+            defer { os_unfair_lock_unlock(&lock) }
+            #else
+            lock.lock()
+            defer { lock.unlock() }
+            #endif
+            _minLevel = newValue
+        }
+    }
+}
 
 /// Simple logging utility for StrictSwift
 public enum StrictSwiftLogger: Sendable {
@@ -13,30 +63,20 @@ public enum StrictSwiftLogger: Sendable {
             lhs.rawValue < rhs.rawValue
         }
     }
-
-    /// Lock for thread-safe access to mutable state
-    private static let lock = NSLock()
-    
-    /// Backing storage for log level (can be changed at runtime)
-    /// Thread-safety is ensured via lock - marked nonisolated(unsafe) to suppress warning
-    nonisolated(unsafe) private static var _minLevel: Level?
     
     /// Current minimum log level
     /// Can be set via:
     /// 1. setMinLevel() at runtime (highest priority)
     /// 2. STRICTSWIFT_LOG_LEVEL environment variable
     /// 3. Default: .warning
+    // strictswift:ignore global_state -- Intentional: logger level must be globally accessible
     public static var minLevel: Level {
         get {
-            lock.lock()
-            defer { lock.unlock() }
-            if let level = _minLevel { return level }
+            if let level = LoggerState.shared.minLevel { return level }
             return levelFromEnvironment()
         }
         set {
-            lock.lock()
-            defer { lock.unlock() }
-            _minLevel = newValue
+            LoggerState.shared.minLevel = newValue
         }
     }
     
@@ -97,17 +137,15 @@ public enum StrictSwiftLogger: Sendable {
         case .error: prefix = "❌ ERROR"
         }
 
-        let fileName = (file as NSString).lastPathComponent
+        let fileName = URL(fileURLWithPath: file).lastPathComponent
         let location = includeSourceLocation ? " [\(fileName):\(line)]" : ""
 
-        // Use FileHandle for thread-safe stderr access
+        // Use FileHandle for thread-safe stderr access for all log levels
         let output = "\(prefix)\(location): \(message)\n"
-        if level >= .warning {
-            if let data = output.data(using: .utf8) {
-                FileHandle.standardError.write(data)
-            }
-        } else {
-            print("\(prefix)\(location): \(message)")
+        if let data = output.data(using: .utf8) {
+            // Debug/info go to stdout, warnings/errors go to stderr
+            let handle = level >= .warning ? FileHandle.standardError : FileHandle.standardOutput
+            handle.write(data)
         }
     }
 }

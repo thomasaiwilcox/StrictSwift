@@ -1,6 +1,8 @@
 import Foundation
 import SwiftSyntax
 
+// strictswift:ignore-file circular_dependency_graph -- OwnershipGraph↔OwnershipStatistics is intentional helper pattern
+
 /// Tracks ownership relationships and reference lifetimes for memory safety analysis
 /// SAFETY: @unchecked Sendable is safe because all mutable state (references, nodes)
 /// is protected by NSLock for thread-safe access.
@@ -113,6 +115,7 @@ public final class OwnershipGraph: @unchecked Sendable {
         // Fire-and-forget pattern removed - now synchronously adds
         // Using synchronous dispatch to ensure data is not lost
         let semaphore = DispatchSemaphore(value: 0)
+        // strictswift:ignore unstructured_task -- Intentional sync-async bridge for deprecated API
         Task {
             await graphState.addNode(node)
             semaphore.signal()
@@ -126,6 +129,7 @@ public final class OwnershipGraph: @unchecked Sendable {
     public func addReference(_ reference: Reference) {
         // Fire-and-forget pattern removed - now synchronously adds
         let semaphore = DispatchSemaphore(value: 0)
+        // strictswift:ignore unstructured_task -- Intentional sync-async bridge for deprecated API
         Task {
             await graphState.addReference(reference)
             semaphore.signal()
@@ -387,11 +391,19 @@ public final class OwnershipGraph: @unchecked Sendable {
         return nil
     }
 
+    /// Determines if a reference represents a mutable (write) access to its TARGET.
+    /// Note: `.assignment` means the SOURCE is being written to, but the TARGET is being READ.
+    /// For exclusive access violations, we care about writes TO the target, not reads FROM it.
     private func isMutableReference(_ reference: Reference) -> Bool {
         switch reference.type {
-        case .assignment, .escaping, .strong:
+        // These types indicate the SOURCE is written/captured, but TARGET is only READ
+        case .assignment, .strong, .capture, .parameter, .returnValue:
+            return false
+        // Escaping references could potentially be mutated through the escaped reference
+        case .escaping:
             return true
-        case .weak, .unowned, .capture, .parameter, .returnValue, .nonEscaping:
+        // Weak/unowned are explicitly non-mutating
+        case .weak, .unowned, .nonEscaping:
             return false
         }
     }

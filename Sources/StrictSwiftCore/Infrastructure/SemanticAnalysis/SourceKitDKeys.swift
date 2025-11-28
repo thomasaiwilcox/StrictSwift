@@ -4,6 +4,8 @@ import Foundation
 
 /// Thread-safe container for SourceKit UID keys
 /// Uses nonisolated access with locks for safe concurrent access
+/// SAFETY: @unchecked Sendable is safe because all mutable state (api, cachedKeys)
+/// is protected by NSLock, ensuring thread-safe access from any context.
 public final class SourceKitDKeys: @unchecked Sendable {
     
     /// Shared instance - requires SourceKitDLoader to be loaded first

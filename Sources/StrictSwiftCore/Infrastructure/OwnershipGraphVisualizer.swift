@@ -1,5 +1,7 @@
 import Foundation
 
+// strictswift:ignore-file circular_dependency_graph -- OwnershipGraph↔OwnershipStatistics is intentional helper pattern
+
 /// Visualizer for the OwnershipGraph that can export to DOT format and ASCII art
 public struct OwnershipGraphVisualizer: Sendable {
     

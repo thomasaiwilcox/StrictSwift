@@ -1,11 +1,6 @@
 import Foundation
 import StrictSwiftCore
 
-// MARK: - Error Types
-
-/// Error thrown when analysis exceeds the timeout
-private struct AnalysisTimeoutError: Error {}
-
 // MARK: - LSP Server Entry Point
 
 @main
@@ -471,7 +466,7 @@ actor LSPServer {
         
         openDocuments.removeValue(forKey: uri)
         
-        // Clear diagnostics for closed document
+        // Fire-and-forget: Clear diagnostics for closed document (non-blocking)
         Task {
             try? await publishDiagnostics(uri: uri, diagnostics: [])
         }
@@ -717,7 +712,8 @@ actor LSPServer {
             
             try await publishDiagnostics(uri: document.uri, diagnostics: diagnostics)
         } catch {
-            // Analysis error
+            // Analysis error - log for debugging
+            log("Document analysis failed for \(document.uri): \(error)")
         }
     }
     

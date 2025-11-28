@@ -1,5 +1,7 @@
 import Foundation
 
+// strictswift:ignore-file circular_dependency_graph -- SourceKitClient↔CursorInfo is intentional result type pattern
+
 // MARK: - SourceKit Client
 
 /// A client for querying SourceKit for type information

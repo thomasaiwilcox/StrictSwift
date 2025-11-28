@@ -61,10 +61,16 @@ final class ARCChurnRuleTests: XCTestCase {
         
         let sourceFile = SourceFile(url: URL(fileURLWithPath: "/tmp/test.swift"), source: sourceCode)
         let rule = ARCChurnRule()
+        
+        // Enable property access check with a low threshold to detect self access
+        var config = Configuration()
+        config.setRuleParameter("arc_churn", "checkPropertyAccess", value: true)
+        config.setRuleParameter("arc_churn", "maxRetainsInLoop", value: 3)
+        
         let context = AnalysisContext(
             sourceFiles: [sourceFile],
             workspace: URL(fileURLWithPath: "/tmp"),
-            configuration: Configuration()
+            configuration: config
         )
         
         let violations = await rule.analyze(sourceFile, in: context)
@@ -128,8 +134,10 @@ final class ARCChurnRuleTests: XCTestCase {
         let sourceFile = SourceFile(url: URL(fileURLWithPath: "/tmp/test.swift"), source: sourceCode)
         let rule = ARCChurnRule()
         
+        // Enable higher-order function checks (disabled by default as they're common patterns)
         var config = Configuration()
         config.setRuleParameter("arc_churn", "checkArrayOperations", value: true)
+        config.setRuleParameter("arc_churn", "checkHigherOrderFunctions", value: true)
         
         let context = AnalysisContext(
             sourceFiles: [sourceFile],
@@ -327,10 +335,15 @@ final class ARCChurnRuleTests: XCTestCase {
         
         let sourceFile = SourceFile(url: URL(fileURLWithPath: "/tmp/test.swift"), source: sourceCode)
         let rule = ARCChurnRule()
+        
+        // Enable higher-order function checks (disabled by default as they're common patterns)
+        var config = Configuration()
+        config.setRuleParameter("arc_churn", "checkHigherOrderFunctions", value: true)
+        
         let context = AnalysisContext(
             sourceFiles: [sourceFile],
             workspace: URL(fileURLWithPath: "/tmp"),
-            configuration: Configuration()
+            configuration: config
         )
         
         let violations = await rule.analyze(sourceFile, in: context)

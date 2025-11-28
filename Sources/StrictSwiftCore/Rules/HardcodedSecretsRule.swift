@@ -34,10 +34,14 @@ private struct SecretPattern {
     let regex: NSRegularExpression
     let message: String
     
-    init(name: String, pattern: String, message: String) {
+    /// Create a SecretPattern. Returns nil if the regex pattern is invalid.
+    init?(name: String, pattern: String, message: String) {
         self.name = name
-        // swiftlint:disable:next force_try
-        self.regex = try! NSRegularExpression(pattern: pattern, options: [])
+        // Pattern validation - returns nil if invalid
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else {
+            return nil
+        }
+        self.regex = regex
         self.message = message
     }
 }
@@ -49,121 +53,26 @@ private final class HardcodedSecretsVisitor: SyntaxVisitor {
     
     /// Known secret patterns to detect
     private static let secretPatterns: [SecretPattern] = [
-        // AWS Access Key ID
-        SecretPattern(
-            name: "AWS Access Key",
-            pattern: #"AKIA[0-9A-Z]{16}"#,
-            message: "Hardcoded AWS Access Key ID detected"
-        ),
-        // AWS Secret Access Key (40 character base64)
-        SecretPattern(
-            name: "AWS Secret Key",
-            pattern: #"(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])"#,
-            message: "Potential AWS Secret Access Key detected (40-char base64)"
-        ),
-        // GitHub Personal Access Token (classic)
-        SecretPattern(
-            name: "GitHub Token",
-            pattern: #"ghp_[A-Za-z0-9]{36}"#,
-            message: "Hardcoded GitHub Personal Access Token detected"
-        ),
-        // GitHub Fine-grained Token
-        SecretPattern(
-            name: "GitHub Fine-grained Token",
-            pattern: #"github_pat_[A-Za-z0-9]{22}_[A-Za-z0-9]{59}"#,
-            message: "Hardcoded GitHub Fine-grained Personal Access Token detected"
-        ),
-        // Slack Token
-        SecretPattern(
-            name: "Slack Token",
-            pattern: #"xox[baprs]-[0-9]{10,13}-[0-9]{10,13}[a-zA-Z0-9-]*"#,
-            message: "Hardcoded Slack token detected"
-        ),
-        // Stripe API Key
-        SecretPattern(
-            name: "Stripe Key",
-            pattern: #"sk_live_[0-9a-zA-Z]{24}"#,
-            message: "Hardcoded Stripe live API key detected"
-        ),
-        // Stripe Test Key (lower severity)
-        SecretPattern(
-            name: "Stripe Test Key",
-            pattern: #"sk_test_[0-9a-zA-Z]{24}"#,
-            message: "Hardcoded Stripe test API key detected"
-        ),
-        // Generic API Key pattern
-        SecretPattern(
-            name: "Generic API Key",
-            pattern: #"(?i)(api[_-]?key|apikey)\s*[=:]\s*['\"][A-Za-z0-9]{20,}['\"]"#,
-            message: "Potential hardcoded API key detected"
-        ),
-        // Private Key block
-        SecretPattern(
-            name: "Private Key",
-            pattern: #"-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"#,
-            message: "Hardcoded private key detected"
-        ),
-        // JWT Token
-        SecretPattern(
-            name: "JWT Token",
-            pattern: #"eyJ[A-Za-z0-9-_]+\.eyJ[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+"#,
-            message: "Hardcoded JWT token detected"
-        ),
-        // Google API Key
-        SecretPattern(
-            name: "Google API Key",
-            pattern: #"AIza[0-9A-Za-z\-_]{35}"#,
-            message: "Hardcoded Google API key detected"
-        ),
-        // Firebase Key
-        SecretPattern(
-            name: "Firebase Key",
-            pattern: #"AAAA[A-Za-z0-9_-]{7}:[A-Za-z0-9_-]{140}"#,
-            message: "Hardcoded Firebase Cloud Messaging key detected"
-        ),
-        // Twilio API Key
-        SecretPattern(
-            name: "Twilio Key",
-            pattern: #"SK[0-9a-fA-F]{32}"#,
-            message: "Hardcoded Twilio API key detected"
-        ),
-        // SendGrid API Key
-        SecretPattern(
-            name: "SendGrid Key",
-            pattern: #"SG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}"#,
-            message: "Hardcoded SendGrid API key detected"
-        ),
-        // Heroku API Key
-        SecretPattern(
-            name: "Heroku Key",
-            pattern: #"[hH]eroku[a-zA-Z0-9]{25,40}"#,
-            message: "Potential hardcoded Heroku API key detected"
-        ),
-        // MailChimp API Key
-        SecretPattern(
-            name: "MailChimp Key",
-            pattern: #"[0-9a-f]{32}-us[0-9]{1,2}"#,
-            message: "Hardcoded MailChimp API key detected"
-        ),
-        // Square Access Token
-        SecretPattern(
-            name: "Square Token",
-            pattern: #"sq0atp-[0-9A-Za-z\-_]{22}"#,
-            message: "Hardcoded Square access token detected"
-        ),
-        // Square OAuth Secret
-        SecretPattern(
-            name: "Square OAuth",
-            pattern: #"sq0csp-[0-9A-Za-z\-_]{43}"#,
-            message: "Hardcoded Square OAuth secret detected"
-        ),
-        // Telegram Bot Token
-        SecretPattern(
-            name: "Telegram Token",
-            pattern: #"[0-9]{8,10}:[A-Za-z0-9_-]{35}"#,
-            message: "Hardcoded Telegram bot token detected"
-        ),
-    ]
+        SecretPattern(name: "AWS Access Key", pattern: #"AKIA[0-9A-Z]{16}"#, message: "Hardcoded AWS Access Key ID detected"),
+        SecretPattern(name: "AWS Secret Key", pattern: #"(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])"#, message: "Potential AWS Secret Access Key detected"),
+        SecretPattern(name: "GitHub Token", pattern: #"ghp_[A-Za-z0-9]{36}"#, message: "Hardcoded GitHub Personal Access Token detected"),
+        SecretPattern(name: "GitHub Fine-grained Token", pattern: #"github_pat_[A-Za-z0-9]{22}_[A-Za-z0-9]{59}"#, message: "Hardcoded GitHub Fine-grained Token detected"),
+        SecretPattern(name: "Slack Token", pattern: #"xox[baprs]-[0-9]{10,13}-[0-9]{10,13}[a-zA-Z0-9-]*"#, message: "Hardcoded Slack token detected"),
+        SecretPattern(name: "Stripe Key", pattern: #"sk_live_[0-9a-zA-Z]{24}"#, message: "Hardcoded Stripe live API key detected"),
+        SecretPattern(name: "Stripe Test Key", pattern: #"sk_test_[0-9a-zA-Z]{24}"#, message: "Hardcoded Stripe test API key detected"),
+        SecretPattern(name: "Generic API Key", pattern: #"(?i)(api[_-]?key|apikey)\s*[=:]\s*['\"][A-Za-z0-9]{20,}['\"]"#, message: "Potential hardcoded API key detected"),
+        SecretPattern(name: "Private Key", pattern: #"-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"#, message: "Hardcoded private key detected"),
+        SecretPattern(name: "JWT Token", pattern: #"eyJ[A-Za-z0-9-_]+\.eyJ[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+"#, message: "Hardcoded JWT token detected"),
+        SecretPattern(name: "Google API Key", pattern: #"AIza[0-9A-Za-z\-_]{35}"#, message: "Hardcoded Google API key detected"),
+        SecretPattern(name: "Firebase Key", pattern: #"AAAA[A-Za-z0-9_-]{7}:[A-Za-z0-9_-]{140}"#, message: "Hardcoded Firebase key detected"),
+        SecretPattern(name: "Twilio Key", pattern: #"SK[0-9a-fA-F]{32}"#, message: "Hardcoded Twilio API key detected"),
+        SecretPattern(name: "SendGrid Key", pattern: #"SG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}"#, message: "Hardcoded SendGrid API key detected"),
+        SecretPattern(name: "Heroku Key", pattern: #"[hH]eroku[a-zA-Z0-9]{25,40}"#, message: "Potential hardcoded Heroku API key detected"),
+        SecretPattern(name: "MailChimp Key", pattern: #"[0-9a-f]{32}-us[0-9]{1,2}"#, message: "Hardcoded MailChimp API key detected"),
+        SecretPattern(name: "Square Token", pattern: #"sq0atp-[0-9A-Za-z\-_]{22}"#, message: "Hardcoded Square access token detected"),
+        SecretPattern(name: "Square OAuth", pattern: #"sq0csp-[0-9A-Za-z\-_]{43}"#, message: "Hardcoded Square OAuth secret detected"),
+        SecretPattern(name: "Telegram Token", pattern: #"[0-9]{8,10}:[A-Za-z0-9_-]{35}"#, message: "Hardcoded Telegram bot token detected"),
+    ].compactMap { $0 }
     
     /// Variable names that suggest password/secret storage
     private static let sensitiveVariablePatterns: [String] = [
@@ -179,10 +88,21 @@ private final class HardcodedSecretsVisitor: SyntaxVisitor {
     }
 
     override func visit(_ node: StringLiteralExprSyntax) -> SyntaxVisitorContinueKind {
+        // Skip raw string literals (used for regex patterns)
+        // Raw strings have a non-empty openingPounds token
+        if node.openingPounds != nil {
+            return .visitChildren
+        }
+        
         let stringContent = extractStringContent(from: node)
         
         // Skip empty or very short strings
         guard stringContent.count >= 10 else {
+            return .visitChildren
+        }
+        
+        // Skip regex patterns - these are patterns for detecting secrets, not secrets themselves
+        if isRegexPattern(stringContent) {
             return .visitChildren
         }
         
@@ -310,20 +230,79 @@ private final class HardcodedSecretsVisitor: SyntaxVisitor {
             return true
         }
         
+        // Regex patterns - contain common regex metacharacters
+        if isRegexPattern(string) {
+            return true
+        }
+        
         // File paths
         if string.hasPrefix("/") || string.hasPrefix("./") || string.hasPrefix("~/") {
             return true
         }
         
         // URLs without credentials
-        if string.hasPrefix("http://") || string.hasPrefix("https://") {
-            // Only flag if URL contains potential credentials
-            if !string.contains("@") && !string.contains("token") && !string.contains("key") {
-                return true
-            }
+        if isNonCredentialURL(string) {
+            return true
         }
         
         // Common test/example values
+        if containsTestPatterns(string) {
+            return true
+        }
+        
+        // User-facing message strings (suggestions, advice, documentation)
+        // These often contain technical terms but aren't secrets
+        if isUserFacingMessage(string) {
+            return true
+        }
+        
+        // Repeated characters suggest placeholder
+        let uniqueChars = Set(string)
+        return uniqueChars.count < 5
+    }
+    
+    /// Check if string appears to be a user-facing message (documentation, suggestion, advice)
+    private func isUserFacingMessage(_ string: String) -> Bool {
+        // Strings that start with common message patterns
+        let messageStarters = ["Use ", "Consider ", "Replace ", "Move ", "Add ", "Remove ", 
+                               "Check ", "Ensure ", "Avoid ", "Prefer ", "Load ", "Set ",
+                               "The ", "This ", "If ", "When ", "For "]
+        if messageStarters.contains(where: { string.hasPrefix($0) }) {
+            return true
+        }
+        
+        // Strings with multiple spaces typically aren't secrets (they're sentences)
+        let spaceCount = string.filter { $0 == " " }.count
+        if spaceCount >= 3 {
+            return true
+        }
+        
+        return false
+    }
+    
+    /// Check if string is a regex pattern (for detecting secrets, not a secret itself)
+    private func isRegexPattern(_ string: String) -> Bool {
+        // Note: We check for single backslash because Swift string escaping has already been processed
+        let regexMetacharacters = ["[", "]", "{", "}", "|", "+", "*", "?", "\\", "(", ")"]
+        var metacharCount = 0
+        for meta in regexMetacharacters {
+            if string.contains(meta) {
+                metacharCount += 1
+            }
+        }
+        return metacharCount >= 3
+    }
+    
+    /// Check if URL doesn't contain credentials
+    private func isNonCredentialURL(_ string: String) -> Bool {
+        guard string.hasPrefix("http://") || string.hasPrefix("https://") else {
+            return false
+        }
+        return !string.contains("@") && !string.contains("token") && !string.contains("key")
+    }
+    
+    /// Check if string contains test/example patterns
+    private func containsTestPatterns(_ string: String) -> Bool {
         let falsePositivePatterns = [
             "example", "test", "sample", "demo", "placeholder",
             "localhost", "your-", "xxx", "..."
@@ -334,13 +313,6 @@ private final class HardcodedSecretsVisitor: SyntaxVisitor {
                 return true
             }
         }
-        
-        // Repeated characters suggest placeholder
-        let uniqueChars = Set(string)
-        if uniqueChars.count < 5 {
-            return true
-        }
-        
         return false
     }
     

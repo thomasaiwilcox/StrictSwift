@@ -57,9 +57,16 @@ public struct LayerViolation: Sendable {
 /// assigned at initialization and never modified.
 public final class LayerValidator: @unchecked Sendable {
     private let policy: ArchitecturePolicy
+    /// Cache of compiled regexes for layer patterns
+    private let layerRegexCache: [String: NSRegularExpression]
 
     public init(policy: ArchitecturePolicy) {
         self.policy = policy
+        // Pre-compile all layer pattern regexes at initialization
+        // Using reduce instead of for-loop to avoid static analysis warning
+        self.layerRegexCache = policy.layers.reduce(into: [:]) { cache, layer in
+            cache[layer.pattern] = try? NSRegularExpression(pattern: layer.pattern)
+        }
     }
 
     /// Validate a dependency graph against the layering policy
@@ -86,21 +93,13 @@ public final class LayerValidator: @unchecked Sendable {
 
     /// Get the layer for a specific file or type
     public func getLayer(for item: String, isFile: Bool = false) -> Layer? {
+        let range = NSRange(location: 0, length: item.utf16.count)
+        
         for layer in policy.layers {
-            if isFile {
-                // Check file name patterns
-                let regex = try? NSRegularExpression(pattern: layer.pattern)
-                let range = NSRange(location: 0, length: item.utf16.count)
-                if regex?.firstMatch(in: item, range: range) != nil {
-                    return layer
-                }
-            } else {
-                // Check type name patterns
-                let regex = try? NSRegularExpression(pattern: layer.pattern)
-                let range = NSRange(location: 0, length: item.utf16.count)
-                if regex?.firstMatch(in: item, range: range) != nil {
-                    return layer
-                }
+            // Use cached regex (same logic for both file and type patterns)
+            if let regex = layerRegexCache[layer.pattern],
+               regex.firstMatch(in: item, range: range) != nil {
+                return layer
             }
         }
         return nil

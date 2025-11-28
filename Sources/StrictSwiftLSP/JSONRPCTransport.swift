@@ -1,4 +1,5 @@
 import Foundation
+import StrictSwiftCore
 #if canImport(Darwin)
 import CoreFoundation
 #endif
@@ -223,6 +224,7 @@ actor JSONRPCTransport {
         return try JSONRPCMessage.parse(json)
     }
     
+    // strictswift:ignore-start repeated_allocation -- Streaming I/O loop requires per-iteration allocations
     private func readLine() async throws -> String? {
         while true {
             // Check if we have a complete line in the buffer
@@ -253,6 +255,7 @@ actor JSONRPCTransport {
             buffer.append(chunk)
         }
     }
+    // strictswift:ignore-end
     
     private func readBytes(count: Int) async throws -> Data {
         while buffer.count < count {
@@ -323,7 +326,8 @@ actor JSONRPCTransport {
             try output.write(contentsOf: headerData)
             try output.write(contentsOf: body)
         } catch {
-            // Stream might be closed - this is okay during shutdown
+            // Stream might be closed during shutdown, log for debugging
+            StrictSwiftLogger.debug("Write failed (possibly during shutdown): \(error)")
         }
     }
 }

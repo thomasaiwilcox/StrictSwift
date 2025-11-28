@@ -265,57 +265,16 @@ public final class ModuleBoundaryRule: Rule, @unchecked Sendable {
         validationResult: ModuleBoundaryValidator.ValidationResult,
         sourceFile: SourceFile
     ) -> [Violation] {
-        var violations: [Violation] = []
-
-        // Check for dependencies that should be internal
-        let source = sourceFile.source()
-        let tree = Parser.parse(source: source)
-
-        class InternalDependencyChecker: SyntaxAnyVisitor {
-            let sourceFile: SourceFile
-            let currentModule: String
-            var violations: [String] = []
-
-            init(sourceFile: SourceFile, currentModule: String) {
-                self.sourceFile = sourceFile
-                self.currentModule = currentModule
-                super.init(viewMode: .sourceAccurate)
-            }
-
-            override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {
-                let calledFunction = node.calledExpression.trimmedDescription
-
-                // Check for calls that suggest internal module access
-                if calledFunction.contains("private") || calledFunction.contains("internal") {
-                    violations.append("Function call may access internal module: \(calledFunction)")
-                }
-
-                return .visitChildren
-            }
-        }
-
-        let checker = InternalDependencyChecker(
-            sourceFile: sourceFile,
-            currentModule: extractModuleName(from: sourceFile.url)
-        )
-        checker.walk(tree)
-
-        for violation in checker.violations {
-            let location = sourceFile.location(for: AbsolutePosition(utf8Offset: 0))
-            let ruleViolation = ViolationBuilder(
-                ruleId: "module_boundary",
-                category: .architecture,
-                location: location
-            )
-            .message(violation)
-            .suggestFix("Use public APIs or move code to appropriate module")
-            .severity(.warning)
-            .build()
-
-            violations.append(ruleViolation)
-        }
-
-        return violations
+        // Note: The previous implementation checked if function call text contained
+        // "private" or "internal" as substrings, which produced false positives on:
+        // - Enum cases like `.internalError`
+        // - String literals containing "private" (e.g., "PRIVATE KEY" patterns)
+        // - OSLog privacy annotations like `.private`
+        //
+        // Swift's compiler already enforces access control, so static analysis
+        // cannot detect actual internal/private API access violations.
+        // This check is disabled until a proper implementation is available.
+        return []
     }
 
     private func suggestFix(for dependencyType: ModuleBoundaryValidator.DependencyType) -> String {

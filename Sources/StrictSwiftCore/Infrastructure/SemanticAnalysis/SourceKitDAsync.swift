@@ -15,20 +15,23 @@ public enum SourceKitError: Error, Sendable {
 // MARK: - Request Builder
 
 /// Builder for constructing SourceKit request dictionaries
+/// SAFETY: @unchecked Sendable is safe because the request is a C pointer that
+/// is only mutated during construction and becomes immutable after build().
 public final class SourceKitRequestBuilder: @unchecked Sendable {
     private let api: SourceKitDAPI
     private let keys: SourceKitDKeys
     private let request: sourcekitd_request_t
     
     /// Create a new request builder
-    public init(api: SourceKitDAPI, keys: SourceKitDKeys, requestType: sourcekitd_uid_t) {
+    /// Returns nil if the SourceKit request could not be created
+    public init?(api: SourceKitDAPI, keys: SourceKitDKeys, requestType: sourcekitd_uid_t) {
         self.api = api
         self.keys = keys
         
         // Create request with the request type set
         guard let keyRequest = keys.keyRequest,
               let req = api.request_dictionary_create(nil, nil, 0) else {
-            fatalError("Failed to create SourceKit request")
+            return nil
         }
         
         api.request_dictionary_set_uid(req, keyRequest, requestType)
@@ -203,7 +206,10 @@ public actor SourceKitDService {
         guard let requestType = keys.requestCursorInfo else {
             throw SourceKitError.missingRequiredKey("source.request.cursorinfo")
         }
-        return SourceKitRequestBuilder(api: api, keys: keys, requestType: requestType)
+        guard let builder = SourceKitRequestBuilder(api: api, keys: keys, requestType: requestType) else {
+            throw SourceKitError.requestFailed(kind: .invalid, description: "Failed to create SourceKit request")
+        }
+        return builder
     }
     
     /// Send a synchronous request (runs on background thread)
@@ -216,8 +222,12 @@ public actor SourceKitDService {
         // the pointer value is just an address that remains valid for the duration
         let requestBits = Int(bitPattern: request)
         return try await withCheckedThrowingContinuation { continuation in
+            // strictswift:ignore actor_isolation -- Intentional: bridging sync SourceKit API to async
             DispatchQueue.global(qos: .userInitiated).async {
-                let requestPtr = UnsafeMutableRawPointer(bitPattern: requestBits)!
+                guard let requestPtr = UnsafeMutableRawPointer(bitPattern: requestBits) else {
+                    continuation.resume(throwing: SourceKitError.invalidResponse)
+                    return
+                }
                 guard let responsePtr = api.send_request_sync(requestPtr) else {
                     continuation.resume(throwing: SourceKitError.invalidResponse)
                     return
@@ -318,7 +328,8 @@ extension CursorInfoResult {
 // MARK: - Result Types
 
 /// Result of a cursor info request
-/// Note: @unchecked Sendable because kindUID pointer is safe - it points to process-lifetime interned strings
+/// SAFETY: @unchecked Sendable is safe because kindUID pointer points to process-lifetime
+/// interned strings in SourceKit that are immutable and never deallocated.
 public struct CursorInfoResult: @unchecked Sendable {
     public var name: String?
     public var usr: String?

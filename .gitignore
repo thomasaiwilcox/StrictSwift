@@ -5,6 +5,7 @@
 
 # Swift Package Manager
 .build/
+.build-fresh/
 .swiftpm/
 Package.resolved
 
@@ -33,6 +34,7 @@ codecov/
 
 # Baselines
 .strictswift-baseline*.json
+.strictswift-last-run.json
 strictswift-audit/
 
 # Logs

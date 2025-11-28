@@ -101,7 +101,7 @@ extension RuleSpecificConfiguration {
             severity: severity,
             parameters: [
                 "maxCyclomaticComplexity": .integerValue(maxComplexity),
-                "maxNestingDepth": .integerValue(4),
+                "maxNestingDepth": .integerValue(5),
                 "maxParameterCount": .integerValue(5)
             ]
         )

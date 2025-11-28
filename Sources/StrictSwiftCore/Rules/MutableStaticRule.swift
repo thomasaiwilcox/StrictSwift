@@ -52,6 +52,28 @@ private final class MutableStaticVisitor: SyntaxVisitor {
             return .visitChildren
         }
         
+        // Skip computed properties (those with explicit getter/setter blocks)
+        // Computed properties delegate to other storage, so they're not the source of the issue
+        for binding in node.bindings {
+            if let accessor = binding.accessorBlock {
+                // Check if this is a computed property or a stored property with willSet/didSet
+                switch accessor.accessors {
+                case .getter:
+                    // Read-only computed property - safe, skip this declaration
+                    return .visitChildren
+                case .accessors(let accessorList):
+                    // Check for get accessor - indicates computed property
+                    let hasGetter = accessorList.contains { $0.accessorSpecifier.tokenKind == .keyword(.get) }
+                    if hasGetter {
+                        // This is a computed property - the underlying storage should be flagged instead
+                        return .visitChildren
+                    }
+                    // If only willSet/didSet without get - this is a stored property observer
+                    // These are still potentially problematic, continue to flag
+                }
+            }
+        }
+        
         let location = sourceFile.location(of: node)
 
         let violation = ViolationBuilder(

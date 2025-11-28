@@ -190,16 +190,19 @@ private final class GlobalStateAnalyzer: SyntaxVisitor {
         let memberName = node.declName.baseName.text
         let baseExpr = node.base?.trimmedDescription ?? ""
         
-        // Known problematic singleton patterns
+        // Known problematic singleton patterns that introduce shared mutable state
+        // Note: FileManager.default is NOT included because:
+        // 1. It's the recommended way to interact with the file system
+        // 2. It doesn't store mutable app state
+        // 3. File system operations are inherently side-effectful
         let problematicSingletons: [String: Set<String>] = [
-            "UserDefaults": ["standard"],
-            "FileManager": ["default"],
-            "NotificationCenter": ["default"],
-            "URLSession": ["shared"],
-            "URLCache": ["shared"],
-            "HTTPCookieStorage": ["shared"],
-            "UIApplication": ["shared"],
-            "NSApplication": ["shared"]
+            "UserDefaults": ["standard"],  // Stores app preferences (mutable state)
+            "NotificationCenter": ["default"],  // Global pub/sub (hidden dependencies)
+            "URLSession": ["shared"],  // May have shared configuration state
+            "URLCache": ["shared"],  // Shared caching state
+            "HTTPCookieStorage": ["shared"],  // Shared cookie storage
+            "UIApplication": ["shared"],  // App-wide state
+            "NSApplication": ["shared"]  // App-wide state
         ]
         
         if let members = problematicSingletons[baseExpr], members.contains(memberName) {

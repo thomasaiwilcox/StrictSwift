@@ -10,7 +10,7 @@ When working on Swift code, use StrictSwift for static analysis:
 
 1. **Before committing changes**, run analysis:
    ```bash
-   swift-strict check <path> --format agent --context-lines 3
+   strictswift check <path> --format agent --context-lines 3
    ```
 
 2. **Interpret results**: Parse the JSON output. Focus on:
@@ -23,7 +23,7 @@ When working on Swift code, use StrictSwift for static analysis:
    - Apply the replacement text exactly as provided
    - For multiple edits in one file, apply in reverse order (bottom to top)
 
-4. **For automatic fixes**: Run `swift-strict fix <path> --agent` to get 
+4. **For automatic fixes**: Run `strictswift fix <path> --agent` to get 
    structured diffs. Apply high-confidence fixes automatically, prompt for 
    medium-confidence fixes.
 
@@ -32,7 +32,7 @@ When working on Swift code, use StrictSwift for static analysis:
    defaults. If you apply fixes with placeholders, you MUST replace them with
    appropriate values before the code can compile.
 
-6. **Undo capability**: If fixes break the build, run `swift-strict fix --undo`
+6. **Undo capability**: If fixes break the build, run `strictswift fix --undo`
    to restore files from backup. Backups are created automatically before
    applying fixes.
 
