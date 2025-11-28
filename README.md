@@ -46,16 +46,16 @@ cd StrictSwift
 swift build -c release
 
 # Install (optional)
-sudo cp .build/release/swift-strict /usr/local/bin/
+sudo cp .build/release/strictswift /usr/local/bin/
 
 # Analyze your code
-swift-strict check Sources/
+strictswift check Sources/
 
 # Preview fixes
-swift-strict fix Sources/ --dry-run
+strictswift fix Sources/ --dry-run
 
 # Apply fixes
-swift-strict fix Sources/
+strictswift fix Sources/
 ```
 
 ## Configuration
@@ -121,7 +121,7 @@ let b = y!
 ### check - Analyze files
 
 ```bash
-swift-strict check <path> [options]
+strictswift check <path> [options]
 
 Options:
   --format <format>       human, json, agent (default: human)
@@ -136,7 +136,7 @@ Options:
 ### fix - Apply automatic fixes
 
 ```bash
-swift-strict fix <path> [options]
+strictswift fix <path> [options]
 
 Options:
   --dry-run               Preview without applying
@@ -148,10 +148,10 @@ Options:
 ### Other commands
 
 ```bash
-swift-strict baseline <path>     # Create baseline for existing violations
-swift-strict explain <rule-id>   # Get detailed rule explanation
-swift-strict feedback <id> used  # Report a true positive (improves accuracy)
-swift-strict feedback <id> unused # Report a false positive
+strictswift baseline <path>     # Create baseline for existing violations
+strictswift explain <rule-id>   # Get detailed rule explanation
+strictswift feedback <id> used  # Report a true positive (improves accuracy)
+strictswift feedback <id> unused # Report a false positive
 ```
 
 ## Rule Categories
@@ -166,7 +166,7 @@ swift-strict feedback <id> unused # Report a false positive
 | Performance | 6 | `arc_churn`, `large_struct_copy`, `string_concatenation_loop` |
 | Security | 4 | `hardcoded_secrets`, `sql_injection_pattern`, `insecure_crypto` |
 
-Use `swift-strict explain <rule-id>` for details on any rule.
+Use `strictswift explain <rule-id>` for details on any rule.
 
 ## Cross-File Analysis
 
@@ -189,7 +189,7 @@ Always verify suggestions before deleting code.
 StrictSwift outputs structured JSON for AI coding assistants:
 
 ```bash
-swift-strict check Sources/ --format agent --context-lines 3
+strictswift check Sources/ --format agent --context-lines 3
 ```
 
 Output includes file paths, line numbers, fix suggestions with edit coordinates, and source context - everything an AI needs to understand and fix issues.
@@ -242,18 +242,18 @@ targets: [
 
 **Semantic analysis not working:**
 ```bash
-swift-strict check Sources/ --verbose  # Check SourceKit status
+strictswift check Sources/ --verbose  # Check SourceKit status
 xcode-select --install                 # Ensure Xcode CLI tools
 ```
 
 **Cache issues:**
 ```bash
-swift-strict check Sources/ --clear-cache
+strictswift check Sources/ --clear-cache
 ```
 
 **Fix broke something:**
 ```bash
-swift-strict fix --undo  # Restore from backup
+strictswift fix --undo  # Restore from backup
 git checkout .           # Or restore from git
 ```
 
@@ -279,7 +279,7 @@ Add to `.gitignore`:
 ```bash
 swift test                              # Run tests (590+)
 swift build -c release                  # Release build
-.build/debug/swift-strict check Sources/ # Dogfood
+.build/debug/strictswift check Sources/ # Dogfood
 ```
 
 ## Contributing

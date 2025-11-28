@@ -106,10 +106,10 @@ This implementation plan breaks down the development of StrictSwift into managea
 ### Tasks
 
 **2.1 CLI Commands**
-- [x] `swift-strict check [path]` - Local analysis
-- [x] `swift-strict ci` - CI mode with deterministic output
-- [x] `swift-strict baseline` - Create/update baselines
-- [x] `swift-strict explain <rule>` - Documentation lookup
+- [x] `strictswift check [path]` - Local analysis
+- [x] `strictswift ci` - CI mode with deterministic output
+- [x] `strictswift baseline` - Create/update baselines
+- [x] `strictswift explain <rule>` - Documentation lookup
 - [x] Argument parsing and help system
 
 **2.2 Baseline Management**

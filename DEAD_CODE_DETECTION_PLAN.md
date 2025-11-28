@@ -239,10 +239,10 @@ We will move from a file-by-file analysis to a whole-module analysis using a gra
 **CLI Usage**:
 ```bash
 # Run dead code analysis
-swift-strict check --profile critical-core
+strictswift check --profile critical-core
 
 # Explain the dead-code rule
-swift-strict explain dead-code
+strictswift explain dead-code
 ```
 
 **Configuration Example** (`.strictswift.yml`):
