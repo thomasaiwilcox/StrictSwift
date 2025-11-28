@@ -32,6 +32,20 @@ public final class SemanticModeResolver: Sendable {
         /// All sources that were checked
         public let checkedSources: [SourceResult]
         
+        public init(
+            effectiveMode: SemanticMode,
+            isStrict: Bool,
+            modeSource: ConfigurationSource,
+            degradation: Degradation?,
+            checkedSources: [SourceResult]
+        ) {
+            self.effectiveMode = effectiveMode
+            self.isStrict = isStrict
+            self.modeSource = modeSource
+            self.degradation = degradation
+            self.checkedSources = checkedSources
+        }
+        
         public struct Degradation: Sendable {
             public let requestedMode: SemanticMode
             public let actualMode: SemanticMode
@@ -127,7 +141,10 @@ public final class SemanticModeResolver: Sendable {
         let requestedMode = winningSouce.value ?? .auto
         
         // Determine strict mode (also layered)
-        let isStrict = sortedSources
+        // IMPORTANT: Check ALL sources for strict flag, not just those with a mode value.
+        // This allows --semantic-strict to work even when mode comes from YAML/auto-detect.
+        let isStrict = checkedSources
+            .sorted { $0.source.priority > $1.source.priority }
             .first { $0.isStrict == true }
             .map { _ in true } ?? false
         

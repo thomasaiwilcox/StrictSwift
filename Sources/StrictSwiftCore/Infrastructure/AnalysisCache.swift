@@ -360,6 +360,34 @@ public actor AnalysisCache {
             hashString += "baseline:none"
         }
         
+        // 9. Semantic analysis settings - CRITICAL for cache invalidation
+        // These flags dramatically change analysis behavior
+        hashString += "enhanced:\(config.useEnhancedRules)"
+        if let mode = config.semanticMode {
+            hashString += ":semanticMode=\(mode.rawValue)"
+        } else {
+            hashString += ":semanticMode=none"
+        }
+        if let strict = config.semanticStrict {
+            hashString += ":semanticStrict=\(strict)"
+        } else {
+            hashString += ":semanticStrict=none"
+        }
+        
+        // 10. Per-rule semantic mode overrides
+        if let perRuleModes = config.perRuleSemanticModes {
+            let sortedModes = perRuleModes.sorted(by: { $0.key < $1.key })
+            for (ruleId, mode) in sortedModes {
+                hashString += ":ruleMode:\(ruleId)=\(mode.rawValue)"
+            }
+        }
+        if let perRuleStrict = config.perRuleSemanticStrict {
+            let sortedStrict = perRuleStrict.sorted(by: { $0.key < $1.key })
+            for (ruleId, strict) in sortedStrict {
+                hashString += ":ruleStrict:\(ruleId)=\(strict)"
+            }
+        }
+        
         return FileFingerprint.fnv1aHash(hashString)
     }
     

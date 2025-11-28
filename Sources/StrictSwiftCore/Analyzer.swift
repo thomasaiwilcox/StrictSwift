@@ -188,7 +188,7 @@ public final class Analyzer: Sendable {
     }
     
     /// Rules that require cross-file analysis and can't be cached per-file
-    /// NOTE: These must match the actual rule IDs (underscore format, not hyphenated)
+    /// NOTE: These must match the actual rule IDs (hyphenated format for dead-code)
     private var crossFileRuleIdentifiers: Set<String> {
         return [
             "circular_dependency",
@@ -198,7 +198,7 @@ public final class Analyzer: Sendable {
             "orphan_protocol",
             "dependency_inversion",
             "module_boundary",
-            "dead_code",
+            "dead-code",
             // Graph-enhanced rules
             "enhanced_god_class",
             "coupling_metrics",
@@ -331,8 +331,24 @@ public final class Analyzer: Sendable {
             yamlConfig: yamlConfig
         )
         
+        // IMPORTANT: Compute the maximum mode required across ALL rules.
+        // Even if global mode is .off, per-rule overrides may request .hybrid or .full.
+        // The resolver must be created with a mode capable of satisfying the maximum need.
+        // This also checks per-rule strict requirements and throws if any cannot be satisfied.
+        let effectiveModeForResolver = try computeMaxRequiredMode(
+            globalResolved: resolved,
+            yamlConfig: yamlConfig,
+            capabilities: capabilities
+        )
+        
         // Log resolution for debugging
         resolved.logResolution()
+        if effectiveModeForResolver != resolved.effectiveMode {
+            StrictSwiftLogger.info(
+                "Semantic resolver created with '\(effectiveModeForResolver.displayName)' mode " +
+                "(elevated from '\(resolved.effectiveMode.displayName)' due to per-rule overrides)"
+            )
+        }
         
         // Check strict mode requirements
         if let error = resolved.checkStrictRequirements() {
@@ -357,18 +373,35 @@ public final class Analyzer: Sendable {
             }
         }
         
-        // Create semantic resolver if semantic analysis is enabled
-        if resolved.hasSemantic {
+        // Create semantic resolver if ANY mode requires semantic analysis (global or per-rule)
+        // The resolver is created with the maximum required mode so it can satisfy all rules
+        let needsSemantic = effectiveModeForResolver != .off && effectiveModeForResolver != .auto
+        
+        if needsSemantic {
+            // Create a resolved config with the elevated mode for the resolver
+            let resolverConfig = SemanticModeResolver.ResolvedConfiguration(
+                effectiveMode: effectiveModeForResolver,
+                isStrict: resolved.isStrict,
+                modeSource: resolved.modeSource,
+                degradation: resolved.degradation,
+                checkedSources: resolved.checkedSources
+            )
+            
             let semanticResolver = try await SemanticTypeResolver.create(
-                config: resolved,
+                config: resolverConfig,
                 capabilities: capabilities,
                 projectRoot: projectRoot
             )
             
-            context.setSemanticResolver(semanticResolver, config: resolved)
+            context.setSemanticResolver(
+                semanticResolver,
+                config: resolved,  // Store the original global resolved config for reporting
+                modeResolver: resolver,
+                yamlConfig: yamlConfig
+            )
             
-            // Enhance global graph with semantic info if in full mode
-            if resolved.effectiveMode == .full {
+            // Enhance global graph with semantic info if resolver supports full mode
+            if effectiveModeForResolver == .full {
                 let graph = context.globalGraph()
                 let files = context.allSourceFiles
                 let result = await graph.enhanceWithSemantics(using: semanticResolver, for: files)
@@ -377,12 +410,12 @@ public final class Analyzer: Sendable {
                 let stats = await semanticResolver.getStatistics()
                 
                 StrictSwiftLogger.info(
-                    "Semantic enhancement [\(resolved.effectiveMode.displayName)]: " +
+                    "Semantic enhancement [\(effectiveModeForResolver.displayName)]: " +
                     "\(result.newlyResolved) resolved via SourceKit, " +
                     "\(result.edgesAdded) edges added, " +
                     "\(stats.sourceKitQueries) queries made"
                 )
-            } else if resolved.effectiveMode == .hybrid {
+            } else if effectiveModeForResolver == .hybrid {
                 // In hybrid mode, log that we're ready for on-demand queries
                 StrictSwiftLogger.info(
                     "Semantic analysis [Hybrid]: SourceKit enabled for ambiguous references"
@@ -392,9 +425,158 @@ public final class Analyzer: Sendable {
             // Set resolved config even in off mode for consistency
             context.setSemanticResolver(
                 SemanticTypeResolver(mode: .off, sourceKitClient: nil, projectRoot: projectRoot),
-                config: resolved
+                config: resolved,
+                modeResolver: resolver,
+                yamlConfig: yamlConfig
             )
         }
+    }
+    
+    /// Compute the maximum semantic mode required across global config and all per-rule overrides.
+    /// This ensures the SemanticTypeResolver is created with sufficient capability to satisfy
+    /// any rule that requests a higher mode via per-rule configuration.
+    /// - Returns: The effective mode for the resolver, after applying capability constraints
+    /// - Throws: SemanticAnalysisError if a per-rule strict override cannot be satisfied
+    private func computeMaxRequiredMode(
+        globalResolved: SemanticModeResolver.ResolvedConfiguration,
+        yamlConfig: SemanticModeYAMLConfig?,
+        capabilities: SemanticCapabilities
+    ) throws -> SemanticMode {
+        var maxMode = globalResolved.effectiveMode
+        
+        // Check all per-rule mode overrides
+        if let perRuleModes = yamlConfig?.perRuleModes {
+            for (_, mode) in perRuleModes {
+                maxMode = higherSemanticMode(maxMode, mode)
+            }
+        }
+        
+        // Calculate what mode we can actually provide after capability constraints
+        var effectiveMode = maxMode
+        
+        if maxMode.requiresSourceKit && !capabilities.sourceKitAvailable {
+            // Degrade to off (no SourceKit available)
+            effectiveMode = .off
+        } else if maxMode == .full && !capabilities.buildArtifactsExist {
+            // Full mode requires build artifacts; degrade to hybrid if possible
+            if capabilities.sourceKitAvailable {
+                effectiveMode = .hybrid
+            } else {
+                effectiveMode = .off
+            }
+        } else if maxMode == .auto {
+            effectiveMode = capabilities.bestAvailableMode
+        }
+        
+        // CRITICAL: Check if any per-rule STRICT overrides cannot be satisfied
+        // This is what makes perRuleSemanticStrict actually work
+        try checkPerRuleStrictRequirements(
+            globalResolved: globalResolved,
+            yamlConfig: yamlConfig,
+            effectiveMode: effectiveMode,
+            capabilities: capabilities
+        )
+        
+        return effectiveMode
+    }
+    
+    /// Check if any per-rule strict requirements cannot be satisfied.
+    /// Throws an error if a rule has semantic-strict enabled but its requested mode can't be provided.
+    ///
+    /// IMPORTANT: When a rule has `perRuleSemanticStrict: true` but no explicit `perRuleSemanticModes`,
+    /// we must use the ORIGINAL requested mode (before capability degradation), not the degraded effective mode.
+    /// This ensures that a config like:
+    /// ```yaml
+    /// semanticMode: full
+    /// perRuleSemanticStrict:
+    ///   dead-code: true
+    /// ```
+    /// will properly fail if SourceKit is unavailable, rather than silently degrading.
+    private func checkPerRuleStrictRequirements(
+        globalResolved: SemanticModeResolver.ResolvedConfiguration,
+        yamlConfig: SemanticModeYAMLConfig?,
+        effectiveMode: SemanticMode,
+        capabilities: SemanticCapabilities
+    ) throws {
+        guard let yamlConfig = yamlConfig else { return }
+        
+        // Determine the original requested mode (before any capability degradation).
+        // Priority: degradation.requestedMode (if degraded) > projectMode from YAML > CLI mode that resolved
+        let originalRequestedMode: SemanticMode = {
+            // If degradation occurred, use what was originally requested
+            if let degradation = globalResolved.degradation {
+                return degradation.requestedMode
+            }
+            // Otherwise use project mode from YAML if set
+            if let projectMode = yamlConfig.projectMode {
+                return projectMode
+            }
+            // Fall back to the effective mode (no degradation occurred)
+            return globalResolved.effectiveMode
+        }()
+        
+        // For each rule with strict=true, verify its mode can be satisfied
+        for (ruleId, isStrict) in yamlConfig.perRuleStrict where isStrict {
+            // Get the mode requested for this rule:
+            // - If per-rule mode is explicitly set, use that
+            // - Otherwise, inherit the original global requested mode (NOT the degraded effectiveMode)
+            let requestedMode = yamlConfig.perRuleModes[ruleId] ?? originalRequestedMode
+            
+            // Check if the requested mode can be satisfied given current capabilities
+            let canSatisfy = canSatisfyMode(requestedMode, effectiveMode: effectiveMode, capabilities: capabilities)
+            
+            if !canSatisfy {
+                let reason: String
+                if requestedMode == .full && !capabilities.buildArtifactsExist {
+                    reason = "Full semantic mode requires build artifacts (run 'swift build' first)"
+                } else if requestedMode.requiresSourceKit && !capabilities.sourceKitAvailable {
+                    reason = "Mode '\(requestedMode.rawValue)' requires SourceKit which is not available"
+                } else {
+                    reason = "Cannot satisfy semantic mode '\(requestedMode.rawValue)' for rule '\(ruleId)'"
+                }
+                
+                throw SemanticAnalysisError.strictModeUnsatisfied(
+                    "Per-rule strict requirement failed for '\(ruleId)': \(reason). " +
+                    "Either satisfy the requirement or remove 'perRuleSemanticStrict.\(ruleId): true' from configuration."
+                )
+            }
+        }
+    }
+    
+    /// Check if a requested mode can be satisfied given the effective mode and capabilities
+    private func canSatisfyMode(
+        _ requested: SemanticMode,
+        effectiveMode: SemanticMode,
+        capabilities: SemanticCapabilities
+    ) -> Bool {
+        switch requested {
+        case .off, .auto:
+            // These can always be satisfied
+            return true
+        case .hybrid:
+            // Hybrid needs SourceKit and effective mode >= hybrid
+            return capabilities.sourceKitAvailable && 
+                   (effectiveMode == .hybrid || effectiveMode == .full)
+        case .full:
+            // Full needs SourceKit + build artifacts and effective mode == full
+            return capabilities.sourceKitAvailable && 
+                   capabilities.buildArtifactsExist && 
+                   effectiveMode == .full
+        }
+    }
+    
+    /// Returns the "higher" of two semantic modes based on capability requirements.
+    /// full > hybrid > off (auto resolves to best available)
+    private func higherSemanticMode(_ a: SemanticMode, _ b: SemanticMode) -> SemanticMode {
+        func modeRank(_ mode: SemanticMode) -> Int {
+            switch mode {
+            case .off: return 0
+            case .auto: return 1  // auto could resolve to anything, treat as hybrid-ish
+            case .hybrid: return 2
+            case .full: return 3
+            }
+        }
+        return modeRank(a) >= modeRank(b) ? a : b
     }
     
     /// Log semantic resolution statistics

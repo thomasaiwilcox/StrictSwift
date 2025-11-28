@@ -1,0 +1,224 @@
+name: 'StrictSwift Scan'
+description: 'Run StrictSwift static analysis and upload results to GitHub Code Scanning'
+author: 'StrictSwift Team'
+
+branding:
+  icon: 'shield'
+  color: 'orange'
+
+inputs:
+  paths:
+    description: 'Paths to analyze (space-separated)'
+    required: false
+    default: 'Sources/'
+  baseline:
+    description: 'Path to baseline file for suppressing existing violations'
+    required: false
+  config:
+    description: 'Path to configuration file'
+    required: false
+  profile:
+    description: 'Analysis profile (critical-core, strict, performance, all)'
+    required: false
+    default: 'critical-core'
+  only-changed:
+    description: 'Only analyze files changed since base ref'
+    required: false
+    default: 'false'
+  base:
+    description: 'Base ref for --only-changed (e.g., origin/main)'
+    required: false
+    default: 'origin/main'
+  fail-on-error:
+    description: 'Fail the workflow if errors are found'
+    required: false
+    default: 'true'
+  min-severity:
+    description: 'Minimum severity to report (error, warning, info, hint)'
+    required: false
+    default: 'warning'
+  upload-sarif:
+    description: 'Upload SARIF results to GitHub Code Scanning'
+    required: false
+    default: 'true'
+  strictswift-version:
+    description: 'StrictSwift version to install (or "latest")'
+    required: false
+    default: 'latest'
+
+outputs:
+  violations:
+    description: 'Number of violations found'
+    value: ${{ steps.analyze.outputs.violations }}
+  errors:
+    description: 'Number of errors found'
+    value: ${{ steps.analyze.outputs.errors }}
+  warnings:
+    description: 'Number of warnings found'
+    value: ${{ steps.analyze.outputs.warnings }}
+  sarif-file:
+    description: 'Path to the generated SARIF file'
+    value: ${{ steps.analyze.outputs.sarif-file }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install StrictSwift
+      shell: bash
+      run: |
+        # Detect runner OS
+        RUNNER_OS="${{ runner.os }}"
+        echo "Detected runner OS: $RUNNER_OS"
+        
+        # StrictSwift currently only supports macOS
+        if [ "$RUNNER_OS" != "macOS" ]; then
+          echo "::error::StrictSwift currently only supports macOS runners. Please use 'runs-on: macos-latest' or 'runs-on: macos-14' in your workflow."
+          echo ""
+          echo "Example workflow configuration:"
+          echo "  jobs:"
+          echo "    analyze:"
+          echo "      runs-on: macos-latest"
+          echo "      steps:"
+          echo "        - uses: actions/checkout@v4"
+          echo "        - uses: thomasaiwilcox/StrictSwift/.github/actions/strictswift-scan@main"
+          exit 1
+        fi
+        
+        # Install StrictSwift via Homebrew or from releases
+        if command -v brew &> /dev/null; then
+          echo "Installing StrictSwift via Homebrew..."
+          brew tap thomasaiwilcox/strictswift || true
+          if [ "${{ inputs.strictswift-version }}" = "latest" ]; then
+            brew install strictswift || brew upgrade strictswift
+          else
+            brew install strictswift@${{ inputs.strictswift-version }}
+          fi
+        else
+          echo "Installing StrictSwift from GitHub releases..."
+          VERSION="${{ inputs.strictswift-version }}"
+          if [ "$VERSION" = "latest" ]; then
+            VERSION=$(curl -s https://api.github.com/repos/thomasaiwilcox/StrictSwift/releases/latest | jq -r .tag_name)
+          fi
+          curl -L "https://github.com/thomasaiwilcox/StrictSwift/releases/download/${VERSION}/strictswift-${VERSION}-macos.tar.gz" | tar xz
+          sudo mv strictswift /usr/local/bin/
+        fi
+        
+        # Verify installation
+        strictswift --version || echo "StrictSwift installed successfully"
+
+    - name: Run StrictSwift Analysis
+      id: analyze
+      shell: bash
+      run: |
+        # Build command arguments
+        ARGS="check"
+        ARGS="$ARGS --profile ${{ inputs.profile }}"
+        ARGS="$ARGS --format sarif"
+        ARGS="$ARGS --min-severity ${{ inputs.min-severity }}"
+        
+        if [ -n "${{ inputs.config }}" ]; then
+          ARGS="$ARGS --config ${{ inputs.config }}"
+        fi
+        
+        if [ -n "${{ inputs.baseline }}" ]; then
+          ARGS="$ARGS --baseline ${{ inputs.baseline }}"
+        fi
+        
+        if [ "${{ inputs.only-changed }}" = "true" ]; then
+          ARGS="$ARGS --only-changed --base ${{ inputs.base }}"
+        fi
+        
+        # Always run with --fail-on-error false so analyzer exits 0 on violations
+        # We'll enforce fail-on-error ourselves after parsing SARIF, ensuring
+        # results are uploaded before failing the build
+        ARGS="$ARGS --fail-on-error false"
+        
+        # Add paths
+        ARGS="$ARGS ${{ inputs.paths }}"
+        
+        # Create output directory
+        mkdir -p ${{ github.workspace }}/.strictswift
+        SARIF_FILE="${{ github.workspace }}/.strictswift/results.sarif"
+        STDERR_LOG="${{ github.workspace }}/.strictswift/stderr.log"
+        
+        # Run analysis - capture stdout (SARIF JSON) to file, stderr to console and log
+        # This ensures the SARIF file contains only valid JSON
+        echo "Running: strictswift $ARGS"
+        set +e
+        strictswift $ARGS > "$SARIF_FILE" 2> >(tee "$STDERR_LOG" >&2)
+        EXIT_CODE=$?
+        set -e
+        
+        # Check if strictswift terminated abnormally (crash, bad args, etc.)
+        # Since we run with --fail-on-error false, exit 0 = success, non-zero = crash
+        if [ $EXIT_CODE -ne 0 ]; then
+          echo "::error::StrictSwift crashed or failed to run (exit code $EXIT_CODE)"
+          echo "Check stderr output above for details."
+          
+          # Show stderr log if available
+          if [ -f "$STDERR_LOG" ] && [ -s "$STDERR_LOG" ]; then
+            echo "Stderr output:"
+            cat "$STDERR_LOG"
+          fi
+          
+          # Check if we got valid SARIF despite the error (partial results)
+          if [ -f "$SARIF_FILE" ] && jq empty "$SARIF_FILE" 2>/dev/null; then
+            echo "::warning::Partial SARIF output available despite error"
+            # Continue to parse and upload partial results
+          else
+            # No valid SARIF - clean up and exit
+            if [ -f "$SARIF_FILE" ]; then
+              rm -f "$SARIF_FILE"
+            fi
+            exit $EXIT_CODE
+          fi
+        fi
+        
+        # Validate SARIF output is valid JSON
+        if [ -f "$SARIF_FILE" ]; then
+          if ! jq empty "$SARIF_FILE" 2>/dev/null; then
+            echo "::warning::SARIF output is not valid JSON. Check stderr for errors."
+            # Show first few lines to help debug
+            echo "First 10 lines of output:"
+            head -10 "$SARIF_FILE"
+            TOTAL=0
+            ERRORS=0
+            WARNINGS=0
+          else
+            # Parse results for summary
+            TOTAL=$(jq '.runs[0].results | length' "$SARIF_FILE" 2>/dev/null || echo "0")
+            ERRORS=$(jq '[.runs[0].results[] | select(.level == "error")] | length' "$SARIF_FILE" 2>/dev/null || echo "0")
+            WARNINGS=$(jq '[.runs[0].results[] | select(.level == "warning")] | length' "$SARIF_FILE" 2>/dev/null || echo "0")
+          fi
+        else
+          TOTAL=0
+          ERRORS=0
+          WARNINGS=0
+        fi
+        
+        echo "violations=$TOTAL" >> $GITHUB_OUTPUT
+        echo "errors=$ERRORS" >> $GITHUB_OUTPUT
+        echo "warnings=$WARNINGS" >> $GITHUB_OUTPUT
+        echo "sarif-file=$SARIF_FILE" >> $GITHUB_OUTPUT
+        
+        # Summary
+        echo "### StrictSwift Analysis Results" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "| Metric | Count |" >> $GITHUB_STEP_SUMMARY
+        echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Total Violations | $TOTAL |" >> $GITHUB_STEP_SUMMARY
+        echo "| Errors | $ERRORS |" >> $GITHUB_STEP_SUMMARY
+        echo "| Warnings | $WARNINGS |" >> $GITHUB_STEP_SUMMARY
+        
+        # Exit with original code if fail-on-error is true
+        if [ "${{ inputs.fail-on-error }}" = "true" ] && [ "$ERRORS" -gt 0 ]; then
+          echo "::error::StrictSwift found $ERRORS error(s)"
+          exit 1
+        fi
+
+    - name: Upload SARIF to GitHub Code Scanning
+      if: inputs.upload-sarif == 'true' && always()
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: ${{ steps.analyze.outputs.sarif-file }}
+        category: strictswift

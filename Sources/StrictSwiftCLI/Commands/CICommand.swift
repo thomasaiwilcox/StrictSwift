@@ -11,7 +11,7 @@ struct CICommand: AsyncParsableCommand {
     @Argument(help: "The directory or files to analyze")
     var paths: [String] = ["Sources/"]
 
-    @Option(name: .long, help: "Output format (json|json-detailed)")
+    @Option(name: .long, help: "Output format (json|json-detailed|sarif|xcode)")
     var format: String = "json"
 
     @Option(name: .long, help: "Fail build on errors")
@@ -78,10 +78,20 @@ struct CICommand: AsyncParsableCommand {
         // Analyze files
         let violations = try await analyzer.analyze(paths: paths)
 
-        // Use JSON reporter for CI (deterministic output)
-        // Honor the format flag: json for compact output, json-detailed for pretty-printed
-        let usePrettyPrint = (format == "json-detailed")
-        let reporter: Reporter = JSONReporter(pretty: usePrettyPrint)
+        // Select reporter based on format
+        let reporter: Reporter
+        switch format.lowercased() {
+        case "json":
+            reporter = JSONReporter(pretty: false)
+        case "json-detailed":
+            reporter = JSONReporter(pretty: true)
+        case "sarif":
+            reporter = SARIFReporter()
+        case "xcode":
+            reporter = XcodeReporter()
+        default:
+            reporter = JSONReporter(pretty: false)
+        }
 
         // Output results
         let report = try reporter.generateReport(violations)
