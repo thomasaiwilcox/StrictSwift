@@ -62,7 +62,7 @@ public actor ViolationCache {
     
     /// Get the path to the cache file
     private var cacheFilePath: String {
-        return (cacheDirectory as NSString).appendingPathComponent(cacheFileName)
+        return URL(fileURLWithPath: cacheDirectory).appendingPathComponent(cacheFileName).path
     }
     
     /// Store violations from an analysis run

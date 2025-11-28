@@ -120,7 +120,7 @@ public enum StrictSwiftLogger: Sendable {
         case .error: prefix = "❌ ERROR"
         }
 
-        let fileName = (file as NSString).lastPathComponent
+        let fileName = URL(fileURLWithPath: file).lastPathComponent
         let location = includeSourceLocation ? " [\(fileName):\(line)]" : ""
 
         // Use FileHandle for thread-safe stderr access for all log levels
